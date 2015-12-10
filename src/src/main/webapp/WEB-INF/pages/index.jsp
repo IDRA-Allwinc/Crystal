@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <HTML lang="es-ES">
 <html>
@@ -5,6 +6,7 @@
     <%@ include file="/WEB-INF/pages/shared/head.jsp" %>
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
+
     <div id="wrapper">
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     <%--<%@ include file="/WEB-INF/pages/shared/login.jsp" %>--%>
@@ -16,10 +18,10 @@
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span class="m-r-sm text-muted welcome-message">Sistema de Control, Registro y Seguimiento de Auditor&iacute;as - <strong>Crystal</strong> </span>
+                            <span class="m-r-sm text-muted welcome-message"><strong>Bienvenido a Crystal</strong> - Sistema de Control, Registro y Seguimiento de Auditor&iacute;as</span>
                         </li>
                         <li>
-                            <a href="@Url.Action("LogOff", "Account", new { area = "" })">
+                            <a href="">
                             <i class="fa fa-sign-out"></i> Salir
                             </a>
                         </li>
@@ -27,7 +29,12 @@
 
                 </nav>
             </div>
+            <sec:authorize access="isAuthenticated()">
+                Hola
+                <%--<%@ include file="/WEB-INF/pages/shared/index.jsp" %>--%>
+            </sec:authorize>
             <sec:authorize access="isAnonymous()">
+                Venta
                 <%--<%@ include file="/WEB-INF/pages/shared/index.jsp" %>--%>
             </sec:authorize>
             <hr />
