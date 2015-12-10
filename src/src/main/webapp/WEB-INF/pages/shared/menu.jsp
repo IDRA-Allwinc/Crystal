@@ -24,9 +24,9 @@
             </li>
 
             <li class="active">
-                <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
+                <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
                 <ul class="nav nav-second-level">
-                    <li><a href=""><i class="fa fa-power-off"></i>Auditor&iacute;as</a></li>
+                    <li><a href=""><i class="fa fa-shield"></i>Auditor&iacute;as</a></li>
                 </ul>
             </li>
 
