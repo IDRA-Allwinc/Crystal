@@ -8,33 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bfca442-97ee-424f-8465-f6d45b050830" name="Default" comment="Mejoras de la arquitectura">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/AuditType.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/AuditType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/AuditTypeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/AuditTypeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/AuditedEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/AuditedEntity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/AuditedEntityRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/AuditedEntityRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/AuditedEntityType.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/AuditedEntityType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/AuditedEntityTypeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/AuditedEntityTypeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/shared/Constants.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/shared/Constants.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/shared/EntityGrid.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/shared/EntityGrid.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/EventType.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/EventType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/EventTypeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/EventTypeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/controller/shared/HomeController.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/controller/shared/HomeController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/infrastructure/InitListener.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/infrastructure/InitListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/controller/catalog/InsertCatalogController.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/controller/catalog/InsertCatalogController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/service/catalog/InsertCatalogService.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/service/catalog/InsertCatalogService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/service/catalog/InsertCatalogServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/service/catalog/InsertCatalogServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/shared/LogException.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/shared/LogException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/shared/LogExceptionRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/shared/LogExceptionRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/service/shared/MainPageService.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/service/shared/MainPageService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/MeetingType.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/MeetingType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/MeetingTypeRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/MeetingTypeRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/account/Role.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/account/Role.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/account/RoleRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/account/RoleRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/service/shared/SharedLogExceptionService.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/service/shared/SharedLogExceptionService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/SupervisoryEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/catalog/SupervisoryEntity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/SupervisoryEntityRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/catalog/SupervisoryEntityRepository.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/account/User.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/model/entities/account/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/crystal/repository/account/UserRepository.class" afterPath="$PROJECT_DIR$/target/classes/com/crystal/repository/account/UserRepository.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/assets/scripts/inspinia.js" afterPath="$PROJECT_DIR$/src/main/webapp/assets/scripts/inspinia.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Crystal.iws" />
@@ -61,24 +35,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Crystal.iml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Crystal.iml">
+      <file leaf-file-name="inspinia.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/scripts/inspinia.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21974148" vertical-offset="0" max-vertical-offset="1258">
-              <caret line="11" column="48" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.880141" vertical-offset="1784" max-vertical-offset="2635">
+              <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainPageServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/crystal/service/shared/MainPageServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="952">
-              <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -132,6 +94,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/crystal/repository/catalog/MeetingTypeRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/crystal/repository/catalog/SupervisoryEntityRepository.java" />
         <option value="$PROJECT_DIR$/Crystal.iml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/assets/scripts/inspinia.js" />
       </list>
     </option>
   </component>
@@ -236,6 +199,88 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -259,6 +304,13 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
+    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="src" />
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 7.0">
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -613,7 +665,7 @@
       <workItem from="1449688091606" duration="14302000" />
       <workItem from="1449712375481" duration="1208000" />
       <workItem from="1449714412124" duration="117000" />
-      <workItem from="1449714544267" duration="428000" />
+      <workItem from="1449714544267" duration="726000" />
     </task>
     <task id="LOCAL-00001" summary="Fase inicial">
       <created>1449688215176</created>
@@ -649,11 +701,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28167000" />
+    <option name="totallyTimeSpent" value="28465000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1034" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -746,6 +798,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="326" max-vertical-offset="748">
           <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -795,6 +848,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -810,6 +864,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="663">
           <caret line="8" column="81" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="81" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -867,6 +922,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="408">
           <caret line="16" column="64" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1042,6 +1098,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="355" max-vertical-offset="748">
           <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1159,20 +1216,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/crystal/service/shared/MainPageServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="952">
-          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Crystal.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21974148" vertical-offset="0" max-vertical-offset="1258">
           <caret line="11" column="48" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/crystal/service/shared/MainPageServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40070504" vertical-offset="101" max-vertical-offset="952">
+          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/scripts/inspinia.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.880141" vertical-offset="1784" max-vertical-offset="2635">
+          <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
           <folding />
         </state>
       </provider>
