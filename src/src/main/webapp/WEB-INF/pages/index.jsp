@@ -9,9 +9,7 @@
     <div id="wrapper">
     <%--<%@ include file="/WEB-INF/pages/shared/menu.jsp" %>--%>
     <%--<%@ include file="/WEB-INF/pages/shared/login.jsp" %>--%>
-
     <div>
-        Hola
         <sec:authorize access="isAnonymous()">
             <%--<%@ include file="/WEB-INF/pages/shared/index.jsp" %>--%>
         </sec:authorize>
