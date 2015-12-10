@@ -1,5 +1,6 @@
 package com.crystal.model.entities.account;
 
+import com.crystal.model.entities.catalog.AuditedEntity;
 import com.crystal.model.entities.shared.EntityGrid;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -39,11 +40,17 @@ public class User implements EntityGrid {
 
     @Transient
     private Boolean hasChangePass;
-    /*
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="user_role", joinColumns ={@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "id_role")})
-    private List<Role> roles;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_role",nullable = false)
+    private Role role;
+
+    //es nullable por que el director y el administrador no estaran asociados a ningun ente fiscalizado
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_audited_entity",nullable = true)
+    private AuditedEntity auditedEntity;
+
+    /*
     @OneToMany (mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RelMessageUserReceiver> messageUserReceivers;
 
@@ -96,15 +103,7 @@ public class User implements EntityGrid {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-    /*
-    public List<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-    */
     public String getConfirm() {
         return confirm;
     }
@@ -135,6 +134,22 @@ public class User implements EntityGrid {
 
     public void setHasChangePass(Boolean hasChangePass) {
         this.hasChangePass = hasChangePass;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public AuditedEntity getAuditedEntity() {
+        return auditedEntity;
+    }
+
+    public void setAuditedEntity(AuditedEntity auditedEntity) {
+        this.auditedEntity = auditedEntity;
     }
     /*
     public List<RelMessageUserReceiver> getMessageUserReceivers() {
