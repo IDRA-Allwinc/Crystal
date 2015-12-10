@@ -1,4 +1,4 @@
-package com.crystal.infrastructure;
+package com.crystal.infrastructure.config;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.crystal.service.catalog;
 
-import com.crystal.infrastructure.FileReader;
+import com.crystal.infrastructure.util.FileReader;
 import com.crystal.model.entities.account.Role;
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.catalog.*;
@@ -15,20 +15,21 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-    private String PATH = "C:\\Users\\Israel\\Desktop\\repoUmecaWeb\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
 
     @Autowired
     RoleRepository roleRepository;
 
     @Override
     public void role() {
-        List<String[]> lstDta = FileReader.readFile(PATH + "role.txt", "\\|", 3);
+        List<String[]> lstDta = FileReader.readFile(PATH + "role.txt", "\\|", 4);
 
         for (String[] data : lstDta) {
             Role model = new Role();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
+            model.setCode(data[3]);
             roleRepository.save(model);
         }
 
@@ -77,7 +78,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setResponsible(data[2]);
             model.setPhone(data[3]);
             model.setEmail(data[4]);
-            model.setObsolete(Boolean.parseBoolean(data[5]));
+            model.setObsolete(data[5].equals("1"));
             final AuditedEntityType entityType = auditedEntityTypeRepository.findByCode(data[6]);
             model.setAuditedEntityType(entityType);
             auditedEntityRepository.save(model);
@@ -91,14 +92,15 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void auditedEntityType() {
-        List<String[]> lstDta = FileReader.readFile(PATH + "audited_entity_type.txt", "\\|", 4);
+        List<String[]> lstDta = FileReader.readFile(PATH + "audited_entity_type.txt", "\\|", 5);
 
         for (String[] data : lstDta) {
             AuditedEntityType model = new AuditedEntityType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setCode(data[3]);
+            model.setObsolete(data[4].equals("1"));
             auditedEntityTypeRepository.save(model);
         }
 
@@ -118,7 +120,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setObsolete(data[3].equals("1"));
             auditTypeRepository.save(model);
         }
 
@@ -137,7 +139,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setObsolete(data[3].equals("1"));
             eventTypeRepository.save(model);
         }
 
@@ -156,7 +158,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(Boolean.parseBoolean(data[3]));
+            model.setObsolete(data[3].equals("1"));
             meetingTypeRepository.save(model);
         }
 
@@ -168,7 +170,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void supervisoryEntity() {
-        List<String[]> lstDta = FileReader.readFile(PATH + "supervisory_type.txt", "\\|", 7);
+        List<String[]> lstDta = FileReader.readFile(PATH + "supervisory_entity.txt", "\\|", 7);
 
         for (String[] data : lstDta) {
             SupervisoryEntity model = new SupervisoryEntity();
@@ -178,7 +180,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setResponsible(data[3]);
             model.setPhone(data[4]);
             model.setEmail(data[5]);
-            model.setObsolete(Boolean.parseBoolean(data[6]));
+            model.setObsolete(data[6].equals("1"));
             supervisoryEntityRepository.save(model);
         }
 

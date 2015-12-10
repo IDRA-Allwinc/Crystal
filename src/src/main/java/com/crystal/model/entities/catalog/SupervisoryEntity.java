@@ -17,19 +17,19 @@ public class SupervisoryEntity {
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 
-    @Column(name="belongs_to", unique = true, length = 200, nullable = false)
+    @Column(name="belongs_to", length = 200, nullable = false)
     @NotEmpty(message="A quien pertenece es un campo requerido")
     private String belongsTo;
 
-    @Column(name="responsible", unique = true, length = 200, nullable = false)
+    @Column(name="responsible", length = 200, nullable = false)
     @NotEmpty(message="El nombre del responsable es un campo requerido")
     private String responsible ;
 
-    @Column(name="phone", unique = true, length = 200, nullable = false)
+    @Column(name="phone", length = 200, nullable = false)
     @NotEmpty(message="El teléfono es un campo requerido")
     private String phone;
 
-    @Column(name="email", unique = true, length = 200, nullable = false)
+    @Column(name="email", length = 200, nullable = false)
     @NotEmpty(message="El email es un campo requerido")
     private String email;
 

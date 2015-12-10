@@ -17,7 +17,7 @@
 	</context-param>
 
 	<listener>
-		<listener-class>com.crystal.infrastructure.InitListener</listener-class>
+		<listener-class>com.crystal.infrastructure.config.InitListener</listener-class>
 	</listener>
 
     <servlet>

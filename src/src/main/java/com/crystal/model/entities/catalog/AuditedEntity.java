@@ -17,15 +17,15 @@ public class AuditedEntity {
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 
-    @Column(name="responsible", unique = true, length = 200, nullable = false)
+    @Column(name="responsible", length = 200, nullable = false)
     @NotEmpty(message="El nombre del responsable es un campo requerido")
     private String responsible ;
 
-    @Column(name="phone", unique = true, length = 200, nullable = false)
+    @Column(name="phone", length = 200, nullable = false)
     @NotEmpty(message="El teléfono es un campo requerido")
     private String phone;
 
-    @Column(name="mail", unique = true, length = 200, nullable = false)
+    @Column(name="mail", length = 200, nullable = false)
     @NotEmpty(message="El email es un campo requerido")
     private String email;
 

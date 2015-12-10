@@ -1,0 +1,5 @@
+id|name|description|role
+1|Administrador|Administrador|ROLE_ADMIN
+2|Director|Director|ROLE_MANAGER
+3|DGPOP|DGPOP|ROLE_DGPOP
+4|Enlace|Enlace|ROLE_LINK

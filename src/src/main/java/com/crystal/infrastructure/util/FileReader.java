@@ -1,4 +1,4 @@
-package com.crystal.infrastructure;
+package com.crystal.infrastructure.util;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;

@@ -1,0 +1,3 @@
+id|name|description|code|obsolete
+1|Sub secreataría|Sub secretaría|TYPE_UNDERSECRETARY|0
+2|Órgano independiente|Órgano independiente|TYPE_INDEPENDENT_BODY|0

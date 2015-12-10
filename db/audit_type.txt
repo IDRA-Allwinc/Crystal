@@ -1,0 +1,5 @@
+id|name|description|obsolete
+1|Financiera|Evalúa veracidad de estados financieros|0
+2|Operacional|Evalúa la eficiencia operacional|0
+3|Sistemas|Evalúa la función informática|0
+4|Fiscal|Evalúa el cumplimiento de las leyes fiscales|0

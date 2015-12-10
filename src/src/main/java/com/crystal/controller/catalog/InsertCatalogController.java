@@ -63,14 +63,13 @@ public class InsertCatalogController {
 	@RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
 	public String insertCatalogAll() {
 		service.role();
-		service.user();
 		service.auditedEntityType();
 		service.auditedEntity();
+		service.user();
 		service.auditType();
 		service.eventType();
 		service.meetingType();
 		service.supervisoryEntity();
-
 		return "insertCatalogAll OK!!";
 	}
 

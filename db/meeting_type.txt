@@ -1,0 +1,4 @@
+id|name|description|obsolete
+1|Apertura|Aperturaa|0
+2|Resultados preliminares|Resultados preliminares|0
+3|Resultados finales|Resultados finales|0
