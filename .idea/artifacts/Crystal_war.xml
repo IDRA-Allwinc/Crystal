@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="Crystal:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="Crystal.war">
-      <element id="artifact" artifact-name="Crystal:war exploded" />
-    </root>
-  </artifact>
-</component>
