@@ -6,6 +6,7 @@
 <title>UMECA</title>
 
 <link href="${pageContext.request.contextPath}/assets/content/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
 <link href="${pageContext.request.contextPath}/assets/content/plugins/toastr/toastr.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/animate.css" rel="stylesheet" />
