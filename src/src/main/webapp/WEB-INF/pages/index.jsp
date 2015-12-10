@@ -7,8 +7,6 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 
-
-
     <div id="wrapper">
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     <%--<%@ include file="/WEB-INF/pages/shared/login.jsp" %>--%>
