@@ -4,7 +4,9 @@ import com.crystal.infrastructure.FileReader;
 import com.crystal.model.entities.account.Role;
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.catalog.*;
-import com.crystal.repositroy.*;
+import com.crystal.repository.account.RoleRepository;
+import com.crystal.repository.account.UserRepository;
+import com.crystal.repository.catalog.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

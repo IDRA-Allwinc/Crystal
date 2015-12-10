@@ -1,12 +1,13 @@
 package com.crystal.model.entities.account;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Developer on 09/12/2015.
  */
+
+@Entity
+@Table(name="role")
 public class Role {
 
     //se omiten las validaciones, el catalogo no se gestiona por pantallas jsp
