@@ -8,12 +8,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bfca442-97ee-424f-8465-f6d45b050830" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/assets/img/Logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/shared/menu.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/shared/head.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/shared/head.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/jpaContext.xml" afterPath="$PROJECT_DIR$/src/main/resources/jpaContext.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/jpaContext.xml" afterPath="$PROJECT_DIR$/target/classes/jpaContext.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Crystal.iws" />
@@ -74,7 +68,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/shared/head.jsp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.5708955" vertical-offset="0" max-vertical-offset="714">
-              <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+              <caret line="18" column="139" selection-start-line="18" selection-start-column="89" selection-end-line="18" selection-end-column="89" />
               <folding />
             </state>
           </provider>
@@ -828,7 +822,7 @@
       <workItem from="1449712375481" duration="1208000" />
       <workItem from="1449714412124" duration="117000" />
       <workItem from="1449714544267" duration="726000" />
-      <workItem from="1449715952874" duration="3523000" />
+      <workItem from="1449715952874" duration="3886000" />
     </task>
     <task id="LOCAL-00001" summary="Fase inicial">
       <created>1449688215176</created>
@@ -866,15 +860,21 @@
       <option name="project" value="LOCAL" />
       <updated>1449716013550</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Look &amp; feel II">
+      <created>1449766513224</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1449766513224</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31988000" />
+    <option name="totallyTimeSpent" value="32351000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1034" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -927,7 +927,8 @@
     </option>
     <MESSAGE value="Mejoras de la arquitectura" />
     <MESSAGE value="Cambios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambios" />
+    <MESSAGE value="Look &amp; feel II" />
+    <option name="LAST_COMMIT_MESSAGE" value="Look &amp; feel II" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1433,7 +1434,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/shared/head.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5708955" vertical-offset="0" max-vertical-offset="714">
-          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+          <caret line="18" column="139" selection-start-line="18" selection-start-column="89" selection-end-line="18" selection-end-column="89" />
           <folding />
         </state>
       </provider>
