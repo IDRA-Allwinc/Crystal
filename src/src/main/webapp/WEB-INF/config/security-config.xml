@@ -8,6 +8,9 @@
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/logout" access="permitAll"/>
+        <intercept-url pattern="/j_spring_security_logout" access="permitAll"/>
         <intercept-url pattern="/assets/**" access="permitAll"/>
         <intercept-url pattern="/catalogs/**" access="permitAll"/>
         <intercept-url pattern="/index.html" access="permitAll"/>
@@ -31,7 +34,7 @@
         <!--<intercept-url pattern="/files/**"-->
                        <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
 
-        <!--<intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')"/>-->
+        <intercept-url pattern="/**" access="hasRole('ROLE_NOTUSE')"/>
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"
                     authentication-failure-handler-ref="ajaxAuthenticationFailureHandler"/>
@@ -40,9 +43,10 @@
         <!--</session-management>-->
     </http>
 
-    <authentication-manager>
+    <beans:bean id="rfc2898" class="com.crystal.infrastructure.security.CryptoRfc2898" />
+    <authentication-manager alias="userManager">
         <authentication-provider user-service-ref="userDetailServiceImpl">
-            <password-encoder hash="bcrypt"/>
+            <password-encoder ref="rfc2898"/>
         </authentication-provider>
     </authentication-manager>
 

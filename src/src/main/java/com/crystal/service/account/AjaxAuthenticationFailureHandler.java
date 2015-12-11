@@ -19,7 +19,7 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         String contentType = request.getHeader("Content-Type");
         // if ("application/json".equals(contentType) || "application/x-www-form-urlencoded".equals(contentType)) {
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().print("{\"hasError\":\"true\",\"message\":\"Usuario y/o contraseña no son válidos. Revise y vuelva a intentar\",\"urlToGo\":\"\"}");
+        response.getWriter().print("{\"hasError\":true,\"message\":\"Usuario y/o contraseña no son válidos. Revise y vuelva a intentar\",\"urlToGo\":\"\"}");
         response.getWriter().flush();
         // } else {
         //super.onAuthenticationFailure(request, response, exception);

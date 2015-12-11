@@ -152,3 +152,7 @@ div.blocker img {
     direction: ltr;
     cursor: pointer;
 }
+
+.m-l-b{
+    margin-left: 0px !important;
+}

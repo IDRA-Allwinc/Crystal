@@ -1,3 +1,6 @@
+<form id="logout" action="<c:url value="/logout" />" method="post" >
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav" id="side-menu">
@@ -15,7 +18,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li class="divider"></li>
-                        <li><a href="">Salir</a></li>
+                        <li><a href="javascript:document.getElementById('logout').submit()">Salir</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">

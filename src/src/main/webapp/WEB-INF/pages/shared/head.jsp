@@ -22,7 +22,6 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate-vsdoc.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/angular.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/main/main.mod.js"></script>

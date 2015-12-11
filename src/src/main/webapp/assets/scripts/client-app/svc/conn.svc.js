@@ -15,9 +15,10 @@
         vm.handleError = handleError;
         vm.hideMsgErr = hideMsgErr;
 
-        function post(urlToGo, data, keepWorking) {
+        function post(urlToGo, vmxt, data, keepWorking) {
             var def = $q.defer();
-            vm.working = true;
+            vm.vmxt = vmxt;
+            vm.vmxt.working = true;
             $http({
                 method: 'POST',
                 url: urlToGo,
@@ -33,27 +34,32 @@
 
         function handleSuccess(res, def, keepWorking) {
 
-            if (res === undefined || res === null) {
-                vm.working = false;
-                vm.handleError();
+            if (res === undefined || res === null || typeof res == 'string'){
+                vm.vmxt.working = false;
+                vm.handleError(null, def);
                 return;
             }
-            else if (res.HasError === true) {
-                vm.working = false;
-                vm.msgErr = res.Message;
+            else if (res.hasError === true) {
+                vm.vmxt.working = false;
+                vm.vmxt.msgErr = res.message;
                 vm.hideMsgErr();
             }
-            else if (res.HasError === false) {
+            else if (res.hasError === false) {
                 if (!keepWorking)
-                    vm.working = false;
+                    vm.vmxt.working = false;
                 def.resolve(res);
+            }
+            else{
+                vm.vmxt.working = false;
+                vm.handleError(null, def);
+                return;
             }
             def.reject(res);
         };
 
         function handleError(res, def) {
-            vm.working = false;
-            vm.msgErr = "Ocurrió un error de red. Por favor intente más tarde";
+            vm.vmxt.working = false;
+            vm.vmxt.msgErr = "Error de red. Por favor intente en un momento";
             vm.hideMsgErr();
             def.reject(res);
         };
@@ -61,7 +67,7 @@
 
         function hideMsgErr() {
             $timeout(function () {
-                vm.msgErr = "";
+                vm.vmxt.msgErr = "";
             }, 10000);
         };
 
