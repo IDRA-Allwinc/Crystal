@@ -7,20 +7,13 @@
     <%@ include file="/WEB-INF/pages/shared/head.jsp" %>
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
-<sec:authorize access="isAnonymous()">
-    <%@ include file="/WEB-INF/pages/shared/login.jsp" %>
-</sec:authorize>
-
-<sec:authorize access="isAuthenticated()">
     <div id="wrapper">
-        <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=0; mn.subMenu=0;">
+        <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1;">
             <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
         </div>
         <div id="page-wrapper" class="gray-bg">
             <%@ include file="/WEB-INF/pages/shared/header-bar.jsp" %>
-            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <%--<%@ include file="/WEB-INF/pages/shared/index.jsp" %>--%>
-            </sec:authorize>
+            Prueba de index de usuario
             <hr />
             <div id="dlgUpsert"></div>
             <div class="row">
@@ -31,8 +24,6 @@
             </div>
         </div>
     </div>
-</sec:authorize>
-
 </body>
 </html>
 

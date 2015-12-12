@@ -1,7 +1,8 @@
 package com.crystal.service.shared;
 
-import com.crystal.model.entities.shared.LogException;
+import com.crystal.model.shared.LogException;
 import com.crystal.repository.shared.LogExceptionRepository;
+import com.crystal.service.account.SharedUserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ public class SharedLogExceptionService {
     @Autowired
     LogExceptionRepository logExceptionRepository;
 
-    /*
+
     public void Write(Exception ex, Class<?> cClass, String sMethod, SharedUserService sharedUserService) {
         try {
             String username = sharedUserService.GetLoggedUsername();
@@ -20,7 +21,7 @@ public class SharedLogExceptionService {
         }catch (Exception exIn){
             WriteToFile(ex, cClass, sMethod, exIn);
         }
-    }       */
+    }
 
 
     public void Write(Exception ex, Class<?> cClass, String sMethod, String username) {

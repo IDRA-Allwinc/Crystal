@@ -1,4 +1,4 @@
-package com.crystal.model.entities.shared;
+package com.crystal.model.shared;
 
 import javax.persistence.*;
 import java.util.Calendar;

@@ -35,7 +35,9 @@
             <br />
             <div class="row" data-ng-show="vm.m.username && vm.m.password">
                 <div class="col-xs-12">
-                    <button data-ng-click="vm.login('#loginForm', 'Error de red. Intente m&aacute;s tarde', '<c:url value="/login" />')" class="btn btn-info block full-width m-l-b">Ingresar</button>
+                    <button data-ng-click="vm.login('#loginForm', 'Error de red. Intente m&aacute;s tarde', '<c:url value="/login" />')"
+                            data-ng-disabled="vm.working"
+                            class="btn btn-info block full-width m-l-b">Ingresar</button>
                 </div>
             </div>
             <br />

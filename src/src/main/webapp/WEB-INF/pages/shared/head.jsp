@@ -28,6 +28,8 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/svc/conn.svc.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/svc/shared.svc.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/shared/shared.ctrl.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/menu.ctrl.js"></script>
+
 
 <script src="${pageContext.request.contextPath}/assets/scripts/common.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/inspinia.js"></script>

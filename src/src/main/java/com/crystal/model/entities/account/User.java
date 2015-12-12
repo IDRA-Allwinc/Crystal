@@ -1,7 +1,7 @@
 package com.crystal.model.entities.account;
 
 import com.crystal.model.entities.catalog.AuditedEntity;
-import com.crystal.model.entities.shared.EntityGrid;
+import com.crystal.model.shared.EntityGrid;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;

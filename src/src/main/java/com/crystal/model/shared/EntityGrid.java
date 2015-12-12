@@ -1,4 +1,4 @@
-package com.crystal.model.entities.shared;
+package com.crystal.model.shared;
 
 public interface EntityGrid {
     public Long getId();

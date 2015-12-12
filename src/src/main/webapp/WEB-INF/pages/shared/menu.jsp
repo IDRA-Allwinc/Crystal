@@ -1,3 +1,8 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<% Authentication auth = SecurityContextHolder.getContext().getAuthentication();%>
+
 <form id="logout" action="<c:url value="/logout" />" method="post" >
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
@@ -12,8 +17,8 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">Usuario</strong>
-                            </span> <span class="text-muted block"> Administrador <b class="caret"></b></span>
+                                <strong class="font-bold"><%=auth.getName()%></strong>
+                            </span> <span class="text-muted block"> <%=auth.getAuthorities().iterator().next().getAuthority()%> <b class="caret"></b></span>
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -26,13 +31,45 @@
                 </div>
             </li>
 
-            <li class="active">
-                <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
-                <ul class="nav nav-second-level">
-                    <li><a href=""><i class="fa fa-shield"></i>Auditor&iacute;as</a></li>
-                </ul>
-            </li>
-
+            <sec:authorize access="hasAuthority('Administrador')">
+                <li data-ng-class="mn.menu === 1 ? 'active' : ''">
+                    <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
+                    <ul class="nav nav-second-level">
+                        <li data-ng-class="mn.subMenu === 1 ? 'active' : ''">
+                            <a href="<c:url value='/management/user/index.html'/>">
+                                <i class="fa fa-users"></i>Usuarios
+                            </a>
+                        </li>
+                        <li data-ng-class="mn.subMenu === 2 ? 'active' : ''">
+                            <a href="<c:url value='/management/role/index.html'/>">
+                                <i class="fa fa-cogs"></i>Perfiles
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <%--<li data-ng-class="mn.menu === 2 ? 'active' : ''">--%>
+                    <%--<a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos II</span> </a>--%>
+                    <%--<ul class="nav nav-second-level">--%>
+                        <%--<li data-ng-class="mn.subMenu === 1 ? 'active' : ''">--%>
+                            <%--<a href="">--%>
+                                <%--<i class="fa fa-shield"></i>Auditor&iacute;as II--%>
+                            <%--</a>--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
+                <%--</li>--%>
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('Director')">
+                <li>
+                    <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Reportes</span> </a>
+                    <ul class="nav nav-second-level">
+                        <li class="active">
+                            <a href="">
+                                <i class="fa fa-shield"></i>Auditor&iacute;as
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </sec:authorize>
         </ul>
     </div>
 </nav>
