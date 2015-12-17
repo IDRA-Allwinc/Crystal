@@ -6,6 +6,10 @@
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
     <script type="text/javascript">
+        window.upsert = function (id) {
+            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/management/user/upsert.html' />', "#tblGrid");
+        };
+
         /*var $table = $('#tblGrid');
 
         $(function () {
@@ -19,10 +23,6 @@
                 '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar usuario" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
-
-        window.upsert = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", "", "#tblGrid");
-        };
 
         window.actionEvents = {
 
