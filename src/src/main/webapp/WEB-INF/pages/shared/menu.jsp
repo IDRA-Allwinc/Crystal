@@ -35,12 +35,12 @@
                 <li data-ng-class="mn.menu === 1 ? 'active' : ''">
                     <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
                     <ul class="nav nav-second-level">
-                        <li data-ng-class="mn.subMenu === 1 ? 'active' : ''">
+                        <li data-ng-class="mn.subMenu === 1001 ? 'active' : ''">
                             <a href="<c:url value='/management/user/index.html'/>">
                                 <i class="fa fa-users"></i>Usuarios
                             </a>
                         </li>
-                        <li data-ng-class="mn.subMenu === 2 ? 'active' : ''">
+                        <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
                             <a href="<c:url value='/management/role/index.html'/>">
                                 <i class="fa fa-cogs"></i>Perfiles
                             </a>

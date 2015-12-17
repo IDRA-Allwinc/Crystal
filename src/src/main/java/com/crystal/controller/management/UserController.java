@@ -20,4 +20,7 @@ public class UserController {
     public String index() {
         return "/management/user/index";
     }
+
+
+
 }
