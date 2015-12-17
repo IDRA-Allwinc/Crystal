@@ -5,6 +5,8 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/user.ctrl.js"></script>
+
     <script type="text/javascript">
         window.upsert = function (id) {
             window.showUpsert(id, "#angJsjqGridId", '<c:url value='/management/user/upsert.html' />', "#tblGrid");
