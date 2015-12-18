@@ -5,8 +5,15 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/locale/bootstrap-table-es-MX.min.js"></script>
+
+    <link href="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+
     <script type="text/javascript">
-        /*var $table = $('#tblGrid');
+        var $table = $('#tblGrid');
 
         $(function () {
             $table.bootstrapTable();
@@ -31,13 +38,13 @@
             },
             'click .act-sendConfirm': function (e, value, row) {
                 window.showConfirmService(row.Id, "#angJsjqGridId", "",
-                        "Reenviar correo de confirmaci贸n", "驴Desea reenviar el correo de confirmaci贸n para este usuario? <br/>Esto s贸lo es posible si el usuario " +
-                "no ha activado su cuenta. <br/><br/><small>Nota: Esta acci贸n genera una nueva contrase帽a para el usuario</small>", "#tblGrid");
+                        "Reenviar correo de confirmaci贸n", "緿esea reenviar el correo de confirmaci髇 para este usuario? <br/>Esto s髄o es posible si el usuario " +
+                "no ha activado su cuenta. <br/><br/><small>Nota: Esta acci髇 genera una nueva contrase馻 para el usuario</small>", "#tblGrid");
             },
             'click .act-delete': function (e, value, row) {
                 window.showObsolete(row.Id, "#angJsjqGridId", "", "#tblGrid");
             }
-        };  */
+        };
     </script>
 
 </head>
@@ -83,33 +90,34 @@
                                         <i class="fa fa-plus"></i> Agregar
                                     </button>
                                 </div>
-                                <%--<table id="tblGrid"--%>
-                                       <%--data-url=""--%>
-                                <%--data-height="auto"--%>
-                                <%--data-side-pagination="server"--%>
-                                <%--data-pagination="true"--%>
-                                <%--data-page-list="[5, 10, 20, 50, 100, 200]"--%>
-                                <%--data-search="true"--%>
-                                <%--data-sort-name="UserName"--%>
-                                <%--data-toolbar="#toolbar"--%>
-                                <%--data-show-refresh="true"--%>
-                                <%--data-show-toggle="true"--%>
-                                <%--data-show-columns="true"--%>
-                                <%--data-show-export="true"--%>
-                                <%--data-single-select="true"--%>
-                                <%--data-show-footer="true"--%>
-                                <%--data-id-field="Id">--%>
-                                <%--<thead>--%>
-                                <%--<tr>--%>
-                                    <%--<th data-field="Id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>--%>
-                                    <%--<th data-field="UserName" data-align="center" data-sortable="true" data-filter-control="input" >Usuario</th>--%>
-                                    <%--<th data-field="FullName" data-align="center" data-sortable="true" data-filter-control="input">Nombre completo</th>--%>
-                                    <%--<th data-field="Email" data-align="center" data-sortable="true">Email</th>--%>
-                                    <%--<th data-field="Role" data-align="center" data-sortable="true">Perfil</th>--%>
-                                    <%--<th data-field="Actions" data-formatter="actionsFormatter" data-align="center" data-width="150px" data-events="actionEvents">Acci贸n</th>--%>
-                                <%--</tr>--%>
-                                <%--</thead>--%>
-                                <%--</table>--%>
+                                <table id="tblGrid"
+                                       data-toggle="table"
+                                               data-url="<c:url value='/management/user/list.json' />"
+                                               data-height="auto"
+                                               data-side-pagination="server"
+                                               data-pagination="true"
+                                               data-page-list="[5, 10, 20, 50, 100, 200]"
+                                               data-search="true"
+                                               data-sort-name="UserName"
+                                               data-toolbar="#toolbar"
+                                               data-show-refresh="true"
+                                               data-show-toggle="true"
+                                               data-show-columns="true"
+                                               data-show-export="true"
+                                               data-single-select="true"
+                                               data-show-footer="true"
+                                               data-id-field="Id">
+                                <thead>
+                                <tr>
+                                    <th data-field="Id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                    <th data-field="UserName" data-align="center" data-sortable="true" data-filter-control="input" >Usuario</th>
+                                    <th data-field="FullName" data-align="center" data-sortable="true" data-filter-control="input">Nombre completo</th>
+                                    <th data-field="Email" data-align="center" data-sortable="true">Email</th>
+                                    <th data-field="Role" data-align="center" data-sortable="true">Perfil</th>
+                                    <th data-field="Actions" data-formatter="actionsFormatter" data-align="center" data-width="150px" data-events="actionEvents">Acci髇</th>
+                                </tr>
+                                </thead>
+                            </table>
                             </div>
                         </div>
                     </div>

@@ -44,6 +44,6 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/crystal?autoReconnect=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="s@lp@ssw04rD$$"/>
+        <property name="password" value="root"/>
     </bean>
 </beans>
