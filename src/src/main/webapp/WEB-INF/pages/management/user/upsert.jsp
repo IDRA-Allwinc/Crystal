@@ -13,19 +13,18 @@
     <div class="modal-dialog" style="width:960px" ng-controller="userController as vm">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
-
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
                 <div class="row">
-                    <div class="col-xs-9" align="right" style="padding-top: 15px;">
-                        <img src="${pageContext.request.contextPath}/assets/img/Logo.png">
+                    <div class="col-xs-3" align="left" style="padding-top: 20px;">
+                        <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" height="90" width="200">
                     </div>
-                    <div class="col-xs-3" align="left">
+                    <div class="col-xs-6" style="padding-top: 40px;">
+                        <h4 class="modal-title">Usuario</h4>
+                    </div>
+                    <div class="col-xs-3" align="right">
                         <i class="fa fa-users modal-icon"></i>
                     </div>
                 </div>
-
-                <h4 class="modal-title">Usuario </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -52,7 +51,8 @@
                                         <input type="text" name="username" ng-model="vm.m.username"
                                                placeholder="Ingrese el usuario"
                                                ng-required="true" ng-maxlength="200" class="form-control">
-                                        <span class="error" ng-show="FormUpId.username.$error.required">*Campo requerido</span>
+                                        <span class="error"
+                                              ng-show="FormUpId.username.$error.required">*Campo requerido</span>
                                         <span class="error" ng-show="FormUpId.username.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>
                                 </div>
@@ -97,19 +97,23 @@
                                         <select class="form-control m-b" id="chosen-select"
                                                 ng-required="true" ng-change="vm.m.roleId = vm.m.role.id;"
                                                 ng-options="c.name for c in vm.lstRoles " ng-model="vm.m.role"></select>
-                                        <span class="error" ng-show="FormUpId.roleId.$error.required">*Campo requerido</span>
+                                        <span class="error"
+                                              ng-show="FormUpId.roleId.$error.required">*Campo requerido</span>
                                     </div>
                                 </div>
 
                                 <div class="col-xs-6" ng-show="vm.m.role.description === '<%=Constants.ROLE_LINK%>'">
-                                    <label class="col-xs-3 control-label font-noraml">&Oacute;rgano al que pertenece:</label>
+                                    <label class="col-xs-3 control-label font-noraml">&Oacute;rgano al que
+                                        pertenece:</label>
 
                                     <div class="col-xs-9">
                                         <input type="hidden" ng-update-hidden ng-model="vm.m.auditedEntityId"
                                                name="auditedEntityId" id="auditedEntityId">
                                         <select class="form-control m-b" id="chosen-select"
-                                                ng-required="true" ng-change="vm.m.auditedEntityId = vm.m.auditedEntity.id;"
-                                                ng-options="c.name for c in vm.lstAuditedEntities " ng-model="vm.m.auditedEntity"></select>
+                                                ng-required="true"
+                                                ng-change="vm.m.auditedEntityId = vm.m.auditedEntity.id;"
+                                                ng-options="c.name for c in vm.lstAuditedEntities "
+                                                ng-model="vm.m.auditedEntity"></select>
                                         <span class="error" ng-show="FormUpId.auditedEntityId.$error.required">*Campo requerido</span>
                                     </div>
                                 </div>
@@ -131,9 +135,12 @@
                 <button class="btn btn-white" ng-click="up.cancel()">
                     Cancelar
                 </button>
-                <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
+                <button class="btn btn-primary" ng-show="up.WaitFor===false"
                         ng-click="up.submit('#FormUpId', '<c:url value='/management/user/doUpsert.json' />', FormUpId.$valid)">
                     Guardar
+                </button>
+                <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">
+                    <i class="fa fa-refresh fa-spin"></i> &nbsp; Procesando
                 </button>
             </div>
         </div>

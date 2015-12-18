@@ -8,6 +8,7 @@ import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
+import com.crystal.service.account.UserService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import com.google.gson.Gson;
@@ -31,11 +32,7 @@ public class UserController {
     @Autowired
     SharedUserService sharedUserService;
     @Autowired
-    UserRepository repositoryUser;
-    @Autowired
-    RoleRepository repositoryRole;
-    @Autowired
-    AuditedEntityRepository auditedEntityRepository;
+    UserService serviceUser;
     @Autowired
     private GridService gridService;
 
@@ -54,17 +51,7 @@ public class UserController {
         ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
         try{
-            Gson gson = new Gson();
-            String sJson = gson.toJson(repositoryRole.findSelectList());
-            modelView.addObject("lstRoles", sJson);
-            sJson = gson.toJson(auditedEntityRepository.findSelectList(Constants.ENTITY_TYPE_INDEPENDENT_BODY));
-            modelView.addObject("lstAuditedEntities", sJson);
-
-            if (id != null) {
-                UserDto model = repositoryUser.findOneDto(id);
-                sJson = gson.toJson(model);
-                modelView.addObject("model", sJson);
-            }
+            serviceUser.upsert(id, modelView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "upsert", sharedUserService);
         }
@@ -79,6 +66,8 @@ public class UserController {
         ResponseMessage response = new ResponseMessage();
 
         try {
+
+
             /*User model;
 
             if (modelNew.getId().longValue() > 0L) {
@@ -118,7 +107,8 @@ public class UserController {
             }
 
             repositoryUser.save(model); */
-            response.setHasError(false);
+            response.setHasError(true);
+            response.setMessage("Error insuperado");
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);

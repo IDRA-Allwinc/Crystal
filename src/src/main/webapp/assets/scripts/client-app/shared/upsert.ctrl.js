@@ -104,17 +104,17 @@
             vm.WaitFor = false;
 
             try {
-                if (resp.HasError === undefined) {
-                    resp = resp.responseMessage;
+                if (resp.hasError === undefined) {
+                    resp = resp.message;
                 }
-                if (resp.HasError === false) {
+                if (resp.hasError === false) {
                     window.goToUrlMvcUrl(resp.UrlToGo, "");
                     vm.WaitFor = false;
                     $scope.$apply();
                     return;
                 }
 
-                vm.MsgError = $sce.trustAsHtml(resp.Message);
+                vm.MsgError = $sce.trustAsHtml(resp.message);
 
                 $scope.$apply();
 
@@ -127,17 +127,17 @@
             vm.WaitFor = false;
 
             try {
-                if (resp.HasError === undefined) {
-                    resp = resp.responseMessage;
+                if (resp.hasError === undefined) {
+                    resp = resp.message;
                 }
-                if (resp.HasError === false) {
+                if (resp.hasError === false) {
                     $rootScope.$broadcast("onLastId", resp.Id);
                     vm.Model.dlg.modal('hide');
                     vm.Model.def.resolve({ isCancel: false });
                     return;
                 }
 
-                vm.MsgError = $sce.trustAsHtml(resp.Message);
+                vm.MsgError = $sce.trustAsHtml(resp.message);
                 $scope.$apply();
 
             } catch (e) {
@@ -150,11 +150,11 @@
 
             try {
 
-                if (resp.HasError === undefined) {
+                if (resp.hasError === undefined) {
                     vm.handleError();
                 }
 
-                if (resp.HasError === false) {
+                if (resp.hasError === false) {
 
                     if (vm.config.isModal === true) {
                         vm.Model.dlg.modal('hide');
@@ -162,7 +162,7 @@
                     }
 
                     if (vm.config.hasNotify === true) {
-                        notify({ message: resp.Message, classes: 'alert-info' });
+                        notify({ message: resp.message, classes: 'alert-info' });
                     }
 
                     $rootScope.$broadcast("onSuccessNotification", resp);
@@ -170,10 +170,10 @@
                     return;
                 }
 
-                vm.MsgError = $sce.trustAsHtml(resp.Message);
+                vm.MsgError = $sce.trustAsHtml(resp.message);
 
                 if (vm.config.hasNotifyError === true) {
-                    notify({ message: resp.Message, classes: 'alert-danger' });
+                    notify({ message: resp.message, classes: 'alert-danger' });
                 }
 
                 $scope.$apply();
@@ -181,7 +181,7 @@
             } catch (e) {
                 vm.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
                 if (vm.config.hasNotifyError === true) {
-                    notify({ message: resp.Message, classes: 'alert-danger' });
+                    notify({ message: resp.message, classes: 'alert-danger' });
                 }
                 $scope.$apply();
             }
@@ -191,7 +191,7 @@
             vm.WaitFor = false;
             vm.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
             if (vm.config.hasNotifyError === true) {
-                notify({ message: resp.Message, classes: 'alert-danger' });
+                notify({ message: resp.message, classes: 'alert-danger' });
             }
             $scope.$apply();
         };

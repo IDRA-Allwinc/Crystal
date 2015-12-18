@@ -18,7 +18,7 @@
 
                 <div class="row">
                     <div class="col-xs-3" align="left" style="padding-top: 20px;">
-                        <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
+                        <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
                         <h4 class="modal-title">Ente fiscalizado</h4>

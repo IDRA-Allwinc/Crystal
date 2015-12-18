@@ -1,19 +1,28 @@
 package com.crystal.model.entities.account;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserDto {
 
     private Long id;
 
+    @NotEmpty(message = "El usuario es un campo requerido")
     private String username;
 
+    @NotEmpty(message = "El usuario es un campo requerido")
     private String password;
 
     private String confirm;
 
+    @NotEmpty(message = "El nombre completo es un campo requerido")
     private String fullName;
 
+    @NotEmpty(message = "El correo es requerido")
+    @Email(message = "El correo electrónico no es válido")
     private String email;
 
+    @NotEmpty(message = "El perfil es un campo requerido")
     private Long roleId;
 
     private Long auditedEntityId;
