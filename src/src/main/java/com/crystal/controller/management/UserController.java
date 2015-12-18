@@ -5,6 +5,7 @@ import com.crystal.model.entities.account.UserDto;
 import com.crystal.model.shared.Constants;
 import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
+import com.crystal.repository.account.UserViewRepository;
 import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.shared.SharedLogExceptionService;
@@ -34,6 +35,8 @@ public class UserController {
     RoleRepository repositoryRole;
     @Autowired
     AuditedEntityRepository auditedEntityRepository;
+    @Autowired
+    UserViewRepository userViewRepository;
 
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
@@ -41,6 +44,10 @@ public class UserController {
         return "/management/user/index";
     }
 
+    @RequestMapping(value = "/management/user/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
+    public @ResponseBody Object list() {
+        return userViewRepository.toGrid();
+    }
 
     @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
