@@ -24,7 +24,19 @@
         },
         formatAllRows: function () {
             return 'Todo';
-        }
+        },
+        formatPaginationSwitch: function () {
+            return 'Esconder/Mostrar paginación';
+        },
+        formatRefresh: function () {
+            return 'Refrescar';
+        },
+        formatToggle: function () {
+            return 'Alternar vista';
+        },
+        formatColumns: function () {
+            return 'Columnas';
+        },
     };
 
     $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-MX']);

@@ -30,9 +30,6 @@
         },
         formatColumns: function () {
             return 'Sütunlar';
-        },
-        formatAllRows: function () {
-            return 'Tüm Satırlar';
         }
     };
 

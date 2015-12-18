@@ -12,7 +12,7 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.crystal"/>
 
-    <jpa:repositories base-package="com.crystal.repository"/>
+    <jpa:repositories base-package="com.crystal"/>
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
@@ -44,6 +44,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/crystal?autoReconnect=true"/>
         <property name="username" value="root"/>
+        <!--<property name="password" value="s@lp@ssw04rD$$"/>-->
         <property name="password" value="root"/>
     </bean>
 </beans>

@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * Created by Administrator on 12/18/2015.
  */
 @Entity
-@Subselect("select id_user, username, fullname, email, role.name role  from user inner join role on user.id_role = role.id_role")
+@Subselect("select id_user, username, fullName, email, role.name role  from user inner join role on user.id_role = role.id_role")
 public class UserView implements EntityGrid {
     @Id
     @Column(name = "id_user")
@@ -20,7 +20,7 @@ public class UserView implements EntityGrid {
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "fullname")
+    @Column(name = "fullName")
     private String fullName;
 
     @Column(name = "email")

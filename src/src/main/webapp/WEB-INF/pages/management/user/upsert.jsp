@@ -49,7 +49,7 @@
                                     <label class="col-xs-3 control-label font-noraml">Usuario:</label>
 
                                     <div class="col-xs-9">
-                                        <input type="text" name="username" ng-model="vm.m.Username"
+                                        <input type="text" name="username" ng-model="vm.m.username"
                                                placeholder="Ingrese el usuario"
                                                ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error" ng-show="FormUpId.username.$error.required">*Campo requerido</span>

@@ -2,12 +2,13 @@ package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.UserDto;
+import com.crystal.model.entities.account.UserView;
 import com.crystal.model.shared.Constants;
 import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
-import com.crystal.repository.account.UserViewRepository;
 import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
+import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ public class UserController {
     @Autowired
     AuditedEntityRepository auditedEntityRepository;
     @Autowired
-    UserViewRepository userViewRepository;
-
+    private GridService gridService;
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
     public String index() {
@@ -46,7 +46,7 @@ public class UserController {
 
     @RequestMapping(value = "/management/user/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
     public @ResponseBody Object list() {
-        return userViewRepository.toGrid();
+        return gridService.toGrid(UserView.class);
     }
 
     @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
