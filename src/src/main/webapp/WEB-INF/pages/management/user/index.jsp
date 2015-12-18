@@ -5,8 +5,8 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/user.ctrl.js"></script>
 
-    <link href="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
 
     <script type="text/javascript">
         var $table = $('#tblGrid');
@@ -17,28 +17,22 @@
 
         function actionsFormatter(value, row, index) {
             return [
-                '<button class="btn btn-info dim act-sendConfirm btn-tiny" data-toggle="tooltip" data-placement="top" title="Reenviar correo de confirmación" type="button"><i class="fa fa-mail-forward"></i></button>',
-                '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar información del usuario" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar informaci&oacute;n del usuario" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar usuario" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
 
         window.upsert = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", "", "#tblGrid");
+            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/management/user/upsert.json' />", "#tblGrid");
         };
 
         window.actionEvents = {
 
             'click .act-edit': function (e, value, row) {
-                window.upsert(row.Id);
-            },
-            'click .act-sendConfirm': function (e, value, row) {
-                window.showConfirmService(row.Id, "#angJsjqGridId", "",
-                        "Reenviar correo de confirmación", "�Desea reenviar el correo de confirmaci�n para este usuario? <br/>Esto s�lo es posible si el usuario " +
-                "no ha activado su cuenta. <br/><br/><small>Nota: Esta acci�n genera una nueva contrase�a para el usuario</small>", "#tblGrid");
+                window.upsert(row.id);
             },
             'click .act-delete': function (e, value, row) {
-                window.showObsolete(row.Id, "#angJsjqGridId", "", "#tblGrid");
+                window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/management/user/doObsolete.json' />", "#tblGrid");
             }
         };
     </script>

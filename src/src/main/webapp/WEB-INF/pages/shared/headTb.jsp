@@ -15,6 +15,7 @@
 <link href="${pageContext.request.contextPath}/assets/content/angular-notify/angular-notify.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/animate.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/style.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
 
 
 <link href="${pageContext.request.contextPath}/assets/content/site.css" rel="stylesheet" />
