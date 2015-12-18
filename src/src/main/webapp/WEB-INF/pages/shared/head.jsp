@@ -26,12 +26,12 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/angular.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/client-app/drct/hidden.drct.js"></script>
 
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/main/main.mod.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/svc/conn.svc.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/svc/shared.svc.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/shared/shared.ctrl.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/client-app/drct/hidden.drct.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/menu.ctrl.js"></script>
 
 
