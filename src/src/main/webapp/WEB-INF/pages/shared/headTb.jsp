@@ -36,9 +36,14 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/menu.ctrl.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/shared/modalDlg.ctrl.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/shared/upsert.ctrl.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/client-app/drct/hidden.drct.js"></script>
 
+<script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/extensions/export/bootstrap-table-export.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/extensions/export/tableExport.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/locale/bootstrap-table-es-MX.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/assets/scripts/common.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/inspinia.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/pace/pace.min.js"></script>
-<%--<script src="${pageContext.request.contextPath}/assets/scripts/client-app/shared/hiddenDrct.js"></script>--%>
+

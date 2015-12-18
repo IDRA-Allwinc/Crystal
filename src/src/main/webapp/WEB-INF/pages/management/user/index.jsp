@@ -6,10 +6,6 @@
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
 
-    <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/extensions/export/bootstrap-table-export.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/locale/bootstrap-table-es-MX.min.js"></script>
-
     <link href="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -38,8 +34,8 @@
             },
             'click .act-sendConfirm': function (e, value, row) {
                 window.showConfirmService(row.Id, "#angJsjqGridId", "",
-                        "Reenviar correo de confirmaciÃ³n", "¿Desea reenviar el correo de confirmación para este usuario? <br/>Esto sólo es posible si el usuario " +
-                "no ha activado su cuenta. <br/><br/><small>Nota: Esta acción genera una nueva contraseña para el usuario</small>", "#tblGrid");
+                        "Reenviar correo de confirmaciÃ³n", "ï¿½Desea reenviar el correo de confirmaciï¿½n para este usuario? <br/>Esto sï¿½lo es posible si el usuario " +
+                "no ha activado su cuenta. <br/><br/><small>Nota: Esta acciï¿½n genera una nueva contraseï¿½a para el usuario</small>", "#tblGrid");
             },
             'click .act-delete': function (e, value, row) {
                 window.showObsolete(row.Id, "#angJsjqGridId", "", "#tblGrid");
@@ -98,7 +94,7 @@
                                                data-pagination="true"
                                                data-page-list="[5, 10, 20, 50, 100, 200]"
                                                data-search="true"
-                                               data-sort-name="UserName"
+                                               data-sort-name="username"
                                                data-toolbar="#toolbar"
                                                data-show-refresh="true"
                                                data-show-toggle="true"
@@ -109,12 +105,12 @@
                                                data-id-field="Id">
                                 <thead>
                                 <tr>
-                                    <th data-field="Id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
-                                    <th data-field="UserName" data-align="center" data-sortable="true" data-filter-control="input" >Usuario</th>
-                                    <th data-field="FullName" data-align="center" data-sortable="true" data-filter-control="input">Nombre completo</th>
-                                    <th data-field="Email" data-align="center" data-sortable="true">Email</th>
-                                    <th data-field="Role" data-align="center" data-sortable="true">Perfil</th>
-                                    <th data-field="Actions" data-formatter="actionsFormatter" data-align="center" data-width="150px" data-events="actionEvents">Acción</th>
+                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                    <th data-field="username" data-align="center" data-sortable="true" data-filter-control="input" >Usuario</th>
+                                    <th data-field="fullName" data-align="center" data-sortable="true" data-filter-control="input">Nombre completo</th>
+                                    <th data-field="email" data-align="center" data-sortable="true">Correo</th>
+                                    <th data-field="role" data-align="center" data-sortable="true">Perfil</th>
+                                    <th data-field="Actions" data-formatter="actionsFormatter" data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n</th>
                                 </tr>
                                 </thead>
                             </table>

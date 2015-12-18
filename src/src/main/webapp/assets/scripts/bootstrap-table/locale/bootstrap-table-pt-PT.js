@@ -5,7 +5,7 @@
 (function ($) {
     'use strict';
 
-    $.fn.bootstrapTable.locales['pt-PT'] = {
+    $.fn.bootstrapTable.locales['pt-BR'] = {
         formatLoadingMessage: function () {
             return 'A carregar, aguarde...';
         },

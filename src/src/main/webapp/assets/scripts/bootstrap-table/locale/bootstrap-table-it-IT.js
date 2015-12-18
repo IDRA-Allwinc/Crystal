@@ -1,7 +1,6 @@
 /**
  * Bootstrap Table Italian translation
  * Author: Davide Renzi<davide.renzi@gmail.com>
- * Author: Davide Borsatto <davide.borsatto@gmail.com>
  */
 (function ($) {
     'use strict';
@@ -11,7 +10,7 @@
             return 'Caricamento in corso...';
         },
         formatRecordsPerPage: function (pageNumber) {
-            return pageNumber + ' elementi per pagina';
+            return pageNumber + ' records per pagina';
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
             return 'Pagina ' + pageFrom + ' di ' + pageTo + ' (' + totalRows + ' records)';
@@ -20,13 +19,13 @@
             return 'Cerca';
         },
         formatNoMatches: function () {
-            return 'Nessun elemento trovato';
+            return 'Nessun record trovato';
         },
         formatRefresh: function () {
-            return 'Aggiorna';
+            return 'Rinfrescare';
         },
         formatToggle: function () {
-            return 'Alterna';
+            return 'Alternare';
         },
         formatColumns: function () {
             return 'Colonne';
