@@ -50,7 +50,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setUsername(data[1]);
             model.setPassword(data[2]);
             model.setEmail(data[3]);
-            model.setFullname(data[4]);
+            model.setFullName(data[4]);
             model.setEnabled(Boolean.parseBoolean(data[5]));
             final Role role = roleRepository.findByCode(data[6]);
             model.setRole(role);

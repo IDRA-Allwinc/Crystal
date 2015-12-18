@@ -1,12 +1,11 @@
 package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
-import com.crystal.infrastructure.security.CryptoRfc2898;
-import com.crystal.model.entities.account.Role;
-import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.account.UserDto;
+import com.crystal.model.shared.Constants;
 import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
+import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import com.google.gson.Gson;
@@ -14,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -30,6 +32,8 @@ public class UserController {
     UserRepository repositoryUser;
     @Autowired
     RoleRepository repositoryRole;
+    @Autowired
+    AuditedEntityRepository auditedEntityRepository;
 
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
@@ -42,16 +46,21 @@ public class UserController {
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
-        Gson gson = new Gson();
-        String sJson = gson.toJson(repositoryRole.findSelectList());
-        modelView.addObject("lstRoles", sJson);
+        try{
+            Gson gson = new Gson();
+            String sJson = gson.toJson(repositoryRole.findSelectList());
+            modelView.addObject("lstRoles", sJson);
+            sJson = gson.toJson(auditedEntityRepository.findSelectList(Constants.ENTITY_TYPE_INDEPENDENT_BODY));
+            modelView.addObject("lstAuditedEntities", sJson);
 
-        if (id != null) {
-            UserDto model = repositoryUser.findOneDto(id);
-            sJson = gson.toJson(model);
-            modelView.addObject("model", sJson);
+            if (id != null) {
+                UserDto model = repositoryUser.findOneDto(id);
+                sJson = gson.toJson(model);
+                modelView.addObject("model", sJson);
+            }
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "upsert", sharedUserService);
         }
-
         return modelView;
     }
 

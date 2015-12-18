@@ -23,7 +23,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li class="divider"></li>
-                        <li><a href="javascript:document.getElementById('logout').submit()">Salir</a></li>
+                        <li><a href="javascript:document.getElementById('logout').submit()"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Salir</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">

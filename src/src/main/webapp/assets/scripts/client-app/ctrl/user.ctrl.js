@@ -10,7 +10,8 @@
         vm.init = init;
 
         function init(){
-            vm.m.Role = window.initCatalog(vm.Roles, vm.m.roleId);
+            vm.m.role = window.initCatalog(vm.lstRoles, vm.m.roleId);
+            vm.m.auditedEntity = window.initCatalog(vm.lstAuditedEntities, vm.m.auditedEntityId);
         }
     }
 })();

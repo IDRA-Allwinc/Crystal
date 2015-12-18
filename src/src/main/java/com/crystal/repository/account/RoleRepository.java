@@ -11,6 +11,6 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role,Long>{
     public Role findByCode(String roleCode);
 
-    @Query("SELECT new com.crystal.model.shared.SelectList(r.id, r.description) FROM Role r")
+    @Query("SELECT new com.crystal.model.shared.SelectList(r.id, r.name, r.code) FROM Role r")
     public List<SelectList> findSelectList();
 }
