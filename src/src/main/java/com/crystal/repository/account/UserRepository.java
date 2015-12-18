@@ -1,6 +1,7 @@
 package com.crystal.repository.account;
 
 import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.account.UserDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,6 @@ public interface UserRepository extends JpaRepository<User,Long>{
     @Query("SELECT u.password FROM User u WHERE u.id=:id")
     String getEncodedPassword(@Param("id") Long userId);
 
+    @Query("SELECT new com.crystal.model.entities.account.UserDto(u.id, u.username, u.fullName, u.email, u.role.id, u.auditedEntity.id) FROM User u WHERE u.id=:id")
+    UserDto findOneDto(@Param("id") Long id);
 }

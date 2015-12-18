@@ -27,9 +27,9 @@ public class User implements EntityGrid {
     @NotEmpty(message="Confirmación es un campo requerido")
     private String confirm;
 
-    @Column(name="fullname", length = 500, nullable = false)
+    @Column(name="fullName", length = 500, nullable = false)
     @NotEmpty(message="Nombre completo es un campo requerido")
-    private String fullname;
+    private String fullName;
 
     @Column(name="email", length = 1000, nullable = false)
     @NotEmpty(message="Correo electrónico es un campo requerido")
@@ -112,12 +112,12 @@ public class User implements EntityGrid {
         this.confirm = confirm;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {

@@ -1,12 +1,11 @@
 package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
-import com.crystal.infrastructure.security.CryptoRfc2898;
-import com.crystal.model.entities.account.Role;
-import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.account.UserDto;
+import com.crystal.model.shared.Constants;
 import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
-import com.crystal.repository.account.UserViewRepository;
+import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import com.google.gson.Gson;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-
 @Controller
 public class UserController {
 
@@ -35,7 +33,7 @@ public class UserController {
     @Autowired
     RoleRepository repositoryRole;
     @Autowired
-    UserViewRepository userViewRepository;
+    AuditedEntityRepository auditedEntityRepository;
 
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
@@ -44,42 +42,37 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/management/user/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
-    public @ResponseBody Object list() {
-        return userViewRepository.toGrid();
-    }
     @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
-        Gson gson = new Gson();
-        String lstRoles = gson.toJson(repositoryRole.findSelectList());
+        try{
+            Gson gson = new Gson();
+            String sJson = gson.toJson(repositoryRole.findSelectList());
+            modelView.addObject("lstRoles", sJson);
+            sJson = gson.toJson(auditedEntityRepository.findSelectList(Constants.ENTITY_TYPE_INDEPENDENT_BODY));
+            modelView.addObject("lstAuditedEntities", sJson);
 
-        modelView.addObject("lstRoles", lstRoles);
-
-        if (id != null) {
-            User model = repositoryUser.findOne(id);
-            modelView.addObject("model", model);
-
-            if(model != null){
-                Role role = model.getRole();
-                if (role != null)
-                    modelView.addObject("roleId", role.getId());
+            if (id != null) {
+                UserDto model = repositoryUser.findOneDto(id);
+                sJson = gson.toJson(model);
+                modelView.addObject("model", sJson);
             }
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "upsert", sharedUserService);
         }
-
         return modelView;
     }
 
     @RequestMapping(value = "/management/user/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsert(@Valid User modelNew, BindingResult result, Model m) {
+    ResponseMessage doUpsert(@Valid UserDto modelNew, BindingResult result, Model m) {
 
         ResponseMessage response = new ResponseMessage();
 
         try {
-            User model;
+            /*User model;
 
             if (modelNew.getId().longValue() > 0L) {
                 model = repositoryUser.findOne(modelNew.getId());
@@ -117,7 +110,7 @@ public class UserController {
                 return response;
             }
 
-            repositoryUser.save(model);
+            repositoryUser.save(model); */
             response.setHasError(false);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
