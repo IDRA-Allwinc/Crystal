@@ -7,6 +7,10 @@
     function userController() {
         var vm = this;
         vm.m = {};
-        //vm.init = init;
+        vm.init = init;
+
+        function init(){
+            vm.m.Role = window.initCatalog(vm.Roles, vm.m.roleId);
+        }
     }
 })();

@@ -4,6 +4,7 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.security.CryptoRfc2898;
 import com.crystal.model.entities.account.Role;
 import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.account.UserDto;
 import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.service.account.SharedUserService;
@@ -42,19 +43,13 @@ public class UserController {
         ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
         Gson gson = new Gson();
-        String lstRoles = gson.toJson(repositoryRole.findSelectList());
-
-        modelView.addObject("lstRoles", lstRoles);
+        String sJson = gson.toJson(repositoryRole.findSelectList());
+        modelView.addObject("lstRoles", sJson);
 
         if (id != null) {
-            User model = repositoryUser.findOne(id);
-            modelView.addObject("model", model);
-
-            if(model != null){
-                Role role = model.getRole();
-                if (role != null)
-                    modelView.addObject("roleId", role.getId());
-            }
+            UserDto model = repositoryUser.findOneDto(id);
+            sJson = gson.toJson(model);
+            modelView.addObject("model", sJson);
         }
 
         return modelView;
@@ -63,12 +58,12 @@ public class UserController {
     @RequestMapping(value = "/management/user/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsert(@Valid User modelNew, BindingResult result, Model m) {
+    ResponseMessage doUpsert(@Valid UserDto modelNew, BindingResult result, Model m) {
 
         ResponseMessage response = new ResponseMessage();
 
         try {
-            User model;
+            /*User model;
 
             if (modelNew.getId().longValue() > 0L) {
                 model = repositoryUser.findOne(modelNew.getId());
@@ -106,7 +101,7 @@ public class UserController {
                 return response;
             }
 
-            repositoryUser.save(model);
+            repositoryUser.save(model); */
             response.setHasError(false);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);

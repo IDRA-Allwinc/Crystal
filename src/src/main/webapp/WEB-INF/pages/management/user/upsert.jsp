@@ -38,52 +38,81 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form" ng-init="">
+                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form" ng-init='vm.Roles = ${lstRoles}; vm.m = ${(model == null ? "{}" : model)}; vm.init();'>
 
-                            <input type="hidden" id="Id" name="Id" ng-model="vm.m.Id" ng-update-hidden/>
+                            <input type="hidden" id="id" name="id" ng-model="vm.m.Id" ng-update-hidden/>
 
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <label class="col-xs-3 control-label font-noraml">Usuario:</label>
+
+                                    <div class="col-xs-9">
+                                        <input type="text" name="username" ng-model="vm.m.Username"
+                                               placeholder="Ingrese el usuario"
+                                               ng-required="true" ng-maxlength="200" class="form-control">
+                                        <span class="error" ng-show="FormUpId.username.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.username.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <label class="col-xs-3 control-label font-noraml">Nombre completo:</label>
+
+                                    <div class="col-xs-9">
+                                        <input type="text" name="fullName" ng-model="vm.m.fullName"
+                                               placeholder="Ingrese el nombre completo del usuario"
+                                               ng-required="true" ng-maxlength="200" class="form-control">
+                                        <span class="error"
+                                              ng-show="FormUpId.fullName.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.fullName.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-15"></div>
                             <div class="row">
                                 <div class="col-xs-10">
                                     <label class="col-xs-4 control-label font-noraml">Correo electr&oacute;nico:</label>
 
                                     <div class="col-xs-8">
-                                        <input type="email" name="Email" ng-model="vm.m.Email"
+                                        <input type="email" name="email" ng-model="vm.m.Email"
                                                placeholder="Ingrese el correo electr&oacute;nico"
                                                ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error"
-                                              ng-show="FormUpId.Email.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.Email.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
-                                        <span class="error" ng-show="FormUpId.Email.$error.email">*El correo electr&oacute;nico no es v&aacute;lido</span>
+                                              ng-show="FormUpId.email.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.email.$error.maxlength">*Longitud m&aacute;xima de 1000 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.email.$error.email">*El correo electr&oacute;nico no es v&aacute;lido</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="space-15"></div>
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <label class="col-xs-3 control-label font-noraml">Nombre(s):</label>
+                                    <label class="col-xs-3 control-label font-noraml">Perfil:</label>
 
                                     <div class="col-xs-9">
-                                        <input type="text" name="FirstName" ng-model="vm.m.FirstName"
-                                               placeholder="Ingrese el nombre del usuario"
-                                               ng-required="true" ng-maxlength="200" class="form-control">
-                                        <span class="error" ng-show="FormUpId.FirstName.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.FirstName.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                        <input type="hidden" ng-update-hidden ng-model="vm.m.RoleId"
+                                               name="roleId" id="roleId">
+                                        <select class="form-control m-b" id="chosen-select"
+                                                ng-required="true" ng-change="vm.m.RoleId = vm.m.Role.id;"
+                                                ng-options="c.name for c in vm.Roles " ng-model="vm.m.Role"></select>
+                                        <span class="error" ng-show="FormUpId.roleId.$error.required">*Campo requerido</span>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6">
-                                    <label class="col-xs-3 control-label font-noraml">Apellidos</label>
+                                <%--<div class="col-xs-6">--%>
+                                    <%--<label class="col-xs-3 control-label font-noraml">Nombre completo:</label>--%>
 
-                                    <div class="col-xs-9">
-                                        <input type="text" name="LastName" ng-model="vm.m.LastName"
-                                               placeholder="Ingrese los apellidos del usuario"
-                                               ng-required="true" ng-maxlength="200" class="form-control">
-                                        <span class="error"
-                                              ng-show="FormUpId.LastName.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.LastName.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
-                                    </div>
-                                </div>
+                                    <%--<div class="col-xs-9">--%>
+                                        <%--<input type="text" name="fullName" ng-model="vm.m.fullName"--%>
+                                               <%--placeholder="Ingrese el nombre completo del usuario"--%>
+                                               <%--ng-required="true" ng-maxlength="200" class="form-control">--%>
+                                        <%--<span class="error"--%>
+                                              <%--ng-show="FormUpId.fullName.$error.required">*Campo requerido</span>--%>
+                                        <%--<span class="error" ng-show="FormUpId.fullName.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
                             </div>
+
                         </form>
                         <br/>
 
