@@ -30,14 +30,14 @@
 
             if (isValid !== undefined) {
                 if (isValid !== true) {
-                    vm.MsgError = $sce.trustAsHtml("Existe uno o más campos que no son válidos, son requeridos o su longitud está fuera de lo permitido");
+                    vm.MsgError = $sce.trustAsHtml("Existe uno o más campos que no son válidos, son requeridos o su longitud está fuera de lo permitido.");
                     vm.Invalid = true;
                     return false;
                 }
             }
 
             if ($(formId).valid() === false) {
-                vm.MsgError = $sce.trustAsHtml("Debe proporcionar toda la información para guardar");
+                vm.MsgError = $sce.trustAsHtml("Debe proporcionar toda la información para guardar.");
                 vm.Invalid = true;
                 return false;
             }

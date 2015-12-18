@@ -45,6 +45,11 @@
                                 <i class="fa fa-cogs"></i>Perfiles
                             </a>
                         </li>
+                        <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
+                            <a href="<c:url value='/management/auditedEntity/index.html'/>">
+                                <i class="fa fa-sitemap"></i>Entes fizcalizados
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <%--<li data-ng-class="mn.menu === 2 ? 'active' : ''">--%>
