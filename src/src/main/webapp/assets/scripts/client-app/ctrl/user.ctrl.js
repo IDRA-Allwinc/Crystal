@@ -11,7 +11,9 @@
 
         function init(){
             vm.m.role = window.initCatalog(vm.lstRoles, vm.m.roleId);
+            vm.m.roleId = vm.m.role.id;
             vm.m.auditedEntity = window.initCatalog(vm.lstAuditedEntities, vm.m.auditedEntityId);
+            vm.m.auditedEntityId = vm.m.auditedEntity.id;
         }
     }
 })();

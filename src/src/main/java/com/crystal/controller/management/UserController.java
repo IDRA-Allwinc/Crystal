@@ -1,6 +1,7 @@
 package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.account.UserDto;
 import com.crystal.model.entities.account.UserView;
 import com.crystal.model.shared.Constants;
@@ -67,7 +68,8 @@ public class UserController {
 
         try {
 
-
+             if(DtoValidator.isValid(result, response) == false)
+                 return response;
             /*User model;
 
             if (modelNew.getId().longValue() > 0L) {
