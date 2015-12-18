@@ -7,6 +7,6 @@
     function userController() {
         var vm = this;
         vm.m = {};
-        vm.init = init;
+        //vm.init = init;
     }
 })();

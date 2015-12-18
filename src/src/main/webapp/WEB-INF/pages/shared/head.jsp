@@ -3,6 +3,9 @@
 <META charset="UTF-8"/>
 <META name="viewport" content="width=device-width, initial-scale=1.0">
 <META http-equiv="X-UA-Compatible" content="IE=9, IE=10" name="description" />
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
+
 <title>CRYSTAL</title>
 
 <link href="${pageContext.request.contextPath}/assets/content/bootstrap.min.css" rel="stylesheet" />
