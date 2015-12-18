@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Información del usuario</h5>
+                                <h5>Informaci&oacute;n del usuario</h5>
                             </div>
                         </div>
                     </div>
@@ -44,16 +44,16 @@
 
                             <div class="row">
                                 <div class="col-xs-10">
-                                    <label class="col-xs-4 control-label font-noraml">Correo electrónico:</label>
+                                    <label class="col-xs-4 control-label font-noraml">Correo electr&oacute;nico:</label>
 
                                     <div class="col-xs-8">
                                         <input type="email" name="Email" ng-model="vm.m.Email"
-                                               placeholder="Ingrese el correo electrónico"
+                                               placeholder="Ingrese el correo electr&oacute;nico"
                                                ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.Email.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.Email.$error.maxlength">*Longitud máxima de 200 caracteres</span>
-                                        <span class="error" ng-show="FormUpId.Email.$error.email">*El correo electrónico no es válido</span>
+                                        <span class="error" ng-show="FormUpId.Email.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.Email.$error.email">*El correo electr&oacute;nico no es v&aacute;lido</span>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                                                placeholder="Ingrese el nombre del usuario"
                                                ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error" ng-show="FormUpId.FirstName.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.FirstName.$error.maxlength">*Longitud máxima de 200 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.FirstName.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>
                                 </div>
 
@@ -80,7 +80,7 @@
                                                ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.LastName.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.LastName.$error.maxlength">*Longitud máxima de 200 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.LastName.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="up.submit('#FormUpId', '', FormUpId.$valid)">
+                        ng-click="up.submit('#FormUpId', '<c:url value='/management/user/doUpsert.json' />', FormUpId.$valid)">
                     Guardar
                 </button>
             </div>
