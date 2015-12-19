@@ -123,8 +123,7 @@
 
                         <div class="row">
                             <div class="col-xs-12">
-                                <div ng-show="up.MsgError" class="alert alert-danger element-center">
-                                    {{up.MsgError}}
+                                <div ng-show="up.MsgError" ng-bind-html="up.MsgError" class="alert alert-danger element-center">
                                 </div>
                             </div>
                         </div>

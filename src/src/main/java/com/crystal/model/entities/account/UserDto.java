@@ -3,6 +3,8 @@ package com.crystal.model.entities.account;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+
 public class UserDto {
 
     private Long id;
@@ -10,9 +12,10 @@ public class UserDto {
     @NotEmpty(message = "El usuario es un campo requerido")
     private String username;
 
-    @NotEmpty(message = "El usuario es un campo requerido")
+    @NotEmpty(message = "La contraseña es un campo requerido")
     private String password;
 
+    @NotEmpty(message = "La confirmación es un campo requerido")
     private String confirm;
 
     @NotEmpty(message = "El nombre completo es un campo requerido")
@@ -22,7 +25,7 @@ public class UserDto {
     @Email(message = "El correo electrónico no es válido")
     private String email;
 
-    @NotEmpty(message = "El perfil es un campo requerido")
+    @NotNull(message = "El perfil es un campo requerido")
     private Long roleId;
 
     private Long auditedEntityId;
