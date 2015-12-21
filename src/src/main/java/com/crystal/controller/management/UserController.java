@@ -90,7 +90,7 @@ public class UserController {
     public ModelAndView changePassword(@RequestParam(required = true) Long id) {
         ModelAndView modelView = new ModelAndView("/management/user/changePassword");
         try {
-            modelView.addObject("id", id);
+            serviceUser.upsertPsw(id, modelView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "changePassword", sharedUserService);
         }

@@ -34,4 +34,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
     Long countByUsername(String username);
 
     User findByIdAndEnabled(Long id, boolean b);
+
+    @Query("SELECT u.username FROM User u WHERE u.id = :id AND u.enabled = 1")
+    String getUsernameById(@Param("id") Long id);
 }

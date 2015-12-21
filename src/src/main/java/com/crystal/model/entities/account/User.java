@@ -124,8 +124,7 @@ public class User implements EntityGrid {
 
     public void merge(UserDto modelNew) {
         if(modelNew.getId() == null){
-            CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
-            password = cryptoRfc2898.encode(modelNew.getPsw().getPassword());
+            mergePassword(modelNew.getPsw().getPassword());
             enabled = true;
         }
 
@@ -142,5 +141,10 @@ public class User implements EntityGrid {
             auditedEntity = null;
         }
 
+    }
+
+    public void mergePassword(String passwordNew) {
+        CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
+        password = cryptoRfc2898.encode(passwordNew);
     }
 }

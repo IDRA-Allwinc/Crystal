@@ -57,8 +57,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void savePsw(PasswordDto modelNew, ResponseMessage response) {
+    public void upsertPsw(Long id, ModelAndView modelView) {
+        String username = repositoryUser.getUsernameById(id);
+        modelView.addObject("id", id);
+        modelView.addObject("username", username);
+    }
 
+    @Override
+    public void savePsw(PasswordDto modelNew, ResponseMessage response) {
+        User model = repositoryUser.findByIdAndEnabled(modelNew.getId(), true);
+
+        if(model == null){
+            response.setHasError(true);
+            response.setMessage("El usuario ya fue eliminado o no existe en el sistema");
+            response.setTitle("Eliminar usuario");
+        }
+
+        model.mergePassword(modelNew.getPassword());
+        repositoryUser.saveAndFlush(model);
     }
 
     @Override
