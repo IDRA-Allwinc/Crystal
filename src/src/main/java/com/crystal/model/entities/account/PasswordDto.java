@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.AssertTrue;
 
-@FieldMatch(first = "password", second = "confirm", message = "La contraseña no concuerda con la confirmación ")
+@FieldMatch(first = "password", second = "confirm", message = "La contraseña no concuerda con la confirmación.")
 public class PasswordDto{
     @NotEmpty(message = "La contraseña es un campo requerido.")
     @Length(min = 8, max  = 200, message = "La contraseña debe tener entre 8 y 200 caracteres.")
@@ -14,6 +14,10 @@ public class PasswordDto{
 
     @NotEmpty(message = "La confirmación es un campo requerido.")
     private String confirm;
+
+    public PasswordDto(){
+
+    }
 
     public String getPassword() {
         return password;

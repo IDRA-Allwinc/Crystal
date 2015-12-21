@@ -1,6 +1,7 @@
 package com.crystal.service.account;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.account.PasswordDto;
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.account.UserDto;
 import com.crystal.model.shared.Constants;
@@ -34,6 +35,10 @@ public class UserServiceImpl implements UserService {
 
         if (id != null) {
             UserDto model = repositoryUser.findOneDto(id);
+            PasswordDto passwordDto = new PasswordDto();
+            passwordDto.setPassword("********");
+            passwordDto.setConfirm("********");
+            model.setPsw(passwordDto);
             sJson = gson.toJson(model);
             modelView.addObject("model", sJson);
         }
@@ -48,47 +53,26 @@ public class UserServiceImpl implements UserService {
             return;
 
         model.merge(modelNew);
-
         doSave(model);
-            /*User model;
+    }
 
-            if (modelNew.getId().longValue() > 0L) {
-                model = repositoryUser.findOne(modelNew.getId());
-                model.setUsername(modelNew.getUsername());
-                model.setEmail(modelNew.getEmail());
-                model.setFullname(modelNew.getFullname());
-                //model.getRoles().clear();
-                //model.setRoles(modelNew.getRoles());
+    @Override
+    public void savePsw(PasswordDto modelNew, ResponseMessage response) {
 
-                if (modelNew.getHasChangePass()) {
-                    model.setPassword(modelNew.getPassword());
-                    model.setConfirm(modelNew.getConfirm());
-                } else {
-                    model.setConfirm(model.getPassword());
-                }
-            } else {
-                model = modelNew;
-                model.setEnabled(true);
-            }
+    }
 
-//            ResponseMessage resp = PojoValidator.validate(model);
-//            if (resp != null)
-//                return resp;
+    @Override
+    public void doObsolete(Long id, ResponseMessage response) {
+        User model = repositoryUser.findByIdAndEnabled(id, true);
 
-            CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
+        if(model == null){
+            response.setHasError(true);
+            response.setMessage("El usuario ya fue eliminado o no existe en el sistema");
+            response.setTitle("Eliminar usuario");
+        }
 
-            if (model.getId().longValue() <= 0L || modelNew.getHasChangePass())
-                model.setPassword(cryptoRfc2898.encode(modelNew.getPassword()));
-
-            Long idUser = repositoryUser.findIdByUsername(model.getUsername());
-
-            if (idUser != null && idUser.equals(model.getId()) == false) {
-                response.setHasError(true);
-                response.setMessage("El usuario ya existe, por favor elija otro usuario");
-                return response;
-            }
-
-            repositoryUser.save(model); */
+        model.setEnabled(false);
+        repositoryUser.saveAndFlush(model);
     }
 
     @Transactional
@@ -144,10 +128,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean existUsernameWithNotId(String username, Long userId) {
-        return repositoryUser.anyUsernameWithNotId(username, userId).equals(0l);
+        return repositoryUser.anyUsernameWithNotId(username, userId).equals(0l) == false;
     }
 
     private boolean existUsername(String username) {
-        return repositoryUser.countByUsername(username).equals(0l);
+        return repositoryUser.countByUsername(username).equals(0l) == false;
     }
 }

@@ -18,7 +18,7 @@ public class UserView implements EntityGrid {
     private Long id;
 
     @Column(name = "username")
-    private String userName;
+    private String username;
 
     @Column(name = "fullName")
     private String fullName;
@@ -38,12 +38,12 @@ public class UserView implements EntityGrid {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getFullName() {

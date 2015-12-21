@@ -150,7 +150,7 @@ window.initCatalog = function (lstCatalog, catalogId) {
     var catalog;
     for (var i = 0, len = lstCatalog.length; i < len; i++) {
         catalog = lstCatalog[i];
-        if (catalog.Id === catalogId)
+        if (catalog.id === catalogId)
             return catalog;
     }
 

@@ -41,7 +41,7 @@
                         <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
                               ng-init='vm.lstRoles = ${lstRoles}; vm.lstAuditedEntities = ${lstAuditedEntities}; vm.m = ${(model == null ? "{}" : model)}; vm.init();'>
 
-                            <input type="hidden" id="id" name="id" ng-model="vm.m.Id" ng-update-hidden/>
+                            <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
 
                             <div class="row">
                                 <div class="col-xs-6">
@@ -121,13 +121,13 @@
                                 </div>
                             </div>
                             <div class="space-15"></div>
-                            <div class="row" ng-show="vm.m.Id === undefined">
+                            <div class="row" ng-show="vm.m.id === undefined">
                                 <div class="col-xs-6">
                                     <label class="col-xs-3 control-label font-noraml">Contrase&ntilde;a:</label>
                                     <div class="col-xs-9">
-                                        <input type="password" name="psw.password" ng-model="vm.m.password"
-                                               placeholder="Ingrese la contrase&ntilde;a"
-                                                class="form-control">
+                                        <input type="password" name="psw.password" ng-model="vm.m.psw.password"
+                                               placeholder="Ingrese la contrase&ntilde;a" ng-minlength="8"
+                                               ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId['psw.password'].$error.required">*Campo requerido</span>
                                         <span class="error" ng-show="FormUpId['psw.password'].$error.minlength">*Longitud m&iacute;nima de 8 caracteres</span>
@@ -137,13 +137,14 @@
                                 <div class="col-xs-6">
                                     <label class="col-xs-3 control-label font-noraml">Confirmaci&oacute;n:</label>
                                     <div class="col-xs-9">
-                                        <input type="password" name="psw.confirm" ng-model="vm.m.confirm"
+                                        <input type="password" name="psw.confirm" ng-model="vm.m.psw.confirm"
                                                placeholder="Ingrese la confirmaci&oacute;n"  ng-minlength="8"
                                                ng-required="true" ng-maxlength="200" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId['psw.confirm'].$error.required">*Campo requerido</span>
                                         <span class="error" ng-show="FormUpId['psw.confirm'].$error.minlength">*Longitud m&iacute;nima de 8 caracteres</span>
                                         <span class="error" ng-show="FormUpId['psw.confirm'].$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                        <span class="error" ng-show="vm.m.psw.password !== vm.m.psw.confirm"><br/>*La contrase&ntilde;a no concuerda con la confirmaci&oacute;n</span>
                                     </div>
                                 </div>
                             </div>

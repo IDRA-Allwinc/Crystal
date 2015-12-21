@@ -1,5 +1,5 @@
 id|username|password|email|fullname|enabled|role|id_audited_entity
 1|administrador|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@mail.mx|Administrador sistema|true|ROLE_ADMIN|-1
 2|director|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@mail.mx|Director|true|ROLE_MANAGER|-1
-3|dgpop|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@mail.mx|DGPOP|true|ROLE_DGPOP|-1
-4|enlace|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@mail.mx|Enlace|true|ROLE_ADMIN|2
+3|dgpop_usr|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@mail.mx|DGPOP|true|ROLE_DGPOP|-1
+4|enlace_usr|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|mail@mail.mx|Enlace|true|ROLE_ADMIN|2

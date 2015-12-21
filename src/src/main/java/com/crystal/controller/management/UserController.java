@@ -2,6 +2,7 @@ package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
+import com.crystal.model.entities.account.PasswordDto;
 import com.crystal.model.entities.account.UserDto;
 import com.crystal.model.entities.account.UserView;
 import com.crystal.model.shared.Constants;
@@ -83,4 +84,59 @@ public class UserController {
 
         return response;
     }
+
+
+    @RequestMapping(value = "/management/user/changePassword", method = RequestMethod.POST)
+    public ModelAndView changePassword(@RequestParam(required = true) Long id) {
+        ModelAndView modelView = new ModelAndView("/management/user/changePassword");
+        try {
+            modelView.addObject("id", id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "changePassword", sharedUserService);
+        }
+        return modelView;
+    }
+
+    @RequestMapping(value = "/management/user/doChangePassword", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doChangePassword(@Valid PasswordDto modelNew, BindingResult result, Model m) {
+
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+
+            if (DtoValidator.isValid(result, response) == false)
+                return response;
+
+            serviceUser.savePsw(modelNew, response);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doChangePassword", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "/management/user/doObsolete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            serviceUser.doObsolete(id, response);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+        }
+
+        return response;
+    }
+
 }

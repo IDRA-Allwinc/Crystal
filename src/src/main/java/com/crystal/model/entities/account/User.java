@@ -127,25 +127,20 @@ public class User implements EntityGrid {
             CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
             password = cryptoRfc2898.encode(modelNew.getPsw().getPassword());
             enabled = true;
-            role = new Role(){{setId(modelNew.getRoleId());}};
-        }
-        else{
-            if(role.getId().equals(modelNew.getRoleId()) == false){
-                role = new Role(){{setId(modelNew.getRoleId());}};
-            }
-        }
-
-        if(modelNew.getRoleCode().equals(Constants.ROLE_LINK)){
-            if(auditedEntity == null || auditedEntity.getId().equals(modelNew.getAuditedEntityId()) == false){
-                auditedEntity = new AuditedEntity(){{setId(modelNew.getAuditedEntityId());}};
-            }
-        }else{
-            auditedEntity = null;
         }
 
         username = modelNew.getUsername();
         fullName = modelNew.getFullName();
         email = modelNew.getEmail();
+        role = new Role();
+        role.setId(modelNew.getRoleId());
+
+        if(modelNew.getRoleCode().equals(Constants.ROLE_LINK)){
+             auditedEntity = new AuditedEntity();
+             auditedEntity.setId(modelNew.getAuditedEntityId());
+        }else{
+            auditedEntity = null;
+        }
 
     }
 }

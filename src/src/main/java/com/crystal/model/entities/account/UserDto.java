@@ -1,5 +1,6 @@
 package com.crystal.model.entities.account;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,7 +15,7 @@ public class UserDto {
 
     @NotEmpty(message = "El usuario es un campo requerido.")
     @Length(min = 8, max  = 200, message = "El usuario debe tener entre 6 y 200 caracteres.")
-    @Pattern(regexp = "\\w*", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El usuario no puede contener caracteres especiales, sólo valores alfanuméricos.")
+    @Pattern(regexp = "\\w*", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El usuario no puede contener caracteres especiales o espacios, sólo valores alfanuméricos.")
     private String username;
 
     @NotEmpty(message = "El nombre completo es un campo requerido.")
@@ -36,7 +37,6 @@ public class UserDto {
     private PasswordDto psw;
 
     public UserDto(){
-
     }
 
     public UserDto(Long id, String username, String fullName, String email, Long roleId, Long auditedEntityId) {
@@ -113,5 +113,4 @@ public class UserDto {
         this.roleCode = roleCode;
     }
 }
-
 
