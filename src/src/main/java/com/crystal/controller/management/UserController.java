@@ -43,7 +43,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
-    public @ResponseBody Object list() {
+    public
+    @ResponseBody
+    Object list() {
         return gridService.toGrid(UserView.class);
     }
 
@@ -51,7 +53,7 @@ public class UserController {
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/management/user/upsert");
 
-        try{
+        try {
             serviceUser.upsert(id, modelView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "upsert", sharedUserService);
@@ -68,49 +70,11 @@ public class UserController {
 
         try {
 
-             if(DtoValidator.isValid(result, response) == false)
-                 return response;
-            /*User model;
-
-            if (modelNew.getId().longValue() > 0L) {
-                model = repositoryUser.findOne(modelNew.getId());
-                model.setUsername(modelNew.getUsername());
-                model.setEmail(modelNew.getEmail());
-                model.setFullname(modelNew.getFullname());
-                //model.getRoles().clear();
-                //model.setRoles(modelNew.getRoles());
-
-                if (modelNew.getHasChangePass()) {
-                    model.setPassword(modelNew.getPassword());
-                    model.setConfirm(modelNew.getConfirm());
-                } else {
-                    model.setConfirm(model.getPassword());
-                }
-            } else {
-                model = modelNew;
-                model.setEnabled(true);
-            }
-
-//            ResponseMessage resp = PojoValidator.validate(model);
-//            if (resp != null)
-//                return resp;
-
-            CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
-
-            if (model.getId().longValue() <= 0L || modelNew.getHasChangePass())
-                model.setPassword(cryptoRfc2898.encode(modelNew.getPassword()));
-
-            Long idUser = repositoryUser.findIdByUsername(model.getUsername());
-
-            if (idUser != null && idUser.equals(model.getId()) == false) {
-                response.setHasError(true);
-                response.setMessage("El usuario ya existe, por favor elija otro usuario");
+            if (DtoValidator.isValid(result, response) == false)
                 return response;
-            }
 
-            repositoryUser.save(model); */
-            response.setHasError(true);
-            response.setMessage("Error insuperado");
+            serviceUser.save(modelNew, response);
+            return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);

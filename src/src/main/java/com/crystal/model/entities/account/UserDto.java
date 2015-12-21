@@ -1,34 +1,39 @@
 package com.crystal.model.entities.account;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class UserDto {
 
     private Long id;
 
-    @NotEmpty(message = "El usuario es un campo requerido")
+    @NotEmpty(message = "El usuario es un campo requerido.")
+    @Length(min = 8, max  = 200, message = "El usuario debe tener entre 6 y 200 caracteres.")
+    @Pattern(regexp = "\\w*", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El usuario no puede contener caracteres especiales, sólo valores alfanuméricos.")
     private String username;
 
-    @NotEmpty(message = "La contraseña es un campo requerido")
-    private String password;
-
-    @NotEmpty(message = "La confirmación es un campo requerido")
-    private String confirm;
-
-    @NotEmpty(message = "El nombre completo es un campo requerido")
+    @NotEmpty(message = "El nombre completo es un campo requerido.")
+    @Length(min = 3, max  = 500, message = "El nombre completo debe tener entre 3 y 500 caracteres.")
     private String fullName;
 
-    @NotEmpty(message = "El correo es requerido")
-    @Email(message = "El correo electrónico no es válido")
+    @NotEmpty(message = "El correo es requerido.")
+    @Email(message = "El correo electrónico no es válido.")
     private String email;
 
-    @NotNull(message = "El perfil es un campo requerido")
+    @NotNull(message = "El perfil es un campo requerido.")
     private Long roleId;
 
+    private String roleCode;
+
     private Long auditedEntityId;
+
+    @Valid
+    private PasswordDto psw;
 
     public UserDto(){
 
@@ -57,22 +62,6 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
     }
 
     public String getFullName() {
@@ -106,4 +95,23 @@ public class UserDto {
     public void setAuditedEntityId(Long auditedEntityId) {
         this.auditedEntityId = auditedEntityId;
     }
+
+    public PasswordDto getPsw() {
+        return psw;
+    }
+
+    public void setPsw(PasswordDto psw) {
+        this.psw = psw;
+    }
+
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
 }
+
+

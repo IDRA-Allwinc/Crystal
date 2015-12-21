@@ -1,0 +1,33 @@
+package com.crystal.model.entities.account;
+
+import com.crystal.infrastructure.validation.FieldMatch;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.AssertTrue;
+
+@FieldMatch(first = "password", second = "confirm", message = "La contraseña no concuerda con la confirmación ")
+public class PasswordDto{
+    @NotEmpty(message = "La contraseña es un campo requerido.")
+    @Length(min = 8, max  = 200, message = "La contraseña debe tener entre 8 y 200 caracteres.")
+    private String password;
+
+    @NotEmpty(message = "La confirmación es un campo requerido.")
+    private String confirm;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+}

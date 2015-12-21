@@ -1,6 +1,8 @@
 package com.crystal.model.entities.account;
 
+import com.crystal.infrastructure.security.CryptoRfc2898;
 import com.crystal.model.entities.catalog.AuditedEntity;
+import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.EntityGrid;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,34 +14,27 @@ public class User implements EntityGrid {
 
     @Id
     @GeneratedValue
-    @Column(name="id_user")
+    @Column(name="id_user", nullable = false)
     private Long id;
 
     @Column(name="username", unique = true, length = 200, nullable = false)
-    @NotEmpty(message="El usuario es un campo requerido")
+    @NotEmpty(message="El usuario es un campo requerido.")
     private String username;
 
     @Column(name="password", length = 1000, nullable = false)
-    @NotEmpty(message="Contraseña es un campo requerido")
+    @NotEmpty(message="Contraseña es un campo requerido.")
     private String password;
 
-    @Transient
-    @NotEmpty(message="Confirmación es un campo requerido")
-    private String confirm;
-
     @Column(name="fullName", length = 500, nullable = false)
-    @NotEmpty(message="Nombre completo es un campo requerido")
+    @NotEmpty(message="Nombre completo es un campo requerido.")
     private String fullName;
 
     @Column(name="email", length = 1000, nullable = false)
-    @NotEmpty(message="Correo electrónico es un campo requerido")
+    @NotEmpty(message="Correo electrónico es un campo requerido.")
     private String email;
 
     @Column(name="enabled", nullable = false)
     private Boolean enabled;
-
-    @Transient
-    private Boolean hasChangePass;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_role",nullable = false)
@@ -50,16 +45,7 @@ public class User implements EntityGrid {
     @JoinColumn(name="id_audited_entity",nullable = true)
     private AuditedEntity auditedEntity;
 
-    /*
-    @OneToMany (mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<RelMessageUserReceiver> messageUserReceivers;
-
-    @OneToMany(mappedBy="sender", cascade={CascadeType.ALL})
-    private List<Message> messagesSent;
-    */
-
     public User(){
-
     }
 
     public User(Long id, Boolean enabled){
@@ -104,14 +90,6 @@ public class User implements EntityGrid {
         this.enabled = enabled;
     }
 
-    public String getConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -126,14 +104,6 @@ public class User implements EntityGrid {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Boolean getHasChangePass() {
-        return hasChangePass;
-    }
-
-    public void setHasChangePass(Boolean hasChangePass) {
-        this.hasChangePass = hasChangePass;
     }
 
     public Role getRole() {
@@ -151,20 +121,31 @@ public class User implements EntityGrid {
     public void setAuditedEntity(AuditedEntity auditedEntity) {
         this.auditedEntity = auditedEntity;
     }
-    /*
-    public List<RelMessageUserReceiver> getMessageUserReceivers() {
-        return messageUserReceivers;
-    }
 
-    public void setMessageUserReceivers(List<RelMessageUserReceiver> messageUserReceivers) {
-        this.messageUserReceivers = messageUserReceivers;
-    }
+    public void merge(UserDto modelNew) {
+        if(modelNew.getId() == null){
+            CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
+            password = cryptoRfc2898.encode(modelNew.getPsw().getPassword());
+            enabled = true;
+            role = new Role(){{setId(modelNew.getRoleId());}};
+        }
+        else{
+            if(role.getId().equals(modelNew.getRoleId()) == false){
+                role = new Role(){{setId(modelNew.getRoleId());}};
+            }
+        }
 
-    public List<Message> getMessagesSent() {
-        return messagesSent;
-    }
+        if(modelNew.getRoleCode().equals(Constants.ROLE_LINK)){
+            if(auditedEntity == null || auditedEntity.getId().equals(modelNew.getAuditedEntityId()) == false){
+                auditedEntity = new AuditedEntity(){{setId(modelNew.getAuditedEntityId());}};
+            }
+        }else{
+            auditedEntity = null;
+        }
 
-    public void setMessagesSent(List<Message> messagesSent) {
-        this.messagesSent = messagesSent;
-    }  */
+        username = modelNew.getUsername();
+        fullName = modelNew.getFullName();
+        email = modelNew.getEmail();
+
+    }
 }

@@ -59,7 +59,7 @@
                     </ol>
                     <br />
                     <div class="alert alert-info alert-10">
-                        <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puedes dar de alta nuevos usuarios al sistema.
+                        <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puedes administrar usuarios del sistema.
                     </div>
                 </div>
             </div>

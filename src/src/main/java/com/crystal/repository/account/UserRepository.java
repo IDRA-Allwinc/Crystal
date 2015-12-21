@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.sound.sampled.Control;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
     User findByUsername(String username);
@@ -25,4 +27,11 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     @Query("SELECT new com.crystal.model.entities.account.UserDto(u.id, u.username, u.fullName, u.email, u.role.id, u.auditedEntity.id) FROM User u WHERE u.id=:id")
     UserDto findOneDto(@Param("id") Long id);
+
+    @Query("SELECT count(u) FROM User u WHERE u.username=:username AND u.id <> :id")
+    Long anyUsernameWithNotId(@Param("username")String username, @Param("id")Long userId);
+
+    Long countByUsername(String username);
+
+    User findByIdAndEnabled(Long id, boolean b);
 }
