@@ -50,6 +50,16 @@
                                 <i class="fa fa-sitemap"></i>Entes fizcalizados
                             </a>
                         </li>
+                        <li data-ng-class="mn.subMenu === 1003 ? 'active' : ''">
+                            <a href="<c:url value='/management/eventType/index.html'/>">
+                                <i class="fa fa-th-large"></i>Tipos de eventos
+                            </a>
+                        </li>
+                        <li data-ng-class="mn.subMenu === 1004 ? 'active' : ''">
+                            <a href="<c:url value='/management/meetingType/index.html'/>">
+                                <i class="fa fa-quote-right"></i>Tipos de reuni&oacute;n
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <%--<li data-ng-class="mn.menu === 2 ? 'active' : ''">--%>

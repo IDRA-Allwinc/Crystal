@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
             response.setHasError(true);
             response.setMessage("El usuario ya fue eliminado o no existe en el sistema");
             response.setTitle("Eliminar usuario");
+            return;
         }
 
         model.mergePassword(modelNew.getPassword());
@@ -85,6 +86,7 @@ public class UserServiceImpl implements UserService {
             response.setHasError(true);
             response.setMessage("El usuario ya fue eliminado o no existe en el sistema");
             response.setTitle("Eliminar usuario");
+            return;
         }
 
         model.setEnabled(false);
@@ -138,16 +140,17 @@ public class UserServiceImpl implements UserService {
         if(model == null){
             response.setHasError(true);
             response.setMessage("El usuario no existe o ya fue eliminado.");
+            return null;
         }
 
         return model;
     }
 
     private boolean existUsernameWithNotId(String username, Long userId) {
-        return repositoryUser.anyUsernameWithNotId(username, userId).equals(0l) == false;
+        return !repositoryUser.anyUsernameWithNotId(username, userId).equals(0l);
     }
 
     private boolean existUsername(String username) {
-        return repositoryUser.countByUsername(username).equals(0l) == false;
+        return !repositoryUser.countByUsername(username).equals(0l);
     }
 }

@@ -55,4 +55,9 @@ public class MeetingType {
     public void setObsolete(boolean isObsolete) {
         this.isObsolete = isObsolete;
     }
+
+    public void merge(MeetingTypeDto modelNew) {
+        name = modelNew.getName();
+        description = modelNew.getDescription();
+    }
 }

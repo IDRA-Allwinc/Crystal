@@ -55,4 +55,9 @@ public class EventType {
     public void setObsolete(boolean isObsolete) {
         this.isObsolete = isObsolete;
     }
+
+    public void merge(EventTypeDto modelNew) {
+        name = modelNew.getName();
+        description = modelNew.getDescription();
+    }
 }

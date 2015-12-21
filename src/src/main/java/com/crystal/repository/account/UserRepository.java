@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
     @Query("SELECT u.password FROM User u WHERE u.id=:id")
     String getEncodedPassword(@Param("id") Long userId);
 
-    @Query("SELECT new com.crystal.model.entities.account.UserDto(u.id, u.username, u.fullName, u.email, u.role.id, u.auditedEntity.id) FROM User u WHERE u.id=:id")
+    @Query("SELECT new com.crystal.model.entities.account.UserDto(u.id, u.username, u.fullName, u.email, u.role.id, u.auditedEntity.id) FROM User u WHERE u.id=:id AND u.enabled = 1")
     UserDto findOneDto(@Param("id") Long id);
 
     @Query("SELECT count(u) FROM User u WHERE u.username=:username AND u.id <> :id")
