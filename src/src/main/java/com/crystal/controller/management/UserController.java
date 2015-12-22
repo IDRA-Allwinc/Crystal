@@ -44,10 +44,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
-    public
-    @ResponseBody
-    Object list() {
-        return gridService.toGrid(UserView.class);
+    public @ResponseBody Object list() {
+        return gridService.toGrid(UserView.class, "enabled", true );
     }
 
     @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
