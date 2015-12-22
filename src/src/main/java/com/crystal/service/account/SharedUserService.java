@@ -3,14 +3,15 @@ package com.crystal.service.account;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.security.CryptoRfc2898;
 import com.crystal.model.entities.account.User;
-import com.crystal.model.shared.SelectList;
 import com.crystal.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class SharedUserService {
@@ -37,6 +38,23 @@ public class SharedUserService {
         } catch (Exception ex) {
             return "@NA";
         }
+    }
+
+    public boolean loggedUserHasRole(String role) {
+        boolean result =false;
+        try {
+            List<GrantedAuthority> authorities = (List<GrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+            for(GrantedAuthority authority : authorities) {
+                if(authority.getAuthority().equals(role)) {
+                    result = true;
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return result;
     }
 
     public Boolean isEnabled(Long userId) {

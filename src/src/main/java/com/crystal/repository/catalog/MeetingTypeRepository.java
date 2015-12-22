@@ -12,6 +12,6 @@ public interface MeetingTypeRepository extends JpaRepository<MeetingType,Long>{
 
     MeetingType findByIdAndIsObsolete(Long id, boolean isObsolete);
 
-    @Query("SELECT new com.crystal.model.entities.catalog.MeetingTypeDto(e.id, e.name, e.description) FROM MeetingType e WHERE e.id = :id  AND e.isObsolete = 0")
+    @Query("SELECT new com.crystal.model.entities.catalog.dto.MeetingTypeDto(e.id, e.name, e.description) FROM MeetingType e WHERE e.id = :id  AND e.isObsolete = 0")
     MeetingTypeDto findOneDto(@Param("id") Long id);
 }

@@ -1,5 +1,5 @@
-<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <script>
     $(document).ready(function () {
@@ -10,7 +10,7 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" ng-controller="auditedEntityController as vm">
+    <div class="modal-dialog" style="width:960px" ng-controller="areaController as vm">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -21,10 +21,10 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Ente fiscalizado</h4>
+                        <h4 class="modal-title">&Aacute;rea</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-sitemap modal-icon"></i>
+                        <i class="fa fa-cubes modal-icon"></i>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Informaci&oacute;n del ente fiscalizado</h5>
+                                <h5>Informaci&oacute;n del &aacute;rea</h5>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
-                              ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.lstAuditedEntityTypes=${lstAuditedEntityTypes};  vm.init();'>
+                              ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.lstSecretariats=${(lstSecretariats == null ? "[]" : lstSecretariats)};  vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
 
@@ -55,7 +55,7 @@
 
                                         <div class="col-xs-9">
                                             <input type="text" name="name" ng-model="vm.m.name"
-                                                   placeholder="Ingrese el nombre del ente fiscalizado"
+                                                   placeholder="Ingrese el nombre del &aacute;rea"
                                                    ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.name.$error.required">*Campo requerido</span>
@@ -101,23 +101,25 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-11 col-xs-offset-1 form-group">
-                                        <input type="hidden" ng-update-hidden ng-model="vm.m.auditedEntityTypeId"
-                                               name="auditedEntityTypeId" id="auditedEntityTypeId">
+                                    <sec:authorize access="hasAuthority('DGPOP')">
+                                        <div class="col-xs-11 col-xs-offset-1 form-group" ng-show="">
+                                            sssss
+                                            <input type="hidden" ng-update-hidden ng-model="vm.m.secretariatId"
+                                                   name="secretariatId" id="secretariatId">
 
-                                        <label class="col-xs-3 control-label font-noraml">Tipo de entidad
-                                            fiscalizada:</label>
+                                            <label class="col-xs-3 control-label font-noraml">Entidad fiscalizada a la que pertenece:</label>
 
-                                        <div class="col-xs-9">
-                                            <select class="form-control m-b" id="chosen-select"
-                                                    ng-required="true"
-                                                    ng-change="vm.m.auditedEntityTypeId = vm.m.auditedEntityType.id;"
-                                                    ng-options="c.name for c in vm.lstAuditedEntityTypes "
-                                                    ng-model="vm.m.auditedEntityType"></select>
-                                    <span class="error"
-                                          ng-show="FormUpId.auditedEntityTypeId.$error.required">*Campo requerido</span>
+                                            <div class="col-xs-9">
+                                                <select class="form-control m-b" id="chosen-select"
+                                                        ng-required="true"
+                                                        ng-change="vm.m.secretariatId = vm.m.secretariat.id;"
+                                                        ng-options="c.name for c in vm.lstSecretariats"
+                                                        ng-model="vm.m.secretariat"></select>
+                                        <span class="error"
+                                              ng-show="FormUpId.secretariatId.$error.required">*Campo requerido</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </sec:authorize>
                                 </div>
                             </div>
                         </form>
@@ -137,7 +139,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="up.submit('#FormUpId', '<c:url value='/management/auditedEntity/doUpsert.json' />', FormUpId.$valid)">
+                        ng-click="up.submit('#FormUpId', '<c:url value='/shared/area/doUpsert.json' />', FormUpId.$valid)">
                     Guardar
                 </button>
             </div>

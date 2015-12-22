@@ -41,11 +41,6 @@
                     <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
                     <ul class="nav nav-second-level">
 
-                            <%--<li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">--%>
-                            <%--<a href="<c:url value='/management/role/index.html'/>">--%>
-                            <%--<i class="fa fa-cogs"></i>Perfiles--%>
-                            <%--</a>--%>
-                            <%--</li>--%>
                         <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
                             <a href="<c:url value='/management/auditedEntity/index.html'/>">
                                 <i class="fa fa-sitemap"></i>Entes fiscalizados
@@ -83,16 +78,6 @@
 
                     </ul>
                 </li>
-                <%--<li data-ng-class="mn.menu === 2 ? 'active' : ''">--%>
-                <%--<a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos II</span> </a>--%>
-                <%--<ul class="nav nav-second-level">--%>
-                <%--<li data-ng-class="mn.subMenu === 1 ? 'active' : ''">--%>
-                <%--<a href="">--%>
-                <%--<i class="fa fa-shield"></i>Auditor&iacute;as II--%>
-                <%--</a>--%>
-                <%--</li>--%>
-                <%--</ul>--%>
-                <%--</li>--%>
             </sec:authorize>
             <sec:authorize access="hasAuthority('Director')">
                 <li>
@@ -106,6 +91,26 @@
                     </ul>
                 </li>
             </sec:authorize>
+
+            <sec:authorize access="hasAuthority('DGPOP')">
+                <li>
+                    <a href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
+                </li>
+            </sec:authorize>
+
+            <%--<sec:authorize access="hasAuthority('DGPOP')">--%>
+                <%--<li>--%>
+                    <%--<a href="#"><i class="fa fa-th"></i> <span class="nav-label">Reportes</span> </a>--%>
+                    <%--<ul class="nav nav-second-level">--%>
+                        <%--<li class="active">--%>
+                            <%--<a href="">--%>
+                                <%--<i class="fa fa-shield"></i>Auditor&iacute;as--%>
+                            <%--</a>--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
+                <%--</li>--%>
+            <%--</sec:authorize>--%>
+
         </ul>
     </div>
 </nav>

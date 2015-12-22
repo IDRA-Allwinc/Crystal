@@ -11,6 +11,6 @@ import org.springframework.data.repository.query.Param;
 public interface EventTypeRepository extends JpaRepository<EventType,Long>{
     EventType findByIdAndIsObsolete(Long id, boolean isObsolete);
 
-    @Query("SELECT new com.crystal.model.entities.catalog.EventTypeDto(e.id, e.name, e.description) FROM EventType e WHERE e.id = :id  AND e.isObsolete = 0")
+    @Query("SELECT new com.crystal.model.entities.catalog.dto.EventTypeDto(e.id, e.name, e.description) FROM EventType e WHERE e.id = :id  AND e.isObsolete = 0")
     EventTypeDto findOneDto(@Param("id") Long id);
 }
