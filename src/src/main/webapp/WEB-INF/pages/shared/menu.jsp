@@ -40,14 +40,14 @@
                                 <i class="fa fa-users"></i>Usuarios
                             </a>
                         </li>
-                        <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
-                            <a href="<c:url value='/management/role/index.html'/>">
-                                <i class="fa fa-cogs"></i>Perfiles
-                            </a>
-                        </li>
+                        <%--<li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">--%>
+                            <%--<a href="<c:url value='/management/role/index.html'/>">--%>
+                                <%--<i class="fa fa-cogs"></i>Perfiles--%>
+                            <%--</a>--%>
+                        <%--</li>--%>
                         <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
                             <a href="<c:url value='/management/auditedEntity/index.html'/>">
-                                <i class="fa fa-sitemap"></i>Entes fizcalizados
+                                <i class="fa fa-sitemap"></i>Entes fiscalizados
                             </a>
                         </li>
                         <li data-ng-class="mn.subMenu === 1003 ? 'active' : ''">
