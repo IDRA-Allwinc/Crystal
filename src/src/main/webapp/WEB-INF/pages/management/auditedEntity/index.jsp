@@ -22,8 +22,8 @@
 
         function actionsFormatter(value, row, index) {
             return [
-                '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar informaci&oacute;n del usuario" type="button"><i class="fa fa-edit"></i></button>',
-                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar usuario" type="button"><i class="fa fa-times-circle"></i></button>'
+                '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar informaci&oacute;n del ente fiscalizado" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar ente fiscalizado" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
 
@@ -45,7 +45,7 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1003;">
+    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1002;">
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
     <div id="page-wrapper" class="gray-bg">
@@ -64,7 +64,7 @@
                 </ol>
                 <br />
                 <div class="alert alert-info alert-10">
-                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede dar de alta nuevos entes fiscalizados (subsecreatar&iacute;as y &oacute;rganos independientes).
+                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar entes fiscalizados (subsecreatar&iacute;as y &oacute;rganos independientes).
                 </div>
             </div>
         </div>

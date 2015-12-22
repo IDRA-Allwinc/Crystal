@@ -3,8 +3,8 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <% Authentication auth = SecurityContextHolder.getContext().getAuthentication();%>
 
-<form id="logout" action="<c:url value="/logout" />" method="post" >
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<form id="logout" action="<c:url value="/logout" />" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
@@ -12,18 +12,23 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span>
-                        <img alt="image" width="50" height="50" class="img-circle" src="${pageContext.request.contextPath}/assets/img/Logo.png" />
+                        <img alt="image" width="50" height="50" class="img-circle"
+                             src="${pageContext.request.contextPath}/assets/img/Logo.png"/>
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold"><%=auth.getName()%></strong>
-                            </span> <span class="text-muted block"> <%=auth.getAuthorities().iterator().next().getAuthority()%> <b class="caret"></b></span>
+                                <strong class="font-bold"><%=auth.getName()%>
+                                </strong>
+                            </span> <span
+                                class="text-muted block"> <%=auth.getAuthorities().iterator().next().getAuthority()%> <b
+                                class="caret"></b></span>
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li class="divider"></li>
-                        <li><a href="javascript:document.getElementById('logout').submit()"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Salir</a></li>
+                        <li><a href="javascript:document.getElementById('logout').submit()"><i
+                                class="fa fa-sign-out"></i>&nbsp;&nbsp;Salir</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
@@ -35,21 +40,30 @@
                 <li data-ng-class="mn.menu === 1 ? 'active' : ''">
                     <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
                     <ul class="nav nav-second-level">
-                        <li data-ng-class="mn.subMenu === 1001 ? 'active' : ''">
-                            <a href="<c:url value='/management/user/index.html'/>">
-                                <i class="fa fa-users"></i>Usuarios
-                            </a>
-                        </li>
-                        <%--<li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">--%>
+
+                            <%--<li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">--%>
                             <%--<a href="<c:url value='/management/role/index.html'/>">--%>
-                                <%--<i class="fa fa-cogs"></i>Perfiles--%>
+                            <%--<i class="fa fa-cogs"></i>Perfiles--%>
                             <%--</a>--%>
-                        <%--</li>--%>
+                            <%--</li>--%>
                         <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
                             <a href="<c:url value='/management/auditedEntity/index.html'/>">
                                 <i class="fa fa-sitemap"></i>Entes fiscalizados
                             </a>
                         </li>
+
+                        <li data-ng-class="mn.subMenu === 1005 ? 'active' : ''">
+                            <a href="<c:url value='/management/supervisoryEntity/index.html'/>">
+                                <i class="fa fa-eye"></i>&Oacute;rganos fiscalizadores
+                            </a>
+                        </li>
+
+                        <li data-ng-class="mn.subMenu === 1006 ? 'active' : ''">
+                            <a href="<c:url value='/management/auditType/index.html'/>">
+                                <i class="fa fa-bars"></i>Tipos de auditor&iacute;a
+                            </a>
+                        </li>
+
                         <li data-ng-class="mn.subMenu === 1003 ? 'active' : ''">
                             <a href="<c:url value='/management/eventType/index.html'/>">
                                 <i class="fa fa-th-large"></i>Tipos de eventos
@@ -60,17 +74,24 @@
                                 <i class="fa fa-quote-right"></i>Tipos de reuni&oacute;n
                             </a>
                         </li>
+
+                        <li data-ng-class="mn.subMenu === 1001 ? 'active' : ''">
+                            <a href="<c:url value='/management/user/index.html'/>">
+                                <i class="fa fa-users"></i>Usuarios
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 <%--<li data-ng-class="mn.menu === 2 ? 'active' : ''">--%>
-                    <%--<a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos II</span> </a>--%>
-                    <%--<ul class="nav nav-second-level">--%>
-                        <%--<li data-ng-class="mn.subMenu === 1 ? 'active' : ''">--%>
-                            <%--<a href="">--%>
-                                <%--<i class="fa fa-shield"></i>Auditor&iacute;as II--%>
-                            <%--</a>--%>
-                        <%--</li>--%>
-                    <%--</ul>--%>
+                <%--<a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos II</span> </a>--%>
+                <%--<ul class="nav nav-second-level">--%>
+                <%--<li data-ng-class="mn.subMenu === 1 ? 'active' : ''">--%>
+                <%--<a href="">--%>
+                <%--<i class="fa fa-shield"></i>Auditor&iacute;as II--%>
+                <%--</a>--%>
+                <%--</li>--%>
+                <%--</ul>--%>
                 <%--</li>--%>
             </sec:authorize>
             <sec:authorize access="hasAuthority('Director')">

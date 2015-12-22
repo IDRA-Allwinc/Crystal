@@ -13,7 +13,7 @@ public class AuditedEntity {
     @Column(name = "id_audited_entity")
     private Long id;
 
-    @Column(name="name", unique = true, length = 200, nullable = false)
+    @Column(name="name", length = 200, nullable = false)
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 

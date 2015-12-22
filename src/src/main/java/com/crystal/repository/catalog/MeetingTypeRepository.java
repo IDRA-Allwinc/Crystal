@@ -1,7 +1,7 @@
 package com.crystal.repository.catalog;
 
 import com.crystal.model.entities.catalog.MeetingType;
-import com.crystal.model.entities.catalog.MeetingTypeDto;
+import com.crystal.model.entities.catalog.dto.MeetingTypeDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

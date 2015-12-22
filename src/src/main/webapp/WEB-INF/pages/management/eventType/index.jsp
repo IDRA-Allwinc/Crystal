@@ -50,7 +50,7 @@
                 <h2>Tipos de eventos</h2>
                 <ol class="breadcrumb">
                     <li>
-                        <a href="">Inicio</a>
+                        <a href="">Cat&aacute;logos</a>
                     </li>
                     <li>
                         <a href="">Tipos de eventos</a>
@@ -59,7 +59,7 @@
                 <br/>
 
                 <div class="alert alert-info alert-10">
-                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puedes administrar tipos de eventos del
+                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar tipos de eventos del
                     sistema.
                 </div>
             </div>

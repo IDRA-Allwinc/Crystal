@@ -2,7 +2,7 @@ package com.crystal.service.catalog;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.catalog.EventType;
-import com.crystal.model.entities.catalog.EventTypeDto;
+import com.crystal.model.entities.catalog.dto.EventTypeDto;
 import com.crystal.repository.catalog.EventTypeRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

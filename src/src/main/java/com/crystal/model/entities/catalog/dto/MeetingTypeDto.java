@@ -1,26 +1,25 @@
-package com.crystal.model.entities.catalog;
+package com.crystal.model.entities.catalog.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-public class EventTypeDto {
+public class MeetingTypeDto {
 
     private Long id;
 
-    @NotEmpty(message="El tipo de evento es un campo requerido")
-    @Size(max = 200, message="El tipo de evento debe tener 200 caracteres máximo")
+    @NotEmpty(message="El tipo de reunión es un campo requerido")
+    @Size(max = 200, message="El tipo de reunión debe tener 200 caracteres máximo")
     private String name;
 
     @NotEmpty(message="La descripción es un campo requerido")
     @Size(max = 200, message="La descripción debe tener 200 caracteres máximo")
     private String description;
 
-    public EventTypeDto() {
+    public MeetingTypeDto() {
     }
 
-    public EventTypeDto(Long id, String name, String description) {
+    public MeetingTypeDto(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

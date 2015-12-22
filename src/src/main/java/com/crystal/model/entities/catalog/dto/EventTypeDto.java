@@ -1,28 +1,29 @@
-package com.crystal.model.entities.catalog;
+package com.crystal.model.entities.catalog.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name="audit_type")
-public class AuditType {
+public class EventTypeDto {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id_audit_type")
     private Long id;
 
-    @Column(name="name", length = 200, nullable = false)
-    @NotEmpty(message="El nombre es un campo requerido")
+    @NotEmpty(message="El tipo de evento es un campo requerido")
+    @Size(max = 200, message="El tipo de evento debe tener 200 caracteres máximo")
     private String name;
 
-    @Column(name="description", length = 200, nullable = false)
     @NotEmpty(message="La descripción es un campo requerido")
+    @Size(max = 200, message="La descripción debe tener 200 caracteres máximo")
     private String description;
 
-    @Column(name="is_obsolete", nullable = false)
-    private boolean isObsolete;
+    public EventTypeDto() {
+    }
+
+    public EventTypeDto(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
@@ -48,11 +49,4 @@ public class AuditType {
         this.description = description;
     }
 
-    public boolean isObsolete() {
-        return isObsolete;
-    }
-
-    public void setObsolete(boolean isObsolete) {
-        this.isObsolete = isObsolete;
-    }
 }
