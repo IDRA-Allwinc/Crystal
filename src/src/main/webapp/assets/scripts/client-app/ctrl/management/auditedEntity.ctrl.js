@@ -11,8 +11,7 @@
 
         function init(){
             vm.m.auditedEntityType = window.initCatalog(vm.lstAuditedEntityTypes, vm.m.auditedEntityTypeId);
-            debugger;
-            //vm.m.auditedEntity = window.initCatalog(vm.lstAuditedEntities, vm.m.auditedEntityId);
+            vm.m.auditedEntityTypeId = vm.m.auditedEntityType.id;
         }
     }
 })();

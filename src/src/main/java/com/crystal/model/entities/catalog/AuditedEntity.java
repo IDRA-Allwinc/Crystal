@@ -25,7 +25,7 @@ public class AuditedEntity {
     @NotEmpty(message="El teléfono es un campo requerido")
     private String phone;
 
-    @Column(name="mail", length = 200, nullable = false)
+    @Column(name="email", length = 200, nullable = false)
     @NotEmpty(message="El email es un campo requerido")
     private String email;
 
