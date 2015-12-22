@@ -16,3 +16,4 @@ public interface AuditedEntityTypeRepository extends JpaRepository<AuditedEntity
     @Query("select new com.crystal.model.shared.SelectList(aet.id, aet.name) from AuditedEntityType aet where aet.isObsolete = false")
     public List<SelectList> findNoObsolete();
 }
+

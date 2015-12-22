@@ -1,9 +1,7 @@
 package com.crystal.service.catalog;
 
 import com.crystal.infrastructure.model.ResponseMessage;
-import com.crystal.model.entities.account.PasswordDto;
-import com.crystal.model.entities.account.UserDto;
-import com.crystal.model.entities.catalog.EventTypeDto;
+import com.crystal.model.entities.catalog.dto.EventTypeDto;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface EventTypeService {

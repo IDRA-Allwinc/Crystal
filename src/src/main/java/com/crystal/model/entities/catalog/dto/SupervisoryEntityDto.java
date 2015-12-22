@@ -4,9 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
-
-public class AuditedEntityDto {
+public class SupervisoryEntityDto {
 
     private Long id;
 
@@ -26,20 +24,21 @@ public class AuditedEntityDto {
     @Email(message = "El correo electrónico no es válido")
     private String email;
 
-    @NotNull(message = "El tipo de entidad fiscalizada es un campo requerido.")
-    private Long auditedEntityTypeId;
+    @NotEmpty(message="A quien pertenece es un campo requerido")
+    @Length(min = 8, max  = 200, message = "A quien pertenece debe tener entre 8 y 200 caracteres.")
+    private String belongsTo;
 
-    public AuditedEntityDto(){
+    public SupervisoryEntityDto(){
 
     }
 
-    public AuditedEntityDto(Long id, String name, String responsible, String phone, String email, Long auditedEntityTypeId) {
+    public SupervisoryEntityDto(Long id, String name, String responsible, String phone, String email, String belongsTo) {
         this.id = id;
         this.name = name;
         this.responsible = responsible;
         this.phone = phone;
         this.email = email;
-        this.auditedEntityTypeId = auditedEntityTypeId;
+        this.belongsTo = belongsTo;
     }
 
     public Long getId() {
@@ -82,11 +81,11 @@ public class AuditedEntityDto {
         this.email = email;
     }
 
-    public Long getAuditedEntityTypeId() {
-        return auditedEntityTypeId;
+    public String getBelongsTo() {
+        return belongsTo;
     }
 
-    public void setAuditedEntityTypeId(Long auditedEntityTypeId) {
-        this.auditedEntityTypeId = auditedEntityTypeId;
+    public void setBelongsTo(String belongsTo) {
+        this.belongsTo = belongsTo;
     }
 }

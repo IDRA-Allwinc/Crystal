@@ -2,15 +2,14 @@ package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
-import com.crystal.model.entities.catalog.dto.MeetingTypeDto;
-import com.crystal.model.entities.catalog.MeetingType;
+import com.crystal.model.entities.catalog.dto.AuditTypeDto;
+import com.crystal.model.entities.catalog.view.AuditTypeView;
 import com.crystal.service.account.SharedUserService;
-import com.crystal.service.catalog.MeetingTypeService;
+import com.crystal.service.catalog.AuditTypeService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,81 +20,74 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class MeettingTypeController {
+public class AuditTypeController {
 
     @Autowired
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
     @Autowired
-    MeetingTypeService service;
+    AuditTypeService auditTypeService;
     @Autowired
-    private GridService gridService;
+    GridService gridService;
 
-    @RequestMapping(value = "/management/meetingType/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/management/auditType/index", method = RequestMethod.GET)
     public String index() {
-        return "/management/meetingType/index";
+        return "/management/auditType/index";
     }
 
-    @RequestMapping(value = "/management/meetingType/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
+    @RequestMapping(value = "/management/auditType/list", method = RequestMethod.GET)
     public
     @ResponseBody
     Object list() {
-        return gridService.toGrid(MeetingType.class);
+        return gridService.toGrid(AuditTypeView.class);
     }
 
-    @RequestMapping(value = "/management/meetingType/upsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/management/auditType/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
-        ModelAndView modelView = new ModelAndView("/management/meetingType/upsert");
-
+        ModelAndView modelView = new ModelAndView("/management/auditType/upsert");
         try {
-            service.upsert(id, modelView);
+            auditTypeService.upsert(id, modelView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "upsert", sharedUserService);
         }
         return modelView;
     }
 
-    @RequestMapping(value = "/management/meetingType/doUpsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/management/auditType/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsert(@Valid MeetingTypeDto modelNew, BindingResult result, Model m) {
-
+    ResponseMessage doUpsert(@Valid AuditTypeDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
-
         try {
-
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            service.save(modelNew, response);
-            return response;
+            auditTypeService.save(modelNew, response);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
         }
-
-        return response;
     }
 
-    @RequestMapping(value = "/management/meetingType/doObsolete", method = RequestMethod.POST)
+    @RequestMapping(value = "/management/auditType/doObsolete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
-
         ResponseMessage response = new ResponseMessage();
-
         try {
-            service.doObsolete(id, response);
-            return response;
+            auditTypeService.doObsolete(id,response);
         } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);
+            logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
         }
-
-        return response;
     }
+
 
 }

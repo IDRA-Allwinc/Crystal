@@ -2,8 +2,7 @@ package com.crystal.service.catalog;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.catalog.MeetingType;
-import com.crystal.model.entities.catalog.MeetingTypeDto;
-import com.crystal.repository.catalog.MeetingTypeRepository;
+import com.crystal.model.entities.catalog.dto.MeetingTypeDto;
 import com.crystal.repository.catalog.MeetingTypeRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

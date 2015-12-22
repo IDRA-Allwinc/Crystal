@@ -1,5 +1,6 @@
 package com.crystal.model.entities.catalog;
 
+import com.crystal.model.entities.catalog.dto.MeetingTypeDto;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ public class MeetingType {
     @Column(name = "id_meeting_type")
     private Long id;
 
-    @Column(name="name", unique = true, length = 200, nullable = false)
+    @Column(name="name", length = 200, nullable = false)
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 

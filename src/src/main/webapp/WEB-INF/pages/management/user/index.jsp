@@ -58,7 +58,7 @@
                 <h2>Usuarios</h2>
                 <ol class="breadcrumb">
                     <li>
-                        <a href="">Inicio</a>
+                        <a href="">Cat&aacute;logos</a>
                     </li>
                     <li>
                         <a href="">Usuarios</a>
@@ -67,7 +67,7 @@
                 <br/>
 
                 <div class="alert alert-info alert-10">
-                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puedes administrar usuarios del
+                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar usuarios del
                     sistema.
                 </div>
             </div>

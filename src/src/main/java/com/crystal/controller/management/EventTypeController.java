@@ -2,13 +2,9 @@ package com.crystal.controller.management;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
-import com.crystal.model.entities.account.PasswordDto;
-import com.crystal.model.entities.account.UserDto;
-import com.crystal.model.entities.account.UserView;
 import com.crystal.model.entities.catalog.EventType;
-import com.crystal.model.entities.catalog.EventTypeDto;
+import com.crystal.model.entities.catalog.dto.EventTypeDto;
 import com.crystal.service.account.SharedUserService;
-import com.crystal.service.account.UserService;
 import com.crystal.service.catalog.EventTypeService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;

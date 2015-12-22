@@ -6,13 +6,12 @@ import javax.persistence.*;
 @Table(name="audited_entity_type")
 public class AuditedEntityType {
 
-    //se omiten las validaciones, el catalogo no se gestiona por pantallas jsp
     @Id
     @GeneratedValue
     @Column(name = "id_audited_entity_type")
     private Long id;
 
-    @Column(name="name", unique = true, length = 200, nullable = false)
+    @Column(name="name", length = 200, nullable = false)
     private String name;
 
     @Column(name="description", length = 200, nullable = false)

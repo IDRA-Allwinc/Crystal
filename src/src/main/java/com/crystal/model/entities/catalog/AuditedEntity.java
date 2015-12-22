@@ -13,7 +13,7 @@ public class AuditedEntity {
     @Column(name = "id_audited_entity")
     private Long id;
 
-    @Column(name="name", unique = true, length = 200, nullable = false)
+    @Column(name="name", length = 200, nullable = false)
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 
@@ -25,7 +25,7 @@ public class AuditedEntity {
     @NotEmpty(message="El teléfono es un campo requerido")
     private String phone;
 
-    @Column(name="mail", length = 200, nullable = false)
+    @Column(name="email", length = 200, nullable = false)
     @NotEmpty(message="El email es un campo requerido")
     private String email;
 
