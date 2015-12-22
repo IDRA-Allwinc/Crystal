@@ -1,5 +1,6 @@
 package com.crystal.service.account;
 
+import com.crystal.infrastructure.extensions.StringExt;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.PasswordDto;
 import com.crystal.model.entities.account.User;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -89,6 +92,7 @@ public class UserServiceImpl implements UserService {
             return;
         }
 
+        model.setUsername(StringExt.substringMax(UUID.randomUUID() + "_" + model.getUsername(), 200));
         model.setEnabled(false);
         repositoryUser.saveAndFlush(model);
     }
