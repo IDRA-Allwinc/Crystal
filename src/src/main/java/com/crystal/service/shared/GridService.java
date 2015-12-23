@@ -44,8 +44,7 @@ public class GridService<T> {
         HttpServletRequest request = ra.getRequest();
         Map<String, String[]> params = request.getParameterMap();
 
-        if (params.containsKey("sort") && params.containsKey("order"))
-        {
+        if (params.containsKey("sort") && params.containsKey("order")) {
             String sort = params.get("sort")[0];
             String order = params.get("order")[0];
             Path<String> field = r.get(sort);
@@ -55,32 +54,44 @@ public class GridService<T> {
                 q.orderBy(cb.desc(field));
         }
 
+        List<Predicate> predicates = new ArrayList<>();
+        List<Predicate> predicatesFilter = new ArrayList<>();
+        List<Predicate> predicatesSearch = new ArrayList<>();
+
         if (filters != null){
-            List<Predicate> predicates = new ArrayList<>();
+
             for (Map.Entry<String, Object> entry : filters.entrySet()){
                 Path<String> param = r.get(entry.getKey());
-                predicates.add(cb.equal(param, entry.getValue()));
+                predicatesFilter.add(cb.equal(param, entry.getValue()));
             }
-            q.where(cb.and(predicates.toArray(new Predicate[]{})));
+            //q.where(cb.and(predicates.toArray(new Predicate[]{})));
         }
 
-        if (params.containsKey("search"))
-        {
+
+        if (params.containsKey("search")) {
             String pattern = params.get("search")[0];
 
-            if(!pattern.isEmpty()){
-                Field[] fields = type.getDeclaredFields();
-                List<Predicate> predicates = new ArrayList<>();
+            Field[] fields = type.getDeclaredFields();
 
-                for (int i = 0; i < fields.length; i++){
-                    Field field = fields[i];
-                    if (field.getType().equals(String.class)){
-                        Path<String> param = r.get(field.getName());
-                        predicates.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
-                    }
+
+            for (int i = 0; i < fields.length; i++){
+                Field field = fields[i];
+                if (field.getType().equals(String.class)){
+                    Path<String> param = r.get(field.getName());
+                    predicatesSearch.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
                 }
-                q.where(cb.or(predicates.toArray(new Predicate[]{})));
             }
+            //q.where(cb.or(predicates.toArray(new Predicate[]{})));
+        }
+
+        if (!predicatesFilter.isEmpty()){
+            predicates.add(cb.and(predicatesFilter.toArray(new Predicate[]{})));
+        }
+        if (!predicatesSearch.isEmpty()){
+            predicates.add(cb.or(predicatesSearch.toArray(new Predicate[]{})));
+        }
+        if (!predicates.isEmpty()) {
+            q.where(cb.or(predicates.toArray(new Predicate[]{})));
         }
 
         CriteriaQuery<Long> count = cb.createQuery(Long.class);
