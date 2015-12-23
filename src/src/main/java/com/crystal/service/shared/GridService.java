@@ -68,19 +68,20 @@ public class GridService<T> {
         {
             String pattern = params.get("search")[0];
 
-            Field[] fields = type.getDeclaredFields();
-            List<Predicate> predicates = new ArrayList<>();
+            if(!pattern.isEmpty()){
+                Field[] fields = type.getDeclaredFields();
+                List<Predicate> predicates = new ArrayList<>();
 
-            for (int i = 0; i < fields.length; i++){
-                Field field = fields[i];
-                if (field.getType().equals(String.class)){
-                    Path<String> param = r.get(field.getName());
-                    predicates.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
+                for (int i = 0; i < fields.length; i++){
+                    Field field = fields[i];
+                    if (field.getType().equals(String.class)){
+                        Path<String> param = r.get(field.getName());
+                        predicates.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
+                    }
                 }
+                q.where(cb.or(predicates.toArray(new Predicate[]{})));
             }
-            q.where(cb.or(predicates.toArray(new Predicate[]{})));
         }
-
 
         CriteriaQuery<Long> count = cb.createQuery(Long.class);
         count.select(cb.count(count.from(type)));

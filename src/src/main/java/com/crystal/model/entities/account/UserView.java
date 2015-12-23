@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * Created by Administrator on 12/18/2015.
  */
 @Entity
-@Subselect("select id_user, username, fullName, email, role.name role  from user inner join role on user.id_role = role.id_role")
+@Subselect("select id_user, username, fullName, email, enabled, role.name role  from user inner join role on user.id_role = role.id_role")
 public class UserView implements EntityGrid {
     @Id
     @Column(name = "id_user")
@@ -28,6 +28,9 @@ public class UserView implements EntityGrid {
 
     @Column(name = "role")
     private String role;
+
+    @Column(name="enabled")
+    private Boolean enabled;
 
     @Override
     public Long getId() {
@@ -68,5 +71,17 @@ public class UserView implements EntityGrid {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }
