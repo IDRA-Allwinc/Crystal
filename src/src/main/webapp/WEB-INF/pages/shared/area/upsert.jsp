@@ -102,7 +102,7 @@
                                     </div>
 
                                     <sec:authorize access="hasAuthority('DGPOP')">
-                                        <div class="col-xs-11 col-xs-offset-1 form-group" ng-show="">
+                                        <div class="col-xs-11 col-xs-offset-1 form-group">
                                             sssss
                                             <input type="hidden" ng-update-hidden ng-model="vm.m.secretariatId"
                                                    name="secretariatId" id="secretariatId">
@@ -138,7 +138,7 @@
                 <button class="btn btn-white" ng-click="up.cancel()">
                     Cancelar
                 </button>
-                <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
+                <button class="btn btn-primary" ng-disabled="up.WaitFor==true"
                         ng-click="up.submit('#FormUpId', '<c:url value='/shared/area/doUpsert.json' />', FormUpId.$valid)">
                     Guardar
                 </button>

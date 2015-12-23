@@ -242,3 +242,7 @@ div.blocker img {
     background-color: #ed5565;
     border-color: #ff1d00;
 }
+
+.sub-menu-lbl{
+    font-size: 0.85em;
+}

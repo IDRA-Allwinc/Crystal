@@ -42,36 +42,36 @@
                     <ul class="nav nav-second-level">
 
                         <li data-ng-class="mn.subMenu === 1002 ? 'active' : ''">
-                            <a href="<c:url value='/management/auditedEntity/index.html'/>">
+                            <a class="sub-menu-lbl" href="<c:url value='/management/auditedEntity/index.html'/>">
                                 <i class="fa fa-sitemap"></i>Entes fiscalizados
                             </a>
                         </li>
 
                         <li data-ng-class="mn.subMenu === 1005 ? 'active' : ''">
-                            <a href="<c:url value='/management/supervisoryEntity/index.html'/>">
+                            <a class="sub-menu-lbl" href="<c:url value='/management/supervisoryEntity/index.html'/>">
                                 <i class="fa fa-eye"></i>&Oacute;rganos fiscalizadores
                             </a>
                         </li>
 
                         <li data-ng-class="mn.subMenu === 1006 ? 'active' : ''">
-                            <a href="<c:url value='/management/auditType/index.html'/>">
+                            <a class="sub-menu-lbl" href="<c:url value='/management/auditType/index.html'/>">
                                 <i class="fa fa-bars"></i>Tipos de auditor&iacute;a
                             </a>
                         </li>
 
                         <li data-ng-class="mn.subMenu === 1003 ? 'active' : ''">
-                            <a href="<c:url value='/management/eventType/index.html'/>">
+                            <a class="sub-menu-lbl" href="<c:url value='/management/eventType/index.html'/>">
                                 <i class="fa fa-th-large"></i>Tipos de eventos
                             </a>
                         </li>
                         <li data-ng-class="mn.subMenu === 1004 ? 'active' : ''">
-                            <a href="<c:url value='/management/meetingType/index.html'/>">
+                            <a class="sub-menu-lbl" href="<c:url value='/management/meetingType/index.html'/>">
                                 <i class="fa fa-quote-right"></i>Tipos de reuni&oacute;n
                             </a>
                         </li>
 
                         <li data-ng-class="mn.subMenu === 1001 ? 'active' : ''">
-                            <a href="<c:url value='/management/user/index.html'/>">
+                            <a class="sub-menu-lbl" href="<c:url value='/management/user/index.html'/>">
                                 <i class="fa fa-users"></i>Usuarios
                             </a>
                         </li>
@@ -84,7 +84,7 @@
                     <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Reportes</span> </a>
                     <ul class="nav nav-second-level">
                         <li class="active">
-                            <a href="">
+                            <a class="sub-menu-lbl" href="">
                                 <i class="fa fa-shield"></i>Auditor&iacute;as
                             </a>
                         </li>
