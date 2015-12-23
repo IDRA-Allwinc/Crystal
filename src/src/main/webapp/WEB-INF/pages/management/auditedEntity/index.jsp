@@ -105,8 +105,8 @@
                                 <thead>
                                 <tr>
                                     <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
-                                    <th data-field="name" data-align="center" data-sortable="true" data-filter-control="input" >Nombre</th>
-                                    <th data-field="responsible" data-align="center" data-sortable="true" data-filter-control="input">Responsable</th>
+                                    <th data-field="name" data-align="center" data-sortable="true" >Nombre</th>
+                                    <th data-field="responsible" data-align="center" data-sortable="true">Responsable</th>
                                     <th data-field="phone" data-align="center" data-sortable="true">Tel&eacute;fono</th>
                                     <th data-field="email" data-align="center" data-sortable="true">Email</th>
                                     <th data-field="auditedEntityTypeName" data-align="center" data-sortable="true">Tipo de entidad fiscalizada</th>

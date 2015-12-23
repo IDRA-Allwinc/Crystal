@@ -105,8 +105,8 @@
                                 <thead>
                                 <tr>
                                     <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
-                                    <th data-field="name" data-align="center" data-sortable="true" data-filter-control="input" >Nombre</th>
-                                    <th data-field="description" data-align="center" data-sortable="true" data-filter-control="input">Descripci&oacute;n</th>
+                                    <th data-field="name" data-align="center" data-sortable="true"  >Nombre</th>
+                                    <th data-field="description" data-align="center" data-sortable="true" >Descripci&oacute;n</th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n</th>
                                 </tr>
                                 </thead>

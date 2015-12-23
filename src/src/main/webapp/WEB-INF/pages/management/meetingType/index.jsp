@@ -105,10 +105,10 @@
                                         data-switchable="false">Identificador
                                     </th>
                                     <th data-field="name" data-align="center" data-sortable="true"
-                                        data-filter-control="input">Tipo de reuni&oacute;n
+                                        >Tipo de reuni&oacute;n
                                     </th>
                                     <th data-field="description" data-align="center" data-sortable="true"
-                                        data-filter-control="input">Descripci&oacute;n
+                                        >Descripci&oacute;n
                                     </th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"
                                         data-width="200px" data-events="actionEvents">Acci&oacute;n

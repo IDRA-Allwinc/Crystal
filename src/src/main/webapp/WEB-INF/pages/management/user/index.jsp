@@ -114,10 +114,10 @@
                                         data-switchable="false">Identificador
                                     </th>
                                     <th data-field="username" data-align="center" data-sortable="true"
-                                        data-filter-control="input">Usuario
+                                        >Usuario
                                     </th>
                                     <th data-field="fullName" data-align="center" data-sortable="true"
-                                        data-filter-control="input">Nombre completo
+                                        >Nombre completo
                                     </th>
                                     <th data-field="email" data-align="center" data-sortable="true">Correo</th>
                                     <th data-field="role" data-align="center" data-sortable="true">Perfil</th>
