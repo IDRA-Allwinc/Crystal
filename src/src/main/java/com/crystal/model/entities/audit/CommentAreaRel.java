@@ -1,9 +1,7 @@
 package com.crystal.model.entities.audit;
 
 import com.crystal.model.entities.catalog.Area;
-
 import javax.persistence.*;
-import javax.xml.stream.events.Comment;
 
 @Entity
 @Table(name="comment_area_rel")

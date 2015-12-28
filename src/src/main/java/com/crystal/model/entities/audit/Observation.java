@@ -1,10 +1,12 @@
 package com.crystal.model.entities.audit;
 
 import com.crystal.model.entities.catalog.Area;
+import com.crystal.model.entities.catalog.ObservationType;
 import com.crystal.model.shared.UploadFileGeneric;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,6 +42,11 @@ public class Observation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_observation_type", nullable = false)
+    @NotNull(message="El tipo de observación es un campo requerido")
+    private ObservationType observationType;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(name = "observation_area_rel",
@@ -145,5 +152,13 @@ public class Observation {
 
     public void setLstExtension(List<Extension> lstExtension) {
         this.lstExtension = lstExtension;
+    }
+
+    public ObservationType getObservationType() {
+        return observationType;
+    }
+
+    public void setObservationType(ObservationType observationType) {
+        this.observationType = observationType;
     }
 }
