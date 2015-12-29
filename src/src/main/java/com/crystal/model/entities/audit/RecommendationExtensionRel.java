@@ -8,11 +8,11 @@ public class RecommendationExtensionRel {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_request_extension_rel")
+    @Column(name = "id_recommendation_extension_rel")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_request", nullable = false)
+    @JoinColumn(name = "id_recommendation", nullable = false)
     private Recommendation recommendation;
 
     @OneToOne(fetch = FetchType.LAZY)

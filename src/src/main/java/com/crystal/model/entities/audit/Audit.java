@@ -203,6 +203,62 @@ public class Audit {
         this.auditedEntity = auditedEntity;
     }
 
+    public List<Comment> getLstComment() {
+        return lstComment;
+    }
+
+    public void setLstComment(List<Comment> lstComment) {
+        this.lstComment = lstComment;
+    }
+
+    public List<Event> getLstEvent() {
+        return lstEvent;
+    }
+
+    public void setLstEvent(List<Event> lstEvent) {
+        this.lstEvent = lstEvent;
+    }
+
+    public List<Letter> getLstLetter() {
+        return lstLetter;
+    }
+
+    public void setLstLetter(List<Letter> lstLetter) {
+        this.lstLetter = lstLetter;
+    }
+
+    public List<Notification> getLstNotification() {
+        return lstNotification;
+    }
+
+    public void setLstNotification(List<Notification> lstNotification) {
+        this.lstNotification = lstNotification;
+    }
+
+    public List<Observation> getLstObservation() {
+        return lstObservation;
+    }
+
+    public void setLstObservation(List<Observation> lstObservation) {
+        this.lstObservation = lstObservation;
+    }
+
+    public List<Recommendation> getLstRecommendation() {
+        return lstRecommendation;
+    }
+
+    public void setLstRecommendation(List<Recommendation> lstRecommendation) {
+        this.lstRecommendation = lstRecommendation;
+    }
+
+    public List<Responsibility> getLstResponsibility() {
+        return lstResponsibility;
+    }
+
+    public void setLstResponsibility(List<Responsibility> lstResponsibility) {
+        this.lstResponsibility = lstResponsibility;
+    }
+
     public List<Area> getLstArea() {
         return lstArea;
     }

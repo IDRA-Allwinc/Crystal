@@ -106,7 +106,7 @@
                                     <th data-field="responsible" data-align="center" data-sortable="true" >Responsable</th>
                                     <th data-field="phone" data-align="center" data-sortable="true">Tel&eacute;fono</th>
                                     <th data-field="email" data-align="center" data-sortable="true">Email</th>
-                                    <th data-field="areaTypeName" data-align="center" data-sortable="true">Pertenece a</th>
+                                    <th data-field="auditedEntityName" data-align="center" data-sortable="true">Pertenece a</th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n</th>
                                 </tr>
                                 </thead>

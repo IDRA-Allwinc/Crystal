@@ -10,7 +10,9 @@
         vm.init = init;
 
         function init(){
-
+            vm.m.auditedEntity = window.initCatalog(vm.lstAuditedEntity, vm.m.auditedEntityId);
+            if(vm.m.auditedEntity!=undefined)
+                vm.m.auditedEntityId = vm.m.auditedEntity.id;
         }
     }
 })();

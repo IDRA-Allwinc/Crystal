@@ -3,16 +3,16 @@ package com.crystal.model.entities.audit;
 import javax.persistence.*;
 
 @Entity
-@Table(name="observation_extension_rel")
+@Table(name="comment_extension_rel")
 public class CommentExtensionRel {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_request_extension_rel")
+    @Column(name = "id_comment_extension_rel")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_request", nullable = false)
+    @JoinColumn(name = "id_comment", nullable = false)
     private Comment comment;
 
     @OneToOne(fetch = FetchType.LAZY)
