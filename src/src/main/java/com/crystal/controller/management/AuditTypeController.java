@@ -9,17 +9,13 @@ import com.crystal.service.catalog.AuditTypeService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class AuditTypeController {
 
     @Autowired
@@ -32,14 +28,13 @@ public class AuditTypeController {
     GridService gridService;
 
     @RequestMapping(value = "/management/auditType/index", method = RequestMethod.GET)
-    public String index() {
-        return "/management/auditType/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/management/auditType/index");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/management/auditType/list", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Object list() {
+    public Object list() {
         return gridService.toGrid(AuditTypeView.class);
     }
 
@@ -55,9 +50,7 @@ public class AuditTypeController {
     }
 
     @RequestMapping(value = "/management/auditType/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doUpsert(@Valid AuditTypeDto modelNew, BindingResult result) {
+    public ResponseMessage doUpsert(@Valid AuditTypeDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
@@ -74,12 +67,10 @@ public class AuditTypeController {
     }
 
     @RequestMapping(value = "/management/auditType/doObsolete", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            auditTypeService.doObsolete(id,response);
+            auditTypeService.doObsolete(id, response);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);

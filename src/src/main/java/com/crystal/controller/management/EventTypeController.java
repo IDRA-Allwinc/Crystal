@@ -9,18 +9,17 @@ import com.crystal.service.catalog.EventTypeService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class EventTypeController {
 
     @Autowired
@@ -33,14 +32,13 @@ public class EventTypeController {
     private GridService gridService;
 
     @RequestMapping(value = "/management/eventType/index", method = RequestMethod.GET)
-    public String index() {
-        return "/management/eventType/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/management/eventType/index");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/management/eventType/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
-    public
-    @ResponseBody
-    Object list() {
+    public Object list() {
         return gridService.toGrid(EventType.class);
     }
 
@@ -57,9 +55,7 @@ public class EventTypeController {
     }
 
     @RequestMapping(value = "/management/eventType/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doUpsert(@Valid EventTypeDto modelNew, BindingResult result, Model m) {
+    public ResponseMessage doUpsert(@Valid EventTypeDto modelNew, BindingResult result, Model m) {
 
         ResponseMessage response = new ResponseMessage();
 
@@ -80,9 +76,7 @@ public class EventTypeController {
     }
 
     @RequestMapping(value = "/management/eventType/doObsolete", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
 
         ResponseMessage response = new ResponseMessage();
 

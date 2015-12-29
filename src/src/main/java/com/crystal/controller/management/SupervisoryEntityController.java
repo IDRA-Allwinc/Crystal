@@ -9,17 +9,16 @@ import com.crystal.service.catalog.SupervisoryEntityService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class SupervisoryEntityController {
 
     @Autowired
@@ -32,14 +31,13 @@ public class SupervisoryEntityController {
     GridService gridService;
 
     @RequestMapping(value = "/management/supervisoryEntity/index", method = RequestMethod.GET)
-    public String index() {
-        return "/management/supervisoryEntity/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/management/supervisoryEntity/index");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/management/supervisoryEntity/list", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Object list() {
+    public Object list() {
         return gridService.toGrid(SupervisoryEntityView.class);
     }
 
@@ -55,9 +53,7 @@ public class SupervisoryEntityController {
     }
 
     @RequestMapping(value = "/management/supervisoryEntity/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doUpsert(@Valid SupervisoryEntityDto modelNew, BindingResult result) {
+    public ResponseMessage doUpsert(@Valid SupervisoryEntityDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
@@ -74,9 +70,7 @@ public class SupervisoryEntityController {
     }
 
     @RequestMapping(value = "/management/supervisoryEntity/doObsolete", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
             supervisoryEntityService.doObsolete(id,response);

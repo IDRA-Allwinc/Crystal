@@ -5,28 +5,22 @@ import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.account.PasswordDto;
 import com.crystal.model.entities.account.UserDto;
 import com.crystal.model.entities.account.UserView;
-import com.crystal.model.shared.Constants;
-import com.crystal.repository.account.RoleRepository;
-import com.crystal.repository.account.UserRepository;
-import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.account.UserService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -39,12 +33,13 @@ public class UserController {
     private GridService gridService;
 
     @RequestMapping(value = "/management/user/index", method = RequestMethod.GET)
-    public String index() {
-        return "/management/user/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/management/user/index");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/management/user/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
-    public @ResponseBody Object list() {
+    public Object list() {
         return gridService.toGrid(UserView.class, "enabled", true );
     }
 
@@ -61,9 +56,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doUpsert(@Valid UserDto modelNew, BindingResult result, Model m) {
+    public ResponseMessage doUpsert(@Valid UserDto modelNew, BindingResult result, Model m) {
 
         ResponseMessage response = new ResponseMessage();
 
@@ -96,9 +89,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/doChangePassword", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doChangePassword(@Valid PasswordDto modelNew, BindingResult result, Model m) {
+    public ResponseMessage doChangePassword(@Valid PasswordDto modelNew, BindingResult result, Model m) {
 
         ResponseMessage response = new ResponseMessage();
 
@@ -119,9 +110,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/doObsolete", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
 
         ResponseMessage response = new ResponseMessage();
 

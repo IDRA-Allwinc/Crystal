@@ -9,17 +9,13 @@ import com.crystal.service.catalog.AuditedEntityService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class AuditedEntityController {
 
     @Autowired
@@ -32,14 +28,13 @@ public class AuditedEntityController {
     GridService gridService;
 
     @RequestMapping(value = "/management/auditedEntity/index", method = RequestMethod.GET)
-    public String index() {
-        return "/management/auditedEntity/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/management/auditedEntity/index");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/management/auditedEntity/list", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Object list() {
+    public Object list() {
         return gridService.toGrid(AuditedEntityView.class);
     }
 
@@ -55,9 +50,7 @@ public class AuditedEntityController {
     }
 
     @RequestMapping(value = "/management/auditedEntity/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doUpsert(@Valid AuditedEntityDto modelNew, BindingResult result) {
+    public ResponseMessage doUpsert(@Valid AuditedEntityDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
@@ -74,9 +67,7 @@ public class AuditedEntityController {
     }
 
     @RequestMapping(value = "/management/auditedEntity/doObsolete", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
             auditedEntityService.doObsolete(id,response);
@@ -88,6 +79,5 @@ public class AuditedEntityController {
             return response;
         }
     }
-
 
 }

@@ -10,18 +10,17 @@ import com.crystal.service.catalog.AreaService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 
-@Controller
+@RestController
 public class AreaController {
 
     @Autowired
@@ -34,14 +33,13 @@ public class AreaController {
     GridService gridService;
 
     @RequestMapping(value = "/shared/area/index", method = RequestMethod.GET)
-    public String index() {
-        return "/shared/area/index";
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("/shared/area/index");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/shared/area/list", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Object list() {
+    public Object list() {
 
         HashMap<String, Object> filters = new HashMap<>();
 
@@ -67,9 +65,7 @@ public class AreaController {
     }
 
     @RequestMapping(value = "/shared/area/doUpsert", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doUpsert(@Valid AreaDto modelNew, BindingResult result) {
+    public ResponseMessage doUpsert(@Valid AreaDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
@@ -86,9 +82,7 @@ public class AreaController {
     }
 
     @RequestMapping(value = "/shared/area/doObsolete", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
             areaService.doObsolete(id, response);
