@@ -18,4 +18,8 @@ public interface InsertCatalogService {
 
     public void supervisoryEntity();
 
+    public void fileType();
+
+    public void observationType();
+
 }

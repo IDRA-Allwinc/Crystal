@@ -16,14 +16,15 @@
         <intercept-url pattern="/catalogs/**" access="permitAll"/>
         <intercept-url pattern="/index.html" access="permitAll"/>
         <intercept-url pattern="/session/checkout.json" access="permitAll"/>
-        <intercept-url pattern="/management/**" access="hasAuthority('Administrador')"/>
+        <intercept-url pattern="/management/**" access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_MANAGER)"/>
+        <intercept-url pattern="/shared/**" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP,T(com.crystal.model.shared.Constants).AUTHORITY_LINK)"/>
 
         <!--<intercept-url pattern="/shared/**"-->
                        <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
         <!--<intercept-url pattern="/files/**"-->
                        <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
 
-        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
         <form-login login-page="/index.html"
                     authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"
                     authentication-failure-handler-ref="ajaxAuthenticationFailureHandler"/>

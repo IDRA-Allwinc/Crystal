@@ -24,7 +24,7 @@ public interface AuditedEntityRepository extends JpaRepository<AuditedEntity,Lon
     public AuditedEntityDto findDtoById(@Param("auditedEntityId")Long auditedEntityId);
 
     @Query("select new com.crystal.model.shared.SelectList(ae.id, ae.name, ae.responsible) from AuditedEntity ae where ae.auditedEntityType.code=:auditedEntityType and ae.isObsolete = false")
-    public SelectList findNoObsoleteByType(@Param("auditedEntityType")String auditedEntityType);
+    public List<SelectList> findNoObsoleteByType(@Param("auditedEntityType")String auditedEntityType);
 
     @Query("select u.auditedEntity  from User u where u.id=:userId and u.enabled = true")
     public AuditedEntity findByUserId(@Param("userId")Long userId);

@@ -188,4 +188,38 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         supervisoryEntityRepository.flush();
     }
 
+    @Autowired
+    CatFileTypeRepository catFileTypeRepository;
+
+    @Override
+    public void fileType() {
+        List<String[]> lstDta = FileReader.readFile(PATH + "file_type.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            CatFileType model = new CatFileType();
+            model.setId(Long.parseLong(data[0]));
+            model.setFileType(data[1]);
+            model.setDescription(data[2]);
+            model.setCode(data[3]);
+            model.setObsolete(data[4].equals("1"));
+            catFileTypeRepository.save(model);
+        }
+        catFileTypeRepository.flush();
+    }
+
+    @Autowired
+    ObservationTypeRepository observationTypeRepository ;
+
+    @Override
+    public void observationType() {
+        List<String[]> lstDta = FileReader.readFile(PATH + "observation_type.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            ObservationType model = new ObservationType();
+            model.setId(Long.parseLong(data[0]));
+            model.setCode(data[1]);
+            model.setObsolete(data[4].equals("1"));
+            observationTypeRepository .save(model);
+        }
+        observationTypeRepository .flush();
+    }
+
 }

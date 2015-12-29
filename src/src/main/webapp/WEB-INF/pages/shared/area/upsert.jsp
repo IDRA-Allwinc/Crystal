@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
-                              ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.lstSecretariats=${(lstSecretariats == null ? "[]" : lstSecretariats)};  vm.init();'>
+                              ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.lstAuditedEntity=${(lstAuditedEntity == null ? "[]" : lstAuditedEntity)};  vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
 
@@ -103,20 +103,19 @@
 
                                     <sec:authorize access="hasAuthority('DGPOP')">
                                         <div class="col-xs-11 col-xs-offset-1 form-group">
-                                            sssss
-                                            <input type="hidden" ng-update-hidden ng-model="vm.m.secretariatId"
-                                                   name="secretariatId" id="secretariatId">
+                                            <input type="hidden" ng-update-hidden ng-model="vm.m.auditedEntityId"
+                                                   name="auditedEntityId" id="auditedEntityId">
 
                                             <label class="col-xs-3 control-label font-noraml">Entidad fiscalizada a la que pertenece:</label>
 
                                             <div class="col-xs-9">
                                                 <select class="form-control m-b" id="chosen-select"
                                                         ng-required="true"
-                                                        ng-change="vm.m.secretariatId = vm.m.secretariat.id;"
-                                                        ng-options="c.name for c in vm.lstSecretariats"
-                                                        ng-model="vm.m.secretariat"></select>
+                                                        ng-change="vm.m.auditedEntityId = vm.m.auditedEntity.id;"
+                                                        ng-options="c.name for c in vm.lstAuditedEntity"
+                                                        ng-model="vm.m.auditedEntity"></select>
                                         <span class="error"
-                                              ng-show="FormUpId.secretariatId.$error.required">*Campo requerido</span>
+                                              ng-show="FormUpId.auditedEntityId.$error.required">*Campo requerido</span>
                                             </div>
                                         </div>
                                     </sec:authorize>

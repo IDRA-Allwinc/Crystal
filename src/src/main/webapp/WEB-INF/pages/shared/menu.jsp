@@ -1,7 +1,8 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="com.crystal.model.shared.Constants"%>
 <% Authentication auth = SecurityContextHolder.getContext().getAuthentication();%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <form id="logout" action="<c:url value="/logout" />" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -36,7 +37,7 @@
                 </div>
             </li>
 
-            <sec:authorize access="hasAuthority('Administrador')">
+            <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_MANAGER)">
                 <li data-ng-class="mn.menu === 1 ? 'active' : ''">
                     <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Cat&aacute;logos</span> </a>
                     <ul class="nav nav-second-level">
@@ -79,7 +80,7 @@
                     </ul>
                 </li>
             </sec:authorize>
-            <sec:authorize access="hasAuthority('Director')">
+            <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION)">
                 <li>
                     <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Reportes</span> </a>
                     <ul class="nav nav-second-level">
@@ -92,7 +93,13 @@
                 </li>
             </sec:authorize>
 
-            <sec:authorize access="hasAuthority('DGPOP')">
+            <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
+                <li>
+                    <a href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
+                </li>
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK)">
                 <li>
                     <a href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
                 </li>

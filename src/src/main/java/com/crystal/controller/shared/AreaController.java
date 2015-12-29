@@ -2,8 +2,9 @@ package com.crystal.controller.shared;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
-import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.entities.catalog.dto.AreaDto;
+import com.crystal.model.entities.catalog.view.AreaView;
+import com.crystal.model.shared.Constants;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
 import com.crystal.service.shared.GridService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @Controller
 public class AreaController {
@@ -40,7 +42,17 @@ public class AreaController {
     public
     @ResponseBody
     Object list() {
-        return gridService.toGrid(Area.class, "isObsolete", false);
+
+        HashMap<String, Object> filters = new HashMap<>();
+
+        filters.put("isObsolete", false);
+
+        if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
+            filters.put("auditedEntityTypeCode", Constants.ENTITY_TYPE_UNDERSECRETARY);
+        else
+            filters.put("auditedEntityId", sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.GetLoggedUserId()));
+
+        return gridService.toGrid(AreaView.class, filters);
     }
 
     @RequestMapping(value = "/shared/area/upsert", method = RequestMethod.POST)
@@ -79,7 +91,7 @@ public class AreaController {
     ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            areaService.doObsolete(id,response);
+            areaService.doObsolete(id, response);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);

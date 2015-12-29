@@ -26,24 +26,25 @@ public class AreaServiceImpl implements AreaService {
     @Autowired
     UserRepository userRepository;
 
-    public void upsert(Long id, ModelAndView modelAndView){
+    public void upsert(Long id, ModelAndView modelAndView) {
 
         AreaDto ae = null;
         Gson gson = new Gson();
 
-        if(id!=null) {
+        if (id != null) {
             ae = areaRepository.findDtoById(id);
-            modelAndView.addObject("model",gson.toJson(ae));
+            modelAndView.addObject("model", gson.toJson(ae));
         }
 
-        modelAndView.addObject("lstSecretariats",gson.toJson(auditedEntityRepository.findNoObsoleteByType(Constants.ENTITY_TYPE_UNDERSECRETARY)));
+        if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
+            modelAndView.addObject("lstAuditedEntity", gson.toJson(auditedEntityRepository.findNoObsoleteByType(Constants.ENTITY_TYPE_UNDERSECRETARY)));
     }
 
     @Transactional
     public ResponseMessage doObsolete(Long id, ResponseMessage responseMessage) {
         responseMessage.setHasError(false);
         responseMessage.setMessage("Se ha eliminado la información correctamente.");
-        Area ae  = areaRepository.findOne(id);
+        Area ae = areaRepository.findOne(id);
         ae.setObsolete(true);
         areaRepository.save(ae);
         return responseMessage;
@@ -69,7 +70,7 @@ public class AreaServiceImpl implements AreaService {
         ae.setPhone(areaDto.getPhone());
         ae.setEmail(areaDto.getEmail());
 
-        if(sharedUserService.loggedUserHasRole(Constants.ROLE_DGPOP))
+        if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
             ae.setAuditedEntity(auditedEntityRepository.findOne(areaDto.getAuditedEntityId()));
         else
             ae.setAuditedEntity(auditedEntityRepository.findByUserId(sharedUserService.GetLoggedUserId()));

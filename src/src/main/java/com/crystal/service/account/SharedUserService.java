@@ -40,7 +40,7 @@ public class SharedUserService {
         }
     }
 
-    public boolean loggedUserHasRole(String role) {
+    public boolean loggedUserHasAuthority(String role) {
         boolean result =false;
         try {
             List<GrantedAuthority> authorities = (List<GrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -92,6 +92,10 @@ public class SharedUserService {
         String encodePassword = userRepository.getEncodedPassword(userId);
         CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
         return cryptoRfc2898.matches(password.subSequence(0, password.length()), encodePassword);
+    }
+
+    public Long getAuditedEntityIdByLoggedUserId(Long userId) {
+        return userRepository.getAuditedEntityIdByUserId(userId);
     }
 }
 

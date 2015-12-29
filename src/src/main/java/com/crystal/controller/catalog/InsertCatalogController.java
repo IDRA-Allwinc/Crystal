@@ -60,6 +60,19 @@ public class InsertCatalogController {
 		return "supervisoryEntity OK!";
 	}
 
+
+	@RequestMapping(value = "/catalogs/insertFileType", method = RequestMethod.GET)
+	public String fileType() {
+		service.fileType();
+		return "fileType OK!";
+	}
+
+	@RequestMapping(value = "/catalogs/observationType", method = RequestMethod.GET)
+	public String observationType() {
+		service.observationType();
+		return "observationType OK!";
+	}
+
 	@RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
 	public String insertCatalogAll() {
 		service.role();
@@ -70,6 +83,8 @@ public class InsertCatalogController {
 		service.eventType();
 		service.meetingType();
 		service.supervisoryEntity();
+		service.fileType();
+		service.observationType();
 		return "insertCatalogAll OK!!";
 	}
 
