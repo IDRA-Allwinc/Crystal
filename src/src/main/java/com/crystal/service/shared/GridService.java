@@ -38,7 +38,10 @@ public class GridService<T> {
     public GridResult<T> toGrid(Class<T> type) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> q = cb.createQuery(type);
+        CriteriaQuery<Long> count = cb.createQuery(Long.class);
         Root<T> r = q.from(type);
+        Root<T> rCount = count.from(type);
+
 
         ServletRequestAttributes ra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = ra.getRequest();
@@ -55,14 +58,19 @@ public class GridService<T> {
         }
 
         List<Predicate> predicates = new ArrayList<>();
+        List<Predicate> predicatesCount = new ArrayList<>();
         List<Predicate> predicatesFilter = new ArrayList<>();
+        List<Predicate> predicatesFilterCount = new ArrayList<>();
         List<Predicate> predicatesSearch = new ArrayList<>();
+        List<Predicate> predicatesSearchCount = new ArrayList<>();
 
         if (filters != null){
 
             for (Map.Entry<String, Object> entry : filters.entrySet()){
                 Path<String> param = r.get(entry.getKey());
                 predicatesFilter.add(cb.equal(param, entry.getValue()));
+                param = rCount.get(entry.getKey());
+                predicatesFilterCount.add(cb.equal(param, entry.getValue()));
             }
             //q.where(cb.and(predicates.toArray(new Predicate[]{})));
         }
@@ -73,12 +81,13 @@ public class GridService<T> {
 
             Field[] fields = type.getDeclaredFields();
 
-
             for (int i = 0; i < fields.length; i++){
                 Field field = fields[i];
                 if (field.getType().equals(String.class)){
                     Path<String> param = r.get(field.getName());
                     predicatesSearch.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
+                    param = rCount.get(field.getName());
+                    predicatesSearchCount.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
                 }
             }
             //q.where(cb.or(predicates.toArray(new Predicate[]{})));
@@ -86,16 +95,18 @@ public class GridService<T> {
 
         if (!predicatesFilter.isEmpty()){
             predicates.add(cb.and(predicatesFilter.toArray(new Predicate[]{})));
+            predicatesCount.add(cb.and(predicatesFilterCount.toArray(new Predicate[]{})));
         }
         if (!predicatesSearch.isEmpty()){
             predicates.add(cb.or(predicatesSearch.toArray(new Predicate[]{})));
+            predicatesCount.add(cb.or(predicatesSearchCount.toArray(new Predicate[]{})));
         }
         if (!predicates.isEmpty()) {
             q.where(cb.or(predicates.toArray(new Predicate[]{})));
+            count.where(cb.or(predicatesCount.toArray(new Predicate[]{})));
         }
 
-        CriteriaQuery<Long> count = cb.createQuery(Long.class);
-        count.select(cb.count(count.from(type)));
+        count.select(cb.count(rCount));
         Long counter = entityManager.createQuery(count).getSingleResult();
 
         int limit = isNumeric(params.get("limit")[0], Integer.MAX_VALUE);
