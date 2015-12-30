@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @RestController
-public class MeettingTypeController {
+public class MeetingTypeController {
 
     @Autowired
     SharedLogExceptionService logException;
@@ -28,7 +28,7 @@ public class MeettingTypeController {
     @Autowired
     MeetingTypeService service;
     @Autowired
-    private GridService gridService;
+    GridService gridService;
 
     @RequestMapping(value = "/management/meetingType/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -64,6 +64,7 @@ public class MeettingTypeController {
                 return response;
 
             service.save(modelNew, response);
+
             return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
