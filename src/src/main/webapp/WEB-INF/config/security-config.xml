@@ -31,6 +31,11 @@
         <!--<session-management>-->
         <!--<concurrency-control max-sessions="1"/>-->
         <!--</session-management>-->
+        <session-management>
+            <concurrency-control
+                    max-sessions="1"
+                    expired-url="/index.html" />
+        </session-management>
     </http>
 
     <beans:bean id="rfc2898" class="com.crystal.infrastructure.security.CryptoRfc2898" />

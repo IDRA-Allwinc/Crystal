@@ -96,4 +96,13 @@
 		<location>/WEB-INF/pages/errorPage.jsp</location>
 	</error-page>
 
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+
+	<session-config>
+		<session-timeout>3</session-timeout>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
 </web-app>
