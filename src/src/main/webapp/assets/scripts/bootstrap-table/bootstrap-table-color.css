@@ -1,0 +1,30 @@
+.table tbody tr.red > td {
+    background-color: #E6B3B3 !important;
+}
+.table tbody tr.red:hover > td {
+    background-color: #D7AAAA !important;
+}
+.table tbody tr.blue > td {
+    background-color: #BDD1EC !important;
+}
+.table tbody tr.blue:hover > td {
+    background-color: #ACBED5 !important;
+}
+.table tbody tr.orange > td {
+    background-color: #FFE6C0 !important;
+}
+.table tbody tr.orange:hover > td {
+    background-color: #E7D0AE !important;
+}
+.table tbody tr.green > td {
+    background-color: #CDDDC6 !important;
+}
+.table tbody tr.green:hover > td {
+    background-color: #C1D0BA !important;
+}
+.table tbody tr.yellow > td {
+    background-color: #FFFFC0 !important;
+}
+.table tbody tr.yellow:hover > td {
+    background-color: #E1E1A9 !important;
+}
