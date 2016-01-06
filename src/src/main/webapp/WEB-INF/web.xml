@@ -101,7 +101,7 @@
 	</listener>
 
 	<session-config>
-		<session-timeout>3</session-timeout>
+		<session-timeout>30</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 

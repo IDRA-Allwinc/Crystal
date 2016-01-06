@@ -42,7 +42,6 @@ public class GridService<T> {
         Root<T> r = q.from(type);
         Root<T> rCount = count.from(type);
 
-
         ServletRequestAttributes ra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = ra.getRequest();
         Map<String, String[]> params = request.getParameterMap();
@@ -65,20 +64,16 @@ public class GridService<T> {
         List<Predicate> predicatesSearchCount = new ArrayList<>();
 
         if (filters != null){
-
             for (Map.Entry<String, Object> entry : filters.entrySet()){
                 Path<String> param = r.get(entry.getKey());
                 predicatesFilter.add(cb.equal(param, entry.getValue()));
                 param = rCount.get(entry.getKey());
                 predicatesFilterCount.add(cb.equal(param, entry.getValue()));
             }
-            //q.where(cb.and(predicates.toArray(new Predicate[]{})));
         }
-
 
         if (params.containsKey("search")) {
             String pattern = params.get("search")[0];
-
             Field[] fields = type.getDeclaredFields();
 
             for (int i = 0; i < fields.length; i++){
@@ -90,7 +85,6 @@ public class GridService<T> {
                     predicatesSearchCount.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
                 }
             }
-            //q.where(cb.or(predicates.toArray(new Predicate[]{})));
         }
 
         if (!predicatesFilter.isEmpty()){
@@ -109,8 +103,8 @@ public class GridService<T> {
         count.select(cb.count(rCount));
         Long counter = entityManager.createQuery(count).getSingleResult();
 
-        int limit = isNumeric(params.get("limit")[0], Integer.MAX_VALUE);
-        int offset = isNumeric(params.get("offset")[0], 0);
+        int limit = params.containsKey("limit") ? isNumeric(params.get("limit")[0], Integer.MAX_VALUE) : Integer.MAX_VALUE;
+        int offset = params.containsKey("offset") ? isNumeric(params.get("offset")[0], 0) : 0;
 
         CriteriaQuery<T> select = q.select(r);
         TypedQuery<T> tq = entityManager.createQuery(select);

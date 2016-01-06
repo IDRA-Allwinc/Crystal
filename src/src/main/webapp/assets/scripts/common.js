@@ -156,3 +156,10 @@ window.initCatalog = function (lstCatalog, catalogId) {
 
     return lstCatalog[0];
 };
+
+window.rowStyle = function(row, index) {
+    if (row.color)
+        return {
+            classes: row.color
+        };
+};

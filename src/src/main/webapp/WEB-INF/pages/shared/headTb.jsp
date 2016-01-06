@@ -16,12 +16,11 @@
 <link href="${pageContext.request.contextPath}/assets/content/animate.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/style.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
-
+<link href="${pageContext.request.contextPath}/assets/scripts/bootstrap-table/bootstrap-table-color.css" rel="stylesheet" />
 
 <link href="${pageContext.request.contextPath}/assets/content/site.css" rel="stylesheet" />
 
-
-<script src="${pageContext.request.contextPath}/assets/scripts/jquery-2.1.1.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/jquery-2.1.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
