@@ -4,9 +4,11 @@ import com.crystal.infrastructure.util.FileReader;
 import com.crystal.model.entities.account.Role;
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.catalog.*;
+import com.crystal.model.shared.SystemSetting;
 import com.crystal.repository.account.RoleRepository;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.*;
+import com.crystal.repository.shared.SystemSettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,8 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-    //private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
-    private String PATH = "C:\\Users\\Administrator\\IdeaProjects\\Crystal\\db\\";
+    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
+//    private String PATH = "C:\\Users\\Administrator\\IdeaProjects\\Crystal\\db\\";
 
     @Autowired
     RoleRepository roleRepository;
@@ -220,6 +222,23 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             observationTypeRepository .save(model);
         }
         observationTypeRepository .flush();
+    }
+
+    @Autowired
+    SystemSettingRepository systemSettingRepository;
+
+    @Override
+    public void systemSettings() {
+        List<String[]> lstDta = FileReader.readFile(PATH + "system_settings.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            SystemSetting model = new SystemSetting();
+            model.setId(Long.parseLong(data[0]));
+            model.setKey(data[1]);
+            model.setValue(data[2]);
+            model.setDescription(data[3]);
+            systemSettingRepository.save(model);
+        }
+        systemSettingRepository.flush();
     }
 
 }
