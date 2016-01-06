@@ -110,15 +110,9 @@
                                    data-id-field="id">
                                 <thead>
                                 <tr>
-                                    <th data-field="id" data-visible="false" data-card-visible="false"
-                                        data-switchable="false">Identificador
-                                    </th>
-                                    <th data-field="username" data-align="center" data-sortable="true"
-                                        >Usuario
-                                    </th>
-                                    <th data-field="fullName" data-align="center" data-sortable="true"
-                                        >Nombre completo
-                                    </th>
+                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                    <th data-field="username" data-align="center" data-sortable="true" data-filter-control="input">Usuario</th>
+                                    <th data-field="fullName" data-align="center" data-sortable="true">Nombre completo</th>
                                     <th data-field="email" data-align="center" data-sortable="true">Correo</th>
                                     <th data-field="role" data-align="center" data-sortable="true">Perfil</th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"

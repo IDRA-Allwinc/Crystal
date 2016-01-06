@@ -17,7 +17,7 @@
 .bootstrap-table .table:not(.table-condensed) > thead > tr > td,
 .bootstrap-table .table:not(.table-condensed) > tbody > tr > td,
 .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
-    padding: 8px !important;
+    padding: 8px;
 }
 
 .bootstrap-table .table.table-no-bordered > thead > tr > th,
@@ -44,7 +44,9 @@
 }
 
 .fixed-table-footer {
-    border-top: 1px solid #dddddd;
+    border: 1px solid #dddddd;
+    height: 20px;
+    background-color: #f5f5f5;
 }
 
 .fixed-table-body {

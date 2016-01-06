@@ -2076,7 +2076,7 @@
 
         if (this.options.showHeader && this.options.height) {
             this.$tableHeader.show();
-            this.resetHeader();
+            //this.resetHeader();
             padding += this.$header.outerHeight();
         } else {
             this.$tableHeader.hide();
@@ -2084,7 +2084,7 @@
         }
 
         if (this.options.showFooter) {
-            this.resetFooter();
+            //this.resetFooter();
             if (this.options.height) {
                 padding += this.$tableFooter.outerHeight() + 1;
             }

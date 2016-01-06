@@ -96,11 +96,9 @@
                 <tr>
                   <th data-field="id" data-visible="false">Identificador
                   </th>
-                  <th data-field="name" data-align="center" data-sortable="true"
-                          >Oficio
+                  <th data-field="name" data-align="center" data-sortable="true">Oficio
                   </th>
-                  <th data-field="description" data-align="center" data-sortable="true"
-                          >Descripci&oacute;n
+                  <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n
                   </th>
                   <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"
                       data-width="200px" data-events="actionEvents">Acci&oacute;n
