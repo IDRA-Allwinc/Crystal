@@ -22,4 +22,6 @@ public interface InsertCatalogService {
 
     public void observationType();
 
+    public void systemSettings();
+
 }

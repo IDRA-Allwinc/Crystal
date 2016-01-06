@@ -1,0 +1,3 @@
+﻿id_system_setting|key|value|description
+1|LIMIT_TIME|48000|Tiempo que debe pasar para mostrar el mensaje de finalización de sesión en milisegundos (8min).
+2|TOTAL_SESSION_LIMIT_TIME|60000|Tiempo total que dura la sesión en milisegundos (10min).

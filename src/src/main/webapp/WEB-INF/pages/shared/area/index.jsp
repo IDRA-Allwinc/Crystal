@@ -84,7 +84,7 @@
                             </div>
                             <table id="tblGrid"
                                    data-toggle="table"
-                                   data-url="<c:url value='/shared/area/list.json' />"
+                                   data-url="<c:url` value='/shared/area/list.json' />"
                                    data-height="auto"
                                    data-side-pagination="server"
                                    data-pagination="true"

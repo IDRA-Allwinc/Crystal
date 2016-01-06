@@ -73,6 +73,12 @@ public class InsertCatalogController {
 		return "observationType OK!";
 	}
 
+	@RequestMapping(value = "/catalogs/systemSetting", method = RequestMethod.GET)
+	public String systemSetting() {
+		service.systemSettings();
+		return "systemSetting OK!";
+	}
+
 	@RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
 	public String insertCatalogAll() {
 		service.role();
@@ -85,6 +91,7 @@ public class InsertCatalogController {
 		service.supervisoryEntity();
 		service.fileType();
 		service.observationType();
+		service.systemSettings();
 		return "insertCatalogAll OK!!";
 	}
 

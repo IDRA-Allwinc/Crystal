@@ -76,3 +76,40 @@
     };
 })();
 
+(function () {
+    "use strict";
+    angular
+        .module(window.constMainApp)
+        .controller('countdownController', countdownController);
+
+    countdownController.$inject = ["$scope", "$sce", "sharedSvc"];
+
+    function countdownController($scope, $sce, sharedSvc) {
+        var vm = this;
+        vm.sharedSvc = sharedSvc;
+        vm.yes = yes;
+        vm.no = no;
+
+        $scope.$watch('vm.sharedSvc.cfgMsg', function (cfg) {
+            vm.title = $sce.trustAsHtml(cfg.title);
+            vm.message = $sce.trustAsHtml(cfg.message);
+            vm.type = cfg.type;
+        });
+
+        $scope.$watch('vm.sharedSvc.cfgMsg.message', function (message) {
+            vm.message = $sce.trustAsHtml(message);
+        });
+
+        function yes() {
+            vm.IsOk = true;
+            //alargar la sesion
+            sharedSvc.hideMsg($scope);
+        }
+
+        function no() {
+            vm.IsOk = false;
+            //hacer logout
+            sharedSvc.hideMsg($scope);
+        }
+    };
+})();

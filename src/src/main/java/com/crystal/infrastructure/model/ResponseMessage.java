@@ -3,6 +3,7 @@ package com.crystal.infrastructure.model;
 public class ResponseMessage {
 
     private boolean hasError;
+    private boolean hasToLogout;
     private String message;
     private String urlToGo;
     private String title;
@@ -60,5 +61,13 @@ public class ResponseMessage {
 
     public void setReturnData(Object returnData) {
         this.returnData = returnData;
+    }
+
+    public boolean isHasToLogout() {
+        return hasToLogout;
+    }
+
+    public void setHasToLogout(boolean hasToLogout) {
+        this.hasToLogout = hasToLogout;
     }
 }
