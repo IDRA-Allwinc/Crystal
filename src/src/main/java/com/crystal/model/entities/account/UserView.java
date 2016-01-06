@@ -20,5 +20,4 @@ public class UserView{
     private String role;
 
     private Boolean enabled;
-
 }

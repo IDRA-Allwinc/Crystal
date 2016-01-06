@@ -78,6 +78,14 @@
                         </li>
 
                     </ul>
+                    <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Otros</span> </a>
+                    <ul class="nav nav-second-level">
+                        <li data-ng-class="mn.subMenu === 1001 ? 'active' : ''">
+                            <a class="sub-menu-lbl" href="<c:url value='/audit/request/index.html'/>">
+                                <i class="fa fa-users"></i>Requerimientos previos
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </sec:authorize>
             <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION)">

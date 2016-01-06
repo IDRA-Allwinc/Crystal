@@ -28,7 +28,7 @@ public class AuditedEntityController {
     GridService gridService;
 
     @RequestMapping(value = "/management/auditedEntity/index", method = RequestMethod.GET)
-    public ModelAndView index() {
+      public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("/management/auditedEntity/index");
         return modelAndView;
     }

@@ -17,6 +17,7 @@
         <intercept-url pattern="/index.html" access="permitAll"/>
         <intercept-url pattern="/session/checkout.json" access="permitAll"/>
         <intercept-url pattern="/management/**" access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_MANAGER)"/>
+        <intercept-url pattern="/audit/**" access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_MANAGER)"/>
         <intercept-url pattern="/shared/**" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP,T(com.crystal.model.shared.Constants).AUTHORITY_LINK)"/>
 
         <!--<intercept-url pattern="/shared/**"-->
