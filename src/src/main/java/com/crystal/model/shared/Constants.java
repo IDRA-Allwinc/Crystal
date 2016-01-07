@@ -38,4 +38,7 @@ public class Constants {
     public static final HashMap<String, Long> accessMap = new HashMap<>();
     public static final HashMap<String, String> systemSettings = new HashMap<>();
 
+    public static final String TOTAL_SESSION_LIMIT_TIME_KEY = "TOTAL_SESSION_LIMIT_TIME";
+    public static final String LIMIT_TIME_KEY = "LIMIT_TIME";
+
 }

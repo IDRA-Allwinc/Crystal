@@ -25,16 +25,14 @@ public class SessionController {
         String usrName = sharedUserService.GetLoggedUsername();
         Long lastUserRequestTime = Constants.accessMap.get(usrName);
 
-        if (lastUserRequestTime != null && !usrName.equals("anonymousUser")) {
-            System.out.println("verifica la sesion de --->>" + usrName);
-
+        if (lastUserRequestTime != null && !usrName.equals(Constants.anonymousUser)) {
             Calendar now = Calendar.getInstance();
             Long elapsedTime = now.getTimeInMillis() - lastUserRequestTime;
 
-            if (elapsedTime >= Long.parseLong(Constants.systemSettings.get("TOTAL_SESSION_LIMIT_TIME")))
+            if (elapsedTime >= Long.parseLong(Constants.systemSettings.get(Constants.TOTAL_SESSION_LIMIT_TIME_KEY)))
                 responseMessage.setHasToLogout(true);
 
-            if (elapsedTime >= Long.parseLong(Constants.systemSettings.get("LIMIT_TIME"))) {
+            if (elapsedTime >= Long.parseLong(Constants.systemSettings.get(Constants.LIMIT_TIME_KEY))) {
                 responseMessage.setHasError(false);
                 responseMessage.setReturnData(elapsedTime);
             } else {
@@ -44,7 +42,7 @@ public class SessionController {
         }
 
         //si la sesion ha caducado
-        if (usrName.equals("anonymousUser"))
+        if (usrName.equals(Constants.anonymousUser))
             responseMessage.setHasToLogout(true);
 
         return responseMessage;

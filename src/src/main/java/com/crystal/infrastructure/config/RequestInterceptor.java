@@ -29,10 +29,8 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             logRequestService.saveRequest(request);
             if (lastUserRequestTime != null) {
                 this.updateAccessMap(usrName, Calendar.getInstance().getTimeInMillis());
-                System.out.println("existe y se actualiza --->>" + usrName);
             } else if (lastUserRequestTime == null) {
                 Constants.accessMap.put(usrName, Calendar.getInstance().getTimeInMillis());
-                System.out.println("no existe se inserta --->>" + usrName);
             }
 
             return true;
