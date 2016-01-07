@@ -39,14 +39,9 @@ public class LetterController {
         return gridService.toGrid(LetterView.class);
     }
 
-    @RequestMapping(value = "/audit/request/list", method = RequestMethod.GET)
-    public Object requestList(@RequestParam(required = true)Long idLetter) {
-        return gridService.toGrid(RequestView.class, "idLetter", idLetter);
-    }
-
-    @RequestMapping(value = "/management/user/upsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/audit/letter/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
-        ModelAndView modelView = new ModelAndView("/management/user/upsert");
+        ModelAndView modelView = new ModelAndView("/audit/letter/upsert");
 
         try {
             serviceLetter.upsert(id, modelView);
