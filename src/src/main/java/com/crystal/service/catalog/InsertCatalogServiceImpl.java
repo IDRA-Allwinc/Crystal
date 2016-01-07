@@ -28,8 +28,16 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "role.txt", "\\|", 4);
 
         for (String[] data : lstDta) {
-            Role model = new Role();
-            model.setId(Long.parseLong(data[0]));
+
+            String code = data[3];
+
+            Role model = roleRepository.findByCode(code);
+
+            if (model == null) {
+                model = new Role();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setCode(data[3]);
@@ -47,8 +55,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "user.txt", "\\|", 8);
 
         for (String[] data : lstDta) {
-            User model = new User();
-            model.setId(Long.parseLong(data[0]));
+
+            User model = userRepository.findByUsername(data[1]);
+
+            if (model == null) {
+                model = new User();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setUsername(data[1]);
             model.setPassword(data[2]);
             model.setEmail(data[3]);
@@ -58,7 +72,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setRole(role);
 
             final AuditedEntity auditedEntity = auditedEntityRepository.findOne(Long.valueOf(data[7]));
-            if(auditedEntity!=null)
+            if (auditedEntity != null)
                 model.setAuditedEntity(auditedEntity);
 
             userRepository.save(model);
@@ -75,8 +89,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "audited_entity.txt", "\\|", 7);
 
         for (String[] data : lstDta) {
-            AuditedEntity model = new AuditedEntity();
-            model.setId(Long.parseLong(data[0]));
+            AuditedEntity model = auditedEntityRepository.findOne(Long.parseLong(data[0]));
+
+            if (model == null) {
+                model = new AuditedEntity();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setName(data[1]);
             model.setResponsible(data[2]);
             model.setPhone(data[3]);
@@ -98,8 +117,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "audited_entity_type.txt", "\\|", 5);
 
         for (String[] data : lstDta) {
-            AuditedEntityType model = new AuditedEntityType();
-            model.setId(Long.parseLong(data[0]));
+
+            AuditedEntityType model = auditedEntityTypeRepository.findByCode(data[3]);
+
+            if (model == null) {
+                model = new AuditedEntityType();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setCode(data[3]);
@@ -119,7 +144,9 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "audit_type.txt", "\\|", 4);
 
         for (String[] data : lstDta) {
-            AuditType model = new AuditType();
+            AuditType model = auditTypeRepository.findOne(Long.parseLong(data[0]));
+
+            new AuditType();
             model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
@@ -138,8 +165,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "event_type.txt", "\\|", 4);
 
         for (String[] data : lstDta) {
-            EventType model = new EventType();
-            model.setId(Long.parseLong(data[0]));
+            EventType model = eventTypeRepository.findOne(Long.parseLong(data[0]));
+
+            if (model == null) {
+                model = new EventType();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setObsolete(data[3].equals("1"));
@@ -157,8 +189,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "meeting_type.txt", "\\|", 4);
 
         for (String[] data : lstDta) {
-            MeetingType model = new MeetingType();
-            model.setId(Long.parseLong(data[0]));
+            MeetingType model = meetingTypeRepository.findOne(Long.parseLong(data[0]));
+            if (model == null) {
+                model = new MeetingType();
+                model.setId(Long.parseLong(data[0]));
+            }
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setObsolete(data[3].equals("1"));
@@ -176,8 +211,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         List<String[]> lstDta = FileReader.readFile(PATH + "supervisory_entity.txt", "\\|", 7);
 
         for (String[] data : lstDta) {
-            SupervisoryEntity model = new SupervisoryEntity();
-            model.setId(Long.parseLong(data[0]));
+            SupervisoryEntity model = supervisoryEntityRepository.findOne(Long.parseLong(data[0]));
+            if (model == null) {
+                model = new SupervisoryEntity();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setName(data[1]);
             model.setBelongsTo(data[2]);
             model.setResponsible(data[3]);
@@ -197,8 +236,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     public void fileType() {
         List<String[]> lstDta = FileReader.readFile(PATH + "file_type.txt", "\\|", 5);
         for (String[] data : lstDta) {
-            CatFileType model = new CatFileType();
-            model.setId(Long.parseLong(data[0]));
+            CatFileType model = catFileTypeRepository.findOne(Long.parseLong(data[0]));
+            if (model == null) {
+                model = new CatFileType();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setFileType(data[1]);
             model.setDescription(data[2]);
             model.setCode(data[3]);
@@ -209,19 +252,23 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     }
 
     @Autowired
-    ObservationTypeRepository observationTypeRepository ;
+    ObservationTypeRepository observationTypeRepository;
 
     @Override
     public void observationType() {
         List<String[]> lstDta = FileReader.readFile(PATH + "observation_type.txt", "\\|", 5);
         for (String[] data : lstDta) {
-            ObservationType model = new ObservationType();
-            model.setId(Long.parseLong(data[0]));
+            ObservationType model = observationTypeRepository.findOne(Long.parseLong(data[0]));
+            if (model == null) {
+                model = new ObservationType();
+                model.setId(Long.parseLong(data[0]));
+            }
+
             model.setCode(data[1]);
             model.setObsolete(data[4].equals("1"));
-            observationTypeRepository .save(model);
+            observationTypeRepository.save(model);
         }
-        observationTypeRepository .flush();
+        observationTypeRepository.flush();
     }
 
     @Autowired
@@ -231,8 +278,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     public void systemSettings() {
         List<String[]> lstDta = FileReader.readFile(PATH + "system_settings.txt", "\\|", 4);
         for (String[] data : lstDta) {
-            SystemSetting model = new SystemSetting();
-            model.setId(Long.parseLong(data[0]));
+            SystemSetting model = systemSettingRepository.findOne(Long.parseLong(data[0]));
+            if (model == null) {
+                model = new SystemSetting();
+                model.setId(Long.parseLong(data[0]));
+            }
             model.setKey(data[1]);
             model.setValue(data[2]);
             model.setDescription(data[3]);
