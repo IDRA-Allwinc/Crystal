@@ -460,7 +460,7 @@
         align: undefined, // left, right, center
         halign: undefined, // left, right, center
         falign: undefined, // left, right, center
-        valign: undefined, // top, middle, bottom
+        valign: 'middle', // top, middle, bottom
         width: undefined,
         sortable: false,
         order: 'asc', // asc, desc
@@ -1449,7 +1449,7 @@
             }
 
             if (!this.options.cardView && this.options.detailView) {
-                html.push('<td>',
+                html.push('<td class="detail-icon-td">',
                     '<a class="detail-icon" href="javascript:">',
                     sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.detailOpen),
                     '</a>',

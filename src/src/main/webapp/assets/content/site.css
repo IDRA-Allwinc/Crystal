@@ -189,13 +189,14 @@ div.blocker img {
 
 .btn-tiny {
     padding: 1px;
-    -moz-min-width: 28px;
-    -ms-min-width: 28px;
-    -o-min-width: 28px;
-    -webkit-min-width: 28px;
-    min-width: 28px;
-    max-width: 28px;
-    height: 26px;
+    -moz-min-width: 26px;
+    -ms-min-width: 26px;
+    -o-min-width: 26px;
+    -webkit-min-width: 26px;
+    min-width: 26px;
+    max-width: 26px;
+    width: 26px;
+    height: 26px !important;
 }
 
 .font-menu {
