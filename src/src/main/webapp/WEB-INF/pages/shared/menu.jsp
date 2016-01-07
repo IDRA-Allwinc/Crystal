@@ -78,14 +78,6 @@
                         </li>
 
                     </ul>
-                    <a href="#"><i class="fa fa-th"></i> <span class="nav-label">Otros</span> </a>
-                    <ul class="nav nav-second-level">
-                        <li data-ng-class="mn.subMenu === 1001 ? 'active' : ''">
-                            <a class="sub-menu-lbl" href="<c:url value='/audit/letter/index.html'/>">
-                                <i class="fa fa-users"></i>Requerimientos previos
-                            </a>
-                        </li>
-                    </ul>
                 </li>
             </sec:authorize>
             <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION)">
@@ -102,14 +94,20 @@
             </sec:authorize>
 
             <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
-                <li>
-                    <a href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
+                <li data-ng-class="mn.menu === 1 ? 'active' : ''">
+                    <a class="sub-menu-lbl" href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
+                </li>
+                <li data-ng-class="mn.menu === 2 ? 'active' : ''">
+                    <a class="sub-menu-lbl" href="<c:url value='/audit/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
                 </li>
             </sec:authorize>
 
             <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK)">
-                <li>
-                    <a href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
+                <li data-ng-class="mn.menu === 1 ? 'active' : ''">
+                    <a class="sub-menu-lbl" href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
+                </li>
+                <li data-ng-class="mn.menu === 2 ? 'active' : ''">
+                    <a class="sub-menu-lbl" href="<c:url value='/audit/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
                 </li>
             </sec:authorize>
 

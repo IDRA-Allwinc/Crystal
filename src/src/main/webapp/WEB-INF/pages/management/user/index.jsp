@@ -7,7 +7,6 @@
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/management/user.ctrl.js"></script>
 
-
     <script type="text/javascript">
         var $table = $('#tblGrid');
 
@@ -21,7 +20,7 @@
                 '<button class="btn btn-info dim act-changePsw btn-tiny" data-toggle="tooltip" data-placement="top" title="Cambiar la contrase&ntilde; del usuario" type="button"><i class="fa fa-key"></i></button>',
                 '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar usuario" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
-        }
+        };
 
         window.upsert = function (id) {
             window.showUpsert(id, "#angJsjqGridId", "<c:url value='/management/user/upsert.json' />", "#tblGrid");
