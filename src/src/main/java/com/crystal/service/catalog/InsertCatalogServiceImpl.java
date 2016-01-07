@@ -145,9 +145,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
         for (String[] data : lstDta) {
             AuditType model = auditTypeRepository.findOne(Long.parseLong(data[0]));
+            if(model == null) {
+                model = new AuditType();
+                model.setId(Long.parseLong(data[0]));
+            }
 
-            new AuditType();
-            model.setId(Long.parseLong(data[0]));
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setObsolete(data[3].equals("1"));
