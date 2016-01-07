@@ -297,3 +297,8 @@ div.fixed-table-scroll-outer {
     height: 150px;
     overflow: hidden;
 }
+
+.detail-icon{
+    text-align: center;
+    margin: auto;
+}
