@@ -35,10 +35,17 @@ public class Constants {
         add(sessionExtendUrl);
     }};
 
+    public static final String FILE_PREFIX_USER = "USR_";
     public static final HashMap<String, Long> accessMap = new HashMap<>();
-    public static final HashMap<String, String> systemSettings = new HashMap<>();
 
-    public static final String TOTAL_SESSION_LIMIT_TIME_KEY = "TOTAL_SESSION_LIMIT_TIME";
-    public static final String LIMIT_TIME_KEY = "LIMIT_TIME";
+    /////////////////////////Settings/////////////////////////////////////
+    public static class SystemSettings{
+        public static final HashMap<String, String> Map = new HashMap<>();
+        public static final String TOTAL_SESSION_LIMIT_TIME_KEY = "TOTAL_SESSION_LIMIT_TIME";
+        public static final String LIMIT_TIME_KEY = "LIMIT_TIME";
+        public static final String PATH_TO_SAVE_UPLOAD_FILES = "PATH_TO_SAVE_UPLOAD_FILES";
+    }
+    /////////////////////////Settings/////////////////////////////////////
+
 
 }

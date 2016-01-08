@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="letter")
+@Table(name = "letter")
 public class Letter {
 
     @Id
@@ -15,18 +15,18 @@ public class Letter {
     @Column(name = "id_letter")
     private Long id;
 
-    @Column(name="name", length = 200, unique = true, nullable = false)
-    @NotEmpty(message="El número es un campo requerido")
+    @Column(name = "name", length = 200, unique = true, nullable = false)
+    @NotEmpty(message = "El número es un campo requerido")
     private String number;
 
-    @Column(name="description", length = 200, nullable = false)
-    @NotEmpty(message="La descripción es un campo requerido")
+    @Column(name = "description", length = 200, nullable = false)
+    @NotEmpty(message = "La descripción es un campo requerido")
     private String description;
 
-    @Column(name="is_obsolete", nullable = false)
+    @Column(name = "is_obsolete", nullable = false)
     private boolean isObsolete;
 
-    @Column(name="is_attended", nullable = false)
+    @Column(name = "is_attended", nullable = false)
     private boolean isAttended;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,12 +36,8 @@ public class Letter {
     @OneToMany(mappedBy = "letter", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Request> lstRequest;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinTable(name = "letter_upload_file_generic_rel",
-            joinColumns = {@JoinColumn(name = "id_letter", referencedColumnName = "id_letter")},
-            inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
-    private List<UploadFileGeneric> lstFiles;
-
+    @OneToMany(mappedBy = "letter", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<LetterUploadFileGenericRel> lstFiles;
 
     public Long getId() {
         return id;
@@ -99,11 +95,16 @@ public class Letter {
         this.lstRequest = lstRequest;
     }
 
-    public List<UploadFileGeneric> getLstFiles() {
+    public List<LetterUploadFileGenericRel> getLstFiles() {
         return lstFiles;
     }
 
-    public void setLstFiles(List<UploadFileGeneric> lstFiles) {
+    public void setLstFiles(List<LetterUploadFileGenericRel> lstFiles) {
         this.lstFiles = lstFiles;
+    }
+
+    public void merge(LetterDto modelNew) {
+        number = modelNew.getNumber();
+        description = modelNew.getDescription();
     }
 }

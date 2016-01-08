@@ -29,10 +29,10 @@ public class SessionController {
             Calendar now = Calendar.getInstance();
             Long elapsedTime = now.getTimeInMillis() - lastUserRequestTime;
 
-            if (elapsedTime >= Long.parseLong(Constants.systemSettings.get(Constants.TOTAL_SESSION_LIMIT_TIME_KEY)))
+            if (elapsedTime >= Long.parseLong(Constants.SystemSettings.Map.get(Constants.SystemSettings.TOTAL_SESSION_LIMIT_TIME_KEY)))
                 responseMessage.setHasToLogout(true);
 
-            if (elapsedTime >= Long.parseLong(Constants.systemSettings.get(Constants.LIMIT_TIME_KEY))) {
+            if (elapsedTime >= Long.parseLong(Constants.SystemSettings.Map.get(Constants.SystemSettings.LIMIT_TIME_KEY))) {
                 responseMessage.setHasError(false);
                 responseMessage.setReturnData(elapsedTime);
             } else {

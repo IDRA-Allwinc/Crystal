@@ -1,57 +1,37 @@
 package com.crystal.service.audit;
 
-import com.crystal.infrastructure.extensions.StringExt;
 import com.crystal.infrastructure.model.ResponseMessage;
-import com.crystal.model.entities.account.PasswordDto;
-import com.crystal.model.entities.account.User;
-import com.crystal.model.entities.account.UserDto;
 import com.crystal.model.entities.audit.Letter;
-import com.crystal.model.shared.Constants;
-import com.crystal.repository.account.RoleRepository;
-import com.crystal.repository.account.UserRepository;
-import com.crystal.repository.catalog.AuditedEntityRepository;
+import com.crystal.model.entities.audit.LetterDto;
+import com.crystal.repository.catalog.LetterRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.UUID;
-
 @Service
 public class LetterServiceImpl implements LetterService {
 
     @Autowired
-    UserRepository repositoryUser;
-    @Autowired
-    RoleRepository repositoryRole;
-    @Autowired
-    AuditedEntityRepository auditedEntityRepository;
+    LetterRepository repository;
 
 
     @Override
     public void upsert(Long id, ModelAndView modelView) {
-        Gson gson = new Gson();
-        String sJson = gson.toJson(repositoryRole.findSelectList());
-        modelView.addObject("lstRoles", sJson);
-        sJson = gson.toJson(auditedEntityRepository.findSelectList(Constants.ENTITY_TYPE_INDEPENDENT_BODY));
-        modelView.addObject("lstAuditedEntities", sJson);
-
         if (id != null) {
-            UserDto model = repositoryUser.findOneDto(id);
-            PasswordDto passwordDto = new PasswordDto();
-            passwordDto.setPassword("********");
-            passwordDto.setConfirm("********");
-            model.setPsw(passwordDto);
-            sJson = gson.toJson(model);
+            Gson gson = new Gson();
+            LetterDto model = repository.findOneDto(id);
+            model.setLstFiles(repository.findFilesById(id));
+            String sJson = gson.toJson(model);
             modelView.addObject("model", sJson);
         }
     }
 
     @Override
-    public void save(UserDto modelNew, ResponseMessage response) {
+    public void save(LetterDto modelNew, ResponseMessage response) {
 
-        User model = businessValidation(modelNew, response);
+        Letter model = businessValidation(modelNew, response);
 
         if(response.isHasError())
             return;
@@ -62,27 +42,26 @@ public class LetterServiceImpl implements LetterService {
 
     @Override
     public void doObsolete(Long id, ResponseMessage response) {
-        User model = repositoryUser.findByIdAndEnabled(id, true);
+        Letter model = repository.findByIdAndIsObsolete(id, true);
 
         if(model == null){
             response.setHasError(true);
-            response.setMessage("El usuario ya fue eliminado o no existe en el sistema");
-            response.setTitle("Eliminar usuario");
+            response.setMessage("El oficio ya fue eliminado o no existe en el sistema");
+            response.setTitle("Eliminar oficio");
             return;
         }
 
-        model.setUsername(StringExt.substringMax(UUID.randomUUID() + "_" + model.getUsername(), 200));
-        model.setEnabled(false);
-        repositoryUser.saveAndFlush(model);
+        model.setObsolete(true);
+        repository.saveAndFlush(model);
     }
 
     @Transactional
-    private void doSave(User model) {
-        repositoryUser.saveAndFlush(model);
+    private void doSave(Letter model) {
+        repository.saveAndFlush(model);
     }
 
-    private User businessValidation(UserDto modelNew, ResponseMessage response) {
-        if (modelNew.getId() == null) {
+    private Letter businessValidation(LetterDto modelNew, ResponseMessage response) {
+/*        if (modelNew.getId() == null) {
 
             if(modelNew.getPsw() == null){
                 response.setHasError(true);
@@ -126,14 +105,7 @@ public class LetterServiceImpl implements LetterService {
             return null;
         }
 
-        return model;
-    }
-
-    private boolean existUsernameWithNotId(String username, Long userId) {
-        return !repositoryUser.anyUsernameWithNotId(username, userId).equals(0l);
-    }
-
-    private boolean existUsername(String username) {
-        return !repositoryUser.countByUsername(username).equals(0l);
+        return model;*/
+        return null;
     }
 }

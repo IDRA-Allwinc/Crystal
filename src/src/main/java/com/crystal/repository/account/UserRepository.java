@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import javax.sound.sampled.Control;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
@@ -28,7 +27,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
     @Query("SELECT new com.crystal.model.entities.account.UserDto(u.id, u.username, u.fullName, u.email, u.role.id, u.auditedEntity.id) FROM User u WHERE u.id=:id AND u.enabled = 1")
     UserDto findOneDto(@Param("id") Long id);
 
-    @Query("SELECT count(u) FROM User u WHERE u.username=:username AND u.id <> :id")
+    @Query("SELECT COUNT(u) FROM User u WHERE u.username=:username AND u.id <> :id")
     Long anyUsernameWithNotId(@Param("username")String username, @Param("id")Long userId);
 
     Long countByUsername(String username);
@@ -40,4 +39,7 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     @Query("SELECT u.auditedEntity.id FROM User u WHERE u.id = :id AND u.enabled = 1")
     Long getAuditedEntityIdByUserId(@Param("id") Long id);
+
+    @Query("SELECT COUNT(u) FROM User u INNER JOIN u.role r WHERE u.id=:userId AND r.code IN :roles")
+    Long isUserInRoles(@Param("userId") Long userId, @Param("roles") List<String> roles);
 }

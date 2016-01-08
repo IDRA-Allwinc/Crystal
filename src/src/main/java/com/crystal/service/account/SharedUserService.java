@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -96,6 +97,11 @@ public class SharedUserService {
 
     public Long getAuditedEntityIdByLoggedUserId(Long userId) {
         return userRepository.getAuditedEntityIdByUserId(userId);
+    }
+
+    public boolean isUserInRoles(Long userId, ArrayList<String> lstRole) {
+        return (userRepository.isUserInRoles(userId, lstRole).longValue() > 0L);
+
     }
 }
 

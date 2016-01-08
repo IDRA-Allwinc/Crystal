@@ -5,6 +5,12 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letter.ctrl.js"></script>
+
     <script type="text/javascript">
         $(function () {
             $('#tblGrid').on("expand-row.bs.table", function (index, row, $detail, container) {
@@ -33,11 +39,11 @@
         };
 
         window.upsertLetter = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/management/user/upsert.json' />", "#tblGrid");
+            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/letter/upsert.json' />", "#tblGrid");
         };
 
         window.upsertReq = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/management/user/upsert.json' />", "#tblGrid");
+            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/request/upsert.json' />", "#tblGrid");
         };
 
         window.actionEvents = {
@@ -45,13 +51,12 @@
                 window.upsertLetter(row.id);
             },
             'click .act-delete': function (e, value, row) {
-                window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/management/user/doObsolete.json' />", "#tblGrid");
+                window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/letter/doObsolete.json' />", "#tblGrid");
             },
             'click .act-add-req': function (e, value, row) {
                 window.upsertReq(row.id);
             }
         };
-
     </script>
 
 </head>
@@ -88,7 +93,7 @@
                             <span class="label label-success pull-right">Requerimientos Previos</span>
 
                             <h2 class="text-navy">
-                                <i class="fa fa-star"></i> &nbsp; Administraci&oacute;n de Requerimientos Previos
+                                <i class="fa fa-list"></i> &nbsp; Administraci&oacute;n de Requerimientos Previos
                             </h2>
                         </div>
                         <div class="ibox-content">

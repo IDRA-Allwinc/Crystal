@@ -30,7 +30,7 @@ public class LetterController {
 
     @RequestMapping(value = "/audit/letter/index", method = RequestMethod.GET)
     public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView("/audit/request/index");
+        ModelAndView modelAndView = new ModelAndView("/audit/letter/index");
         return modelAndView;
     }
 
