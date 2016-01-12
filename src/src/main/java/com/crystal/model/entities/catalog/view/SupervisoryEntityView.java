@@ -1,6 +1,5 @@
 package com.crystal.model.entities.catalog.view;
 
-import com.crystal.model.shared.EntityGrid;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -11,7 +10,7 @@ import javax.persistence.Id;
 @Subselect("select id_supervisory_entity, name, responsible, email, phone, belongs_to " +
         "from supervisory_entity " +
         "where supervisory_entity.is_obsolete=false")
-public class SupervisoryEntityView implements EntityGrid {
+public class SupervisoryEntityView  {
     @Id
     @Column(name = "id_supervisory_entity")
     private Long id;
@@ -31,7 +30,6 @@ public class SupervisoryEntityView implements EntityGrid {
     @Column(name = "belongs_to")
     private String belongsTo;
 
-    @Override
     public Long getId() {
         return id;
     }

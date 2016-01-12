@@ -33,7 +33,7 @@ public class Area {
     private boolean isObsolete;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_audited_entity", nullable = true)
+    @JoinColumn(name="id_audited_entity", nullable = false)
     private AuditedEntity auditedEntity;
 
     public Long getId() {

@@ -1,6 +1,5 @@
 package com.crystal.model.entities.catalog.view;
 
-import com.crystal.model.shared.EntityGrid;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -12,7 +11,7 @@ import javax.persistence.Id;
         "from area a " +
         "inner join audited_entity ae on ae.id_audited_entity = a.id_audited_entity "+
         "inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type")
-public class AreaView implements EntityGrid {
+public class AreaView  {
     @Id
     @Column(name = "id_area")
     private Long id;
@@ -41,7 +40,6 @@ public class AreaView implements EntityGrid {
     @Column(name = "audited_entity_name")
     private String auditedEntityName;
 
-    @Override
     public Long getId() {
         return id;
     }

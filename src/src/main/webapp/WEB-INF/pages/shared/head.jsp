@@ -9,6 +9,8 @@
 <title>CRYSTAL</title>
 
 <link href="${pageContext.request.contextPath}/assets/content/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/content/plugins/chosen/chosen.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/content/plugins/datapicker/datepicker3.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
 <link href="${pageContext.request.contextPath}/assets/content/plugins/toastr/toastr.min.css" rel="stylesheet" />
@@ -23,6 +25,9 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/plugins/chosen/chosen.jquery.js"></script>
+
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/angular.min.js"></script>
@@ -38,3 +43,7 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/common.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/inspinia.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/pace/pace.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/assets/scripts/plugins/fullcalendar/moment.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/plugins/daterangepicker/daterangepicker.js"></script>
+

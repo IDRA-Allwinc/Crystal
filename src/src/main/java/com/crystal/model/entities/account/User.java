@@ -3,7 +3,6 @@ package com.crystal.model.entities.account;
 import com.crystal.infrastructure.security.CryptoRfc2898;
 import com.crystal.model.entities.catalog.AuditedEntity;
 import com.crystal.model.shared.Constants;
-import com.crystal.model.shared.EntityGrid;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;

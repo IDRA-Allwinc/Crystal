@@ -17,7 +17,7 @@ public class Request {
     @Column(name = "id_request")
     private Long id;
 
-    @Column(name="name", length = 200, unique = true, nullable = false)
+    @Column(name="number", length = 200, unique = true, nullable = false)
     @NotEmpty(message="El numeral es un campo requerido")
     private String number;
 

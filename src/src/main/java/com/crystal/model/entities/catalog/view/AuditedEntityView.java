@@ -1,6 +1,5 @@
 package com.crystal.model.entities.catalog.view;
 
-import com.crystal.model.shared.EntityGrid;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -12,7 +11,7 @@ import javax.persistence.Id;
         "from audited_entity " +
         "inner join audited_entity_type on audited_entity.id_audited_entity_type = audited_entity_type.id_audited_entity_type " +
         "where audited_entity.is_obsolete=false")
-public class AuditedEntityView implements EntityGrid {
+public class AuditedEntityView  {
     @Id
     @Column(name = "id_audited_entity")
     private Long id;
@@ -32,7 +31,6 @@ public class AuditedEntityView implements EntityGrid {
     @Column(name = "audited_entity_type_name")
     private String auditedEntityTypeName;
 
-    @Override
     public Long getId() {
         return id;
     }

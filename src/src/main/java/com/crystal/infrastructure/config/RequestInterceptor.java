@@ -25,7 +25,9 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         String usrName = sharedUserService.GetLoggedUsername();
         Long lastUserRequestTime = Constants.accessMap.get(usrName);
 
-        if (!Constants.excludedUrls.contains(request.getRequestURI()) && !usrName.equals(Constants.anonymousUser)) {
+        System.out.println();
+
+        if (!request.getRequestURI().equals(request.getContextPath() + Constants.sessionCheckoutUrl) && !request.getRequestURI().equals(request.getContextPath() + Constants.sessionExtendUrl) && !usrName.equals(Constants.anonymousUser)) {
             logRequestService.saveRequest(request);
             if (lastUserRequestTime != null) {
                 this.updateAccessMap(usrName, Calendar.getInstance().getTimeInMillis());
@@ -39,7 +41,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    public static final void updateAccessMap(String userName, Long time){
+    public static final void updateAccessMap(String userName, Long time) {
         Constants.accessMap.remove(userName);
         Constants.accessMap.put(userName, time);
     }

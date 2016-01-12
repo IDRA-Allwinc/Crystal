@@ -4,6 +4,7 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.entities.catalog.dto.AreaDto;
 import com.crystal.model.shared.Constants;
+import com.crystal.model.shared.SelectList;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AreaRepository;
 import com.crystal.repository.catalog.AuditedEntityRepository;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Service
 public class AreaServiceImpl implements AreaService {
@@ -77,6 +80,21 @@ public class AreaServiceImpl implements AreaService {
 
         return ae;
     }
+
+    public List<SelectList> getDGPOPAreas(String areaStr) {
+        areaStr = "%" + areaStr + "%";
+        return areaRepository.findDGPOPAreasByStr(areaStr);
+    }
+
+    public List<SelectList> geAreasByAuditedEntityId(Long auditedEntityId, String areaStr) {
+        areaStr = "%" + areaStr + "%";
+        return areaRepository.findAreasByAuditedEntityIdAndStr(auditedEntityId, areaStr);
+    }
+
+    public List<SelectList> getSelectedAreasByRequestId(Long requestId) {
+        return areaRepository.findSelectedAreasByRequestId(requestId);
+    }
+
 }
 
 

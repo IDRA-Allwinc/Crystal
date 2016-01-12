@@ -10,7 +10,7 @@ import javax.persistence.Id;
  * Created by Administrator on 1/5/2016.
  */
 @Entity
-@Subselect("select id_request, name, description, id_letter idLetter, concat('', date(adddate(create_date, limit_time_days))) deadLine, \n" +
+@Subselect("select id_request, number, description, id_letter idLetter, concat('', date(adddate(create_date, limit_time_days))) deadLine, \n" +
         "case\n" +
         "when is_attended = 1 and adddate(create_date, limit_time_days) < attention_date then 'blue'\n" +
         "when is_attended = 1 and adddate(create_date, limit_time_days) > attention_date then 'orange'\n" +
@@ -25,7 +25,7 @@ public class RequestView {
     @Column(name = "id_request")
     private Long id;
 
-    private String name;
+    private String number;
 
     private String description;
 
@@ -43,12 +43,12 @@ public class RequestView {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNumber() {
+        return number;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getDescription() {

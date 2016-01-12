@@ -1,6 +1,5 @@
 package com.crystal.model.entities.catalog.view;
 
-import com.crystal.model.shared.EntityGrid;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -11,7 +10,7 @@ import javax.persistence.Id;
 @Subselect("select id_audit_type, name, description " +
         "from audit_type " +
         "where is_obsolete = false")
-public class AuditTypeView implements EntityGrid {
+public class AuditTypeView  {
     @Id
     @Column(name = "id_audit_type")
     private Long id;
@@ -22,7 +21,6 @@ public class AuditTypeView implements EntityGrid {
     @Column(name = "description")
     private String description;
 
-    @Override
     public Long getId() {
         return id;
     }

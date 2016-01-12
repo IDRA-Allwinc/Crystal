@@ -1,8 +1,6 @@
 package com.crystal.model.shared;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Constants {
 
@@ -22,24 +20,17 @@ public class Constants {
     public static final String ENTITY_TYPE_UNDERSECRETARY = "TYPE_UNDERSECRETARY";
     public static final String ENTITY_TYPE_INDEPENDENT_BODY = "TYPE_INDEPENDENT_BODY";
 
-    public static final String appContext = "CRYSTAL";
-
     //nombre de usuario que otorga spring security cuando no se ha iniciado sesion
     public static final String anonymousUser = "anonymousUser";
 
-    public static final String sessionCheckoutUrl = "/" + appContext + "/session/checkout.json";
-    public static final String sessionExtendUrl = "/" + appContext + "/session/extend.json";
-
-    public static final List<String> excludedUrls = new ArrayList<String>() {{
-        add(sessionCheckoutUrl);
-        add(sessionExtendUrl);
-    }};
+    public static final String sessionCheckoutUrl = "/session/checkout.json";
+    public static final String sessionExtendUrl = "/session/extend.json";
 
     public static final String FILE_PREFIX_USER = "USR_";
     public static final HashMap<String, Long> accessMap = new HashMap<>();
 
     /////////////////////////Settings/////////////////////////////////////
-    public static class SystemSettings{
+    public static class SystemSettings {
         public static final HashMap<String, String> Map = new HashMap<>();
         public static final String TOTAL_SESSION_LIMIT_TIME_KEY = "TOTAL_SESSION_LIMIT_TIME";
         public static final String LIMIT_TIME_KEY = "LIMIT_TIME";

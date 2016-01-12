@@ -2,9 +2,8 @@ package com.crystal.model.shared;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-public class SelectList implements EntityGrid{
+public class SelectList {
     private Long id;
     private Integer idAux;
     private Calendar calendar;
