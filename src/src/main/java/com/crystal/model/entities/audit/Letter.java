@@ -1,6 +1,5 @@
 package com.crystal.model.entities.audit;
 
-import com.crystal.model.shared.UploadFileGeneric;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
