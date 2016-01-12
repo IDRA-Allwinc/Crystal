@@ -17,18 +17,18 @@
                 try {
                     var scope = angular.element($("#FormUpId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
-                        scope.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
+                        scope.vm.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
                     }
                     if (data.result.hasError === true) {
-                        scope.setOutError(data.result.message);
+                        scope.vm.setOutError(data.result.message);
                         return;
                     }
 
-                    scope.setSuccess(data.result);
+                    scope.vm.setSuccess(data.result);
 
-                } catch (e) {
-                    scope.setOutError("Hubo un error al momento de procesar la respuesta: " + e);
+                } catch (ex) {
+                    scope.vm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
                     return;
                 } finally {
                     window.setTimeout(function () {
@@ -93,13 +93,12 @@
 
                                     <div class="col-xs-7">
                                         <input type="text" name="number" ng-model="vm.m.number"
-                                               placeholder="Ingrese el oficio"
-                                               ng-required="true" ng-maxlength="200" ng-minlength="2"
+                                               placeholder="Ingrese el n&uacute;mero de oficio"
+                                               <%--ng-required="true" ng-maxlength="200" ng-minlength="2"--%>
                                                class="form-control">
-                                        <span class="error"
-                                              ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                        <%--<span class="error" ng-show="FormUpId.number.$error.required">*Campo requerido</span>--%>
+                                        <%--<span class="error" ng-show="FormUpId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>--%>
+                                        <%--<span class="error" ng-show="FormUpId.number.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>--%>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +108,7 @@
                                     <label class="col-xs-3 control-label font-noraml">Descripci&oacute;n:</label>
 
                                     <div class="col-xs-7">
-                                        <textarea name="description" rows="5" ng-model="vm.m.description"
+                                        <textarea name="description" rows="3" ng-model="vm.m.description"
                                                   placeholder="Ingrese la descripci&oacute;n del oficio"
                                                   ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                   class="form-control"></textarea>
@@ -120,9 +119,61 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="hr-line-solid"></div>
+                            <div data-ng-show="vm.m.lstFiles">
+                                <div class="row">
+                                    <div class="col-xs-8 col-xs-offset-2 text-center">
+                                        <label class="control-label font-noraml">Archivo adjunto a este oficio: </label>
+                                    </div>
+                                </div>
+                                <div class="space-5">&nbsp;</div>
+                                <div class="row" data-ng-repeat="f in vm.m.lstFiles">
+                                    <div class="col-xs-8 col-xs-offset-2">
+                                        <p class="text-center"><span class="badge badge-info font-big">{{f.fileName}}</span></p>
+                                        <input type="hidden" name="lstFiles[{{$index}}].id" value="{{f.id}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-5">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2 element-center">
+                                     <span class="btn btn-success fileinput-button element-center">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span>Elige el archivo...</span>
+                                        <input id="fileupload" type="file" name="files[]"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <div id="progress" class="progress">
+                                        <div class="progress-bar progress-bar-success"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="files" class="files"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div ng-show="vm.MsgError" class="alert alert-error element-center"
+                                         ng-bind-html="vm.MsgError">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div ng-show="vm.MsgSuccess" class="alert alert-success element-center"
+                                         ng-bind-html="vm.MsgSuccess">
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                         <br/>
-
                         <div class="row">
                             <div class="col-xs-12">
                                 <div ng-show="up.MsgError" ng-bind-html="up.MsgError"

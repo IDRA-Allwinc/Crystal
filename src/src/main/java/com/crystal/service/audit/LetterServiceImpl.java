@@ -3,18 +3,28 @@ package com.crystal.service.audit;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.LetterDto;
+import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
+import com.crystal.model.shared.UploadFileGeneric;
+import com.crystal.model.shared.UploadFileGenericDto;
 import com.crystal.repository.catalog.LetterRepository;
+import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class LetterServiceImpl implements LetterService {
 
     @Autowired
     LetterRepository repository;
+
+    @Autowired
+    UploadFileGenericRepository repositoryUf;
 
 
     @Override
@@ -41,8 +51,9 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @Transactional
     public void doObsolete(Long id, ResponseMessage response) {
-        Letter model = repository.findByIdAndIsObsolete(id, true);
+        Letter model = repository.findByIdAndIsObsolete(id, false);
 
         if(model == null){
             response.setHasError(true);
@@ -53,6 +64,16 @@ public class LetterServiceImpl implements LetterService {
 
         model.setObsolete(true);
         repository.saveAndFlush(model);
+
+        List<Long> lstFileIds = repository.findFileIdsById(model.getId());
+        if(lstFileIds.size() > 0)
+            repositoryUf.setFilesObsoleteByIds(lstFileIds);
+    }
+
+    @Override
+    public Long findFileIdByLetterId(Long id) {
+        List<Long> lstFiles = repository.findFileIdsById(id);
+        return lstFiles.get(0);
     }
 
     @Transactional
@@ -61,51 +82,61 @@ public class LetterServiceImpl implements LetterService {
     }
 
     private Letter businessValidation(LetterDto modelNew, ResponseMessage response) {
-/*        if (modelNew.getId() == null) {
 
-            if(modelNew.getPsw() == null){
-                response.setHasError(true);
-                response.setMessage("Se debe definir la contraseña del usuario.");
-                return null;
-            }
+        List<UploadFileGenericDto> lstFiles = modelNew.getLstFiles();
 
-            if (existUsername(modelNew.getUsername())) {
-                response.setHasError(true);
-                response.setMessage("El usuario ya ha sido utilizado.");
-                return null;
-            }
-        } else {
-            if (existUsernameWithNotId(modelNew.getUsername(), modelNew.getId())) {
-                response.setHasError(true);
-                response.setMessage("El usuario ya ha sido utilizado.");
-                return null;
-            }
-        }
-
-        String roleCode = repositoryRole.findCodeById(modelNew.getRoleId());
-
-        if(roleCode == null || (roleCode.equals(Constants.ROLE_LINK) && modelNew.getAuditedEntityId() == null)){
+        if(lstFiles == null || lstFiles.size() != 1){
             response.setHasError(true);
-            response.setMessage("Debe elegir un organismo cuando el usuario tiene el perfil de enlace.");
+            response.setMessage("Debe existir sólo un archivo para asociarlo al oficio.");
             return null;
         }
 
-        modelNew.setRoleCode(roleCode);
+        Long fileId = lstFiles.get(0).getId();
 
-        User model;
+        Letter model;
+
+        List<Long> lstFileIds = null;
+        boolean bIsSameFile = false;
         if(modelNew.getId() == null){
-            model = new User();
+            model = new Letter();
         }else{
-            model = repositoryUser.findByIdAndEnabled(modelNew.getId(), true);
+            model = repository.findByIdAndIsObsolete(modelNew.getId(), false);
+            if(model == null){
+                response.setHasError(true);
+                response.setMessage("El oficio no existe o ya fue eliminado.");
+                return null;
+            }
+
+            lstFileIds = repository.findFileIdsById(model.getId());
+            if(lstFileIds.contains(fileId) == false){   //Si es falso, es un archivo diferente
+                if(lstFileIds.size() > 0)
+                    repositoryUf.setFilesObsoleteByIds(lstFileIds);
+            }
+            else{
+                bIsSameFile = true;
+            }
         }
 
-        if(model == null){
+        if(bIsSameFile)
+            return model;
+
+        UploadFileGeneric genericFile = repositoryUf.findById(lstFiles.get(0).getId());
+
+        if(genericFile == null){
             response.setHasError(true);
-            response.setMessage("El usuario no existe o ya fue eliminado.");
+            response.setMessage("No existe un archivo válido para el oficio.");
             return null;
         }
 
-        return model;*/
-        return null;
+        genericFile.setObsolete(false);
+        repositoryUf.saveAndFlush(genericFile);
+
+        List<LetterUploadFileGenericRel> lstFilesNew = new ArrayList<>(1);
+        LetterUploadFileGenericRel relUpFile = new LetterUploadFileGenericRel();
+        relUpFile.setLetter(model);
+        relUpFile.setUploadFileGeneric(genericFile);
+        lstFilesNew.add(relUpFile);
+        model.setLstFiles(lstFilesNew);
+        return model;
     }
 }

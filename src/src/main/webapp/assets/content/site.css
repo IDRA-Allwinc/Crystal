@@ -249,3 +249,10 @@ div.blocker img {
 .sub-menu-lbl{
     font-size: 0.85em;
 }
+
+.font-big{
+    font-size: 1em;
+}
+.space-5 {
+    margin: 5px 0;
+}

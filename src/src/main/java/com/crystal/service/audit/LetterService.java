@@ -8,4 +8,5 @@ public interface LetterService {
     void upsert(Long id, ModelAndView modelView);
     void save(LetterDto modelNew, ResponseMessage response);
     void doObsolete(Long id, ResponseMessage response);
+    Long findFileIdByLetterId(Long id);
 }

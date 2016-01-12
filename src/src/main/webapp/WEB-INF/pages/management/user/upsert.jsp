@@ -51,8 +51,7 @@
                                         <input type="text" name="username" ng-model="vm.m.username"
                                                placeholder="Ingrese el usuario"
                                                ng-required="true" ng-maxlength="200" ng-minlength="8" class="form-control">
-                                        <span class="error"
-                                              ng-show="FormUpId.username.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.username.$error.required">*Campo requerido</span>
                                         <span class="error" ng-show="FormUpId.username.$error.minlength">*Longitud m&iacute;nima de 8 caracteres</span>
                                         <span class="error" ng-show="FormUpId.username.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>

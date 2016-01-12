@@ -7,6 +7,9 @@ import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.service.account.SharedUserService;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Iterator;
 
 public interface UpDwFileGenericService {
@@ -17,6 +20,7 @@ public interface UpDwFileGenericService {
     boolean saveOnDiskUploadFile(MultipartFile mpf, String path, UploadFileGeneric uploadFile, ResponseMessage resMsg, SharedLogExceptionService logException, SharedUserService sharedUserService);
     void save(UploadFileGeneric uploadFile);
     UploadFileGeneric getPathAndFilename(Long id);
+    File getFileToDownload(Long fileId, HttpServletRequest request, HttpServletResponse response);
 
  /*
     boolean isValidExtensionByCode(MultipartFile mpf, UploadFileGeneric file, ResponseMessage resMsg, String code);

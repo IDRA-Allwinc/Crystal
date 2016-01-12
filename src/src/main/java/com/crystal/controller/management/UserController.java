@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/management/user/doUpsert", method = RequestMethod.POST)
-    public ResponseMessage doUpsert(@Valid UserDto modelNew, BindingResult result, Model m) {
+    public ResponseMessage doUpsert(@Valid UserDto modelNew, BindingResult result) {
 
         ResponseMessage response = new ResponseMessage();
 

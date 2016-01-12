@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CatFileTypeRepository extends JpaRepository<CatFileType,Long>{
 
-    Long findByFileTypeContainingIgnoreCase(String fileType);
+    Long countByFileTypeContainingIgnoreCase(String fileType);
 }

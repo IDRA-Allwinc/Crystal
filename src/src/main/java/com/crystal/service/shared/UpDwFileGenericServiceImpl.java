@@ -4,7 +4,6 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.catalog.CatFileType;
 import com.crystal.model.shared.Constants;
-import com.crystal.model.shared.SystemSetting;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.repository.catalog.CatFileTypeRepository;
@@ -13,21 +12,17 @@ import com.crystal.service.account.SharedUserService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -49,23 +44,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
     @Override
     public boolean hasAvailability(UploadFileGeneric file, ResponseMessage resMsg, Long userId) {
-        /*List<SystemSetting> lstSystemSettings = systemSettingsService.findAllOfGroup(Constants.SYSTEM_SETTINGS_ARCHIVE);
-        for (SystemSetting systemSetting : lstSystemSettings) {
-            switch (systemSetting.getKey()) {
-                case Constants.SYSTEM_SETTINGS_ARCHIVE_PATH_TO_SAVE:
-                    file.setPath(new File(systemSetting.getValue(), Constants.FILE_PREFIX_USER + userId.toString()).toString());
-                    break;
-            }
-        }*/
-        file.setPath(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES));
-
-        /*
-        //Validar archivos con el mismo nombre
-        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()).longValue() > 0L) {
-            resMsg.setHasError(true);
-            resMsg.setMessage("Ya existe un archivo con ese nombre");
-            return false;
-        }*/
+        file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES),
+                Constants.FILE_PREFIX_USER + userId.toString()).toString());
         return true;
     }
 
@@ -97,7 +77,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             return false;
         }
 
-        final Long fileTypeId = catFileTypeRepository.findByFileTypeContainingIgnoreCase(extension);
+        final Long fileTypeId = catFileTypeRepository.countByFileTypeContainingIgnoreCase(extension);
 
         if (fileTypeId == null || fileTypeId.longValue() <= 0) {
             resMsg.setMessage("Tipo de archivo no permitido");
@@ -174,6 +154,20 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     public UploadFileGeneric getPathAndFilename(Long id) {
         UploadFileGeneric file = uploadFileGenericRepository.getPathAndFilename(id);
         return file;
+    }
+
+    @Override
+    public File getFileToDownload(Long fileId, HttpServletRequest request, HttpServletResponse response) {
+        UploadFileGeneric file = getPathAndFilename(fileId);
+        String path = new File(file.getPath(), file.getRealFileName()).toString();
+        File finalFile = new File(request.getSession().getServletContext().getRealPath(""), path);
+
+        response.setContentType("application/force-download");
+        response.setContentLength((int) finalFile.length());
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");
+
+        return finalFile;
     }
     /*
     @Override

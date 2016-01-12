@@ -3,12 +3,12 @@ package com.crystal.service.shared;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.User;
-import com.crystal.model.shared.UploadFileGeneric;
-import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.model.shared.Constants;
+import com.crystal.model.shared.UploadFileGeneric;
+import com.crystal.model.shared.UploadFileGenericDto;
+import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.service.account.SharedUserService;
-import com.crystal.service.shared.SharedLogExceptionService;
-import com.crystal.service.shared.UpDwFileGenericService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -47,12 +47,12 @@ public class UploadFileGenericController {
         try {
 
             Long userId = sharedUserService.GetLoggedUserId();
-            if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-                    add(Constants.ROLE_ADMIN);
-                    add(Constants.ROLE_DGPOP);
-                    add(Constants.ROLE_LINK);
-                    add(Constants.ROLE_MANAGER);
-                }}) == false) {
+            if (!userService.isUserInRoles(userId, new ArrayList<String>() {{
+                add(Constants.ROLE_ADMIN);
+                add(Constants.ROLE_DGPOP);
+                add(Constants.ROLE_LINK);
+                add(Constants.ROLE_MANAGER);
+            }})) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;
@@ -60,41 +60,42 @@ public class UploadFileGenericController {
 
             Iterator<String> itr = request.getFileNames();
 
-            if (upDwFileGenericService.isValidRequestFile(itr, resMsg) == false) {
+            if (!upDwFileGenericService.isValidRequestFile(itr, resMsg)) {
                 return resMsg;
             }
 
-            UploadFileGeneric file = new UploadFileGeneric();
+            UploadFileGeneric uFile = new UploadFileGeneric();
 
             MultipartFile mpf = request.getFile(itr.next());
-            if (upDwFileGenericService.isValidExtension(mpf, file, resMsg) == false)
+            if (!upDwFileGenericService.isValidExtension(mpf, uFile, resMsg))
                 return resMsg;
 
             User user = new User();
             user.setId(userId);
-            upDwFileGenericService.fillUploadFileGeneric(mpf, file, uploadRequest, user);
+            upDwFileGenericService.fillUploadFileGeneric(mpf, uFile, uploadRequest, user);
 
-            if (upDwFileGenericService.hasAvailability(file, resMsg, userId) == false)
+            if (!upDwFileGenericService.hasAvailability(uFile, resMsg, userId))
                 return resMsg;
 
             String path = request.getSession().getServletContext().getRealPath("");
-            path = new File(path, file.getPath()).toString();
+            path = new File(path, uFile.getPath()).toString();
 
-            if (upDwFileGenericService.saveOnDiskUploadFile(mpf, path, file, resMsg, logException, sharedUserService) == false)
+            if (!upDwFileGenericService.saveOnDiskUploadFile(mpf, path, uFile, resMsg, logException, sharedUserService))
                 return resMsg;
 
-            upDwFileGenericService.save(file);
+            upDwFileGenericService.save(uFile);
 
-            resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
+            resMsg.setMessage("El archivo " + uFile.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
             resMsg.setHasError(false);
             if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
 
                 resMsg.setUrlToGo("close");
-                resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
+                resMsg.setReturnData(uFile.getPath() + "/" + uFile.getRealFileName());
             } else {
-                resMsg.setReturnData(file.getId());
+                Gson gson = new Gson();
+                UploadFileGenericDto dto = new UploadFileGenericDto(uFile.getId(), uFile.getFileName());
+                resMsg.setReturnData(gson.toJson(dto));
             }
-
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUploadFileGeneric", sharedUserService);
             resMsg.setHasError(true);
