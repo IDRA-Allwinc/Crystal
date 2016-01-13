@@ -1,19 +1,19 @@
 ﻿window.showUpsertParams = function (param, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.show(param, urlToGo).
-        then(function () { $(jqGridToUse).bootstrapTable('refresh', 'showLoading', { silent: true }); });
+        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading', { silent: true }); });
 };
 
 window.showUpsert = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.show({ id: id }, urlToGo).
-        then(function () { $(jqGridToUse).bootstrapTable('refresh', 'showLoading', { silent: true }); });
+        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading', { silent: true }); });
 };
 
 window.showCreate = function (data, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.show(data, urlToGo).
-        then(function () { $(jqGridToUse).bootstrapTable('refresh', { silent: true }); });
+        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', { silent: true }); });
 };
 
 

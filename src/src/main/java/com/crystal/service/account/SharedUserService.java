@@ -107,5 +107,9 @@ public class SharedUserService {
     public Long getRoleIdForUser() {
         return userRepository.getRoleIdForUser(getLoggedUserId());
     }
+
+    public Long getRoleIdForUserId(Long userId) {
+        return userRepository.getRoleIdForUser(userId);
+    }
 }
 

@@ -74,4 +74,19 @@ public class UserAuditInfo {
     public void setCalDel(Calendar calDel) {
         this.calDel = calDel;
     }
+
+    public void setInsAudit(Long userId){
+        userIns = new User(userId);
+        calIns = Calendar.getInstance();
+    }
+
+    public void setUpdAudit(Long userId) {
+        userUpd = new User(userId);
+        calUpd = Calendar.getInstance();
+    }
+
+    public void setDelAudit(Long userId) {
+        userDel = new User(userId);
+        calDel = Calendar.getInstance();
+    }
 }

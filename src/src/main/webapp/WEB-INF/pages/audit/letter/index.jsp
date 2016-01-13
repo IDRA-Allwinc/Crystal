@@ -25,12 +25,13 @@
                     $t.bootstrapTable({
                         rowStyle: rowStyle,
                         columns: [{field: "id", title: "", visible: false},
-                            {field: "number", title: "Numeral"},
-                            {field: "description", title: "Descripci&oacute;n"},
-                            {field: "deadLine", title: "Fecha l&iacute;mite"},
+                            {field: "number", title: "Numeral", align: "center"},
+                            {field: "description", title: "Descripci&oacute;n", align: "center"},
+                            {field: "deadLine", title: "Fecha l&iacute;mite", align: "center"},
                             {
                                 field: "action",
                                 title: "Acci&oacute;n",
+                                align: "center",
                                 formatter: requestFormatter,
                                 events: window.actionEvents
                             }
@@ -45,6 +46,7 @@
             return [
                 '<button class="btn btn-success dim act-edit-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
             ].join('');
         }
 
@@ -56,7 +58,6 @@
                 '<button class="btn btn-info dim act-add-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Agregar requerimiento al oficio" type="button"><i class="fa fa-plus-circle"></i></button>'
             ].join('');
         }
-        ;
 
         window.upsertLetter = function (id) {
             window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/letter/upsert.json' />", "#tblGrid");
@@ -95,6 +96,9 @@
             },
             'click .act-delete-req': function (e, value, row) {
                 window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/request/doObsolete.json' />", "#tblGrid");
+            },
+            'click .act-view-docs': function (e, value, row) {
+                window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/request/upsertViewDocs.json' />");
             }
         };
     </script>
@@ -191,7 +195,7 @@
         <hr/>
         <div id="dlgUpsert"></div>
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-xs-12">
                 <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
                 <%@ include file="/WEB-INF/pages/shared/footer.jsp" %>
             </div>

@@ -44,6 +44,13 @@ public class Letter extends UserAuditInfo{
     @JoinColumn(name="id_role", nullable = false)
     private Role role;
 
+    public Letter() {
+    }
+
+    public Letter(Long roleId) {
+        role = new Role(roleId);
+    }
+
     public Long getId() {
         return id;
     }

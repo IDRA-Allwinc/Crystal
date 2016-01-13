@@ -47,6 +47,10 @@ public class User {
     public User(){
     }
 
+    public User(Long id){
+        this.id = id;
+    }
+
     public User(Long id, Boolean enabled){
         this.id = id;
         this.enabled = enabled;

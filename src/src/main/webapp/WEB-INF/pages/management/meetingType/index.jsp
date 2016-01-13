@@ -130,7 +130,7 @@
         <hr/>
         <div id="dlgUpsert"></div>
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-xs-12">
                 <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
                 <%@ include file="/WEB-INF/pages/shared/footer.jsp" %>
             </div>

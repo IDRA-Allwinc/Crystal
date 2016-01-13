@@ -28,6 +28,13 @@ public class Role {
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
 
+    public Role() {
+    }
+
+    public Role(Long roleId) {
+        id = roleId;
+    }
+
     public Long getId() {
         return id;
     }

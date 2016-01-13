@@ -67,7 +67,8 @@ public class LetterController {
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
-            serviceLetter.save(modelNew, response, sharedUserService.getRoleIdForUser());
+            Long userId = sharedUserService.getLoggedUserId();
+            serviceLetter.save(modelNew, response, userId, sharedUserService.getRoleIdForUserId(userId));
             return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
@@ -84,7 +85,8 @@ public class LetterController {
         ResponseMessage response = new ResponseMessage();
 
         try {
-            serviceLetter.doObsolete(id, response);
+            Long userId = sharedUserService.getLoggedUserId();
+            serviceLetter.doObsolete(id, userId, response);
             return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);
