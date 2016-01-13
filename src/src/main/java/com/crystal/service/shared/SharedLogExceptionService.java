@@ -16,7 +16,7 @@ public class SharedLogExceptionService {
 
     public void Write(Exception ex, Class<?> cClass, String sMethod, SharedUserService sharedUserService) {
         try {
-            String username = sharedUserService.GetLoggedUsername();
+            String username = sharedUserService.getLoggedUsername();
             logExceptionRepository.save(new LogException(cClass.getName(), sMethod, ex.getMessage() + " | " + ex.getStackTrace(), username));
         }catch (Exception exIn){
             WriteToFile(ex, cClass, sMethod, exIn);

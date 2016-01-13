@@ -1,5 +1,7 @@
 package com.crystal.model.entities.audit;
 
+import com.crystal.model.entities.account.Role;
+import com.crystal.model.entities.account.UserAuditInfo;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -7,14 +9,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "letter")
-public class Letter {
+public class Letter extends UserAuditInfo{
 
     @Id
     @GeneratedValue
     @Column(name = "id_letter")
     private Long id;
 
-    @Column(name = "name", length = 200, unique = true, nullable = false)
+    @Column(name = "name", length = 200, nullable = false)
     @NotEmpty(message = "El número es un campo requerido")
     private String number;
 
@@ -37,6 +39,10 @@ public class Letter {
 
     @OneToMany(mappedBy = "letter", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<LetterUploadFileGenericRel> lstFiles;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_role", nullable = false)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -70,6 +76,14 @@ public class Letter {
         this.isObsolete = isObsolete;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public boolean isAttended() {
         return isAttended;
     }
@@ -101,6 +115,8 @@ public class Letter {
     public void setLstFiles(List<LetterUploadFileGenericRel> lstFiles) {
         this.lstFiles = lstFiles;
     }
+
+
 
     public void merge(LetterDto modelNew) {
         number = modelNew.getNumber();

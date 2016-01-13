@@ -29,7 +29,7 @@ public class LogRequestServiceImpl implements LogRequestService {
 
     public void saveRequest(HttpServletRequest request) {
 
-        String username = sharedUserService.GetLoggedUsername();
+        String username = sharedUserService.getLoggedUsername();
 
         try {
             if (request.getMethod().equals("POST")) {
@@ -47,7 +47,7 @@ public class LogRequestServiceImpl implements LogRequestService {
         LogPostRequest lpr;
         try {
             lpr = new LogPostRequest();
-            lpr.setUsername(sharedUserService.GetLoggedUsername());
+            lpr.setUsername(sharedUserService.getLoggedUsername());
             lpr.setHostAddress(request.getRemoteAddr());
             lpr.setResource(request.getRequestURI());
             lpr.setRegisterDate(Calendar.getInstance());
@@ -63,7 +63,7 @@ public class LogRequestServiceImpl implements LogRequestService {
         LogGetRequest lgr;
         try {
             lgr = new LogGetRequest();
-            lgr.setUsername(sharedUserService.GetLoggedUsername());
+            lgr.setUsername(sharedUserService.getLoggedUsername());
             lgr.setHostAddress(request.getRemoteAddr());
             lgr.setResource(request.getRequestURI());
             lgr.setRegisterDate(Calendar.getInstance());

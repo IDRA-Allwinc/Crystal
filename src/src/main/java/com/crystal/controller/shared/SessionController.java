@@ -22,7 +22,7 @@ public class SessionController {
 
         ResponseMessage responseMessage = new ResponseMessage();
 
-        String usrName = sharedUserService.GetLoggedUsername();
+        String usrName = sharedUserService.getLoggedUsername();
         Long lastUserRequestTime = Constants.accessMap.get(usrName);
 
         if (lastUserRequestTime != null && !usrName.equals(Constants.anonymousUser)) {
@@ -53,7 +53,7 @@ public class SessionController {
 
         ResponseMessage responseMessage = new ResponseMessage();
 
-        String usrName = sharedUserService.GetLoggedUsername();
+        String usrName = sharedUserService.getLoggedUsername();
         if (!usrName.equals(Constants.anonymousUser)) {
             RequestInterceptor.updateAccessMap(usrName, Calendar.getInstance().getTimeInMillis());
             responseMessage.setHasError(false);

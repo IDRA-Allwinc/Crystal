@@ -46,7 +46,7 @@ public class UploadFileGenericController {
         ResponseMessage resMsg = new ResponseMessage();
         try {
 
-            Long userId = sharedUserService.GetLoggedUserId();
+            Long userId = sharedUserService.getLoggedUserId();
             if (!userService.isUserInRoles(userId, new ArrayList<String>() {{
                 add(Constants.ROLE_ADMIN);
                 add(Constants.ROLE_DGPOP);

@@ -33,7 +33,7 @@ public class HomeController {
 
         try{
 
-            //Long userId = sharedUserService.GetLoggedUserId();
+            //Long userId = sharedUserService.getLoggedUserId();
             return mainPageService.generatePage("", model, -1l);
 
             /*if(userId == null || userId < 1)

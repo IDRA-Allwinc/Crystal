@@ -76,7 +76,7 @@ public class AreaServiceImpl implements AreaService {
         if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
             ae.setAuditedEntity(auditedEntityRepository.findOne(areaDto.getAuditedEntityId()));
         else
-            ae.setAuditedEntity(auditedEntityRepository.findByUserId(sharedUserService.GetLoggedUserId()));
+            ae.setAuditedEntity(auditedEntityRepository.findByUserId(sharedUserService.getLoggedUserId()));
 
         return ae;
     }

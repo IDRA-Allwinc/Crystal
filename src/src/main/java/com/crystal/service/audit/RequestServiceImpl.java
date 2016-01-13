@@ -116,7 +116,7 @@ public class RequestServiceImpl implements RequestService {
         if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
             lstAreas = areaService.getDGPOPAreas(areaStr);
         else if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_LINK))
-            lstAreas = areaService.geAreasByAuditedEntityId(sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.GetLoggedUserId()), areaStr);
+            lstAreas = areaService.geAreasByAuditedEntityId(sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.getLoggedUserId()), areaStr);
         return lstAreas;
     }
 

@@ -48,7 +48,7 @@ public class AreaController {
         if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
             filters.put("auditedEntityTypeCode", Constants.ENTITY_TYPE_UNDERSECRETARY);
         else
-            filters.put("auditedEntityId", sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.GetLoggedUserId()));
+            filters.put("auditedEntityId", sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.getLoggedUserId()));
 
         return gridService.toGrid(AreaView.class, filters);
     }

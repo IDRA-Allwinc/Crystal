@@ -24,7 +24,7 @@ public class Audit {
     @NotEmpty(message="El número del oficio es un campo requerido")
     private String letterNumber;
 
-    @Column(name="letter_date", length = 200, nullable = false)
+    @Column(name="letter_date", nullable = false)
     @NotNull(message="La fecha del oficio es un campo requerido")
     private Calendar letterDate;
 

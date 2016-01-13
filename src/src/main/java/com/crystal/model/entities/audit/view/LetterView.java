@@ -10,15 +10,14 @@ import javax.persistence.Id;
  * Created by Administrator on 1/6/2016.
  */
 @Entity
-@Subselect("select id_letter, name, description,\n" +
+@Subselect("select l.id_letter, l.name, l.description, r.id_role roleId, \n" +
         "case \n" +
-        "when (select count(*) from request r where r.id_letter = l.id_letter and r.is_attended = 0) > 0 then 'orange'\n" +
+        "when (select count(*) from request rq where rq.id_letter = l.id_letter and rq.is_attended = 0) > 0 then 'orange'\n" +
         "else 'green'\n" +
-        "end color\n" +
-        "from \n" +
-        "letter l\n" +
-        "where\n" +
-        "is_obsolete = 0")
+        "end color \n" +
+        "from letter l \n" +
+        "inner join role r on l.id_role = r.id_role \n" +
+        "where l.is_obsolete = 0")
 public class LetterView {
     @Id
     @Column(name = "id_letter")
@@ -29,6 +28,8 @@ public class LetterView {
     private String description;
 
     private String color;
+
+    private Long roleId;
 
     public Long getId() {
         return id;
@@ -60,5 +61,13 @@ public class LetterView {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

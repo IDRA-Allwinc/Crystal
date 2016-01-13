@@ -1,6 +1,7 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.account.Role;
 import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.LetterDto;
 import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
@@ -39,9 +40,9 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
-    public void save(LetterDto modelNew, ResponseMessage response) {
+    public void save(LetterDto modelNew, ResponseMessage response, Long roleId) {
 
-        Letter model = businessValidation(modelNew, response);
+        Letter model = businessValidation(modelNew, response, roleId);
 
         if(response.isHasError())
             return;
@@ -81,7 +82,7 @@ public class LetterServiceImpl implements LetterService {
         repository.saveAndFlush(model);
     }
 
-    private Letter businessValidation(LetterDto modelNew, ResponseMessage response) {
+    private Letter businessValidation(LetterDto modelNew, ResponseMessage response, Long roleId) {
 
         List<UploadFileGenericDto> lstFiles = modelNew.getLstFiles();
 
@@ -95,10 +96,13 @@ public class LetterServiceImpl implements LetterService {
 
         Letter model;
 
-        List<Long> lstFileIds = null;
+        List<Long> lstFileIds;
         boolean bIsSameFile = false;
         if(modelNew.getId() == null){
             model = new Letter();
+            Role role = new Role();
+            role.setId(roleId);
+            model.setRole(role);
         }else{
             model = repository.findByIdAndIsObsolete(modelNew.getId(), false);
             if(model == null){
@@ -107,8 +111,14 @@ public class LetterServiceImpl implements LetterService {
                 return null;
             }
 
+            if(model.getRole().getId() != roleId){
+                response.setHasError(true);
+                response.setMessage("El usuario no pertenece al perfil asociado al oficio.");
+                return null;
+            }
+
             lstFileIds = repository.findFileIdsById(model.getId());
-            if(lstFileIds.contains(fileId) == false){   //Si es falso, es un archivo diferente
+            if(!lstFileIds.contains(fileId)){   //Si es falso, es un archivo diferente
                 if(lstFileIds.size() > 0)
                     repositoryUf.setFilesObsoleteByIds(lstFileIds);
             }

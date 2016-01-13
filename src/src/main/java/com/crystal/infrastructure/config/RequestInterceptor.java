@@ -22,7 +22,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-        String usrName = sharedUserService.GetLoggedUsername();
+        String usrName = sharedUserService.getLoggedUsername();
         Long lastUserRequestTime = Constants.accessMap.get(usrName);
 
         System.out.println();

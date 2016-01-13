@@ -42,7 +42,8 @@ public class LetterController {
 
     @RequestMapping(value = "/audit/letter/list", method = RequestMethod.GET)
     public Object letterList() {
-        return gridService.toGrid(LetterView.class);
+        Long roleId = sharedUserService.getRoleIdForUser();
+        return gridService.toGrid(LetterView.class, "roleId", roleId);
     }
 
     @RequestMapping(value = "/audit/letter/upsert", method = RequestMethod.POST)
@@ -66,7 +67,7 @@ public class LetterController {
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
-            serviceLetter.save(modelNew, response);
+            serviceLetter.save(modelNew, response, sharedUserService.getRoleIdForUser());
             return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);

@@ -21,7 +21,7 @@ public class SharedUserService {
     private UserRepository userRepository;
     private List<String> lstRolesByUserId;
 
-    public Long GetLoggedUserId() {
+    public Long getLoggedUserId() {
         try {
             String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
             Long idUser = userRepository.findIdByUsername(sUsername);
@@ -33,7 +33,7 @@ public class SharedUserService {
     }
 
 
-    public String GetLoggedUsername() {
+    public String getLoggedUsername() {
         try {
             return SecurityContextHolder.getContext().getAuthentication().getName();
         } catch (Exception ex) {
@@ -102,6 +102,10 @@ public class SharedUserService {
     public boolean isUserInRoles(Long userId, ArrayList<String> lstRole) {
         return (userRepository.isUserInRoles(userId, lstRole).longValue() > 0L);
 
+    }
+
+    public Long getRoleIdForUser() {
+        return userRepository.getRoleIdForUser(getLoggedUserId());
     }
 }
 
