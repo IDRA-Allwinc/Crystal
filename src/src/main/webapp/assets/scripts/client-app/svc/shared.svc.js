@@ -174,7 +174,7 @@
         function extend(){
             vm.connSvc.post(vm.extendUrl, vm, undefined, true).then(function (res) {
                 if (res.hasError == false && res.returnData==true) {
-                    window.location.reload();
+                    //window.location.reload();
                 }
             });
         }

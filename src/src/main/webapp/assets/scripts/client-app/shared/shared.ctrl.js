@@ -102,13 +102,11 @@
 
         function yes() {
             vm.IsOk = true;
-            //alargar la sesion
             sharedSvc.hideMsg($scope);
         }
 
         function no() {
             vm.IsOk = false;
-            //hacer logout
             sharedSvc.hideMsg($scope);
         }
     };

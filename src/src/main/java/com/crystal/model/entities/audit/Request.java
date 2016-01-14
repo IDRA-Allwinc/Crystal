@@ -2,6 +2,8 @@ package com.crystal.model.entities.audit;
 
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.account.UserAuditInfo;
+import com.crystal.model.entities.audit.dto.AttentionDto;
+import com.crystal.model.entities.audit.dto.RequestDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.UploadFileGeneric;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,7 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Entity
-@Table(name="request")
+@Table(name = "request")
 public class Request extends UserAuditInfo {
 
     @Id
@@ -19,31 +21,31 @@ public class Request extends UserAuditInfo {
     @Column(name = "id_request")
     private Long id;
 
-    @Column(name="number", length = 200, unique = true, nullable = false)
-    @NotEmpty(message="El numeral es un campo requerido")
+    @Column(name = "number", length = 200, unique = true, nullable = false)
+    @NotEmpty(message = "El numeral es un campo requerido")
     private String number;
 
-    @Column(name="description", length = 2000, nullable = false)
-    @NotEmpty(message="La descripción es un campo requerido")
+    @Column(name = "description", length = 2000, nullable = false)
+    @NotEmpty(message = "La descripción es un campo requerido")
     private String description;
 
-    @Column(name="create_date", nullable = false)
+    @Column(name = "create_date", nullable = false)
     private Calendar createDate;
 
-    @Column(name="limit_time_days", nullable = false)
-    @NotEmpty(message="El plazo otorgado es un campo requerido")
+    @Column(name = "limit_time_days", nullable = false)
+    @NotEmpty(message = "El plazo otorgado es un campo requerido")
     private Integer limitTimeDays;
 
-    @Column(name="is_attended", nullable = false)
+    @Column(name = "is_attended", nullable = false)
     private boolean isAttended;
 
-    @Column(name="attention_date", nullable = true)
+    @Column(name = "attention_date", nullable = true)
     private Calendar attentionDate;
 
-    @Column(name="attention_comment", nullable = true)
+    @Column(name = "attention_comment", nullable = true)
     private String attentionComment;
 
-    @Column(name="is_obsolete", nullable = false)
+    @Column(name = "is_obsolete", nullable = false)
     private boolean isObsolete;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -182,5 +184,21 @@ public class Request extends UserAuditInfo {
 
     public void setAttentionComment(String attentionComment) {
         this.attentionComment = attentionComment;
+    }
+
+    public void merge(RequestDto requestDto, AttentionDto attentionDto, User user) {
+
+        if (requestDto != null) {
+            number = requestDto.getNumber();
+            description = requestDto.getDescription();
+            limitTimeDays = requestDto.getLimitTimeDays();
+        }
+
+        if (attentionDto != null) {
+            isAttended = true;
+            attentionComment = attentionDto.getAttentionComment();
+            attentionDate = Calendar.getInstance();
+            attentionUser = user;
+        }
     }
 }
