@@ -7,6 +7,7 @@ import com.crystal.model.entities.audit.dto.RequestDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
+import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.catalog.LetterRepository;
 import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.service.account.SharedUserService;
@@ -100,7 +101,7 @@ public class RequestServiceImpl implements RequestService {
 
         if (model == null) {
             response.setHasError(true);
-            response.setMessage("El requrimiento ya fue eliminado o no existe en el sistema");
+            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema");
             response.setTitle("Eliminar requerimiento");
             return;
         }
@@ -147,5 +148,27 @@ public class RequestServiceImpl implements RequestService {
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
         modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteUpFile(Long requestId, Long upFileId, ResponseMessage response) {
+        Request model = requestRepository.findByIdAndIsObsolete(requestId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema");
+            response.setTitle("Eliminar requerimiento");
+            return;
+        }
+
+        List<UploadFileGeneric> lstFiles = model.getLstEvidences();
+
+        for (int i=lstFiles.size()-1; i>=0;  i--){
+            if(lstFiles.get(i).getId().equals(upFileId))
+                lstFiles.remove(i);
+        }
+
+        requestRepository.saveAndFlush(model);
     }
 }

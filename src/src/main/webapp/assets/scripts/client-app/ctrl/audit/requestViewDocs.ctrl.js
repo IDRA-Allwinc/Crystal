@@ -25,7 +25,7 @@
         function setSuccess(result){
             $scope.$apply(function(){
                 vm.m.description = "";
-                vm.MsgSuccess = $sce.trustAsHtml(result.message);
+                //vm.MsgSuccess = $sce.trustAsHtml(result.message);
             });
         }
     }

@@ -60,6 +60,12 @@
             ].join('');
         }
 
+        function actionsUploadFileFormatter(value, row, index) {
+            return [
+                '<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar documento" type="button"><i class="fa fa-times-circle"></i></button>'
+            ].join('');
+        }
+
         window.upsertLetter = function (id) {
             window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/letter/upsert.json' />", "#tblGrid");
         };
@@ -100,7 +106,11 @@
             },
             'click .act-view-docs': function (e, value, row) {
                 window.showUpsert(row.id, "#angJsjqGridId", "<c:url value='/audit/request/upsertViewDocs.json' />");
+            },
+            'click .act-upf-delete': function (e, value, row) {
+                window.showObsoleteParam({requestId: row.requestId, upfileId: row.id}, "#angJsjqGridId", "<c:url value='/audit/request/doDeleteUpFile.json' />", "#tblUfGrid");
             }
+
         };
     </script>
 

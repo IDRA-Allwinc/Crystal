@@ -20,4 +20,6 @@ public interface RequestService {
     public boolean findByNumber(RequestDto requestDto, ResponseMessage responseMessage);
 
     void upsertViewDocs(Long requestId, ModelAndView modelAndView);
+
+    void doDeleteUpFile(Long requestId, Long upfileId, ResponseMessage response);
 }

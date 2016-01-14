@@ -21,4 +21,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     @Query("select r.number from Request r where r.id = :requestId and r.isObsolete = false")
     String findNumberById(@Param("requestId") Long requestId);
+
+    Request findByIdAndIsObsolete(Long id, boolean b);
 }

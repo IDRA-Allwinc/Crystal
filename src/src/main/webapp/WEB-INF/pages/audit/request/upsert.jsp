@@ -179,9 +179,12 @@
                 <button class="btn btn-white" ng-click="up.cancel()">
                     Cancelar
                 </button>
-                <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
+                <button class="btn btn-primary" ng-show="up.WaitFor===false"
                         ng-click="vm.validateAll()== false ? up.submit('#FormUpId', '<c:url value='/audit/request/doUpsert.json' />', FormUpId.$valid):''">
                     Guardar
+                </button>
+                <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">
+                    <i class="fa fa-refresh fa-spin"></i> &nbsp; Procesando
                 </button>
             </div>
         </div>
