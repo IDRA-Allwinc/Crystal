@@ -16,11 +16,12 @@ public interface UpDwFileGenericService {
     boolean isValidRequestFile(Iterator<String> itr, ResponseMessage resMsg);
     boolean isValidExtension(MultipartFile mpf, UploadFileGeneric file, ResponseMessage resMsg);
     void fillUploadFileGeneric(MultipartFile mpf, UploadFileGeneric uploadFile, UploadFileRequest uploadRequest, User user);
-    boolean hasAvailability(UploadFileGeneric itr, ResponseMessage resMsg, Long userId);
+    boolean hasAvailability(UploadFileGeneric file, Long userId, Integer type, ResponseMessage resMsg);
     boolean saveOnDiskUploadFile(MultipartFile mpf, String path, UploadFileGeneric uploadFile, ResponseMessage resMsg, SharedLogExceptionService logException, SharedUserService sharedUserService);
-    void save(UploadFileGeneric uploadFile);
+    void save(UploadFileGeneric uploadFile, UploadFileRequest uploadRequest);
     UploadFileGeneric getPathAndFilename(Long id);
     File getFileToDownload(Long fileId, HttpServletRequest request, HttpServletResponse response);
+    boolean validTypeAndFields(UploadFileRequest uploadRequest, ResponseMessage resMsg);
 
  /*
     boolean isValidExtensionByCode(MultipartFile mpf, UploadFileGeneric file, ResponseMessage resMsg, String code);

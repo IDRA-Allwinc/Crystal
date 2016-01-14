@@ -2,13 +2,14 @@
     "use strict";
     angular
         .module(window.constMainApp)
-        .controller('letterController', letterController);
+        .controller('requestViewDocsController', requestViewDocsController);
 
-    letterController.$inject = ["$scope", "$sce", "$timeout"];
+    requestViewDocsController.$inject = ["$scope", "$sce", "$timeout"];
 
-    function letterController($scope, $sce, $timeout) {
+    function requestViewDocsController($scope, $sce, $timeout) {
         var vm = this;
         vm.m = {};
+
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
 
@@ -23,9 +24,8 @@
 
         function setSuccess(result){
             $scope.$apply(function(){
+                vm.m.description = "";
                 vm.MsgSuccess = $sce.trustAsHtml(result.message);
-                vm.m.lstFiles = [];
-                vm.m.lstFiles.push(JSON.parse(result.returnData));
             });
         }
     }

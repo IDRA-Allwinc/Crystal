@@ -60,7 +60,7 @@ public class LetterController {
     @RequestMapping(value = "/audit/letter/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doUpsertActivity(@Valid LetterDto modelNew, BindingResult result) {
+    ResponseMessage doUpsert(@Valid LetterDto modelNew, BindingResult result) {
 
         ResponseMessage response = new ResponseMessage();
 
@@ -101,7 +101,6 @@ public class LetterController {
     @RequestMapping(value = "/audit/letter/downloadFile", method = RequestMethod.GET)
     @ResponseBody
     public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
-
         Long fileId = serviceLetter.findFileIdByLetterId(id);
         File finalFile = upDwFileGenericService.getFileToDownload(fileId, request, response);
         finalFile.deleteOnExit();

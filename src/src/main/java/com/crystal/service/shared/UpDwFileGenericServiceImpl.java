@@ -1,17 +1,21 @@
 package com.crystal.service.shared;
 
+import com.crystal.infrastructure.extensions.StringExt;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.audit.Request;
 import com.crystal.model.entities.catalog.CatFileType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.repository.catalog.CatFileTypeRepository;
+import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Iterator;
+import java.util.*;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Calendar;
-import java.util.UUID;
 
 @Service
 public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
@@ -43,9 +45,19 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
 
     @Override
-    public boolean hasAvailability(UploadFileGeneric file, ResponseMessage resMsg, Long userId) {
-        file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES),
-                Constants.FILE_PREFIX_USER + userId.toString()).toString());
+    public boolean hasAvailability(UploadFileGeneric file, Long userId, Integer type, ResponseMessage resMsg) {
+        if (type == null) {
+            file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_USER + userId.toString()).toString());
+            return true;
+        }
+
+        switch (type) {
+            case Constants.UploadFile.REQUEST:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_REQUEST + userId.toString()).toString());
+                break;
+        }
+
+        file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_NONE + userId.toString()).toString());
         return true;
     }
 
@@ -144,10 +156,28 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         return true;
     }
 
+    @Autowired
+    RequestRepository requestRepository;
+
     @Override
-    public void save(UploadFileGeneric uploadFile) {
-        uploadFileGenericRepository.save(uploadFile);
-        uploadFileGenericRepository.flush();
+    @Transactional
+    public void save(UploadFileGeneric uploadFile, UploadFileRequest uploadRequest) {
+        Integer type = uploadRequest.getType();
+        if (type == null) {
+            uploadFileGenericRepository.saveAndFlush(uploadFile);
+            return;
+        }
+
+        switch (type) {
+            case Constants.UploadFile.REQUEST:
+                Request rq = requestRepository.findOne(uploadRequest.getId());
+                List<UploadFileGeneric> lstEvidences =  rq.getLstEvidences();
+                if(lstEvidences == null) lstEvidences = new ArrayList<>();
+                lstEvidences.add(uploadFile);
+                requestRepository.saveAndFlush(rq);
+                break;
+        }
+
     }
 
     @Override
@@ -168,6 +198,30 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");
 
         return finalFile;
+    }
+
+    @Override
+    public boolean validTypeAndFields(UploadFileRequest uploadRequest, ResponseMessage resMsg) {
+        Integer type = uploadRequest.getType();
+
+        if (type == null)
+            return true;
+
+        switch (type) {
+            case Constants.UploadFile.REQUEST:
+                if (uploadRequest.getId() == null) {
+                    resMsg.setMessage("El archivo no está asociado a un requerimiento");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+        }
+        return true;
     }
     /*
     @Override

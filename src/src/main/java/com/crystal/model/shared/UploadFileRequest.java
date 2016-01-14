@@ -2,15 +2,16 @@ package com.crystal.model.shared;
 
 public class UploadFileRequest {
 
-    private String id;
+    private Long id;
     private String description;
+    private Integer type;
     private Boolean closeUploadFile;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,5 +29,13 @@ public class UploadFileRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

@@ -16,6 +16,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/typeahead/ui-bootstrap-custom-tpls-0.14.3.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/typeahead/bootstrap-typeahead.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/requestViewDocs.ctrl.js"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -98,7 +99,7 @@
                 window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/request/doObsolete.json' />", "#tblGrid");
             },
             'click .act-view-docs': function (e, value, row) {
-                window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/request/upsertViewDocs.json' />");
+                window.showUpsert(row.id, "#angJsjqGridId", "<c:url value='/audit/request/upsertViewDocs.json' />");
             }
         };
     </script>

@@ -3,6 +3,7 @@ package com.crystal.controller.audit;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.RequestDto;
+import com.crystal.model.entities.audit.view.RequestUploadFileView;
 import com.crystal.model.entities.audit.view.RequestView;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.audit.RequestService;
@@ -69,7 +70,6 @@ public class RequestController {
 
             requestService.save(modelNew, response);
         } catch (Exception ex) {
-            ex.printStackTrace();
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
@@ -91,5 +91,23 @@ public class RequestController {
             return response;
         }
     }
+
+
+    @RequestMapping(value = "/audit/request/upsertViewDocs", method = RequestMethod.POST)
+    public ModelAndView upsertViewDocs(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/request/upsertViewDocs");
+        try {
+            requestService.upsertViewDocs(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "upsertViewDocs", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/request/listUfRequest", method = RequestMethod.GET)
+    public Object listUfRequest(@RequestParam(required = true) Long requestId) {
+        return gridService.toGrid(RequestUploadFileView.class, "requestId", requestId);
+    }
+
 
 }

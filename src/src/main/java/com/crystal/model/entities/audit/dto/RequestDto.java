@@ -23,6 +23,8 @@ public class RequestDto {
 
     private Long letterId;
 
+    private Integer type;
+
     public RequestDto() {
     }
 
@@ -80,5 +82,13 @@ public class RequestDto {
 
     public void setLetterId(Long letterId) {
         this.letterId = letterId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

@@ -60,6 +60,9 @@ public class UploadFileGenericController {
 
             Iterator<String> itr = request.getFileNames();
 
+            if(!upDwFileGenericService.validTypeAndFields(uploadRequest, resMsg))
+                return resMsg;
+
             if (!upDwFileGenericService.isValidRequestFile(itr, resMsg)) {
                 return resMsg;
             }
@@ -74,7 +77,7 @@ public class UploadFileGenericController {
             user.setId(userId);
             upDwFileGenericService.fillUploadFileGeneric(mpf, uFile, uploadRequest, user);
 
-            if (!upDwFileGenericService.hasAvailability(uFile, resMsg, userId))
+            if (!upDwFileGenericService.hasAvailability(uFile, userId, uploadRequest.getType(), resMsg))
                 return resMsg;
 
             String path = request.getSession().getServletContext().getRealPath("");
@@ -83,7 +86,7 @@ public class UploadFileGenericController {
             if (!upDwFileGenericService.saveOnDiskUploadFile(mpf, path, uFile, resMsg, logException, sharedUserService))
                 return resMsg;
 
-            upDwFileGenericService.save(uFile);
+            upDwFileGenericService.save(uFile, uploadRequest);
 
             resMsg.setMessage("El archivo " + uFile.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
             resMsg.setHasError(false);

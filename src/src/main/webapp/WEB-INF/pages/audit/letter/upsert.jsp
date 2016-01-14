@@ -94,11 +94,11 @@
                                     <div class="col-xs-7">
                                         <input type="text" name="number" ng-model="vm.m.number"
                                                placeholder="Ingrese el n&uacute;mero de oficio"
-                                               <%--ng-required="true" ng-maxlength="200" ng-minlength="2"--%>
+                                               ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                class="form-control">
-                                        <%--<span class="error" ng-show="FormUpId.number.$error.required">*Campo requerido</span>--%>
-                                        <%--<span class="error" ng-show="FormUpId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>--%>
-                                        <%--<span class="error" ng-show="FormUpId.number.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>--%>
+                                        <span class="error" ng-show="FormUpId.number.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>
                                 </div>
                             </div>

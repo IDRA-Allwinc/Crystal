@@ -51,7 +51,7 @@ public class Request {
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
     private List<Area> lstAreas;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(name = "request_upload_file_generic_rel",
             joinColumns = {@JoinColumn(name = "id_request", referencedColumnName = "id_request")},
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})

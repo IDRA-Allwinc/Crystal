@@ -137,4 +137,15 @@ public class RequestServiceImpl implements RequestService {
 
         return false;
     }
+
+    @Override
+    public void upsertViewDocs(Long requestId, ModelAndView modelAndView) {
+        RequestDto model = new RequestDto();
+        model.setId(requestId);
+        model.setType(Constants.UploadFile.REQUEST);
+        model.setNumber(requestRepository.findNumberById(requestId));
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
 }

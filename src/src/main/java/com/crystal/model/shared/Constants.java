@@ -27,6 +27,9 @@ public class Constants {
     public static final String sessionExtendUrl = "/session/extend.json";
 
     public static final String FILE_PREFIX_USER = "USR_";
+    public static final String FILE_PREFIX_REQUEST = "RQ_";
+    public static final String FILE_PREFIX_NONE = "NA_";
+
     public static final HashMap<String, Long> accessMap = new HashMap<>();
 
     /////////////////////////Settings/////////////////////////////////////
@@ -38,4 +41,10 @@ public class Constants {
     }
     /////////////////////////Settings/////////////////////////////////////
 
+
+    /////////////////////////UploadFileTypes/////////////////////////////////////
+    public static class UploadFile {
+        public static final int REQUEST = 3000;
+    }
+    /////////////////////////UploadFileTypes/////////////////////////////////////
 }
