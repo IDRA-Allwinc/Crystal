@@ -2,6 +2,7 @@ package com.crystal.service.shared;
 
 import com.crystal.model.shared.GridResult;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Service
 public class GridService<T> {
 
     @PersistenceContext(unitName = "punit")
@@ -87,17 +88,15 @@ public class GridService<T> {
             }
         }
 
-        if (!predicatesFilter.isEmpty()){
-            predicates.add(cb.and(predicatesFilter.toArray(new Predicate[]{})));
-            predicatesCount.add(cb.and(predicatesFilterCount.toArray(new Predicate[]{})));
-        }
-        if (!predicatesSearch.isEmpty()){
-            predicates.add(cb.or(predicatesSearch.toArray(new Predicate[]{})));
-            predicatesCount.add(cb.or(predicatesSearchCount.toArray(new Predicate[]{})));
-        }
-        if (!predicates.isEmpty()) {
-            q.where(cb.or(predicates.toArray(new Predicate[]{})));
-            count.where(cb.or(predicatesCount.toArray(new Predicate[]{})));
+        if (!predicatesFilter.isEmpty() && !predicatesSearch.isEmpty()){
+            q.where(cb.and(cb.and(predicatesFilter.toArray(new Predicate[]{})), cb.or(predicatesSearch.toArray(new Predicate[]{}))));
+            count.where(cb.and(cb.and(predicatesFilterCount.toArray(new Predicate[]{})), cb.or(predicatesSearchCount.toArray(new Predicate[]{}))));
+        }else if(!predicatesFilter.isEmpty()){
+            q.where(cb.and(predicatesFilter.toArray(new Predicate[]{})));
+            count.where(cb.and(predicatesFilterCount.toArray(new Predicate[]{})));
+        }else if(!predicatesSearch.isEmpty()){
+            q.where(cb.or(predicatesSearch.toArray(new Predicate[]{})));
+            count.where(cb.or(predicatesSearchCount.toArray(new Predicate[]{})));
         }
 
         count.select(cb.count(rCount));

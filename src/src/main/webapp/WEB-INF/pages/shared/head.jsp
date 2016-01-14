@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<META http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<META http-equiv="Pragma" content="no-cache" />
+<META http-equiv="Expires" content="0" />
 <META content="IE=10.000" http-equiv="X-UA-Compatible">
 <META charset="UTF-8"/>
 <META name="viewport" content="width=device-width, initial-scale=1.0">

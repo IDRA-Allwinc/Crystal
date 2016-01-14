@@ -62,7 +62,7 @@ public class Request extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
     private List<Area> lstAreas;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "request_upload_file_generic_rel",
             joinColumns = {@JoinColumn(name = "id_request", referencedColumnName = "id_request")},
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
