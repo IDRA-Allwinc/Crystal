@@ -11,6 +11,7 @@ import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.service.account.SharedUserService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,12 +84,12 @@ public class AreaServiceImpl implements AreaService {
 
     public List<SelectList> getDGPOPAreas(String areaStr) {
         areaStr = "%" + areaStr + "%";
-        return areaRepository.findDGPOPAreasByStr(areaStr);
+        return areaRepository.findDGPOPAreasByStr(areaStr, new PageRequest(0, 20));
     }
 
     public List<SelectList> geAreasByAuditedEntityId(Long auditedEntityId, String areaStr) {
         areaStr = "%" + areaStr + "%";
-        return areaRepository.findAreasByAuditedEntityIdAndStr(auditedEntityId, areaStr);
+        return areaRepository.findAreasByAuditedEntityIdAndStr(auditedEntityId, areaStr, new PageRequest(0, 20));
     }
 
     public List<SelectList> getSelectedAreasByRequestId(Long requestId) {

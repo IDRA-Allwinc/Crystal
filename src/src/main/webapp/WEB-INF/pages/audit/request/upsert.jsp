@@ -123,7 +123,7 @@
                                                    typeahead-on-select="vm.pushArea($item);"
                                                    typeahead-loading="vm.loadingAreas"
                                                    typeahead-no-results="vm.noResults"
-                                                   typeahead-min-length="3"
+                                                   typeahead-min-length="1"
                                                    class="form-control">
                                             <i class="col-xs-1" ng-show="vm.loadingAreas"
                                                class="glyphicon glyphicon-refresh"></i>
