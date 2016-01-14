@@ -54,7 +54,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         switch (type) {
             case Constants.UploadFile.REQUEST:
                 file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_REQUEST + userId.toString()).toString());
-                break;
+                return true;
         }
 
         file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_NONE + userId.toString()).toString());
@@ -173,6 +173,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 Request rq = requestRepository.findOne(uploadRequest.getId());
                 List<UploadFileGeneric> lstEvidences =  rq.getLstEvidences();
                 if(lstEvidences == null) lstEvidences = new ArrayList<>();
+                uploadFile.setObsolete(false);
                 lstEvidences.add(uploadFile);
                 requestRepository.saveAndFlush(rq);
                 break;

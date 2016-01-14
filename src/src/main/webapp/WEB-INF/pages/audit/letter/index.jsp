@@ -22,7 +22,7 @@
         $(function () {
             $('#tblGrid').on("expand-row.bs.table", function (index, row, $detail, container) {
                 $.get("<c:url value='/audit/request/list.json' />", {idLetter: $detail.id}).done(function (data) {
-                    var $t = container.html('<table></table>').find('table');
+                    var $t = container.html('<table id="tlbSubGrid'+ $detail.id +'"></table>').find('table');
                     $t.bootstrapTable({
                         rowStyle: rowStyle,
                         columns: [{field: "id", title: "", visible: false},
@@ -65,13 +65,14 @@
             return [
                 '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del oficio" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el oficio" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento asociado al oficio" type="button"><i class="fa fa-download"></i></button>',
+                '<button class="btn btn-primary dim act-download-by-letter-id btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento asociado al oficio" type="button"><i class="fa fa-download"></i></button>',
                 '<button class="btn btn-info dim act-add-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Agregar requerimiento al oficio" type="button"><i class="fa fa-plus-circle"></i></button>'
             ].join('');
         }
 
         function actionsUploadFileFormatter(value, row, index) {
             return [
+                '<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>',
                 '<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar documento" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
@@ -93,18 +94,14 @@
             window.showUpsert(idRequest, "#angJsjqGridId", "<c:url value='/audit/request/attention.json' />", "#tblGrid");
         };
 
-        window.download = function (id) {
-            var params = [];
-            params["idParam"] = id;
-            window.goToNewWnd("<c:url value='/audit/letter/downloadFile.html?id=idParam' />", params);
-        };
-
         window.actionEvents = {
             'click .act-edit': function (e, value, row) {
                 window.upsertLetter(row.id);
             },
-            'click .act-download': function (e, value, row) {
-                window.download(row.id);
+            'click .act-download-by-letter-id': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.id;
+                window.goToNewWnd("<c:url value='/audit/letter/downloadFile.html?id=idParam' />", params);
             },
             'click .act-delete': function (e, value, row) {
                 window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/letter/doObsolete.json' />", "#tblGrid");
@@ -126,6 +123,11 @@
             },
             'click .act-upf-delete': function (e, value, row) {
                 window.showObsoleteParam({requestId: row.requestId, upfileId: row.id}, "#angJsjqGridId", "<c:url value='/audit/request/doDeleteUpFile.json' />", "#tblUfGrid");
+            },
+            'click .act-download': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.id;
+                window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
             }
         };
     </script>
