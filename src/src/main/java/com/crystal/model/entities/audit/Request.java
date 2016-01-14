@@ -45,7 +45,7 @@ public class Request {
     @JoinColumn(name = "id_letter", nullable = false)
     private Letter letter;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "request_area_rel",
             joinColumns = {@JoinColumn(name = "id_request", referencedColumnName = "id_request")},
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
