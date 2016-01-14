@@ -55,11 +55,14 @@
 
                                         <div class="col-xs-9">
                                             <input type="text" name="name" ng-model="vm.m.name"
+                                                   minlength="8"
+                                                   maxlength="200"
                                                    placeholder="Ingrese el nombre del &aacute;rea"
                                                    ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.name.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpId.name.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.name.$error.minlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.name.$error.maxlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
                                         </div>
                                     </div>
 
@@ -68,10 +71,13 @@
 
                                         <div class="col-xs-9">
                                             <input type="text" name="responsible" ng-model="vm.m.responsible"
+                                                   minlength="8"
+                                                   maxlength="200"
                                                    placeholder="Ingrese el nombre completo del responsable"
                                                    ng-required="true" class="form-control">
                                             <span class="error" ng-show="FormUpId.responsible.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpId.responsible.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.responsible.$error.minlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.responsible.$error.maxlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
                                         </div>
                                     </div>
                                     <div class="col-xs-11 col-xs-offset-1 form-group">
@@ -106,7 +112,8 @@
                                             <input type="hidden" ng-update-hidden ng-model="vm.m.auditedEntityId"
                                                    name="auditedEntityId" id="auditedEntityId">
 
-                                            <label class="col-xs-3 control-label font-noraml">Entidad fiscalizada a la que pertenece:</label>
+                                            <label class="col-xs-3 control-label font-noraml">Entidad fiscalizada a la
+                                                que pertenece:</label>
 
                                             <div class="col-xs-9">
                                                 <select class="form-control m-b" id="chosen-select"

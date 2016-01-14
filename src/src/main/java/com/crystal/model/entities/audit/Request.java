@@ -1,5 +1,7 @@
 package com.crystal.model.entities.audit;
 
+import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.account.UserAuditInfo;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.UploadFileGeneric;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name="request")
-public class Request {
+public class Request extends UserAuditInfo {
 
     @Id
     @GeneratedValue
@@ -38,12 +40,19 @@ public class Request {
     @Column(name="attention_date", nullable = true)
     private Calendar attentionDate;
 
+    @Column(name="attention_comment", nullable = true)
+    private String attentionComment;
+
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_letter", nullable = false)
     private Letter letter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = true)
+    private User attentionUser;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "request_area_rel",
@@ -157,5 +166,21 @@ public class Request {
 
     public void setLstExtension(List<Extension> lstExtension) {
         this.lstExtension = lstExtension;
+    }
+
+    public User getAttentionUser() {
+        return attentionUser;
+    }
+
+    public void setAttentionUser(User attentionUser) {
+        this.attentionUser = attentionUser;
+    }
+
+    public String getAttentionComment() {
+        return attentionComment;
+    }
+
+    public void setAttentionComment(String attentionComment) {
+        this.attentionComment = attentionComment;
     }
 }

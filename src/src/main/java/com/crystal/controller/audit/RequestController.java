@@ -2,6 +2,7 @@ package com.crystal.controller.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
+import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RequestDto;
 import com.crystal.model.entities.audit.view.RequestUploadFileView;
 import com.crystal.model.entities.audit.view.RequestView;
@@ -107,6 +108,35 @@ public class RequestController {
     @RequestMapping(value = "/audit/request/listUfRequest", method = RequestMethod.GET)
     public Object listUfRequest(@RequestParam(required = true) Long requestId) {
         return gridService.toGrid(RequestUploadFileView.class, "requestId", requestId);
+    }
+
+    @RequestMapping(value = "/audit/request/attention", method = RequestMethod.POST)
+    public ModelAndView attentionRequest(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/request/attention");
+        try {
+            requestService.attention(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attentionRequest", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/request/doAttention", method = RequestMethod.POST)
+    public ResponseMessage doAttention(@Valid AttentionDto modelNew, BindingResult result) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            if (DtoValidator.isValid(result, response) == false)
+                return response;
+
+            requestService.doAttention(modelNew, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "doAttention", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
     }
 
 

@@ -57,12 +57,12 @@
                                             <input type="text" name="number" ng-model="vm.m.number"
                                                    placeholder="Ingrese el numeral del requerimiento"
                                                    minlength="8"
-                                                   maxlength="200"
+                                                   maxlength="50"
                                                    ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 8 y 200 caracteres</span>
-                                            <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 8 y 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 8 y 50 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 8 y 50 caracteres</span>
                                         </div>
                                     </div>
 

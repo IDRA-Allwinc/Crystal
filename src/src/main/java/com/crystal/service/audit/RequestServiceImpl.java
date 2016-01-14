@@ -3,10 +3,12 @@ package com.crystal.service.audit;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.Request;
+import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RequestDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
+import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.LetterRepository;
 import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.service.account.SharedUserService;
@@ -31,6 +33,11 @@ public class RequestServiceImpl implements RequestService {
     AreaService areaService;
     @Autowired
     LetterRepository letterRepository;
+
+    @Autowired
+    SharedUserService sharedUserService;
+    @Autowired
+    UserRepository userRepository;
 
 
     @Override
@@ -61,9 +68,10 @@ public class RequestServiceImpl implements RequestService {
         Request request;
 
         Long id = requestDto.getId();
-        if (id != null)
+        if (id != null) {
             request = requestRepository.findOne(id);
-        else {
+            request.setUpdAudit(sharedUserService.getLoggedUserId());
+        } else {
             request = new Request();
             request.setCreateDate(Calendar.getInstance());
         }
@@ -90,6 +98,7 @@ public class RequestServiceImpl implements RequestService {
         request.setLstAreas(lstNewSelectedAreas);
         Letter letter = letterRepository.findOne(requestDto.getLetterId());
         request.setLetter(letter);
+        request.setInsAudit(sharedUserService.getLoggedUserId());
 
         return request;
     }
@@ -106,6 +115,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         model.setObsolete(true);
+        model.setDelAudit(sharedUserService.getLoggedUserId());
         requestRepository.saveAndFlush(model);
     }
 
@@ -147,5 +157,24 @@ public class RequestServiceImpl implements RequestService {
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
         modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    public void attention(Long id, ModelAndView modelView) {
+        Gson gson = new Gson();
+        AttentionDto model = requestRepository.findAttentionInfoById(id);
+        modelView.addObject("model", gson.toJson(model));
+    }
+
+    @Override
+    @Transactional
+    public void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage) {
+        Request model = requestRepository.findOne(attentionDto.getId());
+        model.setAttended(true);
+        model.setAttentionComment(attentionDto.getAttentionComment());
+        model.setAttentionDate(Calendar.getInstance());
+        model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+        requestRepository.saveAndFlush(model);
+        responseMessage.setHasError(false);
     }
 }

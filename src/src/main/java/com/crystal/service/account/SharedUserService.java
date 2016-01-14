@@ -10,8 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -77,16 +75,6 @@ public class SharedUserService {
         user.setEnabled(userToValidate.getEnabled());
 
         return true;
-    }
-
-    public Integer calculateAge(Date birthDate) {
-        Calendar dob = Calendar.getInstance();
-        dob.setTime(birthDate);
-        Calendar today = Calendar.getInstance();
-        Integer age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
-            age--;
-        return age;
     }
 
     public boolean isValidPasswordForUser(Long userId, String password) {

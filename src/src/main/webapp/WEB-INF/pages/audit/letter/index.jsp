@@ -44,12 +44,23 @@
         });
 
         function requestFormatter(value, row, index) {
-            return [
-                '<button class="btn btn-success dim act-edit-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
-                '<button class="btn btn-danger dim act-delete-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-            ].join('');
+            var arr = [];
+            if (row.attended == true)
+                arr = [
+                    '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
+                    '<button class="btn btn-info dim act-attention-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n del requerimiento" type="button"><i class="fa fa-eye"></i></button>'
+                ];
+            else
+                arr = [
+                    '<button class="btn btn-success dim act-edit-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
+                    '<button class="btn btn-danger dim act-delete-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
+                    '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
+                    '<button class="btn btn-info dim act-attention-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>'
+                ];
+
+            return arr.join('');
         }
+        ;
 
         function actionsFormatter(value, row, index) {
             return [
@@ -59,6 +70,7 @@
                 '<button class="btn btn-info dim act-add-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Agregar requerimiento al oficio" type="button"><i class="fa fa-plus-circle"></i></button>'
             ].join('');
         }
+        ;
 
         window.upsertLetter = function (id) {
             window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/letter/upsert.json' />", "#tblGrid");
@@ -71,6 +83,10 @@
             else
                 params = {idLetter: idLetter, idRequest: idRequest};
             window.showUpsertParams(params, "#angJsjqGridId", "<c:url value='/audit/request/upsert.json' />", "#tblGrid");
+        };
+
+        window.attentionReq = function (idRequest) {
+            window.showUpsert(idRequest, "#angJsjqGridId", "<c:url value='/audit/request/attention.json' />", "#tblGrid");
         };
 
         window.download = function (id) {
@@ -100,6 +116,9 @@
             },
             'click .act-view-docs': function (e, value, row) {
                 window.showUpsert(row.id, "#angJsjqGridId", "<c:url value='/audit/request/upsertViewDocs.json' />");
+            },
+            'click .act-attention-req': function (e, value, row) {
+                window.attentionReq(row.id);
             }
         };
     </script>
