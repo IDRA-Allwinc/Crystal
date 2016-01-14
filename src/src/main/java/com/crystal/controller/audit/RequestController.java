@@ -69,7 +69,7 @@ public class RequestController {
                 return response;
             }
 
-            requestService.save(modelNew, response);
+            requestService.save(modelNew, null, response);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
@@ -128,7 +128,7 @@ public class RequestController {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            requestService.doAttention(modelNew, response);
+            requestService.save(null, modelNew, response);
         } catch (Exception ex) {
             ex.printStackTrace();
             logException.Write(ex, this.getClass(), "doAttention", sharedUserService);

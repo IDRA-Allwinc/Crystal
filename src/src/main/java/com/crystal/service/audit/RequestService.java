@@ -1,19 +1,17 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Request;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RequestDto;
 import com.crystal.model.shared.SelectList;
 import com.crystal.service.account.SharedUserService;
-import com.google.gson.Gson;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 public interface RequestService {
     void upsert(Long letterId, Long id, ModelAndView modelView);
-
-    void save(RequestDto modelNew, ResponseMessage response);
 
     void doObsolete(Long id, ResponseMessage response);
 
@@ -28,4 +26,8 @@ public interface RequestService {
     public void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage);
 
     void doDeleteUpFile(Long requestId, Long upfileId, ResponseMessage response);
+
+    public void doSave(Request request);
+
+    public void save(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage);
 }

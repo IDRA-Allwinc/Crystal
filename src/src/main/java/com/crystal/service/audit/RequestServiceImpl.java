@@ -60,48 +60,23 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public void save(RequestDto requestDto, ResponseMessage response) {
-        requestRepository.saveAndFlush(mergeRequest(requestDto));
+    public void doSave(Request request) {
+        requestRepository.save(request);
     }
 
-    private Request mergeRequest(RequestDto requestDto) {
-        Request request;
+    @Override
+    public void save(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+        Request request = null;
 
-        Long id = requestDto.getId();
-        if (id != null) {
-            request = requestRepository.findOne(id);
-            request.setUpdAudit(sharedUserService.getLoggedUserId());
-        } else {
-            request = new Request();
-            request.setCreateDate(Calendar.getInstance());
-        }
+        if (requestDto != null)
+            request = businessValidation(requestDto, null, responseMessage);
 
-        request.setNumber(requestDto.getNumber());
-        request.setDescription(requestDto.getDescription());
-        request.setLimitTimeDays(requestDto.getLimitTimeDays());
+        if (attentionDto != null)
+            request = businessValidation(null, attentionDto, responseMessage);
 
-        List<SelectList> lstSelectedAreas = new Gson().fromJson(requestDto.getLstSelectedAreas(), new TypeToken<List<SelectList>>() {
-        }.getType());
-
-        if (request.getLstAreas() != null) {
-            request.setLstAreas(null);
-        }
-
-        List<Area> lstNewSelectedAreas = null;
-        for (SelectList item : lstSelectedAreas) {
-            lstNewSelectedAreas = new ArrayList<>();
-            Area a = new Area();
-            a.setId(item.getId());
-            lstNewSelectedAreas.add(a);
-        }
-
-        request.setLstAreas(lstNewSelectedAreas);
-        Letter letter = letterRepository.findOne(requestDto.getLetterId());
-        request.setLetter(letter);
-        request.setInsAudit(sharedUserService.getLoggedUserId());
-
-        return request;
+        doSave(request);
     }
+
 
     @Override
     public void doObsolete(Long id, ResponseMessage response) {
@@ -117,6 +92,55 @@ public class RequestServiceImpl implements RequestService {
         model.setObsolete(true);
         model.setDelAudit(sharedUserService.getLoggedUserId());
         requestRepository.saveAndFlush(model);
+    }
+
+    private Request businessValidation(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+        Request request = null;
+
+        if (requestDto != null) {
+            Long id = requestDto.getId();
+            if (id != null) {
+                request = requestRepository.findByIdAndIsObsolete(id, false);
+                if (request == null) {
+                    responseMessage.setHasError(true);
+                    responseMessage.setMessage("El requerimiento no existe o ha sido eliminado");
+                    return null;
+                }
+                request.setUpdAudit(sharedUserService.getLoggedUserId());
+
+            } else {
+                request = new Request();
+                request.setCreateDate(Calendar.getInstance());
+                request.setInsAudit(sharedUserService.getLoggedUserId());
+            }
+
+            List<SelectList> lstSelectedAreas = new Gson().fromJson(requestDto.getLstSelectedAreas(), new TypeToken<List<SelectList>>() {
+            }.getType());
+
+            if (request.getLstAreas() != null) {
+                request.setLstAreas(null);
+            }
+
+            List<Area> lstNewSelectedAreas = null;
+            for (SelectList item : lstSelectedAreas) {
+                lstNewSelectedAreas = new ArrayList<>();
+                Area a = new Area();
+                a.setId(item.getId());
+                lstNewSelectedAreas.add(a);
+            }
+
+            request.merge(requestDto, null, null);
+            request.setLstAreas(lstNewSelectedAreas);
+            Letter letter = letterRepository.findOne(requestDto.getLetterId());
+            request.setLetter(letter);
+        }
+
+        if (attentionDto != null) {
+            request = requestRepository.findOne(attentionDto.getId());
+            request.merge(null, attentionDto, userRepository.findOne(sharedUserService.getLoggedUserId()));
+        }
+
+        return request;
     }
 
 
@@ -139,7 +163,7 @@ public class RequestServiceImpl implements RequestService {
             return true;
         }
 
-        if (requestDto.getId() == null && requestRepository.findByNumber(requestDto.getNumber()) != null) {
+        if (requestDto.getId() == null && requestRepository.findByNumberAndIsObsolete(requestDto.getNumber(), false) != null) {
             responseMessage.setHasError(true);
             responseMessage.setMessage("Ya existe un requerimiento con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
             return true;
@@ -170,10 +194,7 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage) {
         Request model = requestRepository.findOne(attentionDto.getId());
-        model.setAttended(true);
-        model.setAttentionComment(attentionDto.getAttentionComment());
-        model.setAttentionDate(Calendar.getInstance());
-        model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
         requestRepository.saveAndFlush(model);
         responseMessage.setHasError(false);
     }
@@ -192,8 +213,8 @@ public class RequestServiceImpl implements RequestService {
 
         List<UploadFileGeneric> lstFiles = model.getLstEvidences();
 
-        for (int i=lstFiles.size()-1; i>=0;  i--){
-            if(lstFiles.get(i).getId().equals(upFileId))
+        for (int i = lstFiles.size() - 1; i >= 0; i--) {
+            if (lstFiles.get(i).getId().equals(upFileId))
                 lstFiles.remove(i);
         }
 
