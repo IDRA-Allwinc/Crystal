@@ -1,7 +1,6 @@
 package com.crystal.repository.catalog;
 
 import com.crystal.model.entities.audit.Request;
-import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RequestDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +21,8 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     @Query("select r.number from Request r where r.id = :requestId and r.isObsolete = false")
     String findNumberById(@Param("requestId") Long requestId);
+
+    Request findByIdAndIsObsolete(Long id, boolean b);
 
     @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate,r.attentionUser.fullName) from Request r " +
             "left join r.attentionUser u " +

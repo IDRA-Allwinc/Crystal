@@ -2,6 +2,7 @@
 
 <script>
     $(document).ready(function () {
+
         window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
         var tableId = '#tblUfGrid';
         $(tableId).bootstrapTable();
@@ -22,7 +23,7 @@
                     }
 
                     scope.rv.setSuccess(data.result);
-                    $(tableId).bootstrapTable('refresh', 'showLoading', { silent: true });
+                    $(tableId).bootstrapTable('refresh', 'showLoading');
 
                 } catch (ex) {
                     scope.rv.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
@@ -166,6 +167,7 @@
                                        data-page-list="[5, 10, 20, 50, All]"
                                        data-search="true"
                                        data-sort-name="id"
+                                       data-sort-order="desc"
                                        data-show-refresh="true"
                                        data-show-toggle="true"
                                        data-show-columns="true"
@@ -175,15 +177,11 @@
                                        data-id-field="id">
                                     <thead>
                                     <tr>
-                                        <th data-field="id" data-visible="false">Identificador
-                                        </th>
-                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento
-                                        </th>
-                                        <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n
-                                        </th>
-                                        <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"
-                                            data-width="200px" data-events="actionEvents">Acci&oacute;n
-                                        </th>
+                                        <th data-field="id" data-visible="false">Identificador</th>
+                                        <th data-field="requestId" data-visible="false">ID requisito</th>
+                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
+                                        <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n</th>
+                                        <th data-field="Actions" data-formatter="actionsUploadFileFormatter" data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n</th>
                                     </tr>
                                     </thead>
                                 </table>

@@ -140,4 +140,17 @@ public class RequestController {
     }
 
 
+    @RequestMapping(value = "/audit/request/doDeleteUpFile", method = RequestMethod.POST)
+    public ResponseMessage doDeleteUpFile(@RequestParam(required = true) Long requestId, @RequestParam(required = true) Long upfileId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            requestService.doDeleteUpFile(requestId, upfileId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteUpFile", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
 }

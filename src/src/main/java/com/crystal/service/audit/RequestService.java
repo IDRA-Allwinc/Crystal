@@ -26,4 +26,6 @@ public interface RequestService {
     public void attention(Long id, ModelAndView modelView);
 
     public void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage);
+
+    void doDeleteUpFile(Long requestId, Long upfileId, ResponseMessage response);
 }

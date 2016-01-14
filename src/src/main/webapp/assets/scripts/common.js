@@ -1,19 +1,19 @@
 ﻿window.showUpsertParams = function (param, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.show(param, urlToGo).
-        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading', { silent: true }); });
+        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading'); });
 };
 
 window.showUpsert = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.show({ id: id }, urlToGo).
-        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading', { silent: true }); });
+        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading'); });
 };
 
 window.showCreate = function (data, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.show(data, urlToGo).
-        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', { silent: true }); });
+        then(function () { if(jqGridToUse) $(jqGridToUse).bootstrapTable('refresh', 'showLoading'); });
 };
 
 
@@ -23,7 +23,7 @@ window.showConfirmService = function (id, divScope, urlToGo, title, msg, jqGridT
     scope.vm.doConfirm({ id: id }, urlToGo, title, msg, innerScp).
         then(function () {
             if (jqGridToUse !== undefined)
-                $(jqGridToUse).bootstrapTable('refresh', { silent: true });
+                $(jqGridToUse).bootstrapTable('refresh', 'showLoading');
 
             if (callback !== undefined) {
                 callback();
@@ -35,7 +35,7 @@ window.showConfirmService = function (id, divScope, urlToGo, title, msg, jqGridT
 window.showConfirmCancelDocument = function (id, folio, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.vm.doCancelDocument({ uuid: id }, urlToGo, folio).
-        then(function () { $(jqGridToUse).bootstrapTable('refresh', {silent: true}); });
+        then(function () { $(jqGridToUse).bootstrapTable('refresh', 'showLoading'); });
 };
 
 window.showObsolete = function (id, divScope, urlToGo, jqGridToUse, callback, innerScp) {
@@ -43,7 +43,19 @@ window.showObsolete = function (id, divScope, urlToGo, jqGridToUse, callback, in
     scope.vm.doObsolete({ id: id }, urlToGo, innerScp).
         then(function () {
             if (jqGridToUse !== undefined)
-                $(jqGridToUse).bootstrapTable('refresh', {silent: true});
+                $(jqGridToUse).bootstrapTable('refresh', 'showLoading');
+            if (callback !== undefined) {
+                callback();
+            }
+        });
+};
+
+window.showObsoleteParam = function (params, divScope, urlToGo, jqGridToUse, callback, innerScp) {
+    var scope = angular.element($(divScope)).scope();
+    scope.vm.doObsolete(params, urlToGo, innerScp).
+        then(function () {
+            if (jqGridToUse !== undefined)
+                $(jqGridToUse).bootstrapTable('refresh', 'showLoading');
             if (callback !== undefined) {
                 callback();
             }
@@ -55,7 +67,7 @@ window.showDrop = function (id, divScope, urlToGo, jqGridToUse, callback, innerS
     scope.vm.doDrop({ id: id }, urlToGo, innerScp).
         then(function () {
             if (jqGridToUse !== undefined)
-                $(jqGridToUse).bootstrapTable('refresh', { silent: true });
+                $(jqGridToUse).bootstrapTable('refresh', 'showLoading');
             if (callback !== undefined) {
                 callback();
             }
