@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit.view;
 
+import com.crystal.model.shared.Constants;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -11,14 +12,14 @@ import javax.persistence.Id;
  */
 @Entity
 @Subselect("select id_request, number, description, id_letter idLetter, is_attended isAttended, concat('', date(adddate(create_date, limit_time_days))) deadLine, \n" +
-        "case\n" +
-        "when is_attended = 1 and adddate(create_date, limit_time_days) < attention_date then 'blue'\n" +
-        "when is_attended = 1 and adddate(create_date, limit_time_days) > attention_date then 'orange'\n" +
-        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) <= 1 then 'red'\n" +
-        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) = 2 then 'yellow'\n" +
-        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) > 2 then 'green'\n" +
-        "else 'red'\n" +
-        "end color\n" +
+        "case " +
+        "when is_attended = 1 and attention_date < adddate(create_date, limit_time_days) then 'blue' " +
+        "when is_attended = 1 and attention_date >  adddate(create_date, limit_time_days) then 'orange' " +
+        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) <= " + Constants.redFlag + " then 'red' " +
+        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) = " + Constants.yelllowFlag+ "  then 'yellow' " +
+        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) > " + Constants.yelllowFlag+ " then 'green' " +
+        "else 'red' " +
+        "end color " +
         "from request where is_obsolete = 0")
 public class RequestView {
     @Id
