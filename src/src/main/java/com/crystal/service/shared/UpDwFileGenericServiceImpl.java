@@ -210,11 +210,27 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
         switch (type) {
             case Constants.UploadFile.REQUEST:
-                if (uploadRequest.getId() == null) {
+                Long requestId = uploadRequest.getId();
+                if (requestId == null) {
                     resMsg.setMessage("El archivo no está asociado a un requerimiento");
                     resMsg.setHasError(true);
                     return false;
                 }
+
+                Boolean isAttended = requestRepository.isAttendedById(requestId);
+
+                if (isAttended == null) {
+                    resMsg.setMessage("El requerimiento fue eliminado o no existe");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (isAttended == true) {
+                    resMsg.setMessage("No es posible agregar un archivo debido a que el requerimiento ya fue atendido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
                 if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
                     resMsg.setMessage("Descripción es un campo requerido");
                     resMsg.setHasError(true);

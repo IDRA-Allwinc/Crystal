@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("SELECT uf.id_upload_file_generic id, uf.file_name fileName, uf.description, r.id_request requestId " +
+@Subselect("SELECT uf.id_upload_file_generic id, uf.file_name fileName, uf.description, r.id_request requestId, r.is_attended isAttended " +
         "FROM request r " +
         "INNER JOIN request_upload_file_generic_rel ru ON r.id_request = ru.id_request " +
         "INNER JOIN upload_file_generic uf ON uf.id_upload_file_generic = ru.id_upload_file_generic " )
@@ -17,6 +17,7 @@ public class RequestUploadFileView {
     private String fileName;
     private String description;
     private Long requestId;
+    private Boolean isAttended;
 
     public Long getId() {
         return id;
@@ -48,5 +49,13 @@ public class RequestUploadFileView {
 
     public void setRequestId(Long requestId) {
         this.requestId = requestId;
+    }
+
+    public Boolean getIsAttended() {
+        return isAttended;
+    }
+
+    public void setIsAttended(Boolean isAttended) {
+        this.isAttended = isAttended;
     }
 }

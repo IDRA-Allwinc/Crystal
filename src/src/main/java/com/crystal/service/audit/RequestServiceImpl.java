@@ -187,10 +187,8 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public void upsertViewDocs(Long requestId, ModelAndView modelAndView) {
-        RequestDto model = new RequestDto();
-        model.setId(requestId);
+        RequestDto model = requestRepository.findDtoAttById(requestId);
         model.setType(Constants.UploadFile.REQUEST);
-        model.setNumber(requestRepository.findNumberById(requestId));
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
         modelAndView.addObject("model", sModel);
@@ -220,6 +218,13 @@ public class RequestServiceImpl implements RequestService {
         if (model == null) {
             response.setHasError(true);
             response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
+            response.setTitle("Eliminar requerimiento");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar el archivo debido a que el requerimiento ya fue atendido");
             response.setTitle("Eliminar requerimiento");
             return;
         }

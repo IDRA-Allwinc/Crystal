@@ -26,7 +26,15 @@ public class RequestDto {
 
     private Integer type;
 
+    private Boolean isAttended;
+
     public RequestDto() {
+    }
+
+    public RequestDto(Long id, String number, Boolean isAttended) {
+        this.id = id;
+        this.number = number;
+        this.isAttended = isAttended;
     }
 
     public RequestDto(Long id, String number, String description, Integer limitTimeDays, Long letterId) {
@@ -91,5 +99,13 @@ public class RequestDto {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Boolean getIsAttended() {
+        return isAttended;
+    }
+
+    public void setIsAttended(Boolean isAttended) {
+        this.isAttended = isAttended;
     }
 }

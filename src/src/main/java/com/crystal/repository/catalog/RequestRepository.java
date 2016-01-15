@@ -19,13 +19,16 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("select r from Request r where r.id <> :requestId and r.number=:numberStr and r.isObsolete = false")
     public Request findByNumberWithId(@Param("numberStr") String numberStr, @Param("requestId") Long requestId);
 
-    @Query("select r.number from Request r where r.id = :requestId and r.isObsolete = false")
-    String findNumberById(@Param("requestId") Long requestId);
+    @Query("select new com.crystal.model.entities.audit.dto.RequestDto(r.id, r.number, r.isAttended) from Request r where r.id = :requestId and r.isObsolete = false")
+    public RequestDto findDtoAttById(@Param("requestId") Long requestId);
 
-    Request findByIdAndIsObsolete(Long id, boolean b);
+    public Request findByIdAndIsObsolete(Long id, boolean b);
 
     @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate,r.attentionUser.fullName) from Request r " +
             "left join r.attentionUser u " +
             "where r.id=:requestId and r.isObsolete = false")
     public AttentionDto findAttentionInfoById(@Param("requestId") Long requestId);
+
+    @Query("select r.isAttended from Request r where r.id = :requestId and r.isObsolete = false")
+    Boolean isAttendedById(@Param("requestId") Long requestId);
 }
