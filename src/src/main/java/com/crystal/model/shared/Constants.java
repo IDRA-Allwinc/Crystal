@@ -23,6 +23,7 @@ public class Constants {
     //nombre de usuario que otorga spring security cuando no se ha iniciado sesion
     public static final String anonymousUser = "anonymousUser";
 
+    //session check urls
     public static final String sessionCheckoutUrl = "/session/checkout.json";
     public static final String sessionExtendUrl = "/session/extend.json";
 
@@ -31,6 +32,9 @@ public class Constants {
     public static final String FILE_PREFIX_NONE = "NA_";
 
     public static final HashMap<String, Long> accessMap = new HashMap<>();
+
+    public static final String redFlag = "1";
+    public static final String yelllowFlag = "2";
 
     /////////////////////////Settings/////////////////////////////////////
     public static class SystemSettings {
