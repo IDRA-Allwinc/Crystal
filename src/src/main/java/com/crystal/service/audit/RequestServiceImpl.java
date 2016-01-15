@@ -84,7 +84,12 @@ public class RequestServiceImpl implements RequestService {
 
         if (model == null) {
             response.setHasError(true);
-            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema");
+            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
+            response.setTitle("Eliminar requerimiento");
+            return;
+        } else if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar un requerimiento que ya ha sido atendido.");
             response.setTitle("Eliminar requerimiento");
             return;
         }
@@ -99,13 +104,19 @@ public class RequestServiceImpl implements RequestService {
 
         if (requestDto != null) {
             Long id = requestDto.getId();
+
             if (id != null) {
                 request = requestRepository.findByIdAndIsObsolete(id, false);
                 if (request == null) {
                     responseMessage.setHasError(true);
-                    responseMessage.setMessage("El requerimiento no existe o ha sido eliminado");
+                    responseMessage.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
+                    return null;
+                } else if (request.isAttended() == true) {
+                    responseMessage.setHasError(true);
+                    responseMessage.setMessage("No es posible modificar un requerimiento que ya ha sido atendido..");
                     return null;
                 }
+
                 request.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
@@ -135,7 +146,9 @@ public class RequestServiceImpl implements RequestService {
             request.setLetter(letter);
         }
 
-        if (attentionDto != null) {
+        if (attentionDto != null)
+
+        {
             request = requestRepository.findOne(attentionDto.getId());
             request.merge(null, attentionDto, userRepository.findOne(sharedUserService.getLoggedUserId()));
         }
@@ -206,7 +219,7 @@ public class RequestServiceImpl implements RequestService {
 
         if (model == null) {
             response.setHasError(true);
-            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema");
+            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
             response.setTitle("Eliminar requerimiento");
             return;
         }

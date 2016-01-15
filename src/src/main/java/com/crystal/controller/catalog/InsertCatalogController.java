@@ -32,7 +32,7 @@ public class InsertCatalogController {
 
 	@RequestMapping(value = "/catalogs/insertAuditedEntity", method = RequestMethod.GET)
 	public String auditedEntity() {
-		service.auditedEntity();//todo corregir el metodo para que busque el tipo asignado
+		service.auditedEntity();
 		return "auditedEntity OK!";
 	}
 
