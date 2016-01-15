@@ -71,78 +71,83 @@
             </div>
 
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="ibox">
-                            <div class="ibox-title navy-bg">
-                                <h5>Subir documentos al requerimiento {{rv.m.number}}</h5>
+                <div data-ng-show="rv.m.isAttended !== true">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="ibox">
+                                <div class="ibox-title navy-bg">
+                                    <h5>Subir documentos al requerimiento {{rv.m.number}}</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form" enctype="multipart/form-data">
-                        <input type="hidden" id="id" name="id" ng-model="rv.m.id" ng-update-hidden/>
-                        <input type="hidden" id="type" name="type" ng-model="rv.m.type" ng-update-hidden/>
+                    <div class="row">
+                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
+                              enctype="multipart/form-data">
+                            <input type="hidden" id="id" name="id" ng-model="rv.m.id" ng-update-hidden/>
+                            <input type="hidden" id="type" name="type" ng-model="rv.m.type" ng-update-hidden/>
 
-                        <div class="col-xs-4 element-center">
-                            <i class="fa fa-upload modal-icon orange"></i>
-                        </div>
-                        <div class="col-xs-8">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <label class="col-xs-3 control-label font-noraml">Descripci&oacute;n:</label>
-                                    <div class="col-xs-7">
+                            <div class="col-xs-4 element-center">
+                                <i class="fa fa-upload modal-icon orange"></i>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <label class="col-xs-3 control-label font-noraml">Descripci&oacute;n:</label>
+
+                                        <div class="col-xs-7">
                                         <textarea name="description" rows="3" ng-model="rv.m.description"
                                                   placeholder="Ingrese una breve descripci&oacute;n del documento"
                                                   ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
                                               ng-show="FormUpId.description.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                        <span class="error" ng-show="FormUpId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div data-ng-show="rv.m.description">
-                                <br/>
-                                <div class="row">
-                                    <div class="col-xs-8 col-xs-offset-2 element-center">
+                                <div data-ng-show="rv.m.description">
+                                    <br/>
+
+                                    <div class="row">
+                                        <div class="col-xs-8 col-xs-offset-2 element-center">
                                      <span class="btn btn-success fileinput-button element-center">
                                         <i class="glyphicon glyphicon-upload"></i>
                                         <span>Elige el archivo...</span>
                                         <input id="docfileupload" type="file" name="files[]"/>
                                     </span>
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <div class="row">
+                                        <div class="col-xs-8 col-xs-offset-2">
+                                            <div id="progress" class="progress">
+                                                <div class="progress-bar progress-bar-success"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div ng-show="rv.MsgError" class="alert alert-error element-center"
+                                                 ng-bind-html="rv.MsgError">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div ng-show="rv.MsgSuccess" class="alert alert-success element-center"
+                                                 ng-bind-html="rv.MsgSuccess">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <br/>
-
-                                <div class="row">
-                                    <div class="col-xs-8 col-xs-offset-2">
-                                        <div id="progress" class="progress">
-                                            <div class="progress-bar progress-bar-success"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div ng-show="rv.MsgError" class="alert alert-error element-center"
-                                             ng-bind-html="rv.MsgError">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div ng-show="rv.MsgSuccess" class="alert alert-success element-center"
-                                             ng-bind-html="rv.MsgSuccess">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <br/>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -180,9 +185,13 @@
                                     <tr>
                                         <th data-field="id" data-visible="false">Identificador</th>
                                         <th data-field="requestId" data-visible="false">ID requisito</th>
-                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
+                                        <th data-field="isAttended" data-visible="false">Atendido</th>
+                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento
+                                        </th>
                                         <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n</th>
-                                        <th data-field="Actions" data-formatter="actionsUploadFileFormatter" data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n</th>
+                                        <th data-field="Actions" data-formatter="actionsUploadFileFormatter"
+                                            data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n
+                                        </th>
                                     </tr>
                                     </thead>
                                 </table>
