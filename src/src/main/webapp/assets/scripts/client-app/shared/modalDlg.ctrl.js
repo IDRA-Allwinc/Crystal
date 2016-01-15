@@ -132,11 +132,11 @@
                 url: urlToGo,
                 data: data,
                 success: function (resp) {
-                    if (resp.HasError === true) {
+                    if (resp.hasError === true) {
                         vm.sharedSvc.showMsg(
                             {
-                                title: resp.Title,
-                                message: resp.Message,
+                                title: resp.title,
+                                message: resp.message,
                                 type: "danger"
                             }).then(function () { def.reject({ isError: true }); });
                     }

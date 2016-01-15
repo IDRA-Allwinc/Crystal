@@ -23,4 +23,7 @@ public interface LetterRepository extends JpaRepository<Letter,Long>{
 
     @Query("SELECT e.uploadFileGeneric.id FROM LetterUploadFileGenericRel e WHERE e.letter.id=:id")
     List<Long> findFileIdsById(@Param("id") Long id);
+
+    @Query("SELECT count(l) FROM Letter e INNER JOIN e.lstRequest l WHERE e.id=:id AND l.isObsolete = 0")
+    Long countReqByLetterId(@Param("id") Long id);
 }

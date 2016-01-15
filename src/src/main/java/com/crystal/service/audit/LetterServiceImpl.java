@@ -62,6 +62,15 @@ public class LetterServiceImpl implements LetterService {
             return;
         }
 
+        Long countReq = repository.countReqByLetterId(id);
+
+        if(!countReq.equals(0l)){
+            response.setHasError(true);
+            response.setMessage("El oficio no puede ser eliminado porque tiene al menos un requisito");
+            response.setTitle("Eliminar oficio");
+            return;
+        }
+
         model.setObsolete(true);
         model.setDelAudit(userId);
         repository.saveAndFlush(model);
