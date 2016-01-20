@@ -42,7 +42,7 @@ public class AuditServiceImpl implements AuditService {
         AuditDto model;
         if (id != null) {
             model = auditRepository.findDtoById(id);
-            List<SelectList> lstSelectedAreas = areaRepository.findSelectedAreasByAudtiId(id);
+            List<SelectList> lstSelectedAreas = areaRepository.findSelectedAreasByAuditId(id);
             modelView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
 
         } else {
