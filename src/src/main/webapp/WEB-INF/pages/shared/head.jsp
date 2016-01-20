@@ -15,17 +15,17 @@
 <link href="${pageContext.request.contextPath}/assets/content/plugins/chosen/chosen.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/plugins/datapicker/datepicker3.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-
 <link href="${pageContext.request.contextPath}/assets/content/plugins/toastr/toastr.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/animate.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/assets/content/style.css" rel="stylesheet" />
-
-
 <link href="${pageContext.request.contextPath}/assets/content/site.css" rel="stylesheet" />
 
-
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery-2.1.1.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/angular-locale_es-mx.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap.min.js"></script>
+
+
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -33,7 +33,7 @@
 
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/angular.min.js"></script>
+
 
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/main/main.mod.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/client-app/svc/conn.svc.js"></script>

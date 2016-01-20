@@ -100,14 +100,16 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-6 form-group" id="limit_date">
+                                        <div class="col-xs-6 form-group">
                                             <label class="font-noraml col-xs-3">Fecha limite:</label>
-
-                                            <div class="input-group date col-xs-9">
-                                                <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control" ng-model="vm.m.limitDate"
-                                                       disabled>
+                                            <div>
+                                                <p class="input-group">
+                                                      <input type="text" class="form-control" ng-model="vm.m.limitDate" disabled/>
+                                                      <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default"><i
+                                                                class="glyphicon glyphicon-calendar"></i></button>
+                                                      </span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -192,14 +194,6 @@
 </div>
 
 <script>
-
-    $('.input-group.date').datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true
-    });
 
     var config = {
         '.chosen-select': {},
