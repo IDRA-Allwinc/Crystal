@@ -168,16 +168,16 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public void fillAudit(Long id, ModelAndView modelView) {
-        Gson gson = new Gson();
-
-        AuditDto model;
-        model = auditRepository.findDtoById(id);
-        List<SelectList> lstSelectedAreas = areaRepository.findSelectedAreasByAuditId(id);
-        modelView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
-        model.setRole(roleRepository.findOne(sharedUserService.getRoleIdForUser()).getCode());
-        List<SelectList> lstAuditTypes = auditTypeRepository.findNoObsolete();
-        modelView.addObject("lstAuditTypes", lstAuditTypes);
-        modelView.addObject("model", gson.toJson(model));
+//        Gson gson = new Gson();
+//
+//        AuditDto model;
+//        model = auditRepository.findDtoById(id);
+//        List<SelectList> lstSelectedAreas = areaRepository.findSelectedAreasByAuditId(id);
+//        modelView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
+//        model.setRole(roleRepository.findOne(sharedUserService.getRoleIdForUser()).getCode());
+//        List<SelectList> lstAuditTypes = auditTypeRepository.findNoObsolete();
+//        modelView.addObject("lstAuditTypes", lstAuditTypes);
+//        modelView.addObject("model", gson.toJson(model));
     }
 
     @Override

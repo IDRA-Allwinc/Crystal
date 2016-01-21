@@ -207,6 +207,20 @@ div.blocker img {
     font-size: 0.89em;
 }
 
+.i-medium{
+    width: 18px;
+    height: 18px;
+    font-size: 15px;
+}
+
+.tab-size-medium{
+    /*max-height: 66px !important;*/
+}
+
+.tab-select-medium{
+    height: 50px !important;
+}
+
 .cg-notify-message.inspinia-notify {
     background: #fff;
     padding: 0;
