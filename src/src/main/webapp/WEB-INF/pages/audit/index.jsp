@@ -106,14 +106,14 @@
                                     <th data-field="id" data-visible="false" data-card-visible="false"
                                         data-switchable="false">Identificador
                                     </th>
-                                    <th data-field="auditedYear" data-align="center" data-sortable="true"
+                                    <th data-field="auditedYearStr" data-align="center" data-sortable="true"
                                         data-filter-control="input">A&ntilde;o fiscalizado
                                     </th>
                                     <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero de oficio
                                     </th>
                                     <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de auditor&iacute;a</th>
                                     <th data-field="name" data-align="center" data-sortable="true">Nombre de N&uacute;mero de auditor&iacute;a</th>
-                                    <th data-field="auditTypeStr" data-align="center" data-sortable="true">Tipo de auditor&iacute;a</th>
+                                    <th data-field="auditType" data-align="center" data-sortable="true">Tipo de auditor&iacute;a</th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"
                                         data-width="200px" data-events="actionEvents">Acci&oacute;n
                                     </th>

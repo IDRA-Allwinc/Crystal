@@ -43,10 +43,11 @@
                     <div class="col-xs-12">
                         <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)};
+                              vm.lstAuditTypes= ${(lstAuditTypes == null ? "[]" : lstAuditTypes)};
                               vm.urlGetSupervisoryEntities = "<c:url value='/audit/getSupervisoryEntities.json'/>";
                               vm.urlGetAuditedEntities= "<c:url value='/audit/getAreas.json'/>";
-                              vm.urlGetAreas= "<c:url value='/audit/getAreas.json'/>";
-                              vm.lstAuditTypes= ${(lstAuditTypes == null ? "[]" : lstAuditTypes)};
+                              vm.urlGetAreas="<c:url value='/audit/request/getAreas.json'/>";
+                              vm.upsertCtrl = up;
                               vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)};
                               vm.init();'>
 
@@ -100,7 +101,8 @@
 
                                     <div class="col-xs-6">
                                         <div class="col-xs-12">
-                                            {{vm.m.supervisoryEntityId}}
+                                            <input type="hidden" name="supervisoryEntityId"
+                                                   value="{{vm.m.supervisoryEntityId}}">
                                             <label class="font-noraml">&Oacute;rgano fiscalizador:</label>
                                             <input type="text" ng-model="vm.m.supervisoryEntity"
                                                    placeholder="Escriba el nombre del &oacute;rgano fiscalizador o del responsable..."
@@ -127,19 +129,19 @@
                                 <div class="col-xs-12">
                                     <div class="col-xs-5 form-group">
                                         <div class="col-xs-12">
-                                            <label class="control-label font-noraml">N&uacute;mero de
+                                            <label class="control-label font-noraml">N&uacute;mero de la
                                                 auditor&iacute;a:</label>
 
                                             <div>
                                                 <input type="text" name="number" ng-model="vm.m.number"
-                                                       placeholder="Ingrese el n&uacute;mero de auditor&iacute;a"
-                                                       minlenght="1"
+                                                       placeholder="Ingrese el n&uacute;mero de la auditor&iacute;a"
+                                                       minlength="2"
                                                        maxlength="8"
                                                        ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                                                <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 1 y 8 caracteres</span>
-                                                <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 1 y 8 caracteres</span>
+                                                <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 2 y 8 caracteres</span>
+                                                <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 2 y 8 caracteres</span>
                                             </div>
                                         </div>
                                     </div>
@@ -151,7 +153,7 @@
                                             <div>
                                                 <input type="text" name="name" ng-model="vm.m.name"
                                                        placeholder="Ingrese el nombre de la auditor&iacute;a"
-                                                       minlenght="8"
+                                                       minlength="8"
                                                        maxlength="200"
                                                        ng-required="true" class="form-control">
                                         <span class="error"
@@ -187,8 +189,8 @@
                                                 auditor&iacute;a:</label>
 
                                             <div>
-                                                <input type="hidden" ng-update-hidden ng-model="vm.m.auditTypeId"
-                                                       name="auditTypeId" id="auditTypeId">
+                                                <input type="hidden" value="{{vm.m.auditTypeId}}"
+                                                       name="auditTypeId">
                                                 <select class="form-control m-b"
                                                         ng-required="true"
                                                         ng-change="vm.m.auditTypeId = vm.m.auditType.id;"
@@ -328,11 +330,12 @@
                                 <div class="col-xs-12">
 
                                     <div class="col-xs-6" ng-if="vm.m.role==='<%=Constants.ROLE_DGPOP%>'">
+                                        <input type="hidden" name="auditedEntityId" value="{{vm.m.auditedEntityId}}">
                                         <label class="control-label font-noraml">Ente fiscalizado:</label>
-                                        <input type="text" ng-model="vm.m.areaSel"
+                                        <input type="text" ng-model="vm.m.auditedEntity"
                                                placeholder="Escriba el nombre del ente fiscalizado o del responsable..."
                                                uib-typeahead="entity.desc for entity in vm.getAuditedEntities($viewValue)"
-                                               typeahead-on-select="vm.m.auditedEntity = $item;"
+                                               typeahead-on-select="vm.m.auditedEntityId = $item.id;"
                                                typeahead-loading="vm.loadingAuditedEntities"
                                                typeahead-no-results="vm.noResultsAuditedEntities"
                                                typeahead-min-length="1"
@@ -348,6 +351,7 @@
 
                                     <div class="col-xs-6" ng-if="vm.m.role==='<%=Constants.ROLE_LINK%>'">
                                         <label class="control-label font-noraml">Ente fiscalizado:</label>
+                                        <input type="hidden" name="auditedEntityId" value="{{vm.m.auditedEntity.id}}">
                                         <input type="text" readonly ng-model="vm.m.auditedEntity.name"
                                                class="form-control">
                                     </div>
@@ -400,28 +404,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <%--<div class="row">--%>
-                            <%--<div class="col-xs-12">--%>
-                            <%--<div class="col-xs-3 form-group">--%>
-                            <%--<label class="control-label font-noraml">Programa presupuestario:</label>--%>
-
-                            <%--<div>--%>
-                            <%--<input type="text" name="budgetProgram" ng-model="vm.m.budgetProgram"--%>
-                            <%--placeholder="Ingrese el n&uacute;mero de auditor&iacute;a"--%>
-                            <%--minlenght="8"--%>
-                            <%--maxlength="200"--%>
-                            <%--ng-required="true" class="form-control">--%>
-                            <%--<span class="error"--%>
-                            <%--ng-show="FormUpId.budgetProgram.$error.required">*Campo requerido</span>--%>
-                            <%--<span class="error" ng-show="FormUpId.budgetProgram.$error.minlength">*El campo debe tener entre 8 y 200 caracteres</span>--%>
-                            <%--<span class="error" ng-show="FormUpId.budgetProgram.$error.maxlength">*El campo debe tener entre 8 y 200 caracteres</span>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
-
                         </form>
                     </div>
                 </div>
@@ -438,7 +420,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="up.submit('#FormUpId', '<c:url value='/audit/doUpsert.json' />', FormUpId.$valid)">
+                        ng-click="vm.validateAudit() == true ? up.submit('#FormUpId', '<c:url value='/audit/doUpsert.json' />', FormUpId.$valid):''">
                     Guardar
                 </button>
             </div>

@@ -1,6 +1,7 @@
 package com.crystal.model.entities.audit;
 
 import com.crystal.model.entities.account.UserAuditInfo;
+import com.crystal.model.entities.audit.dto.AuditDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.entities.catalog.AuditType;
 import com.crystal.model.entities.catalog.AuditedEntity;
@@ -9,6 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Audit extends UserAuditInfo {
     @Column(name = "id_audit")
     private Long id;
 
-    @Column(name = "letter_number", length = 200, unique = true, nullable = false)
+    @Column(name = "letter_number", length = 200, nullable = false)
     @NotEmpty(message = "El número del oficio es un campo requerido")
     private String letterNumber;
 
@@ -276,5 +278,27 @@ public class Audit extends UserAuditInfo {
 
     public void setObsolete(boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public void merge(AuditDto auditDto) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.letterNumber = auditDto.getLetterNumber();
+        this.number = auditDto.getNumber();
+        this.name = auditDto.getName();
+        this.objective = auditDto.getObjective();
+        this.budgetProgram = auditDto.getBudgetProgram();
+        this.letterDate = Calendar.getInstance();
+        this.reviewInitDate = Calendar.getInstance();
+        this.reviewEndDate = Calendar.getInstance();
+        this.auditedYear = Calendar.getInstance();
+        try {
+            this.letterDate.setTime(sdf.parse(auditDto.getLetterDate()));
+            this.reviewInitDate.setTime(sdf.parse(auditDto.getReviewInitDate()));
+            this.reviewEndDate.setTime(sdf.parse(auditDto.getReviewEndDate()));
+            this.auditedYear.setTime(sdf.parse(auditDto.getAuditedYear()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -17,7 +18,7 @@ public class AuditDto {
     private String letterNumber;
 
     @NotNull(message = "La fecha del oficio es un campo requerido")
-    private Calendar letterDate;
+    private String letterDate;
 
     @NotEmpty(message = "El número de la aduitoría es un campo requerido")
     @Size(min = 8, max = 200, message = "El número de la aduitoría debe tener entre 8 y 200 caracteres")
@@ -32,13 +33,13 @@ public class AuditDto {
     private String objective;
 
     @NotNull(message = "El periodo de la revisión es un campo requerido")
-    private Calendar reviewInitDate;
+    private String reviewInitDate;
 
     @NotNull(message = "El periodo de la revisión es un campo requerido")
-    private Calendar reviewEndDate;
+    private String reviewEndDate;
 
     @NotNull(message = "El año fiscalizado es un campo requerido")
-    private Calendar auditedYear;
+    private String auditedYear;
 
     @NotEmpty(message = "El programa presupuestario es un campo requerido")
     @Size(min = 8, max = 200, message = "El programa presupuestario debe tener entre 8 y 200 caracteres")
@@ -47,13 +48,16 @@ public class AuditDto {
     @NotNull(message = "El órgano fiscalizador es un campo requerido")
     private Long supervisoryEntityId;
 
+    @NotNull(message = "El ente fiscalizado es un campo requerido")
+    private Long auditedEntityId;
+
     @NotNull(message = "El tipo de auditoria es un campo requerido")
     private Long auditTypeId;
 
     private SelectList supervisoryEntity;
     private SelectList auditedEntity;
     private SelectList auditType;
-    private String lstselectedAreas;
+    private String lstSelectedAreas;
     private String role;
 
     public AuditDto() {
@@ -63,15 +67,17 @@ public class AuditDto {
                     Long idSupervisoryEntity, String nameSupervisoryEntity, String responsibleSupervisoryEntity,
                     Long idAuditedEntity, String nameAuditedEntity, String responsibleAuditedEntity,
                     Long idAuditType, String nameAuditType) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/aa");
         this.id = id;
         this.letterNumber = letterNumber;
-        this.letterDate = letterDate;
+        this.letterDate = sdf.format(letterDate);
         this.number = number;
         this.name = name;
         this.objective = objective;
-        this.reviewInitDate = reviewInitDate;
-        this.reviewEndDate = reviewEndDate;
-        this.auditedYear = auditedYear;
+        this.reviewInitDate = sdf.format(reviewInitDate);
+        this.reviewEndDate = sdf.format(reviewEndDate);
+        this.auditedYear = sdf.format(auditedYear);
         this.budgetProgram = budgetProgram;
         this.supervisoryEntity = new SelectList(idSupervisoryEntity, nameSupervisoryEntity, responsibleSupervisoryEntity);
         this.auditedEntity = new SelectList(idAuditedEntity, nameAuditedEntity, responsibleAuditedEntity);
@@ -94,11 +100,11 @@ public class AuditDto {
         this.letterNumber = letterNumber;
     }
 
-    public Calendar getLetterDate() {
+    public String getLetterDate() {
         return letterDate;
     }
 
-    public void setLetterDate(Calendar letterDate) {
+    public void setLetterDate(String letterDate) {
         this.letterDate = letterDate;
     }
 
@@ -126,27 +132,27 @@ public class AuditDto {
         this.objective = objective;
     }
 
-    public Calendar getReviewInitDate() {
+    public String getReviewInitDate() {
         return reviewInitDate;
     }
 
-    public void setReviewInitDate(Calendar reviewInitDate) {
+    public void setReviewInitDate(String reviewInitDate) {
         this.reviewInitDate = reviewInitDate;
     }
 
-    public Calendar getReviewEndDate() {
+    public String getReviewEndDate() {
         return reviewEndDate;
     }
 
-    public void setReviewEndDate(Calendar reviewEndDate) {
+    public void setReviewEndDate(String reviewEndDate) {
         this.reviewEndDate = reviewEndDate;
     }
 
-    public Calendar getAuditedYear() {
+    public String getAuditedYear() {
         return auditedYear;
     }
 
-    public void setAuditedYear(Calendar auditedYear) {
+    public void setAuditedYear(String auditedYear) {
         this.auditedYear = auditedYear;
     }
 
@@ -164,6 +170,14 @@ public class AuditDto {
 
     public void setSupervisoryEntityId(Long supervisoryEntityId) {
         this.supervisoryEntityId = supervisoryEntityId;
+    }
+
+    public Long getAuditedEntityId() {
+        return auditedEntityId;
+    }
+
+    public void setAuditedEntityId(Long auditedEntityId) {
+        this.auditedEntityId = auditedEntityId;
     }
 
     public Long getAuditTypeId() {
@@ -198,12 +212,12 @@ public class AuditDto {
         this.auditType = auditType;
     }
 
-    public String getLstselectedAreas() {
-        return lstselectedAreas;
+    public String getLstSelectedAreas() {
+        return lstSelectedAreas;
     }
 
-    public void setLstselectedAreas(String lstselectedAreas) {
-        this.lstselectedAreas = lstselectedAreas;
+    public void setLstSelectedAreas(String lstSelectedAreas) {
+        this.lstSelectedAreas = lstSelectedAreas;
     }
 
     public String getRole() {

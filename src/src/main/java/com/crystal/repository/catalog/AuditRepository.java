@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Repository
-public interface AuditRepository extends JpaRepository<Audit,Long>{
+public interface AuditRepository extends JpaRepository<Audit, Long> {
 
     @Query(value = "select new com.crystal.model.entities.audit.dto.AuditDto(a.id, a.letterNumber,a.letterDate,a.number,a.name,a.objective,a.reviewInitDate,a.reviewEndDate,a.auditedYear,a.budgetProgram," +
             "       se.id, se.name, se.responsible," +
@@ -17,7 +17,15 @@ public interface AuditRepository extends JpaRepository<Audit,Long>{
             "inner join a.supervisoryEntity se " +
             "inner join a.auditedEntity ae " +
             "inner join a.auditType at where a.isObsolete=false")
-    public AuditDto findDtoById(@RequestParam("auditId")Long auditId);
+    public AuditDto findDtoById(@RequestParam("auditId") Long auditId);
 
     Audit findByIdAndIsObsolete(Long id, boolean bIsObsolete);
+
+
+    @Query(value = "select a from Audit a " +
+            "where a.isObsolete=false " +
+            "and a.letterNumber=:letterNumber " +
+            "and a.id <> :auditId")
+    public Audit findByLetterNumberAndId(@RequestParam("letterNumber") String letterNumber, @RequestParam("auditId") Long auditId);
+
 }

@@ -16,6 +16,6 @@ public interface AuditTypeRepository extends JpaRepository<AuditType, Long> {
     @Query("select new com.crystal.model.entities.catalog.dto.AuditTypeDto(at.id, at.name, at.description) from AuditType at where at.id=:auditTypeId")
     public AuditTypeDto findDtoById(@Param("auditTypeId") Long auditTypeId);
 
-    @Query("select new com.crystal.model.entities.catalog.dto.AuditTypeDto(at.id, at.name, at.description) from AuditType at where at.isObsolete=false")
+    @Query("select new com.crystal.model.shared.SelectList(at.id, at.name, at.description) from AuditType at where at.isObsolete=false")
     public List<SelectList> findNoObsolete();
 }

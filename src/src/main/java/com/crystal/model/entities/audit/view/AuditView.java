@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.util.Calendar;
 
 @Entity
-@Subselect("select a.id_audit, a.audited_year, a.letter_number, a.number, a.name, at.name as auditType, ae.id_audited_entity, aet.code, a.is_obsolete " +
+@Subselect("select a.id_audit, a.audited_year, a.letter_number, a.number, a.name, at.name as auditType, ae.id_audited_entity, aet.code, a.is_obsolete, '' as auditedYearStr " +
         "from audit a " +
         "inner join audit_type at on a.id_audit_type = at.id_audit_type " +
         "inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity " +
@@ -34,6 +34,8 @@ public class AuditView {
     private String auditedEntityTypeCode;
     @Column(name = "is_obsolete")
     private boolean isObsolete;
+    @Column(name = "auditedYearStr")
+    private String auditedYearStr;
 
     public Long getId() {
         return id;
@@ -105,6 +107,17 @@ public class AuditView {
 
     public void setObsolete(boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public String getAuditedYearStr() {
+        if (this.auditedYear != null) {
+            this.auditedYearStr = String.valueOf(auditedYear.get(Calendar.YEAR));
+        }
+        return auditedYearStr;
+    }
+
+    public void setAuditedYearStr(String auditedYearStr) {
+        this.auditedYearStr = auditedYearStr;
     }
 }
 
