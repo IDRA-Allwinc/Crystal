@@ -98,7 +98,7 @@ public class Audit extends UserAuditInfo {
     @OneToMany(mappedBy = "audit", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Responsibility> lstResponsibility;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "audit_area_rel",
             joinColumns = {@JoinColumn(name = "id_audit", referencedColumnName = "id_audit", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area", nullable = false)})

@@ -420,7 +420,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="vm.validateAudit() == true ? up.submit('#FormUpId', '<c:url value='/audit/doUpsert.json' />', FormUpId.$valid):''">
+                        ng-click="vm.validateAudit() == true ? up.submitRedirect('#FormUpId', '<c:url value='/audit/doUpsert.json' />', false):''">
                     Guardar
                 </button>
             </div>

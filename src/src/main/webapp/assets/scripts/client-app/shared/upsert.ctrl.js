@@ -1,4 +1,4 @@
-﻿(function() {
+﻿(function () {
     "use strict";
     angular
         .module(window.constMainApp)
@@ -27,7 +27,6 @@
 
         function submit(formId, urlToPost, isValid, hasReturnId) {
             vm.MsgError = "";
-
             if (isValid !== undefined) {
                 if (isValid !== true) {
                     vm.MsgError = $sce.trustAsHtml("Existe uno o más campos que no son válidos, son requeridos o su longitud está fuera de lo permitido.");
@@ -102,13 +101,12 @@
 
         function handleSuccessRedirect(resp) {
             vm.WaitFor = false;
-
             try {
                 if (resp.hasError === undefined) {
                     resp = resp.message;
                 }
                 if (resp.hasError === false) {
-                    window.goToUrlMvcUrl(resp.UrlToGo, "");
+                    window.goToUrlMvcUrl(resp.urlToGo, "");
                     vm.WaitFor = false;
                     $scope.$apply();
                     return;
@@ -133,7 +131,7 @@
                 if (resp.hasError === false) {
                     $rootScope.$broadcast("onLastId", resp.Id);
                     vm.Model.dlg.modal('hide');
-                    vm.Model.def.resolve({ isCancel: false });
+                    vm.Model.def.resolve({isCancel: false});
                     return;
                 }
 
@@ -156,13 +154,16 @@
 
                 if (resp.hasError === false) {
 
+                    if (vm.Model.dlg == undefined)
+                        return;
+
                     if (vm.config.isModal === true) {
                         vm.Model.dlg.modal('hide');
-                        vm.Model.def.resolve({ isCancel: false, resp: resp });
+                        vm.Model.def.resolve({isCancel: false, resp: resp});
                     }
 
                     if (vm.config.hasNotify === true) {
-                        notify({ message: resp.message, classes: 'alert-info' });
+                        notify({message: resp.message, classes: 'alert-info'});
                     }
 
                     $rootScope.$broadcast("onSuccessNotification", resp);
@@ -173,7 +174,7 @@
                 vm.MsgError = $sce.trustAsHtml(resp.message);
 
                 if (vm.config.hasNotifyError === true) {
-                    notify({ message: resp.message, classes: 'alert-danger' });
+                    notify({message: resp.message, classes: 'alert-danger'});
                 }
 
                 $scope.$apply();
@@ -181,7 +182,7 @@
             } catch (e) {
                 vm.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
                 if (vm.config.hasNotifyError === true) {
-                    notify({ message: resp.message, classes: 'alert-danger' });
+                    notify({message: resp.message, classes: 'alert-danger'});
                 }
                 $scope.$apply();
             }
@@ -191,7 +192,7 @@
             vm.WaitFor = false;
             vm.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
             if (vm.config.hasNotifyError === true) {
-                notify({ message: resp.message, classes: 'alert-danger' });
+                notify({message: resp.message, classes: 'alert-danger'});
             }
             $scope.$apply();
         };
@@ -200,9 +201,9 @@
             vm.Model.dlg.modal('hide');
 
             if (isOk === true)
-                vm.Model.def.resolve({ isCancel: false });
+                vm.Model.def.resolve({isCancel: false});
             else
-                vm.Model.def.reject({ isCancel: true });
+                vm.Model.def.reject({isCancel: true});
         };
 
         function setDlg(dlg, urlToSubmit) {

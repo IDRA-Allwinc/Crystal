@@ -35,7 +35,20 @@
         };
 
         function init() {
+            if (vm.m.auditType != null)
+                vm.m.auditTypeId = vm.m.auditType.id
+
             vm.m.auditType = window.initCatalog(vm.lstAuditTypes, vm.m.auditTypeId);
+
+            if (vm.m.supervisoryEntity != undefined) {
+                vm.m.supervisoryEntityId = vm.m.supervisoryEntity.id;
+                vm.m.supervisoryEntity = vm.m.supervisoryEntity.name + " (" + vm.m.supervisoryEntity.description + ")"
+            }
+
+            for (var i = 0; i < vm.lstSelectedAreas.length; i++) {
+                vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ")"
+            }
+
             if (vm.m.auditedEntity != undefined)
                 vm.m.auditedEnttityId = vm.m.auditedEntity.id;
         };

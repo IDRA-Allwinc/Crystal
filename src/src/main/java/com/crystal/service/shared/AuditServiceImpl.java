@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +102,7 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public void save(AuditDto auditDto, ResponseMessage responseMessage) {
+    public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) {
 
         Audit audit;
         audit = businessValidation(auditDto, responseMessage);
@@ -137,6 +138,9 @@ public class AuditServiceImpl implements AuditService {
         audit.setLstAreas(lstNewSelectedAreas);
 
         doSave(audit);
+
+        responseMessage.setHasError(false);
+        responseMessage.setUrlToGo(request.getContextPath() + "/audit/fillAudit.json?id=" + audit.getId());
     }
 
     @Override
@@ -168,16 +172,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public void fillAudit(Long id, ModelAndView modelView) {
-//        Gson gson = new Gson();
-//
-//        AuditDto model;
-//        model = auditRepository.findDtoById(id);
-//        List<SelectList> lstSelectedAreas = areaRepository.findSelectedAreasByAuditId(id);
-//        modelView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
-//        model.setRole(roleRepository.findOne(sharedUserService.getRoleIdForUser()).getCode());
-//        List<SelectList> lstAuditTypes = auditTypeRepository.findNoObsolete();
-//        modelView.addObject("lstAuditTypes", lstAuditTypes);
-//        modelView.addObject("model", gson.toJson(model));
+        upsert(id, modelView);
     }
 
     @Override

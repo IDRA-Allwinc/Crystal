@@ -68,16 +68,16 @@ public class AuditDto {
                     Long idAuditedEntity, String nameAuditedEntity, String responsibleAuditedEntity,
                     Long idAuditType, String nameAuditType) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/aa");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.letterNumber = letterNumber;
-        this.letterDate = sdf.format(letterDate);
+        this.letterDate = sdf.format(letterDate.getTime());
         this.number = number;
         this.name = name;
         this.objective = objective;
-        this.reviewInitDate = sdf.format(reviewInitDate);
-        this.reviewEndDate = sdf.format(reviewEndDate);
-        this.auditedYear = sdf.format(auditedYear);
+        this.reviewInitDate = sdf.format(reviewInitDate.getTime());
+        this.reviewEndDate = sdf.format(reviewEndDate.getTime());
+        this.auditedYear = sdf.format(auditedYear.getTime());
         this.budgetProgram = budgetProgram;
         this.supervisoryEntity = new SelectList(idSupervisoryEntity, nameSupervisoryEntity, responsibleSupervisoryEntity);
         this.auditedEntity = new SelectList(idAuditedEntity, nameAuditedEntity, responsibleAuditedEntity);

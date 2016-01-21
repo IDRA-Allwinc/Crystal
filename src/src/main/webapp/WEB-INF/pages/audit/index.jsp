@@ -5,7 +5,8 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
+          type="text/css">
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/audit.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.1.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.1.0.min.js"></script>
@@ -32,7 +33,7 @@
 
         window.actionEvents = {
             'click .act-audit-track': function (e, value, row) {
-                window.goToUrlMvcUrl("<c:url value='/audit/doObsolete.json' />", {id: row.id});
+                window.goToUrlMvcUrl("<c:url value='/audit/fillAudit.json?id' />", {id: 'id=' + row.id});
             },
             'click .act-delete': function (e, value, row) {
                 window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/doObsolete.json' />", "#tblGrid");
@@ -60,7 +61,8 @@
                 <br/>
 
                 <div class="alert alert-info alert-10">
-                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede registrar y administrar auditor&iacute;as.
+                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede registrar y administrar
+                    auditor&iacute;as.
                 </div>
             </div>
         </div>
@@ -108,10 +110,15 @@
                                     <th data-field="auditedYearStr" data-align="center" data-sortable="true"
                                         data-filter-control="input">A&ntilde;o fiscalizado
                                     </th>
-                                    <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero de oficio
+                                    <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero
+                                        de oficio
                                     </th>
-                                    <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de auditor&iacute;a</th>
-                                    <th data-field="name" data-align="center" data-sortable="true">Nombre de N&uacute;mero de auditor&iacute;a</th>
+                                    <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de
+                                        auditor&iacute;a
+                                    </th>
+                                    <th data-field="name" data-align="center" data-sortable="true">Nombre de N&uacute;mero
+                                        de auditor&iacute;a
+                                    </th>
                                     <th data-field="auditType" data-align="center" data-sortable="true">Tipo de auditor&iacute;a</th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"
                                         data-width="200px" data-events="actionEvents">Acci&oacute;n

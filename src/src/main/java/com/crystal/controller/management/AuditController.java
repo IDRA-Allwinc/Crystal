@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -58,13 +59,13 @@ public class AuditController {
     }
 
     @RequestMapping(value = "/audit/doUpsert", method = RequestMethod.POST)
-    public ResponseMessage doUpsert(@Valid AuditDto modelNew, BindingResult result) {
+    public ResponseMessage doUpsert(@Valid AuditDto modelNew, BindingResult result, HttpServletRequest request) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            auditservice.save(modelNew, response);
+            auditservice.save(modelNew, response, request);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
             response.setHasError(true);
@@ -91,11 +92,12 @@ public class AuditController {
 
 
     @RequestMapping(value = "/audit/fillAudit", method = RequestMethod.GET)
-    public ModelAndView fillAudit(@RequestParam(required = false) Long id) {
+    public ModelAndView fillAudit(@RequestParam(required = true) Long id) {
         ModelAndView modelView = new ModelAndView("/audit/fillAudit");
         try {
             auditservice.fillAudit(id, modelView);
         } catch (Exception ex) {
+            ex.printStackTrace();
             logException.Write(ex, this.getClass(), "fillAudit", sharedUserService);
         }
         return modelView;
