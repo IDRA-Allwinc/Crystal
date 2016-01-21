@@ -19,4 +19,5 @@ public interface AuditRepository extends JpaRepository<Audit,Long>{
             "inner join a.auditType at where a.isObsolete=false")
     public AuditDto findDtoById(@RequestParam("auditId")Long auditId);
 
+    Audit findByIdAndIsObsolete(Long id, boolean bIsObsolete);
 }

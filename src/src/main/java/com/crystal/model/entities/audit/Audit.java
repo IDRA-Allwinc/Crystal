@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit;
 
+import com.crystal.model.entities.account.UserAuditInfo;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.entities.catalog.AuditType;
 import com.crystal.model.entities.catalog.AuditedEntity;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "audit")
-public class Audit {
+public class Audit extends UserAuditInfo {
 
     @Id
     @GeneratedValue

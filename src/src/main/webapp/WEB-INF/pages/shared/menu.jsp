@@ -100,6 +100,9 @@
                 <li data-ng-class="mn.menu === 2 ? 'active' : ''">
                     <a class="sub-menu-lbl" href="<c:url value='/audit/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
                 </li>
+                <li data-ng-class="mn.menu === 3 ? 'active' : ''">
+                    <a class="sub-menu-lbl" href="<c:url value='/audit/index.html'/>"><i class="fa fa-briefcase"></i><span class="nav-label">Auditorias</span></a>
+                </li>
             </sec:authorize>
 
             <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK)">

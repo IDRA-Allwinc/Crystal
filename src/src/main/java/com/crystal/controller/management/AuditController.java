@@ -1,5 +1,6 @@
 package com.crystal.controller.management;
 
+import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.shared.AuditService;
 import com.crystal.service.shared.GridService;
@@ -68,18 +69,31 @@ public class AuditController {
 //        }
 //    }
 //
-//    @RequestMapping(value = "/management/auditedEntity/doObsolete", method = RequestMethod.POST)
-//    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
-//        ResponseMessage response = new ResponseMessage();
-//        try {
-//            auditedEntityService.doObsolete(id,response);
-//        } catch (Exception ex) {
-//            logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);
-//            response.setHasError(true);
-//            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
-//        } finally {
-//            return response;
-//        }
-//    }
+    @RequestMapping(value = "/audit/doObsolete", method = RequestMethod.POST)
+    public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            Long userId = sharedUserService.getLoggedUserId();
+            auditservice.doObsolete(id, userId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+
+    @RequestMapping(value = "/audit/fillAudit", method = RequestMethod.POST)
+    public ModelAndView fillAudit(@RequestParam(required = true) Long id) {
+        ModelAndView modelView = new ModelAndView("/audit/fillAudit");
+        try {
+            auditservice.fillAudit(id, modelView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "fillAudit", sharedUserService);
+        }
+        return modelView;
+    }
 
 }
