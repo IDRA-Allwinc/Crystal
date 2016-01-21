@@ -45,7 +45,7 @@
                               ng-init='vm.m = ${(model == null ? "{}" : model)};
                               vm.lstAuditTypes= ${(lstAuditTypes == null ? "[]" : lstAuditTypes)};
                               vm.urlGetSupervisoryEntities = "<c:url value='/audit/getSupervisoryEntities.json'/>";
-                              vm.urlGetAuditedEntities= "<c:url value='/audit/getAreas.json'/>";
+                              vm.urlGetAuditedEntities= "<c:url value='/audit/getAuditedEntities.json'/>";
                               vm.urlGetAreas="<c:url value='/audit/request/getAreas.json'/>";
                               vm.upsertCtrl = up;
                               vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)};
@@ -206,7 +206,7 @@
                                                 <div>
                                                     <p class="input-group">
                                                         <input type="text" class="form-control" name="auditedYear"
-                                                               uib-datepicker-popup="yyyy/MM/dd"
+                                                               uib-datepicker-popup="yyyy"
                                                                ng-model="vm.m.auditedYear"
                                                                is-open="vm.m.auditedYearIsOpened"
                                                                ng-required="true"
@@ -247,7 +247,7 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="reviewInitDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd"
+                                                           uib-datepicker-popup="yyyy/MM"
                                                            ng-model="vm.m.reviewInitDate"
                                                            is-open="vm.m.reviewInitDateIsOpened"
                                                            ng-required="true"
@@ -277,7 +277,7 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="reviewEndDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd"
+                                                           uib-datepicker-popup="yyyy/MM"
                                                            ng-model="vm.m.reviewEndDate"
                                                            is-open="vm.m.reviewEndDateIsOpened"
                                                            ng-required="true"
@@ -328,13 +328,12 @@
 
                             <div class="row">
                                 <div class="col-xs-12">
-
                                     <div class="col-xs-6" ng-if="vm.m.role==='<%=Constants.ROLE_DGPOP%>'">
                                         <input type="hidden" name="auditedEntityId" value="{{vm.m.auditedEntityId}}">
-                                        <label class="control-label font-noraml">Ente fiscalizado:</label>
+                                        <label class="font-noraml">Ente fiscalizado:</label>
                                         <input type="text" ng-model="vm.m.auditedEntity"
                                                placeholder="Escriba el nombre del ente fiscalizado o del responsable..."
-                                               uib-typeahead="entity.desc for entity in vm.getAuditedEntities($viewValue)"
+                                               uib-typeahead="auditedEntity.desc for auditedEntity in vm.getAuditedEntities($viewValue)"
                                                typeahead-on-select="vm.m.auditedEntityId = $item.id;"
                                                typeahead-loading="vm.loadingAuditedEntities"
                                                typeahead-no-results="vm.noResultsAuditedEntities"

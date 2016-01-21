@@ -47,6 +47,11 @@ public class AuditController {
         return new Gson().toJson(auditservice.getSupervisoryEntities(supervisoryStr));
     }
 
+    @RequestMapping(value = "/audit/getAuditedEntities", method = RequestMethod.GET)
+    public String getAuditedEntities(@RequestParam(required = true) String auditedStr) {
+        return new Gson().toJson(auditservice.getAuditedEntities(auditedStr));
+    }
+
     @RequestMapping(value = "/audit/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/audit/upsert");

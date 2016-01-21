@@ -14,6 +14,8 @@ public interface AuditService {
 
     List<SelectList> getSupervisoryEntities(String supervisoryStr);
 
+    List<SelectList> getAuditedEntities(String auditedStr);
+
     Object getAuditsByRole(GridService gridService);
 
     void fillAudit(Long id, ModelAndView modelView);

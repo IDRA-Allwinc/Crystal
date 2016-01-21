@@ -20,6 +20,8 @@
         vm.pushArea = pushArea;
         vm.popArea = popArea;
         vm.validateAudit = validateAudit;
+        vm.getAuditedEntities = getAuditedEntities;
+        vm.findAuditedEntitySelected = findAuditedEntitySelected;
 
         vm.reviewRangeOptionsYear = {
             datepickerMode: "'year'",
@@ -40,18 +42,50 @@
 
             vm.m.auditType = window.initCatalog(vm.lstAuditTypes, vm.m.auditTypeId);
 
-            if (vm.m.supervisoryEntity != undefined) {
+            if (vm.m.supervisoryEntity != undefined && vm.m.supervisoryEntity.id != undefined) {
                 vm.m.supervisoryEntityId = vm.m.supervisoryEntity.id;
                 vm.m.supervisoryEntity = vm.m.supervisoryEntity.name + " (" + vm.m.supervisoryEntity.description + ")"
+            }
+
+            if (vm.m.auditedEntity != undefined && vm.m.auditedEntity.id != undefined) {
+                vm.m.auditedEntityId = vm.m.auditedEntity.id;
+                vm.m.auditedEntity = vm.m.auditedEntity.name + " (" + vm.m.auditedEntity.description + ")"
             }
 
             for (var i = 0; i < vm.lstSelectedAreas.length; i++) {
                 vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ")"
             }
 
-            if (vm.m.auditedEntity != undefined)
-                vm.m.auditedEnttityId = vm.m.auditedEntity.id;
+            if (vm.m.letterDate != undefined)
+                vm.m.letterDate = new Date(vm.m.letterDate);
+            if (vm.m.auditedYear != undefined)
+                vm.m.auditedYear = new Date(vm.m.auditedYear);
+            if (vm.m.reviewInitDate != undefined)
+                vm.m.reviewInitDate = new Date(vm.m.reviewInitDate);
+            if (vm.m.reviewEndDate != undefined)
+                vm.m.reviewEndDate = new Date(vm.m.reviewEndDate);
         };
+
+        function getAuditedEntities(str) {
+            return $http.get(vm.urlGetAuditedEntities, {params: {auditedStr: str}})
+                .then(function (response) {
+
+                    if (!response.data.length > 0)
+                        vm.m.auditedEntityId = undefined;
+
+                    for (var x = response.data.length - 1; x > -1; x--) {
+                        if (vm.findAuditedEntitySelected(response.data[x]) == true) {
+                            response.data.splice(x, 1);
+                        }
+                    }
+
+                    return response.data.map(function (item) {
+                        item.desc = item.name + " (" + item.description + ") ";
+                        return item;
+                    });
+                });
+        };
+
 
         function getSupervisoryEntities(str) {
             return $http.get(vm.urlGetSupervisoryEntities, {params: {supervisoryStr: str}})
@@ -83,6 +117,16 @@
             return false;
         };
 
+        function findAuditedEntitySelected(obj) {
+            if (vm.m.auditedEntity === undefined)
+                return false;
+
+            if (obj.id === vm.m.auditedEntity.id) {
+                return true;
+            }
+            return false;
+        };
+
         function validateAudit() {
             var valid = true
             var msg = "";
@@ -93,8 +137,8 @@
                 valid = false
             }
 
-            if (vm.m.auditedEnttityId == undefined) {
-                msg += "Debe seleccionar una ente fiscalizado v&aacute;lida <br/>";
+            if (vm.m.auditedEntityId == undefined) {
+                msg += "Debe seleccionar un ente fiscalizado v&aacute;lido <br/>";
                 valid = false
             }
 

@@ -156,6 +156,11 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
+    public List<SelectList> getAuditedEntities(String auditedStr) {
+        return auditedEntityRepository.findNoObsoleteByTypeAndStr(Constants.ENTITY_TYPE_UNDERSECRETARY, "%" + auditedStr + "%");
+    }
+
+    @Override
     public Object getAuditsByRole(GridService gridService) {
 
         HashMap<String, Object> filters = new HashMap<>();

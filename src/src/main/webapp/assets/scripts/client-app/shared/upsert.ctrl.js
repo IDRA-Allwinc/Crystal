@@ -74,6 +74,7 @@
             if (validate != undefined)
                 stVal = validate();
 
+            //if ($(formId).valid() === false || stVal === false) {
             if ($(formId).valid() === false || stVal === false) {
                 vm.Invalid = true;
                 return false;
