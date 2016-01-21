@@ -18,7 +18,7 @@
                           ng-init='vm.m = ${(model == null ? "{}" : model)};
                               vm.lstAuditTypes= ${(lstAuditTypes == null ? "[]" : lstAuditTypes)};
                               vm.urlGetSupervisoryEntities = "<c:url value='/audit/getSupervisoryEntities.json'/>";
-                              vm.urlGetAuditedEntities= "<c:url value='/audit/getAreas.json'/>";
+                              vm.urlGetAuditedEntities = "<c:url value='/audit/getAreas.json'/>";
                               vm.urlGetAreas="<c:url value='/audit/request/getAreas.json'/>";
                               vm.upsertCtrl = up;
                               vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)};
