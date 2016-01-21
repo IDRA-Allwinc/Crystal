@@ -85,8 +85,8 @@ public class AuditController {
     }
 
 
-    @RequestMapping(value = "/audit/fillAudit", method = RequestMethod.POST)
-    public ModelAndView fillAudit(@RequestParam(required = true) Long id) {
+    @RequestMapping(value = "/audit/fillAudit", method = RequestMethod.GET)
+    public ModelAndView fillAudit(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/audit/fillAudit");
         try {
             auditservice.fillAudit(id, modelView);
