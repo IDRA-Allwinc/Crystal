@@ -20,6 +20,7 @@
 
         vm.getElapsedTime = getElapsedTime;
         vm.init = init;
+        vm.tokenCSRF = document.getElementById("tokenCSRF");
 
         //intervalo de repeticion en milisengundos
         vm.interval = 30000;
@@ -35,7 +36,8 @@
         };
 
         function getElapsedTime() {
-            vm.svc.post(vm.checkUrl, vm, undefined, true).then(function (res) {
+            var data = vm.tokenCSRF.name + "=" + vm.tokenCSRF.value;
+            vm.svc.post(vm.checkUrl, vm, data, true).then(function (res) {
 
                 if (res.hasToLogout == true) {
                     window.location.replace(vm.logoutUrl);

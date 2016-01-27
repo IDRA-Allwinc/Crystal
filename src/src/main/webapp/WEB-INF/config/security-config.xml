@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http auto-config="true" use-expressions="true">
-        <csrf disabled="true"></csrf>
+        <csrf disabled="false"></csrf>
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/logout" access="permitAll"/>
         <intercept-url pattern="/j_spring_security_logout" access="permitAll"/>
@@ -21,9 +21,9 @@
         <intercept-url pattern="/shared/**" access="permitAll"/>
 
         <!--<intercept-url pattern="/shared/**"-->
-                       <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
+        <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
         <!--<intercept-url pattern="/files/**"-->
-                       <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
+        <!--access="hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_EVALUATION_MANAGER', 'ROLE_SUPERVISOR', 'ROLE_SUPERVISOR_MANAGER', 'ROLE_DIRECTOR')"/>-->
 
         <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
         <form-login login-page="/index.html"
@@ -35,11 +35,11 @@
         <session-management>
             <concurrency-control
                     max-sessions="1"
-                    expired-url="/index.html" />
+                    expired-url="/index.html"/>
         </session-management>
     </http>
 
-    <beans:bean id="rfc2898" class="com.crystal.infrastructure.security.CryptoRfc2898" />
+    <beans:bean id="rfc2898" class="com.crystal.infrastructure.security.CryptoRfc2898"/>
     <authentication-manager alias="userManager">
         <authentication-provider user-service-ref="userDetailServiceImpl">
             <password-encoder ref="rfc2898"/>

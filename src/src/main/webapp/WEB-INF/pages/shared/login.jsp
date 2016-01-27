@@ -12,7 +12,7 @@
         <h3 class="text-white">CRYSTAL</h3>
         <p class="text-white">Ingrese sus credenciales</p>
         <form id="loginForm" name="loginForm" class="m-t" role="form">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" id="tokenCSRF" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="input-group">

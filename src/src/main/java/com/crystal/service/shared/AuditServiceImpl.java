@@ -127,12 +127,18 @@ public class AuditServiceImpl implements AuditService {
             audit.setLstAreas(null);
         }
 
-        List<Area> lstNewSelectedAreas = null;
-        for (SelectList item : lstSelectedAreas) {
+        List<Area> lstNewSelectedAreas;
+        if (lstSelectedAreas != null && lstSelectedAreas.size() > 0) {
             lstNewSelectedAreas = new ArrayList<>();
-            Area a = new Area();
-            a.setId(item.getId());
-            lstNewSelectedAreas.add(a);
+            for (SelectList item : lstSelectedAreas) {
+                Area a = new Area();
+                a.setId(item.getId());
+                lstNewSelectedAreas.add(a);
+            }
+        } else {
+            responseMessage.setHasError(true);
+            responseMessage.setMessage("Debe seleccionar al menos un &aacute;rea.");
+            return;
         }
 
         audit.setLstAreas(lstNewSelectedAreas);
@@ -140,6 +146,7 @@ public class AuditServiceImpl implements AuditService {
         doSave(audit);
 
         responseMessage.setHasError(false);
+        responseMessage.setMessage("La auditor&iacute;a ha sido guardada correctamente.");
         responseMessage.setUrlToGo(request.getContextPath() + "/audit/fillAudit.json?id=" + audit.getId());
     }
 

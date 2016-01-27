@@ -22,7 +22,7 @@
         $(function () {
             $('#tblGrid').on("expand-row.bs.table", function (index, row, $detail, container) {
                 $.get("<c:url value='/audit/request/list.json' />", {idLetter: $detail.id}).done(function (data) {
-                    var $t = container.html('<table id="tlbSubGrid'+ $detail.id +'"></table>').find('table');
+                    var $t = container.html('<table></table>').find('table');
                     $t.bootstrapTable({
                         rowStyle: rowStyle,
                         columns: [{field: "id", title: "", visible: false},
@@ -74,7 +74,7 @@
             var arr = [];
             arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-            if(row.isAttended !== true)
+            if (row.isAttended !== true)
                 arr.push('<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar documento" type="button"><i class="fa fa-times-circle"></i></button>');
 
             return arr.join('');
@@ -89,7 +89,7 @@
             if (idRequest != undefined)
                 params = {idLetter: idLetter, idRequest: idRequest};
             else
-                params = {idLetter: idLetter, idRequest: idRequest};
+                params = {idLetter: idLetter};
             window.showUpsertParams(params, "#angJsjqGridId", "<c:url value='/audit/request/upsert.json' />", "#tblGrid");
         };
 
@@ -229,7 +229,6 @@
         <div class="row">
             <div class="col-xs-12">
                 <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
-                <%@ include file="/WEB-INF/pages/shared/footer.jsp" %>
             </div>
         </div>
     </div>

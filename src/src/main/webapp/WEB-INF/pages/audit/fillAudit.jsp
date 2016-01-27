@@ -32,135 +32,59 @@
                 </div>
             </div>
         </div>
-        <div>
-            <div class="fh-breadcrumb">
-                <div class="fh-column">
-                    <div class="full-height-scroll">
-                        <ul class="list-group elements-list">
-                            <li class="list-group-item tab-size-medium active">
-                                <a data-toggle="tab" href="#tab-1">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-qrcode i-medium"></i></span>
-                                            * Datos de auditor&iacute;a
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2" class="tab-select-medium">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-file i-medium"></i></span>
-                                            * Oficios
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-eye i-medium"></i></span>
-                                            * Observaciones
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
+        <div class="row">
 
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-thumbs-up i-medium"></i></span>
-                                            * Recomendaciones
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-list-ul i-medium"></i></span>
-                                            * Pliego de las observaciones
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-sitemap i-medium"></i></span>
-                                            * Promoci&oacute;n de responsabilidad
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-th-large i-medium"></i></span>
-                                            * Eventos
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-                            <li class="list-group-item tab-size-medium">
-                                <a data-toggle="tab" href="#tab-2">
-                                    <h5>
-                                        <strong>
-                                                    <span class="label pull-right label-primary"><i
-                                                            class="fa fa-volume-up i-medium"></i></span>
-                                            * Notificaciones
-                                        </strong>
-                                    </h5>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="col-xs-12 tabscontainer">
+                <div class="col-xs-2 optiontab">
+                    <ul class="nav nav-tabs tabs-left">
+                        <li class="active"><a href="#auditData" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-bookmark-o i-big"></i></span>Datos de auditor&iacute;a</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-files-o i-big"></i></span>Oficios</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-eye i-big"></i></span>Observaciones</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-hand-o-right i-big"></i></span>Recomendaciones</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-list-ul i-big"></i></span>Pliego de observaciones</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-money i-big"></i></span>Promociones de responsabilidad</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-clock-o i-big"></i></span>Eventos</a></li>
+                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                                class="fa fa-comments-o i-big"></i></span>Notificaciones</a></li>
+                    </ul>
                 </div>
-                <div class="full-height">
-                    <div class="full-height-scroll white-bg border-left">
-                        <div class="element-detail-box" style="margin-left: 10px !important;">
-                            <div class="tab-content">
-                                <div id="tab-1" class="tab-pane active">
-                                    <%@ include file="/WEB-INF/pages/audit/partial-audit.jsp" %>
-                                </div>
-                                <div id="tab-2" class="tab-pane">
-                                    En construcci&oacute;n
-                                </div>
-                            </div>
+                <div class="col-xs-10 tabcontent">
+                    <div class="tab-content">
+                        <div class="tab-pane active animated fadeInDown" id="auditData">
+                            <%@ include file="/WEB-INF/pages/audit/partial-audit.jsp" %>
+                        </div>
+                        <div class="tab-pane" id="letters">
+                            <%@ include file="/WEB-INF/pages/working.jsp" %>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="blocker" ng-show="vm.working">
-                <div>
-                    Procesando...<img src="${pageContext.request.contextPath}/assets/img/ajax_loader.gif" alt=""/>
-                </div>
-            </div>
         </div>
 
-        <hr/>
-        <div id="dlgUpsert"></div>
-        <div class="row">
-            <div class="col-xs-12">
-                <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
-                <%@ include file="/WEB-INF/pages/shared/footer.jsp" %>
+
+        <div class="blocker" ng-show="vm.working">
+            <div>
+                Procesando...<img src="${pageContext.request.contextPath}/assets/img/ajax_loader.gif" alt=""/>
             </div>
         </div>
     </div>
+</div>
+
+<hr/>
+<div id="dlgUpsert"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
+    </div>
+</div>
+</div>
 </div>
 </body>
 </html>

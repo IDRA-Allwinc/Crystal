@@ -10,6 +10,7 @@
         var vm = this;
         vm.WaitFor = false;
         vm.MsgError = "";
+        vm.MsgSuccess = "";
         vm.Model = {};
         vm.submit = submit;
         vm.fillSelect = fillSelect;
@@ -24,6 +25,7 @@
         vm.setReason = setReason;
         vm.formatHtml = formatHtml;
         vm.config = {isModal: true, hasNotify: false, hasNotifyError: false};
+        vm.tokenCSRF = document.getElementById("tokenCSRF");
 
         function submit(formId, urlToPost, isValid, hasReturnId) {
             vm.MsgError = "";
@@ -44,12 +46,12 @@
             vm.WaitFor = true;
 
             if (hasReturnId === true) {
-                $.post(urlToPost, $(formId).serialize())
+                $.post(urlToPost, $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
                     .success(vm.handleSuccessWithId)
                     .error(vm.handleError);
             }
             else {
-                $.post(urlToPost, $(formId).serialize())
+                $.post(urlToPost, $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
                     .success(vm.handleSuccess)
                     .error(vm.handleError);
             }
@@ -83,12 +85,12 @@
             vm.WaitFor = true;
 
             if (hasReturnId === true) {
-                $.post(urlToPost, $(formId).serialize())
+                $.post(urlToPost,  $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
                     .success(vm.handleSuccessWithId)
                     .error(vm.handleError);
             }
             else {
-                $.post(urlToPost, $(formId).serialize())
+                $.post(urlToPost,  $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
                     .success(vm.handleSuccessRedirect)
                     .error(vm.handleError);
             }
@@ -96,7 +98,7 @@
         };
 
         function returnUrl(urlToGo) {
-            window.goToUrlMvcUrl(urlToGo, "");
+            window.goToUrlMvcUrl(urlToGo, {_csrf:vm.tokenCSRF.name+"="+vm.tokenCSRF.value});
         };
 
 
@@ -107,7 +109,7 @@
                     resp = resp.message;
                 }
                 if (resp.hasError === false) {
-                    window.goToUrlMvcUrl(resp.urlToGo, "");
+                    window.goToUrlMvcUrl(resp.urlToGo, {_csrf:vm.tokenCSRF.name+"="+vm.tokenCSRF.value});
                     vm.WaitFor = false;
                     $scope.$apply();
                     return;
@@ -155,8 +157,14 @@
 
                 if (resp.hasError === false) {
 
-                    if (vm.Model.dlg == undefined)
+                    if (vm.Model.dlg == undefined) {
+                        if (resp.message != undefined) {
+                            vm.MsgSuccess = $sce.trustAsHtml(resp.message);
+                            $scope.$apply();
+                        }
                         return;
+                    }
+
 
                     if (vm.config.isModal === true) {
                         vm.Model.dlg.modal('hide');
@@ -226,6 +234,10 @@
         function formatHtml(sHtml) {
             return $sce.trustAsHtml(sHtml);
         };
+
+        $rootScope.$on('showMsgErrorUpsert', function (event, data) {
+            vm.MsgError = vm.formatHtml(data);
+        });
 
     }
 })();

@@ -1,15 +1,16 @@
 ﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
 <script>
     $(document).ready(function () {
-
         window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
         var tableId = '#tblUfGrid';
         $(tableId).bootstrapTable();
 
+        <%--var url = '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json?${_csrf.parameterName}=${_csrf.token}'/>';--%>
+        var url = '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json'/>';
+
         $('#docfileupload').fileupload({
-            url: '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />',
+            url: url,
             dataType: 'json',
             done: function (e, data) {
                 try {
@@ -35,7 +36,8 @@
                     }, 2000);
                 }
 
-            },
+            }
+            ,
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $('#progress .progress-bar').css(
@@ -45,7 +47,9 @@
             }
         }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
-    });
+    })
+    ;
+
 </script>
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
@@ -86,6 +90,8 @@
                               enctype="multipart/form-data">
                             <input type="hidden" id="id" name="id" ng-model="rv.m.id" ng-update-hidden/>
                             <input type="hidden" id="type" name="type" ng-model="rv.m.type" ng-update-hidden/>
+
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                             <div class="col-xs-4 element-center">
                                 <i class="fa fa-upload modal-icon orange"></i>

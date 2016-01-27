@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
-                              ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.upsertCtrl=up; vm.urlGetAreas="<c:url value='/audit/request/getAreas.json'/>"; vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)}; vm.init();'>
+                              ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.urlGetAreas="<c:url value='/audit/request/getAreas.json'/>"; vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)}; vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
                             <input type="hidden" id="letterId" name="letterId" ng-model="vm.m.letterId"
@@ -102,9 +102,11 @@
 
                                         <div class="col-xs-6 form-group">
                                             <label class="font-noraml col-xs-3">Fecha limite:</label>
+
                                             <div>
                                                 <p class="input-group">
-                                                      <input type="text" class="form-control" ng-model="vm.m.limitDate" disabled/>
+                                                    <input type="text" class="form-control" ng-model="vm.m.limitDate"
+                                                           disabled/>
                                                       <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default"><i
                                                                 class="glyphicon glyphicon-calendar"></i></button>
@@ -171,6 +173,9 @@
 
                     <div class="col-xs-12">
                         <div ng-show="up.MsgError" ng-bind-html="up.MsgError" class="alert alert-error element-center">
+                        </div>
+                        <div ng-show="up.MsgSuccess" ng-bind-html="up.MsgSuccess"
+                             class="alert-success alert-error element-center">
                         </div>
                     </div>
 

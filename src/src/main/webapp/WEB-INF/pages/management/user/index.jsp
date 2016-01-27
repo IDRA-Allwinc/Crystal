@@ -136,7 +136,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
-                <%@ include file="/WEB-INF/pages/shared/footer.jsp" %>
+
             </div>
         </div>
     </div>

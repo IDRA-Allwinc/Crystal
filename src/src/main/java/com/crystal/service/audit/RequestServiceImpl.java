@@ -132,12 +132,18 @@ public class RequestServiceImpl implements RequestService {
                 request.setLstAreas(null);
             }
 
-            List<Area> lstNewSelectedAreas = null;
-            for (SelectList item : lstSelectedAreas) {
+            List<Area> lstNewSelectedAreas;
+            if (lstSelectedAreas != null && lstSelectedAreas.size() > 0) {
                 lstNewSelectedAreas = new ArrayList<>();
-                Area a = new Area();
-                a.setId(item.getId());
-                lstNewSelectedAreas.add(a);
+                for (SelectList item : lstSelectedAreas) {
+                    Area a = new Area();
+                    a.setId(item.getId());
+                    lstNewSelectedAreas.add(a);
+                }
+            } else {
+                responseMessage.setHasError(true);
+                responseMessage.setMessage("Debe seleccionar al menos un &aacute;rea.");
+                return null;
             }
 
             request.merge(requestDto, null, null);

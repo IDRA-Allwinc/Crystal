@@ -5,7 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <form id="logout" action="<c:url value="/logout" />" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="hidden" id="tokenCSRF" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 <nav class="navbar-default navbar-static-side" role="navigation" ng-init="mn.checkUrl= '<c:url value="/session/checkout.json"/>'; mn.extendUrl= '<c:url value="/session/extend.json"/>'; mn.logoutUrl= '<c:url value="/logout"/>'">
     <div class="sidebar-collapse">

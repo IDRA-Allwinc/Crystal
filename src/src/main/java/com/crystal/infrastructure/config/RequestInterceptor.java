@@ -25,8 +25,6 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         String usrName = sharedUserService.getLoggedUsername();
         Long lastUserRequestTime = Constants.accessMap.get(usrName);
 
-        System.out.println();
-
         if (!request.getRequestURI().equals(request.getContextPath() + Constants.sessionCheckoutUrl) && !request.getRequestURI().equals(request.getContextPath() + Constants.sessionExtendUrl) && !usrName.equals(Constants.anonymousUser)) {
             logRequestService.saveRequest(request);
             if (lastUserRequestTime != null) {

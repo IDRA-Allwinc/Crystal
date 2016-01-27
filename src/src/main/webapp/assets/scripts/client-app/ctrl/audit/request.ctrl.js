@@ -5,9 +5,9 @@
         .module(window.constMainApp)
         .controller('requestController', requestController);
 
-    requestController.$inject = ["$http"];
+    requestController.$inject = ["$http", "$rootScope"];
 
-    function requestController($http) {
+    function requestController($http, $rootScope) {
         var vm = this;
         vm.init = init;
         vm.popArea = popArea;
@@ -16,7 +16,6 @@
         vm.validateSelectedAreas = validateSelectedAreas;
         vm.addError = addError;
         vm.containsArea = containsArea;
-        vm.upsertCtrl = null;
         vm.getAreas = getAreas;
         vm.findAssignedArea = findAssignedArea;
         vm.validateLimitDays = validateLimitDays;
@@ -28,7 +27,7 @@
             if (vm.m.limitTimeDays != undefined)
                 vm.changeLimitDate();
 
-            for (var i=0; i < vm.lstSelectedAreas.length; i++) {
+            for (var i = 0; i < vm.lstSelectedAreas.length; i++) {
                 vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ") ";
             }
         }
@@ -87,7 +86,7 @@
         };
 
         function addError(msgError) {
-            vm.upsertCtrl.MsgError = vm.upsertCtrl.formatHtml(msgError);
+            $rootScope.$broadcast('showMsgErrorUpsert', msgError);
         };
 
         function containsArea(element) {
@@ -133,6 +132,5 @@
             }
             return false;
         };
-
     }
 })();
