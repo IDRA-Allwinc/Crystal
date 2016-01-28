@@ -14,11 +14,20 @@
         vm.handleSuccess = handleSuccess;
         vm.handleError = handleError;
         vm.hideMsgErr = hideMsgErr;
+        vm.tokenCsrf = document.getElementById("token-csrf");
 
-        function post(urlToGo, vmxt, data, keepWorking) {
+        function post(urlToGo, vmxt, data, keepWorking, noAddCsrf) {
             var def = $q.defer();
             vm.vmxt = vmxt;
             vm.vmxt.working = true;
+
+            if (!data) {
+                data = '';
+            }
+
+            if (vm.tokenCsrf && noAddCsrf !== true)
+                data = data + "&" + vm.tokenCsrf.name + "=" + vm.tokenCsrf.value;
+
             $http({
                 method: 'POST',
                 url: urlToGo,

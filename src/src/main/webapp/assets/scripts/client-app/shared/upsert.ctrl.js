@@ -25,9 +25,12 @@
         vm.setReason = setReason;
         vm.formatHtml = formatHtml;
         vm.config = {isModal: true, hasNotify: false, hasNotifyError: false};
-        vm.tokenCSRF = document.getElementById("tokenCSRF");
+        vm.tokenCsrf = document.getElementById("token-csrf");
+        vm.tokenCsrfForm = "&" + vm.tokenCsrf.name + "=" + vm.tokenCsrf.value;
+        vm.tokenCsrfFormReplace = {_csrf:vm.tokenCsrf.name + " = " + vm.tokenCsrf.value};
 
         function submit(formId, urlToPost, isValid, hasReturnId) {
+            var dataSer;
             vm.MsgError = "";
             if (isValid !== undefined) {
                 if (isValid !== true) {
@@ -44,14 +47,15 @@
             }
 
             vm.WaitFor = true;
+            dataSer = $(formId).serialize() + vm.tokenCsrfForm;
 
             if (hasReturnId === true) {
-                $.post(urlToPost, $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
+                $.post(urlToPost, dataSer)
                     .success(vm.handleSuccessWithId)
                     .error(vm.handleError);
             }
             else {
-                $.post(urlToPost, $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
+                $.post(urlToPost, dataSer)
                     .success(vm.handleSuccess)
                     .error(vm.handleError);
             }
@@ -70,8 +74,8 @@
         };
 
         function submitRedirect(formId, urlToPost, hasReturnId, validate) {
-
-            var stVal = true;
+            var dataSer
+                , stVal = true;
 
             if (validate != undefined)
                 stVal = validate();
@@ -84,13 +88,14 @@
 
             vm.WaitFor = true;
 
+            dataSer = $(formId).serialize() + vm.tokenCsrfForm;
             if (hasReturnId === true) {
-                $.post(urlToPost,  $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
+                $.post(urlToPost, dataSer)
                     .success(vm.handleSuccessWithId)
                     .error(vm.handleError);
             }
             else {
-                $.post(urlToPost,  $(formId).serialize() + "&"+vm.tokenCSRF.name+"=" + vm.tokenCSRF.value)
+                $.post(urlToPost, dataSer)
                     .success(vm.handleSuccessRedirect)
                     .error(vm.handleError);
             }
@@ -98,7 +103,7 @@
         };
 
         function returnUrl(urlToGo) {
-            window.goToUrlMvcUrl(urlToGo, {_csrf:vm.tokenCSRF.name+"="+vm.tokenCSRF.value});
+            window.goToUrlMvcUrl(urlToGo, tokenCsrfFormReplace);
         };
 
 
@@ -109,7 +114,7 @@
                     resp = resp.message;
                 }
                 if (resp.hasError === false) {
-                    window.goToUrlMvcUrl(resp.urlToGo, {_csrf:vm.tokenCSRF.name+"="+vm.tokenCSRF.value});
+                    window.goToUrlMvcUrl(resp.urlToGo, tokenCsrfFormReplace);
                     vm.WaitFor = false;
                     $scope.$apply();
                     return;

@@ -113,7 +113,7 @@
         vm.extendUrl = "";
         vm.showCountdown = showCountdown;
         vm.extend= extend;
-        vm.countdownMessage = 'La sesi&oacute;n esta a punto de terminar, ser&aacute; redireccionado fuera del sistema en  <b>$count.</b> segundos. <br/>&iquest;Desea continuar su sesi&oacute;n?';
+        vm.countdownMessage = 'La sesi&oacute;n est&aacute; por terminar y el sistema se cerrar&aacute; en <b>$count segundos</b>. <br/>&iquest;Desea extender su sesi&oacute;n?';
 
         function showCountdown(cfg) {
             vm.showingSessionDlg = true;
@@ -137,7 +137,8 @@
                         def.resolve();
                     }
                     else {
-                        window.location.replace(vm.logoutUrl);
+                        document.forms[vm.logoutUrl].submit();
+                        //window.location.replace(vm.logoutUrl);
                         def.reject();
                     }
 
@@ -159,7 +160,8 @@
         function updateCount() {
             if (vm.count == 0) {
                 vm.stopTimer();
-                window.location.replace(vm.logoutUrl);
+                //window.location.replace(vm.logoutUrl);
+                document.forms[vm.logoutUrl].submit();
             }
             else {
                 vm.count--;

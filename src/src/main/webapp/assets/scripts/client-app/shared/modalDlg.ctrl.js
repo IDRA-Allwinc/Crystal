@@ -19,15 +19,14 @@
         vm.doDrop = doDrop;
         vm.doAction = doAction;
         vm.doPost = doPost;
-        vm.tokenCSRF = document.getElementById("tokenCSRF");
+        vm.tokenCsrf = document.getElementById("token-csrf");
 
         function showInnScope(data, urlToGo, divToAppendId, dlgUpsertId) {
-            data["_csrf"]=vm.tokenCSRF.value;
             return vm.show(data, urlToGo, divToAppendId, dlgUpsertId, true);
         };
 
         function show(data, urlToGo, divToAppendId, dlgUpsertId, innerScp) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
+            data[vm.tokenCsrf.name]=vm.tokenCsrf.value;
             if (innerScp === true) { vm.working = true; } else { $scope.$apply(function () { vm.working = true; }); }
             var def = $q.defer();
             divToAppendId = divToAppendId || "#dlgUpsert";
@@ -62,7 +61,6 @@
         };
 
         function doConfirm(data, urlToGo, title, msg) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
             var def = $q.defer();
             vm.sharedSvc.showConf({ title: title, message: msg, type: "warning" }).
                 then(function () {
@@ -73,7 +71,6 @@
 
 
         function doConfirmFull(data, urlToGo, title, message, type, choiceA) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
             var def = $q.defer();
             vm.sharedSvc.showConf({ title: title, message: message, type: type, choiceA: choiceA }).
                 then(function (res) {
@@ -92,7 +89,6 @@
         };
 
         function doCancelDocument(data, urlToGo, folio) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
             var def = $q.defer();
             vm.sharedSvc.showConf({ title: "Confirmación de cancelación de documento", message: "¿Está seguro que desea cancelar el documento con folio " + folio + "?", type: "warning" }).
                 then(function () {
@@ -102,7 +98,6 @@
         };
 
         function doObsolete(data, urlToGo) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
             var def = $q.defer();
             vm.sharedSvc.showConf({ title: "Eliminar registro", message: "¿Está seguro de que desea eliminar el registro?", type: "danger" }).
                 then(function () {
@@ -112,7 +107,6 @@
         };
 
         function doDrop(data, urlToGo) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
             var def = $q.defer();
             vm.sharedSvc.showConf({ title: "Baja de resguardo", message: "¿Está seguro de que desea dar de baja resguardo?", type: "danger" }).
                 then(function () {
@@ -123,7 +117,6 @@
 
 
         function doAction(data, urlToGo, title, message, type) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
             if (type == undefined)
                 type = "danger";
 
@@ -136,7 +129,7 @@
         };
 
         function doPost(data, urlToGo, def) {
-            data[vm.tokenCSRF.name]=vm.tokenCSRF.value;
+            data[vm.tokenCsrf.name]=vm.tokenCsrf.value;
             var settings = {
                 dataType: "json",
                 type: "POST",

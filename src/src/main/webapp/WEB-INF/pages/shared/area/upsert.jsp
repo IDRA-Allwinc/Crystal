@@ -85,11 +85,13 @@
 
                                         <div class="col-xs-9">
                                             <input type="text" name="phone" ng-model="vm.m.phone"
+                                                   minlength="8"
+                                                   maxlength="200"
                                                    placeholder="Ingrese el tel&oacute;fono "
                                                    ng-required="true" class="form-control">
-                                        <span class="error"
-                                              ng-show="FormUpId.phone.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpId.phone.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.phone.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpId.phone.$error.minlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.phone.$error.maxlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
                                         </div>
                                     </div>
 

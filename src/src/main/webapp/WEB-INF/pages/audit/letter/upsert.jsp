@@ -8,12 +8,13 @@
 
     $(function () {
         'use strict';
-        var url = '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />';
+        var tokenCsrf = document.getElementById("token-csrf");
+        var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
 
         $('#fileupload').fileupload({
-            url: url,
-            dataType: 'json',
-            done: function (e, data) {
+            url: url
+            , dataType: 'json'
+            , done: function (e, data) {
                 try {
                     var scope = angular.element($("#FormUpId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
@@ -36,8 +37,8 @@
                     }, 2000);
                 }
 
-            },
-            progressall: function (e, data) {
+            }
+            , progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $('#progress .progress-bar').css(
                         'width',

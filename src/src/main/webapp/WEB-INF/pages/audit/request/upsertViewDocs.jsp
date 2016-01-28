@@ -6,8 +6,8 @@
         var tableId = '#tblUfGrid';
         $(tableId).bootstrapTable();
 
-        <%--var url = '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json?${_csrf.parameterName}=${_csrf.token}'/>';--%>
-        var url = '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json'/>';
+        var tokenCsrf = document.getElementById("token-csrf");
+        var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
 
         $('#docfileupload').fileupload({
             url: url,
