@@ -1,6 +1,5 @@
 package com.crystal.model.entities.audit;
 
-import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.shared.UploadFileGeneric;
 
 import javax.persistence.*;
@@ -21,6 +20,9 @@ public class LetterUploadFileGenericRel {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_upload_file_generic", nullable = false)
     private UploadFileGeneric uploadFileGeneric;
+
+    @Column(name = "is_additional", nullable = false)
+    private boolean isAdditional;
 
     public Long getId() {
         return id;
@@ -44,5 +46,13 @@ public class LetterUploadFileGenericRel {
 
     public void setUploadFileGeneric(UploadFileGeneric uploadFileGeneric) {
         this.uploadFileGeneric = uploadFileGeneric;
+    }
+
+    public boolean isAdditional() {
+        return isAdditional;
+    }
+
+    public void setAdditional(boolean isAdditional) {
+        this.isAdditional = isAdditional;
     }
 }

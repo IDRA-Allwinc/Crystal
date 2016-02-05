@@ -342,7 +342,7 @@ div.blocker img {
 .tabs-left > li.active > a:hover,
 .tabs-left > li.active > a:focus {
     color: #5D809E;
-    background: #EAEAEA;
+    background: #fbfbfb;
     font-weight: bolder;
     border-color: #BCCDD8;
     border-left: 4px solid #1C84C6;
@@ -422,16 +422,21 @@ div.blocker img {
     width: 100%;
     display: inline-flex;
     overflow-x: auto;
+    background: #FBFBFB;
 }
 
 .tabcontent {
+    background: #FBFBFB;
     min-width: 750px;
     overflow-x: auto;
 }
 
 .optiontab {
+    background: #F3F3F4;
     width: 250px;
     min-width: 250px;
+    padding-left: 0% !important;
+    padding-right: 0% !important;
 }
 
 /*vertical tabs bootstrap*/

@@ -43,7 +43,7 @@ public class AuditServiceImpl implements AuditService {
     SharedUserService sharedUserService;
 
     @Override
-    public void upsert(Long id, ModelAndView modelView) {
+    public void upsert(Long id, ModelAndView modelView, boolean isModal) {
 
         Gson gson = new Gson();
 
@@ -52,6 +52,7 @@ public class AuditServiceImpl implements AuditService {
             model = auditRepository.findDtoById(id);
             List<SelectList> lstSelectedAreas = areaRepository.findSelectedAreasByAuditId(id);
             modelView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
+            modelView.addObject("auditId", gson.toJson(id));
         } else {
             model = new AuditDto();
             if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_LINK)) {
@@ -67,8 +68,9 @@ public class AuditServiceImpl implements AuditService {
         model.setRole(roleRepository.findOne(sharedUserService.getRoleIdForUser()).getCode());
         List<SelectList> lstAuditTypes = auditTypeRepository.findNoObsolete();
         modelView.addObject("lstAuditTypes", new Gson().toJson(lstAuditTypes));
-
+        modelView.addObject("isModal", new Gson().toJson(isModal));
         modelView.addObject("model", gson.toJson(model));
+
     }
 
     private Audit businessValidation(AuditDto auditDto, ResponseMessage responseMessage) {
@@ -184,7 +186,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public void fillAudit(Long id, ModelAndView modelView) {
-        upsert(id, modelView);
+        upsert(id, modelView, false);
     }
 
     @Override

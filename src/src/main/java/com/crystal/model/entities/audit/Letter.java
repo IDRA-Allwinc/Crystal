@@ -1,10 +1,12 @@
 package com.crystal.model.entities.audit;
 
 import com.crystal.model.entities.account.Role;
+import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.account.UserAuditInfo;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -43,6 +45,16 @@ public class Letter extends UserAuditInfo{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_role", nullable = false)
     private Role role;
+
+    @Column(name = "attention_date", nullable = true)
+    private Calendar attentionDate;
+
+    @Column(name = "attention_comment", nullable = true)
+    private String attentionComment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = true)
+    private User attentionUser;
 
     public Letter() {
     }
@@ -128,5 +140,29 @@ public class Letter extends UserAuditInfo{
     public void merge(LetterDto modelNew) {
         number = modelNew.getNumber();
         description = modelNew.getDescription();
+    }
+
+    public Calendar getAttentionDate() {
+        return attentionDate;
+    }
+
+    public void setAttentionDate(Calendar attentionDate) {
+        this.attentionDate = attentionDate;
+    }
+
+    public String getAttentionComment() {
+        return attentionComment;
+    }
+
+    public void setAttentionComment(String attentionComment) {
+        this.attentionComment = attentionComment;
+    }
+
+    public User getAttentionUser() {
+        return attentionUser;
+    }
+
+    public void setAttentionUser(User attentionUser) {
+        this.attentionUser = attentionUser;
     }
 }

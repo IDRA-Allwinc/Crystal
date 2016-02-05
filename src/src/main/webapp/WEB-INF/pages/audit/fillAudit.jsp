@@ -5,14 +5,25 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
-          type="text/css">
-    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/audit.ctrl.js"></script>
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet" type="text/css">
+
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.1.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.1.0.min.js"></script>
 
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/audit.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letter.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/requestViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letterViewDocs.ctrl.js"></script>
+
 </head>
-<body scroll="no" ng-app="crystal" class="pace-done">
+<body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
 <div id="wrapper">
     <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=3;">
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
@@ -41,17 +52,17 @@
                                 class="fa fa-bookmark-o i-big"></i></span>Datos de auditor&iacute;a</a></li>
                         <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-files-o i-big"></i></span>Oficios</a></li>
-                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-eye i-big"></i></span>Observaciones</a></li>
-                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-hand-o-right i-big"></i></span>Recomendaciones</a></li>
-                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-list-ul i-big"></i></span>Pliego de observaciones</a></li>
-                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-money i-big"></i></span>Promociones de responsabilidad</a></li>
-                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-clock-o i-big"></i></span>Eventos</a></li>
-                        <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-comments-o i-big"></i></span>Notificaciones</a></li>
                     </ul>
                 </div>
@@ -60,7 +71,11 @@
                         <div class="tab-pane active animated fadeInDown" id="auditData">
                             <%@ include file="/WEB-INF/pages/audit/partial-audit.jsp" %>
                         </div>
-                        <div class="tab-pane" id="letters">
+
+                        <div class="tab-pane animated fadeInDown" id="letters">
+                            <%@ include file="/WEB-INF/pages/audit/letter/index.jsp"%>
+                        </div>
+                        <div class="tab-pane animated fadeInDown" id="wornkin">
                             <%@ include file="/WEB-INF/pages/working.jsp" %>
                         </div>
                     </div>

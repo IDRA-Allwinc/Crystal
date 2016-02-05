@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface AuditService {
-    void upsert(Long id, ModelAndView modelView);
+    void upsert(Long id, ModelAndView modelView, boolean isModal);
 
     List<SelectList> getSupervisoryEntities(String supervisoryStr);
 

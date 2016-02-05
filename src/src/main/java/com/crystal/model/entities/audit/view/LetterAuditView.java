@@ -9,14 +9,16 @@ import javax.persistence.Id;
 @Entity
 @Subselect("select l.id_letter, l.name, l.description, r.id_role roleId, a.id_audit as auditId,\n" +
         "case \n" +
+        "when (l.is_attended = true) > 0 then 'blue'\n" +
         "when (select count(*) from request rq where rq.id_letter = l.id_letter and rq.is_attended = 0 and rq.is_obsolete = 0) > 0 then 'orange'\n" +
         "else 'green'\n" +
-        "end color \n" +
+        "end color, \n" +
+        "l.is_attended as isAttended \n" +
         "from letter l \n" +
         "inner join role r on l.id_role = r.id_role \n" +
         "left join audit a on l.id_audit = a.id_audit \n" +
-        "where l.is_obsolete = 0 and a.id_audit is null")
-public class LetterView {
+        "where l.is_obsolete = 0")
+public class LetterAuditView {
     @Id
     @Column(name = "id_letter")
     private Long id;
@@ -30,6 +32,8 @@ public class LetterView {
     private Long roleId;
 
     private Long auditId;
+
+    private boolean isAttended;
 
     public Long getId() {
         return id;
@@ -77,5 +81,13 @@ public class LetterView {
 
     public void setAuditId(Long auditId) {
         this.auditId = auditId;
+    }
+
+    public boolean isAttended() {
+        return isAttended;
+    }
+
+    public void setAttended(boolean isAttended) {
+        this.isAttended = isAttended;
     }
 }

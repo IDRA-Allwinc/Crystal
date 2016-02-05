@@ -2,7 +2,7 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpRequestId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
     });
 </script>
 
@@ -19,7 +19,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Requerimiento de auditor&iacute;a</h4>
+                        <h4 class="modal-title">Requerimiento previo</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-bars modal-icon"></i>
@@ -40,7 +40,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpRequestId" name="FormUpRequestId" class="form-horizontal" role="form"
+                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.urlGetAreas="<c:url value='/previousRequest/request/getAreas.json'/>"; vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)}; vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
@@ -60,9 +60,9 @@
                                                    maxlength="50"
                                                    ng-required="true" class="form-control">
                                         <span class="error"
-                                              ng-show="FormUpRequestId.number.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpRequestId.number.$error.minlength">*El campo debe tener entre 8 y 50 caracteres</span>
-                                            <span class="error" ng-show="FormUpRequestId.number.$error.maxlength">*El campo debe tener entre 8 y 50 caracteres</span>
+                                              ng-show="FormUpId.number.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 8 y 50 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 8 y 50 caracteres</span>
                                         </div>
                                     </div>
 
@@ -75,9 +75,9 @@
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
-                                            <span class="error" ng-show="FormUpRequestId.description.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpRequestId.description.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
-                                            <span class="error" ng-show="FormUpRequestId.description.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                         </div>
                                     </div>
 
@@ -94,9 +94,9 @@
                                                        ng-change="vm.changeLimitDate()"
                                                        ng-required="true" class="form-control" maxlength="3">
                                         <span class="error"
-                                              ng-show="FormUpRequestId.limitTimeDays.$error.required">*Campo requerido</span>
-                                                <span class="error" ng-show="FormUpRequestId.limitTimeDays.$error.maxlength">*Longitud m&aacute;xima de 3 caracteres</span>
-                                                <span class="error" ng-show="FormUpRequestId.limitTimeDays.$error.pattern">*El campo s&oacute;lo acepta n&uacute;meros</span>
+                                              ng-show="FormUpId.limitTimeDays.$error.required">*Campo requerido</span>
+                                                <span class="error" ng-show="FormUpId.limitTimeDays.$error.maxlength">*Longitud m&aacute;xima de 3 caracteres</span>
+                                                <span class="error" ng-show="FormUpId.limitTimeDays.$error.pattern">*El campo s&oacute;lo acepta n&uacute;meros</span>
                                             </div>
                                         </div>
 
@@ -187,7 +187,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary" ng-show="up.WaitFor===false"
-                        ng-click="vm.validateAll()== false ? up.submit('#FormUpRequestId', '<c:url value='/audit/request/doUpsert.json' />', FormUpRequestId.$valid):''">
+                        ng-click="vm.validateAll()== false ? up.submit('#FormUpId', '<c:url value='/previousRequest/request/doUpsert.json' />', FormUpId.$valid):''">
                     Guardar
                 </button>
                 <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">

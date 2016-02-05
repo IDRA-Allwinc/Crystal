@@ -37,13 +37,24 @@ public class RequestController {
     RequestService requestService;
 
 
-    @RequestMapping(value = "/audit/request/list", method = RequestMethod.GET)
+    @RequestMapping(value = {"/previousRequest/request/list", "/audit/request/list"}, method = RequestMethod.GET)
     public Object requestList(@RequestParam(required = true) Long idLetter) {
         return gridService.toGrid(RequestView.class, "idLetter", idLetter);
     }
 
-    @RequestMapping(value = "/audit/request/upsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/previousRequest/request/upsert", method = RequestMethod.POST)
     public ModelAndView upsertRequest(@RequestParam(required = true) Long idLetter, @RequestParam(required = false) Long idRequest) {
+        ModelAndView modelAndView = new ModelAndView("/previousRequest/request/upsert");
+        try {
+            requestService.upsert(idLetter, idRequest, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "upsert", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/request/upsert", method = RequestMethod.POST)
+    public ModelAndView upsertRequestAudit(@RequestParam(required = true) Long idLetter, @RequestParam(required = false) Long idRequest) {
         ModelAndView modelAndView = new ModelAndView("/audit/request/upsert");
         try {
             requestService.upsert(idLetter, idRequest, modelAndView);
@@ -53,12 +64,33 @@ public class RequestController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/audit/request/getAreas", method = RequestMethod.GET)
+    @RequestMapping(value = "/audit/request/doUpsert", method = RequestMethod.POST)
+    public ResponseMessage doUpsertAudit(@Valid RequestDto modelNew, BindingResult result) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            if (DtoValidator.isValid(result, response) == false)
+                return response;
+
+            if (requestService.findByNumber(modelNew, response) == true) {
+                return response;
+            }
+
+            requestService.save(modelNew, null, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsert", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/previousRequest/request/getAreas", method = RequestMethod.GET)
     public String findAreas(@RequestParam(required = true) String areaStr) {
         return new Gson().toJson(requestService.findAreasByRole(sharedUserService, areaStr));
     }
 
-    @RequestMapping(value = "/audit/request/doUpsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/previousRequest/request/doUpsert", method = RequestMethod.POST)
     public ResponseMessage doUpsert(@Valid RequestDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
@@ -79,7 +111,7 @@ public class RequestController {
         }
     }
 
-    @RequestMapping(value = "/audit/request/doObsolete", method = RequestMethod.POST)
+    @RequestMapping(value = {"/previousRequest/request/doObsolete", "/audit/request/doObsolete"}, method = RequestMethod.POST)
     public ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
         ResponseMessage response = new ResponseMessage();
         try {
@@ -93,10 +125,9 @@ public class RequestController {
         }
     }
 
-
-    @RequestMapping(value = "/audit/request/upsertViewDocs", method = RequestMethod.POST)
+    @RequestMapping(value = "/previousRequest/request/upsertViewDocs", method = RequestMethod.POST)
     public ModelAndView upsertViewDocs(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/audit/request/upsertViewDocs");
+        ModelAndView modelAndView = new ModelAndView("/previousRequest/requ1est/upsertViewDocs");
         try {
             requestService.upsertViewDocs(id, modelAndView);
         } catch (Exception ex) {
@@ -105,14 +136,25 @@ public class RequestController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/audit/request/listUfRequest", method = RequestMethod.GET)
+    @RequestMapping(value = "/audit/request/upsertViewDocs", method = RequestMethod.POST)
+    public ModelAndView upsertViewDocsAudit(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/request/upsertViewDocs");
+        try {
+            requestService.upsertViewDocs(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "upsertViewDocsAudit", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/previousRequest/request/listUfRequest", method = RequestMethod.GET)
     public Object listUfRequest(@RequestParam(required = true) Long requestId) {
         return gridService.toGrid(RequestUploadFileView.class, "requestId", requestId);
     }
 
-    @RequestMapping(value = "/audit/request/attention", method = RequestMethod.POST)
+    @RequestMapping(value = "/previousRequest/request/attention", method = RequestMethod.POST)
     public ModelAndView attentionRequest(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/audit/request/attention");
+        ModelAndView modelAndView = new ModelAndView("/previousRequest/request/attention");
         try {
             requestService.attention(id, modelAndView);
         } catch (Exception ex) {
@@ -121,7 +163,18 @@ public class RequestController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/audit/request/doAttention", method = RequestMethod.POST)
+    @RequestMapping(value = "/audit/request/attention", method = RequestMethod.POST)
+    public ModelAndView attentionRequestAudit(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/request/attention");
+        try {
+            requestService.attention(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attentionRequestAudit", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/previousRequest/request/doAttention", "/audit/request/doAttention"}, method = RequestMethod.POST)
     public ResponseMessage doAttention(@Valid AttentionDto modelNew, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
@@ -140,7 +193,7 @@ public class RequestController {
     }
 
 
-    @RequestMapping(value = "/audit/request/doDeleteUpFile", method = RequestMethod.POST)
+    @RequestMapping(value = {"/previousRequest/request/doDeleteUpFile", "/audit/request/doDeleteUpFile"}, method = RequestMethod.POST)
     public ResponseMessage doDeleteUpFile(@RequestParam(required = true) Long requestId, @RequestParam(required = true) Long upfileId) {
         ResponseMessage response = new ResponseMessage();
         try {

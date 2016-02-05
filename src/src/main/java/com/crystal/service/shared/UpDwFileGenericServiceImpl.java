@@ -3,29 +3,30 @@ package com.crystal.service.shared;
 import com.crystal.infrastructure.extensions.StringExt;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.audit.Letter;
+import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
 import com.crystal.model.entities.audit.Request;
 import com.crystal.model.entities.catalog.CatFileType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.repository.catalog.CatFileTypeRepository;
+import com.crystal.repository.catalog.LetterRepository;
 import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.*;
-
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.*;
 
 @Service
 public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
@@ -158,6 +159,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
     @Autowired
     RequestRepository requestRepository;
+    @Autowired
+    LetterRepository letterRepository;
 
     @Override
     @Transactional
@@ -171,11 +174,24 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         switch (type) {
             case Constants.UploadFile.REQUEST:
                 Request rq = requestRepository.findOne(uploadRequest.getId());
-                List<UploadFileGeneric> lstEvidences =  rq.getLstEvidences();
-                if(lstEvidences == null) lstEvidences = new ArrayList<>();
+                List<UploadFileGeneric> lstEvidences = rq.getLstEvidences();
+                if (lstEvidences == null) lstEvidences = new ArrayList<>();
                 uploadFile.setObsolete(false);
                 lstEvidences.add(uploadFile);
                 requestRepository.saveAndFlush(rq);
+                break;
+            case Constants.UploadFile.LETTER:
+                Letter lt = letterRepository.findOne(uploadRequest.getId());
+                List<LetterUploadFileGenericRel> lstFilesRel = lt.getLstFiles();
+                if (lstFilesRel == null) lstFilesRel = new ArrayList<>();
+                uploadFile.setObsolete(false);
+                LetterUploadFileGenericRel letterFileRel = new LetterUploadFileGenericRel();
+                letterFileRel.setLetter(lt);
+                letterFileRel.setAdditional(true);
+                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                letterFileRel.setUploadFileGeneric(uploadFile);
+                lstFilesRel.add(letterFileRel);
+                letterRepository.saveAndFlush(lt);
                 break;
         }
 
@@ -209,7 +225,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             return true;
 
         switch (type) {
-            case Constants.UploadFile.REQUEST:
+            case Constants.UploadFile.REQUEST: {
                 Long requestId = uploadRequest.getId();
                 if (requestId == null) {
                     resMsg.setMessage("El archivo no está asociado a un requerimiento");
@@ -237,6 +253,39 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                     return false;
                 }
                 return true;
+
+            }
+            case Constants.UploadFile.LETTER: {
+                Long requestId = uploadRequest.getId();
+                if (requestId == null) {
+                    resMsg.setMessage("El archivo no está asociado a un oficio");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                Boolean isAttended = letterRepository.isAttendedById(requestId);
+
+                if (isAttended == null) {
+                    resMsg.setMessage("El oficio fue eliminado o no existe");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (isAttended == true) {
+                    resMsg.setMessage("No es posible agregar un archivo debido a que el oficio ya fue atendido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+
+            }
+
         }
         return true;
     }

@@ -56,7 +56,8 @@ public class AuditController {
     public ModelAndView upsert(@RequestParam(required = false) Long id) {
         ModelAndView modelView = new ModelAndView("/audit/upsert");
         try {
-            auditservice.upsert(id, modelView);
+            modelView.addObject("isModal", true);
+            auditservice.upsert(id, modelView, true);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "upsert", sharedUserService);
         }
@@ -94,7 +95,6 @@ public class AuditController {
             return response;
         }
     }
-
 
     @RequestMapping(value = "/audit/fillAudit", method = RequestMethod.GET)
     public ModelAndView fillAudit(@RequestParam(required = true) Long id) {

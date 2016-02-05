@@ -49,6 +49,7 @@ public class Constants {
     /////////////////////////UploadFileTypes/////////////////////////////////////
     public static class UploadFile {
         public static final int REQUEST = 3000;
+        public static final int LETTER = 4000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
 }

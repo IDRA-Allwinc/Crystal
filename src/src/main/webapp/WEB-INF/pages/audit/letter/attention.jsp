@@ -2,13 +2,13 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpAttentionId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpLetterAttentionId");
     });
 </script>
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" ng-controller="requestController as vm">
+    <div class="modal-dialog" style="width:960px" ng-controller="letterController as vm">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -19,7 +19,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Requerimiento previo</h4>
+                        <h4 class="modal-title">Oficio de auditor&iacute;a</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-bars modal-icon"></i>
@@ -40,7 +40,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpAttentionId" name="FormUpAttentionId" class="form-horizontal" role="form"
+                        <form id="FormUpLetterAttentionId" name="FormUpLetterAttentionId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
@@ -53,13 +53,13 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="attentionComment" ng-model="vm.m.attentionComment"
-                                                      placeholder="Ingrese el comentario para indicar la atenci&oacute;n del requerimiento"
+                                                      placeholder="Ingrese el comentario para indicar la atenci&oacute;n del oficio"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
-                                            <span class="error" ng-show="FormUpAttentionId.attentionComment.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpAttentionId.attentionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
-                                            <span class="error" ng-show="FormUpAttentionId.attentionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpLetterAttentionId.attentionComment.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpLetterAttentionId.attentionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpLetterAttentionId.attentionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
 
                             <div class="panel panel-primary" ng-if="vm.m.isAttended==true">
                                 <div class="panel-heading">
-                                    Requriemiento atendido
+                                    Oficio atendido
                                 </div>
                                 <div class="panel-body">
                                     <div>
@@ -113,7 +113,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="up.submit('#FormUpAttentionId', '<c:url value='/previousRequest/request/doAttention.json' />', FormUpAttentionId.$valid)">
+                        ng-click="up.submit('#FormUpLetterAttentionId', '<c:url value='/audit/letter/doAttention.json' />', FormUpLetterAttentionId.$valid)">
                     Guardar
                 </button>
             </div>

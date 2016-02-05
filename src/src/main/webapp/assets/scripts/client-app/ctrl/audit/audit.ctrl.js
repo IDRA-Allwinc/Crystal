@@ -5,16 +5,15 @@
         .module(window.constMainApp)
         .controller('auditController', auditController);
 
-    auditController.$inject = ["$http", "$sce"];
+    auditController.$inject = ["$http", "$rootScope"];
 
-    function auditController($http, $sce) {
+    function auditController($http, $rootScope) {
         var vm = this;
         vm.m = {};
         vm.today = new Date();
         vm.getSupervisoryEntities = getSupervisoryEntities;
         vm.findSupervisoryEntitySelected = findSupervisoryEntitySelected;
         vm.init = init;
-        vm.upsertCtrl = null;
         vm.getAreas = getAreas;
         vm.findAssignedArea = findAssignedArea;
         vm.pushArea = pushArea;
@@ -37,23 +36,23 @@
         };
 
         function init() {
-            if (vm.m.auditType != null)
-                vm.m.auditTypeId = vm.m.auditType.id
-
             vm.m.auditType = window.initCatalog(vm.lstAuditTypes, vm.m.auditTypeId);
+
+            if (vm.m.auditType != null)
+                vm.m.auditTypeId = vm.m.auditType.id;
 
             if (vm.m.supervisoryEntity != undefined && vm.m.supervisoryEntity.id != undefined) {
                 vm.m.supervisoryEntityId = vm.m.supervisoryEntity.id;
-                vm.m.supervisoryEntity = vm.m.supervisoryEntity.name + " (" + vm.m.supervisoryEntity.description + ")"
+                vm.m.supervisoryEntity = vm.m.supervisoryEntity.name + " (" + vm.m.supervisoryEntity.description + ")";
             }
 
             if (vm.m.auditedEntity != undefined && vm.m.auditedEntity.id != undefined) {
                 vm.m.auditedEntityId = vm.m.auditedEntity.id;
-                vm.m.auditedEntity = vm.m.auditedEntity.name + " (" + vm.m.auditedEntity.description + ")"
+                vm.m.auditedEntity = vm.m.auditedEntity.name + " (" + vm.m.auditedEntity.description + ")";
             }
 
             for (var i = 0; i < vm.lstSelectedAreas.length; i++) {
-                vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ")"
+                vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ")";
             }
 
             if (vm.m.letterDate != undefined)
@@ -130,7 +129,6 @@
         function validateAudit() {
             var valid = true
             var msg = "";
-            vm.upsertCtrl.MsgError = "";
 
             if (vm.m.supervisoryEntityId == undefined) {
                 msg += "Debe seleccionar un &oacute;rgano fiscalizador v&aacute;lido <br/>";
@@ -148,11 +146,10 @@
             }
 
             if (msg != "")
-                vm.upsertCtrl.MsgError = vm.upsertCtrl.formatHtml(msg);
+                $rootScope.$broadcast('showMsgErrorUpsert', msg);
 
             return valid;
         };
-
 
         function containsArea(element) {
             for (var i = 0; i < vm.lstSelectedAreas.length; i++) {

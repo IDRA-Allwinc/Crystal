@@ -2,8 +2,8 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileRequestId");
-        var tableId = '#tblUfRequestAuditGrid';
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
+        var tableId = '#tblUfGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
@@ -14,7 +14,7 @@
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    var scope = angular.element($("#FormUpFileRequestId")).scope();
+                    var scope = angular.element($("#FormUpId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
                         scope.rv.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
@@ -80,13 +80,13 @@
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Subir documentos al requerimiento <br>{{rv.m.number}}</br></h5>
+                                    <h5>Subir documentos al requerimiento {{rv.m.number}}</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <form id="FormUpFileRequestId" name="FormUpFileRequestId" class="form-horizontal" role="form"
+                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
                               enctype="multipart/form-data">
                             <input type="hidden" id="id" name="id" ng-model="rv.m.id" ng-update-hidden/>
                             <input type="hidden" id="type" name="type" ng-model="rv.m.type" ng-update-hidden/>
@@ -107,9 +107,9 @@
                                                   ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
-                                              ng-show="FormUpFileRequestId.description.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpFileRequestId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                            <span class="error" ng-show="FormUpFileRequestId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                              ng-show="FormUpId.description.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@
                     <div class="col-xs-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <table id="tblUfRequestAuditGrid"
+                                <table id="tblUfGrid"
                                        data-toggle="table"
                                        data-url="<c:url value='/previousRequest/request/listUfRequest.json' />?requestId={{rv.m.id}}"
                                        data-height="auto"

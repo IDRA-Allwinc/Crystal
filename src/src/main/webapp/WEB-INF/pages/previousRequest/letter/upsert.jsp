@@ -3,7 +3,7 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpLetterId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
     });
 
     $(function () {
@@ -16,7 +16,7 @@
             , dataType: 'json'
             , done: function (e, data) {
                 try {
-                    var scope = angular.element($("#FormUpLetterId")).scope();
+                    var scope = angular.element($("#FormUpId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
                         scope.vm.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
@@ -64,7 +64,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Oficio de auditor&iacute;a</h4>
+                        <h4 class="modal-title">Oficio del requerimiento previo</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-list modal-icon"></i>
@@ -76,19 +76,17 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Informaci&oacute;n del oficio {{vm.m.auditId}}</h5>
+                                <h5>Informaci&oacute;n del oficio</h5>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpLetterId" name="FormUpLetterId" class="form-horizontal" role="form"
+                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)};'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
-                            <input type="hidden" id="auditId" name="auditId" ng-model="vm.m.auditId" ng-update-hidden/>
-                            <input type="hidden" id="forAudit" name="forAudit" value="true"/>
 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -99,9 +97,9 @@
                                                placeholder="Ingrese el n&uacute;mero de oficio"
                                                ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                class="form-control">
-                                        <span class="error" ng-show="FormUpLetterId.number.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpLetterId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                        <span class="error" ng-show="FormUpLetterId.number.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.number.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>
                                 </div>
                             </div>
@@ -116,9 +114,9 @@
                                                   ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
-                                              ng-show="FormUpLetterId.description.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpLetterId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                        <span class="error" ng-show="FormUpLetterId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                              ng-show="FormUpId.description.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                        <span class="error" ng-show="FormUpId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +190,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary" ng-show="up.WaitFor===false"
-                        ng-click="up.submit('#FormUpLetterId', '<c:url value='/audit/letter/doUpsert.json' />', FormUpLetterId.$valid)">
+                        ng-click="up.submit('#FormUpId', '<c:url value='/previousRequest/letter/doUpsert.json' />', FormUpId.$valid)">
                     Guardar
                 </button>
                 <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">

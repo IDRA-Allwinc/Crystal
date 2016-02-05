@@ -2,7 +2,7 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpAttentionId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
     });
 </script>
 
@@ -40,7 +40,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpAttentionId" name="FormUpAttentionId" class="form-horizontal" role="form"
+                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
@@ -57,9 +57,9 @@
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
-                                            <span class="error" ng-show="FormUpAttentionId.attentionComment.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpAttentionId.attentionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
-                                            <span class="error" ng-show="FormUpAttentionId.attentionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.attentionComment.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpId.attentionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpId.attentionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="up.submit('#FormUpAttentionId', '<c:url value='/previousRequest/request/doAttention.json' />', FormUpAttentionId.$valid)">
+                        ng-click="up.submit('#FormUpId', '<c:url value='/previousRequest/request/doAttention.json' />', FormUpId.$valid)">
                     Guardar
                 </button>
             </div>

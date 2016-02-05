@@ -98,7 +98,7 @@
                     <a class="sub-menu-lbl" href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
                 </li>
                 <li data-ng-class="mn.menu === 2 ? 'active' : ''">
-                    <a class="sub-menu-lbl" href="<c:url value='/audit/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
+                    <a class="sub-menu-lbl" href="<c:url value='/previousRequest/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
                 </li>
                 <li data-ng-class="mn.menu === 3 ? 'active' : ''">
                     <a class="sub-menu-lbl" href="<c:url value='/audit/index.html'/>"><i class="fa fa-briefcase"></i><span class="nav-label">Auditor&iacute;as</span></a>
@@ -110,7 +110,7 @@
                     <a class="sub-menu-lbl" href="<c:url value='/shared/area/index.html'/>"><i class="fa fa-cubes"></i> <span class="nav-label">&Aacute;reas</span></a>
                 </li>
                 <li data-ng-class="mn.menu === 2 ? 'active' : ''">
-                    <a class="sub-menu-lbl" href="<c:url value='/audit/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
+                    <a class="sub-menu-lbl" href="<c:url value='/previousRequest/letter/index.html'/>"><i class="fa fa-list"></i><span class="nav-label">Requerimientos previos</span></a>
                 </li>
                 <li data-ng-class="mn.menu === 3 ? 'active' : ''">
                     <a class="sub-menu-lbl" href="<c:url value='/audit/index.html'/>"><i class="fa fa-briefcase"></i><span class="nav-label">Auditor&iacute;as</span></a>

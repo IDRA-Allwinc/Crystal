@@ -2,7 +2,7 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileRequestId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileLetterId");
         var tableId = '#tblUfRequestAuditGrid';
         $(tableId).bootstrapTable();
 
@@ -14,21 +14,22 @@
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    var scope = angular.element($("#FormUpFileRequestId")).scope();
+                    debugger;
+                    var scope = angular.element($("#FormUpFileLetterId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
-                        scope.rv.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
+                        scope.lt.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
                     }
                     if (data.result.hasError === true) {
-                        scope.rv.setOutError(data.result.message);
+                        scope.lt.setOutError(data.result.message);
                         return;
                     }
 
-                    scope.rv.setSuccess(data.result);
+                    scope.lt.setSuccess(data.result);
                     $(tableId).bootstrapTable('refresh', 'showLoading');
 
                 } catch (ex) {
-                    scope.rv.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
+                    scope.lt.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
                     return;
                 } finally {
                     window.setTimeout(function () {
@@ -54,8 +55,8 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" data-ng-controller="requestViewDocsController as rv"
-         data-ng-init='rv.m = ${(model == null ? "{}" : model)};'>
+    <div class="modal-dialog" style="width:960px" data-ng-controller="letterViewDocsController as lt"
+         data-ng-init='lt.m = ${(model == null ? "{}" : model)};'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -66,7 +67,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Visualizaci&oacute;n de documentos</h4>
+                        <h4 class="modal-title">Visualizaci&oacute;n de documentos adicionales</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-copy modal-icon"></i>
@@ -75,21 +76,21 @@
             </div>
 
             <div class="modal-body">
-                <div data-ng-show="rv.m.isAttended !== true">
+                <div data-ng-show="lt.m.isAttended !== true">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Subir documentos al requerimiento <br>{{rv.m.number}}</br></h5>
+                                    <h5>Subir documentos adicionales al oficio <strong>{{lt.m.number}}</strong></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <form id="FormUpFileRequestId" name="FormUpFileRequestId" class="form-horizontal" role="form"
+                        <form id="FormUpFileLetterId" name="FormUpFileLetterId" class="form-horizontal" role="form"
                               enctype="multipart/form-data">
-                            <input type="hidden" id="id" name="id" ng-model="rv.m.id" ng-update-hidden/>
-                            <input type="hidden" id="type" name="type" ng-model="rv.m.type" ng-update-hidden/>
+                            <input type="hidden" id="id" name="id" ng-model="lt.m.id" ng-update-hidden/>
+                            <input type="hidden" id="type" name="type" ng-model="lt.m.type" ng-update-hidden/>
 
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
@@ -102,18 +103,18 @@
                                         <label class="col-xs-3 control-label font-noraml">Descripci&oacute;n:</label>
 
                                         <div class="col-xs-7">
-                                        <textarea name="description" rows="3" ng-model="rv.m.description"
+                                        <textarea name="description" rows="3" ng-model="lt.m.description"
                                                   placeholder="Ingrese una breve descripci&oacute;n del documento"
                                                   ng-required="true" ng-maxlength="200" ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
-                                              ng-show="FormUpFileRequestId.description.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpFileRequestId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                            <span class="error" ng-show="FormUpFileRequestId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                              ng-show="FormUpFileLetterId.description.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpFileLetterId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                            <span class="error" ng-show="FormUpFileLetterId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div data-ng-show="rv.m.description">
+                                <div data-ng-show="lt.m.description">
                                     <br/>
 
                                     <div class="row">
@@ -137,15 +138,15 @@
 
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <div ng-show="rv.MsgError" class="alert alert-error element-center"
-                                                 ng-bind-html="rv.MsgError">
+                                            <div ng-show="lt.MsgError" class="alert alert-error element-center"
+                                                 ng-bind-html="lt.MsgError">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <div ng-show="rv.MsgSuccess" class="alert alert-success element-center"
-                                                 ng-bind-html="rv.MsgSuccess">
+                                            <div ng-show="lt.MsgSuccess" class="alert alert-success element-center"
+                                                 ng-bind-html="lt.MsgSuccess">
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +161,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Documentos del requerimiento {{rv.m.number}}</h5>
+                                <h5>Documentos adicionales del oficio {{lt.m.number}}</h5>
                             </div>
                         </div>
                     </div>
@@ -172,7 +173,7 @@
                             <div class="ibox-content">
                                 <table id="tblUfRequestAuditGrid"
                                        data-toggle="table"
-                                       data-url="<c:url value='/previousRequest/request/listUfRequest.json' />?requestId={{rv.m.id}}"
+                                       data-url="<c:url value='/audit/letter/listUfLetter.json' />?letterId={{lt.m.id}}"
                                        data-height="auto"
                                        data-side-pagination="server"
                                        data-pagination="true"

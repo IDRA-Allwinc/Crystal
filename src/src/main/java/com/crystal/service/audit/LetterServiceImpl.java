@@ -1,13 +1,19 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Audit;
 import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.LetterDto;
 import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
+import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileGenericDto;
+import com.crystal.repository.account.UserRepository;
+import com.crystal.repository.catalog.AuditRepository;
 import com.crystal.repository.catalog.LetterRepository;
+import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
+import com.crystal.service.account.SharedUserService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -24,7 +31,19 @@ public class LetterServiceImpl implements LetterService {
     LetterRepository repository;
 
     @Autowired
+    AuditRepository auditRepository;
+
+    @Autowired
+    RequestRepository requestRepository;
+
+    @Autowired
     UploadFileGenericRepository repositoryUf;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    SharedUserService sharedUserService;
 
 
     @Override
@@ -32,10 +51,36 @@ public class LetterServiceImpl implements LetterService {
         if (id != null) {
             Gson gson = new Gson();
             LetterDto model = repository.findOneDto(id);
-            model.setLstFiles(repository.findFilesById(id));
+            model.setLstFiles(repository.findLetterInitialFileDtoById(id));
             String sJson = gson.toJson(model);
             modelView.addObject("model", sJson);
         }
+    }
+
+    @Override
+    public void upsertAudit(Long auditId, Long id, ModelAndView modelView) {
+
+
+        if (auditId != null) {
+            Audit a = auditRepository.findByIdAndIsObsolete(auditId, false);
+            if (a == null)
+                return;
+        } else {
+            return;
+        }
+
+        Gson gson = new Gson();
+        LetterDto model = null;
+        if (id != null) {
+            model = repository.findOneDto(id);
+            model.setLstFiles(repository.findLetterInitialFileDtoById(id));
+        } else {
+            model = new LetterDto();
+            model.setAuditId(auditId);
+        }
+
+        modelView.addObject("model", gson.toJson(model));
+
     }
 
     @Override
@@ -43,7 +88,7 @@ public class LetterServiceImpl implements LetterService {
 
         Letter model = businessValidation(modelNew, response, userId, roleId);
 
-        if(response.isHasError())
+        if (response.isHasError())
             return;
 
         model.merge(modelNew);
@@ -55,7 +100,7 @@ public class LetterServiceImpl implements LetterService {
     public void doObsolete(Long id, Long userId, ResponseMessage response) {
         Letter model = repository.findByIdAndIsObsolete(id, false);
 
-        if(model == null){
+        if (model == null) {
             response.setHasError(true);
             response.setMessage("El oficio ya fue eliminado o no existe en el sistema");
             response.setTitle("Eliminar oficio");
@@ -64,7 +109,7 @@ public class LetterServiceImpl implements LetterService {
 
         Long countReq = repository.countReqByLetterId(id);
 
-        if(!countReq.equals(0l)){
+        if (!countReq.equals(0l)) {
             response.setHasError(true);
             response.setMessage("El oficio no puede ser eliminado porque tiene al menos un requisito");
             response.setTitle("Eliminar oficio");
@@ -75,14 +120,14 @@ public class LetterServiceImpl implements LetterService {
         model.setDelAudit(userId);
         repository.saveAndFlush(model);
 
-        List<Long> lstFileIds = repository.findFileIdsById(model.getId());
-        if(lstFileIds.size() > 0)
-            repositoryUf.setFilesObsoleteByIds(lstFileIds);
+        List<Long> lstFileIds = repository.findAllFilesIdsByLetterId(model.getId());
+        if (lstFileIds.size() > 0)
+            repositoryUf.setAllFilesObsoleteByIds(lstFileIds);
     }
 
     @Override
     public Long findFileIdByLetterId(Long id) {
-        List<Long> lstFiles = repository.findFileIdsById(id);
+        List<Long> lstFiles = repository.findInitialFilesIdsByLetterId(id);
         return lstFiles.get(0);
     }
 
@@ -95,7 +140,7 @@ public class LetterServiceImpl implements LetterService {
 
         List<UploadFileGenericDto> lstFiles = modelNew.getLstFiles();
 
-        if(lstFiles == null || lstFiles.size() != 1){
+        if (lstFiles == null || lstFiles.size() != 1) {
             response.setHasError(true);
             response.setMessage("Debe existir sólo un archivo para asociarlo al oficio.");
             return null;
@@ -107,40 +152,54 @@ public class LetterServiceImpl implements LetterService {
 
         List<Long> lstFileIds;
         boolean bIsSameFile = false;
-        if(modelNew.getId() == null){
+
+        Audit a = null;
+
+        if (modelNew.getAuditId() != null) {
+            a = auditRepository.findByIdAndIsObsolete(modelNew.getAuditId(), false);
+            if (a == null) {
+                response.setHasError(true);
+                response.setMessage("La auditor&iacute;a no existe o ya fue eliminada.");
+                return null;
+            }
+        }
+
+        if (modelNew.getId() == null) {
             model = new Letter(roleId);
             model.setInsAudit(userId);
-        }else{
+            if (modelNew.isForAudit() && a != null) {
+                model.setAudit(a);
+            }
+        } else {
             model = repository.findByIdAndIsObsolete(modelNew.getId(), false);
-            if(model == null){
+            if (model == null) {
                 response.setHasError(true);
                 response.setMessage("El oficio no existe o ya fue eliminado.");
                 return null;
             }
 
-            if(model.getRole().getId() != roleId){
+            if (model.getRole().getId() != roleId) {
                 response.setHasError(true);
                 response.setMessage("El usuario no pertenece al perfil asociado al oficio.");
                 return null;
             }
 
             model.setUpdAudit(userId);
-            lstFileIds = repository.findFileIdsById(model.getId());
-            if(!lstFileIds.contains(fileId)){   //Si es falso, es un archivo diferente
-                if(lstFileIds.size() > 0)
-                    repositoryUf.setFilesObsoleteByIds(lstFileIds);
-            }
-            else{
+            lstFileIds = repository.findInitialFilesIdsByLetterId(model.getId());
+            if (!lstFileIds.contains(fileId)) {   //Si es falso, es un archivo diferente
+                if (lstFileIds.size() > 0)
+                    repositoryUf.setAllFilesObsoleteByIds(lstFileIds);
+            } else {
                 bIsSameFile = true;
             }
         }
 
-        if(bIsSameFile)
+        if (bIsSameFile)
             return model;
 
         UploadFileGeneric genericFile = repositoryUf.findById(lstFiles.get(0).getId());
 
-        if(genericFile == null){
+        if (genericFile == null) {
             response.setHasError(true);
             response.setMessage("No existe un archivo válido para el oficio.");
             return null;
@@ -155,6 +214,75 @@ public class LetterServiceImpl implements LetterService {
         relUpFile.setUploadFileGeneric(genericFile);
         lstFilesNew.add(relUpFile);
         model.setLstFiles(lstFilesNew);
+
+        return model;
+    }
+
+    @Override
+    public void upsertViewDocs(Long letterId, ModelAndView modelAndView) {
+        LetterDto model = repository.findOneDto(letterId);
+        model.setDescription("");
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    public void showAttention(Long id, ModelAndView modelAndView) {
+        Gson gson = new Gson();
+        AttentionDto model = repository.findAttentionInfoById(id);
+        modelAndView.addObject("model", gson.toJson(model));
+    }
+
+    @Override
+    public void doAttention(AttentionDto attentionDto, ResponseMessage response) {
+
+        Letter model = attentionValidation(attentionDto, response);
+
+        if (response.isHasError())
+            return;
+
+        doSave(model);
+    }
+
+    private Letter attentionValidation(AttentionDto attentionDto, ResponseMessage response) {
+
+        Letter model = null;
+
+        if (attentionDto.getId() == null) {
+            response.setHasError(true);
+            response.setMessage("El oficio no existe o ya fue eliminado.");
+            return null;
+        } else {
+
+            model = repository.findByIdAndIsObsolete(attentionDto.getId(), false);
+            if (model == null) {
+                response.setHasError(true);
+                response.setMessage("El oficio no existe o ya fue eliminado.");
+                return null;
+            }
+
+            List<Long> requestIds = requestRepository.getRequestIdsNoObsoleteByLetter(attentionDto.getId());
+            if (requestIds==null || !(requestIds.size() > 0)) {
+                response.setHasError(true);
+                response.setMessage("No es posible indicar la atenci&oacute;n del oficio, debe tener registrado al menos un requerimiento.");
+                return null;
+            }
+
+            Long countUnattendedRequests = requestRepository.countRequestUnattendedInIds(requestIds);
+            if (countUnattendedRequests>0) {
+                response.setHasError(true);
+                response.setMessage("No es posible indicar la atenci&oacute;n del oficio, existen requerimientos que no han sido atendidos.");
+                return null;
+            }
+
+            model.setAttentionDate(Calendar.getInstance());
+            model.setAttentionComment(attentionDto.getAttentionComment());
+            model.setAttended(true);
+            model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        }
+
         return model;
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
@@ -31,4 +33,16 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     @Query("select r.isAttended from Request r where r.id = :requestId and r.isObsolete = false")
     Boolean isAttendedById(@Param("requestId") Long requestId);
+
+    @Query("select r.id from Letter l " +
+            "inner join l.lstRequest r " +
+            "where r.isObsolete = false " +
+            "and l.id =:letterId ")
+    List<Long> getRequestIdsNoObsoleteByLetter(@Param("letterId") Long letterId);
+
+    @Query("select count(r.id) from Request r " +
+            "where r.isObsolete = false " +
+            "and r.isAttended = false " +
+            "and r.id in (:requestIds)")
+    Long countRequestUnattendedInIds(@Param("requestIds") List<Long> requestIds);
 }

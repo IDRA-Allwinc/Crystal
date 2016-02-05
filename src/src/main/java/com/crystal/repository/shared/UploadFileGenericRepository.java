@@ -28,8 +28,8 @@ public interface UploadFileGenericRepository extends JpaRepository<UploadFileGen
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE UploadFileGeneric e SET e.isObsolete = true WHERE e.id IN :ids")
-    void setFilesObsoleteByIds(@Param("ids") List<Long> ids);
+    @Query("UPDATE UploadFileGeneric e SET e.isObsolete = true WHERE e.id IN :ids ")
+    void setAllFilesObsoleteByIds(@Param("ids") List<Long> ids);
 
 }
 

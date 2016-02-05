@@ -74,8 +74,7 @@
         };
 
         function submitRedirect(formId, urlToPost, hasReturnId, validate) {
-            var dataSer
-                , stVal = true;
+            var dataSer, stVal = true;
 
             if (validate != undefined)
                 stVal = validate();
@@ -103,7 +102,7 @@
         };
 
         function returnUrl(urlToGo) {
-            window.goToUrlMvcUrl(urlToGo, tokenCsrfFormReplace);
+            window.goToUrlMvcUrl(urlToGo, vm.tokenCsrfFormReplace);
         };
 
 
@@ -114,7 +113,7 @@
                     resp = resp.message;
                 }
                 if (resp.hasError === false) {
-                    window.goToUrlMvcUrl(resp.urlToGo, tokenCsrfFormReplace);
+                    window.goToUrlMvcUrl(resp.urlToGo, vm.tokenCsrfFormReplace);
                     vm.WaitFor = false;
                     $scope.$apply();
                     return;

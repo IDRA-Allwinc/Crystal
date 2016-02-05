@@ -5,8 +5,7 @@
                               vm.lstAuditTypes= ${(lstAuditTypes == null ? "[]" : lstAuditTypes)};
                               vm.urlGetSupervisoryEntities = "<c:url value='/audit/getSupervisoryEntities.json'/>";
                               vm.urlGetAuditedEntities= "<c:url value='/audit/getAuditedEntities.json'/>";
-                              vm.urlGetAreas="<c:url value='/audit/request/getAreas.json'/>";
-                              vm.upsertCtrl = up;
+                              vm.urlGetAreas="<c:url value='/previousRequest/request/getAreas.json'/>";
                               vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)};
                               vm.init();'>
 
