@@ -107,7 +107,7 @@
                                         <div class="col-xs-7">
                                         <textarea name="description" rows="3" ng-model="rv.m.description"
                                                   placeholder="Ingrese una breve descripci&oacute;n del documento"
-                                                  ng-required="true"  ng-minlength="2"
+                                                  ng-required="true"  ng-maxlength="200" ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
                                               ng-show="FormUpFileRequestId.description.$error.required">*Campo requerido</span>
