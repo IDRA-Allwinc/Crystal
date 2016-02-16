@@ -64,7 +64,7 @@
                 </ol>
                 <br />
                 <div class="alert alert-info alert-10">
-                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar entes fiscalizados (subsecreatar&iacute;as y &oacute;rganos independientes).
+                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar entes fiscalizados (secreatar&iacute;as y &oacute;rganos independientes).
                 </div>
             </div>
         </div>

@@ -127,7 +127,7 @@ public class RequestController {
 
     @RequestMapping(value = "/previousRequest/request/upsertViewDocs", method = RequestMethod.POST)
     public ModelAndView upsertViewDocs(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/previousRequest/requ1est/upsertViewDocs");
+        ModelAndView modelAndView = new ModelAndView("/previousRequest/request/upsertViewDocs");
         try {
             requestService.upsertViewDocs(id, modelAndView);
         } catch (Exception ex) {

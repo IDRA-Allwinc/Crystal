@@ -8,7 +8,7 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" ng-controller="requestController as vm">
+    <div class="modal-dialog" style="width:800px" ng-controller="requestController as vm">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -32,7 +32,8 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Indicar atenci&oacute;n</h5>
+                                <h5 ng-if="vm.m.isAttended==false">Indicar atenci&oacute;n del requerimiento n&uacute;mero <b>{{vm.m.requestNumber}}</b></h5>
+                                <h5 ng-if="vm.m.isAttended==true">Informaci&oacute;n de atenci&oacute;n del requerimiento n&uacute;mero <b>{{vm.m.requestNumber}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -44,7 +45,7 @@
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
-
+                            {{mv.m.auditName}}
                             <div class="row" ng-if="vm.m.isAttended==false">
                                 <div class="col-xs-12">
 
@@ -67,9 +68,14 @@
 
                             <div class="panel panel-primary" ng-if="vm.m.isAttended==true">
                                 <div class="panel-heading">
-                                    Requriemiento atendido
+                                    Requriemiento atendido n&uacute;mero <b>{{vm.m.requestNumber}}</b>
                                 </div>
                                 <div class="panel-body">
+                                    <div>
+                                        <label class="control-label font-noraml"><b>Oficio:</b></label>
+
+                                        <p>{{vm.m.letterNumber}}</p>
+                                    </div>
                                     <div>
                                         <label class="control-label font-noraml"><b>Comentario:</b></label>
 

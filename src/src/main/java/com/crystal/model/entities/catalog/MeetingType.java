@@ -14,7 +14,7 @@ public class MeetingType {
     @Column(name = "id_meeting_type")
     private Long id;
 
-    @Column(name="name", length = 200, nullable = false)
+    @Column(name="name", length = 300, nullable = false)
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 

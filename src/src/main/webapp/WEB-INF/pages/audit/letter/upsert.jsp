@@ -97,7 +97,7 @@
                                     <div class="col-xs-7">
                                         <input type="text" name="number" ng-model="vm.m.number"
                                                placeholder="Ingrese el n&uacute;mero de oficio"
-                                               ng-required="true" ng-maxlength="200" ng-minlength="2"
+                                               ng-required="true"  ng-minlength="2"
                                                class="form-control">
                                         <span class="error" ng-show="FormUpLetterId.number.$error.required">*Campo requerido</span>
                                         <span class="error" ng-show="FormUpLetterId.number.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
@@ -113,7 +113,7 @@
                                     <div class="col-xs-7">
                                         <textarea name="description" rows="3" ng-model="vm.m.description"
                                                   placeholder="Ingrese la descripci&oacute;n del oficio"
-                                                  ng-required="true" ng-maxlength="200" ng-minlength="2"
+                                                  ng-required="true"  ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
                                               ng-show="FormUpLetterId.description.$error.required">*Campo requerido</span>

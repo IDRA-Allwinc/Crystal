@@ -74,7 +74,7 @@
                 <div class="col-xs-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-success pull-right">Entes fiscalizados</span>
+                            <span class="label label-success pull-right">&Oacute;rganos fiscalizadores</span>
                             <h2 class="text-navy">
                                 <i class="fa fa-eye"></i> &nbsp; Administraci&oacute;n de &oacute;rganos fiscalizadores
                             </h2>

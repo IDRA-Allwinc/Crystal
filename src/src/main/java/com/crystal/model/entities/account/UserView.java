@@ -1,6 +1,5 @@
 package com.crystal.model.entities.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Entity;
@@ -23,7 +22,7 @@ public class UserView{
     private Boolean enabled;
 
     public Long getId() {
-        return null;
+        return id;
     }
 
     public void setId(Long id) {

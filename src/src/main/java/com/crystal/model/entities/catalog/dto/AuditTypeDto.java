@@ -12,7 +12,7 @@ public class AuditTypeDto {
     private String name;
 
     @NotEmpty(message="La descripción es un campo requerido")
-    @Length(min = 8, max  = 200, message = "La descripción debe tener entre 8 y 200 caracteres.")
+    @Length(min = 8, max  = 300, message = "La descripción debe tener entre 8 y 300 caracteres.")
     private String description ;
 
     public AuditTypeDto() {

@@ -20,7 +20,7 @@ public interface AreaRepository extends JpaRepository<Area, Long> {
 
     @Query("select new com.crystal.model.shared.SelectList(a.id, a.name, a.responsible) from Area a " +
             "where " +
-            "a.auditedEntity.auditedEntityType.code = com.crystal.model.shared.Constants.ENTITY_TYPE_UNDERSECRETARY " +
+            "a.auditedEntity.auditedEntityType.code = com.crystal.model.shared.Constants.ENTITY_TYPE_SECRETARY " +
             "and (a.name like :areaStr or  a.responsible like :areaStr)" +
             "and a.isObsolete = false")
     public List<SelectList> findDGPOPAreasByStr(@Param("areaStr") String areaStr, Pageable pageable);

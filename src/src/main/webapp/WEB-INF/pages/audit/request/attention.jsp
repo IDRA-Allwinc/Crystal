@@ -8,7 +8,7 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" ng-controller="requestController as vm">
+    <div class="modal-dialog" style="width:800px" ng-controller="requestController as vm">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -32,7 +32,8 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Indicar atenci&oacute;n</h5>
+                                <h5 ng-if="vm.m.isAttended==false">Indicar atenci&oacute;n del requerimiento n&uacute;mero <b>{{vm.m.requestNumber}}</b></h5>
+                                <h5 ng-if="vm.m.isAttended==true">Informaci&oacute;n de atenci&oacute;n del requerimiento  n&uacute;mero <b>{{vm.m.requestNumber}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -67,14 +68,30 @@
 
                             <div class="panel panel-primary" ng-if="vm.m.isAttended==true">
                                 <div class="panel-heading">
-                                    Requriemiento atendido
+                                    Requriemiento atendido n&uacute;mero <b>{{vm.m.requestNumber}}</b>
                                 </div>
                                 <div class="panel-body">
+                                    <div>
+                                        <label class="control-label font-noraml"><b>Auditor&iacute;a:</b></label>
+
+                                        <p>{{vm.m.auditName}}</p>
+                                    </div>
+                                    <div>
+                                        <label class="control-label font-noraml"><b>Oficio:</b></label>
+
+                                        <p>{{vm.m.letterNumber}}</p>
+                                    </div>
+                                    <div>
+                                        <label class="control-label font-noraml"><b>Requerimiento:</b></label>
+
+                                        <p>{{vm.m.requestNumber}}</p>
+                                    </div>
                                     <div>
                                         <label class="control-label font-noraml"><b>Comentario:</b></label>
 
                                         <p>{{vm.m.attentionComment}}</p>
                                     </div>
+
                                     <div>
                                         <label class="control-label font-noraml"><b>Usuario que
                                             atendi&oacute;:</b></label>

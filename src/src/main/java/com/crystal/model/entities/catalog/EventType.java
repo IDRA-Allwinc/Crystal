@@ -18,7 +18,7 @@ public class EventType {
     @NotEmpty(message="El nombre es un campo requerido")
     private String name;
 
-    @Column(name="description", length = 200, nullable = false)
+    @Column(name="description", length = 300, nullable = false)
     @NotEmpty(message="La descripción es un campo requerido")
     private String description;
 

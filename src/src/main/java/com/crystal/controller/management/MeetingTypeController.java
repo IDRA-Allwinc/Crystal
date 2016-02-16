@@ -38,7 +38,7 @@ public class MeetingTypeController {
 
     @RequestMapping(value = "/management/meetingType/list", method = RequestMethod.GET)
     public Object list() {
-        return gridService.toGrid(MeetingType.class);
+        return gridService.toGrid(MeetingType.class, "isObsolete",false);
     }
 
     @RequestMapping(value = "/management/meetingType/upsert", method = RequestMethod.POST)

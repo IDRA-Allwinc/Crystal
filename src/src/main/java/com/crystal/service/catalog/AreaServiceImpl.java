@@ -41,7 +41,7 @@ public class AreaServiceImpl implements AreaService {
         }
 
         if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
-            modelAndView.addObject("lstAuditedEntity", gson.toJson(auditedEntityRepository.findNoObsoleteByType(Constants.ENTITY_TYPE_UNDERSECRETARY)));
+            modelAndView.addObject("lstAuditedEntity", gson.toJson(auditedEntityRepository.findNoObsoleteByType(Constants.ENTITY_TYPE_SECRETARY)));
     }
 
     @Transactional

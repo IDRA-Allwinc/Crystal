@@ -81,7 +81,7 @@
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Subir documentos adicionales al oficio <strong>{{lt.m.number}}</strong></h5>
+                                    <h5>Subir documentos adicionales al oficio <b>{{lt.m.number}}</b></h5>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +96,8 @@
 
                             <div class="col-xs-4 element-center">
                                 <i class="fa fa-upload modal-icon orange"></i>
+                                <p class="text-muted"><i><b>Nota:</b> Debe proporcionar una descripci&oacute;n para poder adjuntar el
+                                    documento.</i></p>
                             </div>
                             <div class="col-xs-8">
                                 <div class="row">
@@ -105,7 +107,7 @@
                                         <div class="col-xs-7">
                                         <textarea name="description" rows="3" ng-model="lt.m.description"
                                                   placeholder="Ingrese una breve descripci&oacute;n del documento"
-                                                  ng-required="true" ng-maxlength="200" ng-minlength="2"
+                                                  ng-required="true"  ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
                                               ng-show="FormUpFileLetterId.description.$error.required">*Campo requerido</span>
@@ -161,7 +163,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Documentos adicionales del oficio {{lt.m.number}}</h5>
+                                <h5>Documentos adicionales del oficio <b>{{lt.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>

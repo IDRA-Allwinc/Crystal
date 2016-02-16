@@ -13,7 +13,7 @@ public class MeetingTypeDto {
     private String name;
 
     @NotEmpty(message="La descripción es un campo requerido")
-    @Size(max = 200, message="La descripción debe tener 200 caracteres máximo")
+    @Size(max = 300, message="La descripción debe tener 300 caracteres máximo")
     private String description;
 
     public MeetingTypeDto() {

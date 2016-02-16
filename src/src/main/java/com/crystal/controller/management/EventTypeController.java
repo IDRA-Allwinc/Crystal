@@ -39,7 +39,7 @@ public class EventTypeController {
 
     @RequestMapping(value = "/management/eventType/list", method = RequestMethod.GET/*, params = {"limit", "offset", "sort", "order", "search", "filter"}*/)
     public Object list() {
-        return gridService.toGrid(EventType.class);
+        return gridService.toGrid(EventType.class,"isObsolete",false);
     }
 
     @RequestMapping(value = "/management/eventType/upsert", method = RequestMethod.POST)

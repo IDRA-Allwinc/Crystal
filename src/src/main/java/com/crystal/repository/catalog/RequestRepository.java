@@ -26,8 +26,10 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     public Request findByIdAndIsObsolete(Long id, boolean b);
 
-    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate,r.attentionUser.fullName) from Request r " +
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate,r.attentionUser.fullName, a.name, l.number, r.number) from Request r " +
             "left join r.attentionUser u " +
+            "inner join r.letter l " +
+            "left join l.audit a " +
             "where r.id=:requestId and r.isObsolete = false")
     public AttentionDto findAttentionInfoById(@Param("requestId") Long requestId);
 

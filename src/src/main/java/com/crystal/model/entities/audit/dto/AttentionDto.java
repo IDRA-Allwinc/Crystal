@@ -18,19 +18,41 @@ public class AttentionDto {
 
     private String attentionDateStr;
 
+    private String auditName;
+
+    private String requestNumber;
+
+    private String letterNumber;
+
     private String attentionUser;
 
     public AttentionDto() {
 
     }
 
-    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser) {
+    //para la atencion de oficios
+    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser,String auditName, String letterNumber) {
         this.id = id;
         this.attentionComment = attentionComment;
         this.isAttended = isAttended;
         if (attentionDate != null)
             this.attentionDateStr = new SimpleDateFormat("dd/MM/yyyy").format(attentionDate.getTime());
         this.attentionUser = attentionUser;
+        this.auditName = auditName;
+        this.letterNumber = letterNumber;
+    }
+
+    //para la atencion de requerimientos
+    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String letterNumber,  String requestNumber) {
+        this.id = id;
+        this.attentionComment = attentionComment;
+        this.isAttended = isAttended;
+        if (attentionDate != null)
+            this.attentionDateStr = new SimpleDateFormat("dd/MM/yyyy").format(attentionDate.getTime());
+        this.attentionUser = attentionUser;
+        this.auditName = auditName;
+        this.letterNumber = letterNumber;
+        this.requestNumber = requestNumber;
     }
 
     public Long getId() {
@@ -71,5 +93,29 @@ public class AttentionDto {
 
     public void setAttentionUser(String attentionUser) {
         this.attentionUser = attentionUser;
+    }
+
+    public String getAuditName() {
+        return auditName;
+    }
+
+    public void setAuditName(String auditName) {
+        this.auditName = auditName;
+    }
+
+    public String getRequestNumber() {
+        return requestNumber;
+    }
+
+    public void setRequestNumber(String requestNumber) {
+        this.requestNumber = requestNumber;
+    }
+
+    public String getLetterNumber() {
+        return letterNumber;
+    }
+
+    public void setLetterNumber(String letterNumber) {
+        this.letterNumber = letterNumber;
     }
 }

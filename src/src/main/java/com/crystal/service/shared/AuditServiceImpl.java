@@ -166,7 +166,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public List<SelectList> getAuditedEntities(String auditedStr) {
-        return auditedEntityRepository.findNoObsoleteByTypeAndStr(Constants.ENTITY_TYPE_UNDERSECRETARY, "%" + auditedStr + "%");
+        return auditedEntityRepository.findNoObsoleteByTypeAndStr(Constants.ENTITY_TYPE_SECRETARY, "%" + auditedStr + "%");
     }
 
     @Override
@@ -175,7 +175,7 @@ public class AuditServiceImpl implements AuditService {
         HashMap<String, Object> filters = new HashMap<>();
 
         if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP)) {
-            filters.put("auditedEntityTypeCode", Constants.ENTITY_TYPE_UNDERSECRETARY);
+            filters.put("auditedEntityTypeCode", Constants.ENTITY_TYPE_SECRETARY);
             return gridService.toGrid(AuditView.class, filters);
         } else if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_LINK)) {
             filters.put("auditedEntityId", sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.getLoggedUserId()));

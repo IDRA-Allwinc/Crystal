@@ -46,7 +46,7 @@ public class AreaController {
         filters.put("isObsolete", false);
 
         if (sharedUserService.loggedUserHasAuthority(Constants.AUTHORITY_DGPOP))
-            filters.put("auditedEntityTypeCode", Constants.ENTITY_TYPE_UNDERSECRETARY);
+            filters.put("auditedEntityTypeCode", Constants.ENTITY_TYPE_SECRETARY);
         else
             filters.put("auditedEntityId", sharedUserService.getAuditedEntityIdByLoggedUserId(sharedUserService.getLoggedUserId()));
 
