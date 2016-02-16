@@ -1,6 +1,7 @@
 package com.crystal.controller.catalog;
 
 import com.crystal.service.catalog.InsertCatalogService;
+import com.crystal.service.shared.EmailHubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,20 @@ public class InsertCatalogController {
 
 	@Autowired
 	InsertCatalogService service;
+
+	@Autowired
+	EmailHubService emailService;
+
+	@RequestMapping(value = "/test/sendEmail", method = RequestMethod.GET)
+	public String sendEmail() {
+		try {
+			emailService.sendEmail("israelvi@hotmail.com", "prueba@idrasoft.com.mx", "Prueba de cajón", "<p>Esta es una <b>prueba</b>!!!</p>");
+		}catch (Exception ex)
+		{
+			return ex.getMessage();
+		}
+		return "Email enviado";
+	}
 
 	@RequestMapping(value = "/catalogs/insertRole", method = RequestMethod.GET)
 	public String insertRole() {
