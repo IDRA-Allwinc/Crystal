@@ -21,6 +21,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/requestViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letterViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/comment.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
@@ -52,9 +53,9 @@
                                 class="fa fa-bookmark-o i-big"></i></span>Datos de auditor&iacute;a</a></li>
                         <li><a href="#letters" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-files-o i-big"></i></span>Oficios</a></li>
-                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#comments" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-eye i-big"></i></span>Observaciones</a></li>
-                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#workin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-hand-o-right i-big"></i></span>Recomendaciones</a></li>
                         <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-list-ul i-big"></i></span>Pliego de observaciones</a></li>
@@ -75,6 +76,11 @@
                         <div class="tab-pane animated fadeInDown" id="letters">
                             <%@ include file="/WEB-INF/pages/audit/letter/index.jsp"%>
                         </div>
+
+                        <div class="tab-pane animated fadeInDown" id="comments">
+                            <%@ include file="/WEB-INF/pages/audit/comment/index.jsp"%>
+                        </div>
+
                         <div class="tab-pane animated fadeInDown" id="wornkin">
                             <%@ include file="/WEB-INF/pages/working.jsp" %>
                         </div>

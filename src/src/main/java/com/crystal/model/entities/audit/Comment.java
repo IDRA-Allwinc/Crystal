@@ -1,5 +1,9 @@
 package com.crystal.model.entities.audit;
 
+import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.account.UserAuditInfo;
+import com.crystal.model.entities.audit.dto.AttentionDto;
+import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.UploadFileGeneric;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -10,12 +14,16 @@ import java.util.List;
 
 @Entity
 @Table(name="comment")
-public class Comment {
+public class Comment extends UserAuditInfo {
 
     @Id
     @GeneratedValue
     @Column(name = "id_comment")
     private Long id;
+
+    @Column(name = "number", length = 50, unique = true, nullable = false)
+    @NotEmpty(message = "El numeral es un campo requerido")
+    private String number;
 
     @Column(name="description", length = 2000, nullable = false)
     @NotEmpty(message="La descripción es un campo requerido")
@@ -24,15 +32,24 @@ public class Comment {
     @Column(name="create_date", nullable = false)
     private Calendar createDate;
 
-    @Column(name="limit_time_days", nullable = false)
-    @NotEmpty(message="El plazo otorgado es un campo requerido")
-    private Integer limitTimeDays;
+    @Column(name="init_date", nullable = false)
+    private Calendar initDate;
 
-    @Column(name="is_attended", nullable = false)
+    @Column(name="end_date", nullable = false)
+    private Calendar endDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = true)
+    private User attentionUser;
+
+    @Column(name = "is_attended", nullable = false)
     private boolean isAttended;
 
-    @Column(name="attention_date", nullable = true)
+    @Column(name = "attention_date", nullable = true)
     private Calendar attentionDate;
+
+    @Column(name = "attention_comment", nullable = true)
+    private String attentionComment;
 
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
@@ -41,7 +58,7 @@ public class Comment {
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "comment_area_rel",
             joinColumns = {@JoinColumn(name = "id_comment", referencedColumnName = "id_comment")},
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
@@ -67,6 +84,14 @@ public class Comment {
         this.id = id;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -83,12 +108,20 @@ public class Comment {
         this.createDate = createDate;
     }
 
-    public Integer getLimitTimeDays() {
-        return limitTimeDays;
+    public Calendar getInitDate() {
+        return initDate;
     }
 
-    public void setLimitTimeDays(Integer limitTimeDays) {
-        this.limitTimeDays = limitTimeDays;
+    public void setInitDate(Calendar initDate) {
+        this.initDate = initDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
     }
 
     public boolean isAttended() {
@@ -146,4 +179,37 @@ public class Comment {
     public void setLstExtension(List<Extension> lstExtension) {
         this.lstExtension = lstExtension;
     }
+
+    public User getAttentionUser() {
+        return attentionUser;
+    }
+
+    public void setAttentionUser(User attentionUser) {
+        this.attentionUser = attentionUser;
+    }
+
+    public String getAttentionComment() {
+        return attentionComment;
+    }
+
+    public void setAttentionComment(String attentionComment) {
+        this.attentionComment = attentionComment;
+    }
+
+    public void merge(CommentDto commentDto, AttentionDto attentionDto, User user) {
+
+        if (commentDto != null) {
+            number = commentDto.getNumber();
+            description = commentDto.getDescription();
+        }
+
+        if (attentionDto != null) {
+            isAttended = true;
+            attentionComment = attentionDto.getAttentionComment();
+            attentionDate = Calendar.getInstance();
+            attentionUser = user;
+        }
+    }
+
+
 }

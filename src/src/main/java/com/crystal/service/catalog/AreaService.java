@@ -19,4 +19,6 @@ public interface AreaService {
     List<SelectList> geAreasByAuditedEntityId(Long auditedEntityId, String areaStr);
 
     List<SelectList> getSelectedAreasByRequestId(Long requestId);
+
+    List<SelectList> getSelectedAreasByCommentId(Long requestId);
 }

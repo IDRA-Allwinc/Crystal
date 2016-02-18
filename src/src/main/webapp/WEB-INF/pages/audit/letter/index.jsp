@@ -79,7 +79,7 @@
             params = {auditId: ${auditId}, id: id};
         else
             params = {auditId: ${auditId}};
-        window.showUpsertParams(params, "#angJsjqGridId", "<c:url value='/audit/letter/upsert.json' />", "#tblGrid");
+        window.showUpsertParams(params, "#angJsjqGridIdLetter", "<c:url value='/audit/letter/upsert.json' />", "#tblGrid");
     };
 
     window.upsertReq = function (idLetter, idRequest) {
@@ -88,15 +88,15 @@
             params = {idLetter: idLetter, idRequest: idRequest};
         else
             params = {idLetter: idLetter};
-        window.showUpsertParams(params, "#angJsjqGridId", "<c:url value='/audit/request/upsert.json' />", "#tblGrid");
+        window.showUpsertParams(params, "#angJsjqGridIdLetter", "<c:url value='/audit/request/upsert.json' />", "#tblGrid");
     };
 
     window.attentionReq = function (idRequest) {
-        window.showUpsert(idRequest, "#angJsjqGridId", "<c:url value='/audit/request/attention.json' />", "#tblGrid");
+        window.showUpsert(idRequest, "#angJsjqGridIdLetter", "<c:url value='/audit/request/attention.json' />", "#tblGrid");
     };
 
     window.attentionLetter = function (idLetter) {
-        window.showUpsert(idLetter, "#angJsjqGridId", "<c:url value='/audit/letter/attention.json' />", "#tblGrid");
+        window.showUpsert(idLetter, "#angJsjqGridIdLetter", "<c:url value='/audit/letter/attention.json' />", "#tblGrid");
     };
 
     window.actionEvents = {
@@ -112,7 +112,7 @@
             window.attentionLetter(row.id);
         },
         'click .act-delete': function (e, value, row) {
-            window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/letter/doObsolete.json' />", "#tblGrid");
+            window.showObsolete(row.id, "#angJsjqGridIdLetter", "<c:url value='/audit/letter/doObsolete.json' />", "#tblGrid");
         },
         'click .act-add-req': function (e, value, row) {
             window.upsertReq(row.id);
@@ -121,13 +121,13 @@
             window.upsertReq(row.idLetter, row.id);
         },
         'click .act-delete-req': function (e, value, row) {
-            window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/request/doObsolete.json' />", "#tblGrid");
+            window.showObsolete(row.id, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doObsolete.json' />", "#tblGrid");
         },
         'click .act-view-docs': function (e, value, row) {
-            window.showUpsert(row.id, "#angJsjqGridId", "<c:url value='/audit/request/upsertViewDocs.json' />");
+            window.showUpsert(row.id, "#angJsjqGridIdLetter", "<c:url value='/audit/request/upsertViewDocs.json' />");
         },
         'click .act-view-docs-letter': function (e, value, row) {
-            window.showUpsert(row.id, "#angJsjqGridId", "<c:url value='/audit/letter/upsertViewDocs.json' />");
+            window.showUpsert(row.id, "#angJsjqGridIdLetter", "<c:url value='/audit/letter/upsertViewDocs.json' />");
         },
         'click .act-attention-req': function (e, value, row) {
             window.attentionReq(row.id);
@@ -136,7 +136,7 @@
             window.showObsoleteParam({
                 requestId: row.requestId,
                 upfileId: row.id
-            }, "#angJsjqGridId", "<c:url value='/audit/request/doDeleteUpFile.json' />", "#tblUfRequestAuditGrid");
+            }, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doDeleteUpFile.json' />", "#tblUfRequestAuditGrid");
         },
         'click .act-download': function (e, value, row) {
             var params = [];
@@ -147,7 +147,7 @@
 </script>
 
 <div class="col-xs-12">
-    <div class="row animated fadeIn" id="angJsjqGridId" data-ng-controller="modalDlgController as vm">
+    <div class="row animated fadeIn" id="angJsjqGridIdLetterLetter" data-ng-controller="modalDlgController as vm">
 
         <div class="col-xs-12">
 
@@ -161,9 +161,9 @@
 
                     <div class="col-xs-12">
                         <div class="space-5"></div>
-                        <div id="toolbar">
+                        <div id="toolbarLetter">
                             <button class="btn btn-success" onclick=" window.upsertLetter() " data-toggle="tooltip"
-                                    data-placement="top" title="Agregar oficio nuevo">
+                                    data-placement="top" title="Agregar oficio nuevoooo">
                                 <i class="fa fa-plus"></i> Agregar oficio
                             </button>
                         </div>
@@ -177,7 +177,7 @@
                                data-page-list="[5, 10, 20, 50, All]"
                                data-search="true"
                                data-sort-name="name"
-                               data-toolbar="#toolbar"
+                               data-toolbar="#toolbarLetter"
                                data-show-refresh="true"
                                data-show-toggle="true"
                                data-show-columns="true"

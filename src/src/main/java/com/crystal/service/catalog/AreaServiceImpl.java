@@ -96,6 +96,10 @@ public class AreaServiceImpl implements AreaService {
         return areaRepository.findSelectedAreasByRequestId(requestId);
     }
 
+    public List<SelectList> getSelectedAreasByCommentId(Long commentId) {
+        return areaRepository.findSelectedAreasByCommentId(commentId);
+    }
+
 }
 
 
