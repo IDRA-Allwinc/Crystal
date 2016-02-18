@@ -134,7 +134,7 @@
                                                                max-date="vm.today"
                                                                ng-change="vm.onChangeDate()"
                                                                alt-input-formats="yyyy/MM/dd"
-                                                               ng-disabled="vm.m.id!==undefined""/>
+                                                               ng-disabled="vm.m.id!==undefined"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
                                                             ng-click="vm.m.endDateIsOpened=true;"><i
