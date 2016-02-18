@@ -101,6 +101,7 @@ public class CommentServiceImpl implements CommentService {
 
         model.setObsolete(true);
         model.setDelAudit(sharedUserService.getLoggedUserId());
+
         //TODO HACER OBSOLETOS LOS ARCHIVOS
         commentRepository.saveAndFlush(model);
     }

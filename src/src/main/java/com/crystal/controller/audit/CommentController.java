@@ -82,8 +82,7 @@ public class CommentController {
         ResponseMessage response = new ResponseMessage();
 
         try {
-//            Long userId = sharedUserService.getLoggedUserId();
-//            serviceLetter.doObsolete(id, userId, response);
+            commentService.doObsolete(id, response);
             return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);
