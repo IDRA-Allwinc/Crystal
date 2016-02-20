@@ -29,6 +29,12 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letter/letterViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/comment/comment.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/comment/commentViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letter.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/requestViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letterViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/comment.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/recommendation.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
