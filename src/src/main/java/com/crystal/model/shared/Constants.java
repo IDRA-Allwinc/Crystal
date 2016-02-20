@@ -45,11 +45,13 @@ public class Constants {
     }
     /////////////////////////Settings/////////////////////////////////////
 
+    public static final Integer aaa = 3000;
 
     /////////////////////////UploadFileTypes/////////////////////////////////////
     public static class UploadFile {
         public static final int REQUEST = 3000;
         public static final int LETTER = 4000;
+        public static final int COMMENT = 5000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
 }

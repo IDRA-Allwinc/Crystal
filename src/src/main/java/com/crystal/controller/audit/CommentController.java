@@ -4,8 +4,8 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.CommentDto;
+import com.crystal.model.entities.audit.view.CommentUploadFileView;
 import com.crystal.model.entities.audit.view.CommentView;
-import com.crystal.model.entities.audit.view.LetterUploadFileView;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.audit.CommentService;
 import com.crystal.service.shared.GridService;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 
 @RestController
 public class CommentController {
@@ -95,28 +94,39 @@ public class CommentController {
 
     @RequestMapping(value = "/audit/comment/upsertViewDocs", method = RequestMethod.POST)
     public ModelAndView upsertViewDocs(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/audit/letter/upsertViewDocs");
+        ModelAndView modelAndView = new ModelAndView("/audit/comment/upsertViewDocs");
         try {
-//            serviceLetter.upsertViewDocs(id, modelAndView);
+            commentService.upsertViewDocs(id, modelAndView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "upsertViewDocs", sharedUserService);
         }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/audit/comment/listUfLetter", method = RequestMethod.GET)
-    public Object listUfComment(@RequestParam(required = true) Long letterId) {
-        HashMap<String, Object> filters = new HashMap();
-        filters.put("letterId", letterId);
-        filters.put("isAdditional", true);
-        return gridService.toGrid(LetterUploadFileView.class, filters);
+    @RequestMapping(value = "/audit/comment/doDeleteUpFile", method = RequestMethod.POST)
+    public ResponseMessage doDeleteUpFile(@RequestParam(required = true) Long commentId, @RequestParam(required = true) Long upfileId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            commentService.doDeleteUpFile(commentId, upfileId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteUpFile", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/comment/listUfComment", method = RequestMethod.GET)
+    public Object listUfComment(@RequestParam(required = true) Long commentId) {
+        return gridService.toGrid(CommentUploadFileView.class, "commentId", commentId);
     }
 
     @RequestMapping(value = "/audit/comment/attention", method = RequestMethod.POST)
     public ModelAndView attentionRequestAudit(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/audit/letter/attention");
+        ModelAndView modelAndView = new ModelAndView("/audit/comment/attention");
         try {
-//            serviceLetter.showAttention(id, modelAndView);
+            commentService.showAttention(id, modelAndView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "attentionRequestAudit", sharedUserService);
         }
@@ -130,7 +140,7 @@ public class CommentController {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-//            serviceLetter.doAttention(attentionDto, response);
+            commentService.doAttention(attentionDto, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();

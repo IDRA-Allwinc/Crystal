@@ -5,7 +5,7 @@
         var arr = [];
         if (row.attended == true)
             arr = [
-                '<button class="btn btn-primary dim act-view-comment-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la observaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>'
             ];
         else
@@ -52,9 +52,19 @@
         'click .act-delete-comment': function (e, value, row) {
             window.showObsolete(row.id, "#angJsjqGridIdComment", "<c:url value='/audit/comment/doObsolete.json' />", "#tblGridComment");
         },
-
         'click .act-view-docs-comment': function (e, value, row) {
             window.showUpsert(row.id, "#angJsjqGridIdComment", "<c:url value='/audit/comment/upsertViewDocs.json' />");
+        },
+        'click .act-download': function (e, value, row) {
+            var params = [];
+            params["idParam"] = row.id;
+            window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+        },
+        'click .act-upf-delete': function (e, value, row) {
+            window.showObsoleteParam({
+                commentId: row.commentId,
+                upfileId: row.id
+            }, "#angJsjqGridIdComment", "<c:url value='/audit/comment/doDeleteUpFile.json' />", "#tblUfCommentGrid");
         },
         'click .act-download': function (e, value, row) {
             var params = [];
@@ -132,4 +142,3 @@
 
     </div>
 </div>
-

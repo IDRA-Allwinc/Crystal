@@ -29,11 +29,15 @@ public class CommentDto {
 
     private Long auditId;
 
+    private Integer type;
+
+    private boolean isAttended;
+
     public CommentDto() {
 
     }
 
-    public CommentDto(Long id, String number, String description, Calendar initDate, Calendar endDate, Long auditId) {
+    public CommentDto(Long id, String number, String description, Calendar initDate, Calendar endDate, boolean isAttended, Long auditId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         this.id = id;
@@ -42,6 +46,7 @@ public class CommentDto {
         this.initDate =sdf.format(initDate.getTime());
         this.endDate = sdf.format(endDate.getTime());
         this.auditId = auditId;
+        this.isAttended=isAttended;
     }
 
     public Long getId() {
@@ -98,5 +103,21 @@ public class CommentDto {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public boolean isAttended() {
+        return isAttended;
+    }
+
+    public void setAttended(boolean isAttended) {
+        this.isAttended = isAttended;
     }
 }

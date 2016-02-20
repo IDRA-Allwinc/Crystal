@@ -2,8 +2,8 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileLetterId");
-        var tableId = '#tblUfRequestAuditGrid';
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileCommentId");
+        var tableId = '#tblUfCommentGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
@@ -14,29 +14,27 @@
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    debugger;
-                    var scope = angular.element($("#FormUpFileLetterId")).scope();
+                    var scope = angular.element($("#FormUpFileCommentId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
-                        scope.lt.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
+                        scope.ct.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
                     }
                     if (data.result.hasError === true) {
-                        scope.lt.setOutError(data.result.message);
+                        scope.ct.setOutError(data.result.message);
                         return;
                     }
 
-                    scope.lt.setSuccess(data.result);
+                    scope.ct.setSuccess(data.result);
                     $(tableId).bootstrapTable('refresh', 'showLoading');
 
                 } catch (ex) {
-                    scope.lt.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
+                    scope.ct.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
                     return;
                 } finally {
                     window.setTimeout(function () {
                         $('#progress .progress-bar').css('width', 0 + '%');
                     }, 2000);
                 }
-
             }
             ,
             progressall: function (e, data) {
@@ -55,8 +53,8 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" data-ng-controller="letterViewDocsController as lt"
-         data-ng-init='lt.m = ${(model == null ? "{}" : model)};'>
+    <div class="modal-dialog" style="width:960px" data-ng-controller="commentViewDocsController as ct"
+         data-ng-init='ct.m = ${(model == null ? "{}" : model)};'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -67,30 +65,31 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Visualizaci&oacute;n de documentos adicionales</h4>
+                        <h4 class="modal-title">Visualizaci&oacute;n de documentos</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-copy modal-icon"></i>
                     </div>
                 </div>
             </div>
+**{{ct.m.isAttended}}--
 
             <div class="modal-body">
-                <div data-ng-show="lt.m.isAttended !== true">
+                <div data-ng-show="ct.m.isAttended !== true">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Subir documentos adicionales al oficio <b>{{lt.m.number}}</b></h5>
+                                    <h5>Subir documentos a la observaci&oacute;n <b>{{ct.m.number}}</b></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <form id="FormUpFileLetterId" name="FormUpFileLetterId" class="form-horizontal" role="form"
+                        <form id="FormUpFileCommentId" name="FormUpFileCommentId" class="form-horizontal" role="form"
                               enctype="multipart/form-data">
-                            <input type="hidden" id="id" name="id" ng-model="lt.m.id" ng-update-hidden/>
-                            <input type="hidden" id="type" name="type" ng-model="lt.m.type" ng-update-hidden/>
+                            <input type="hidden" id="id" name="id" ng-model="ct.m.id" ng-update-hidden/>
+                            <input type="hidden" id="type" name="type" ng-model="ct.m.type" ng-update-hidden/>
 
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
@@ -105,18 +104,18 @@
                                         <label class="col-xs-3 control-label font-noraml">Descripci&oacute;n:</label>
 
                                         <div class="col-xs-7">
-                                        <textarea name="description" rows="3" ng-model="lt.m.description"
+                                        <textarea name="description" rows="3" ng-model="ct.m.description"
                                                   placeholder="Ingrese una breve descripci&oacute;n del documento"
                                                   ng-required="true"  ng-minlength="2"
                                                   class="form-control"></textarea>
                                         <span class="error"
-                                              ng-show="FormUpFileLetterId.description.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpFileLetterId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
-                                            <span class="error" ng-show="FormUpFileLetterId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
+                                              ng-show="FormUpFileCommentId.description.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpFileCommentId.description.$error.minlength">*Longitud m&iacute;nima de 2 caracteres</span>
+                                            <span class="error" ng-show="FormUpFileCommentId.description.$error.maxlength">*Longitud m&aacute;xima de 200 caracteres</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div data-ng-show="lt.m.description">
+                                <div data-ng-show="ct.m.description">
                                     <br/>
 
                                     <div class="row">
@@ -140,15 +139,15 @@
 
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <div ng-show="lt.MsgError" class="alert alert-error element-center"
-                                                 ng-bind-html="lt.MsgError">
+                                            <div ng-show="ct.MsgError" class="alert alert-error element-center"
+                                                 ng-bind-html="ct.MsgError">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <div ng-show="lt.MsgSuccess" class="alert alert-success element-center"
-                                                 ng-bind-html="lt.MsgSuccess">
+                                            <div ng-show="ct.MsgSuccess" class="alert alert-success element-center"
+                                                 ng-bind-html="ct.MsgSuccess">
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +162,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Documentos adicionales del oficio <b>{{lt.m.number}}</b></h5>
+                                <h5>Documentos adicionales de la observaci&oacute;n <b>{{ct.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -173,9 +172,9 @@
                     <div class="col-xs-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <table id="tblUfRequestAuditGrid"
+                                <table id="tblUfCommentGrid"
                                        data-toggle="table"
-                                       data-url="<c:url value='/audit/letter/listUfLetter.json' />?letterId={{lt.m.id}}"
+                                       data-url="<c:url value='/audit/comment/listUfComment.json' />?commentId={{ct.m.id}}"
                                        data-height="auto"
                                        data-side-pagination="server"
                                        data-pagination="true"
@@ -193,13 +192,13 @@
                                     <thead>
                                     <tr>
                                         <th data-field="id" data-visible="false">Identificador</th>
-                                        <th data-field="requestId" data-visible="false">ID requisito</th>
+                                        <th data-field="commentId" data-visible="false">ID requisito</th>
                                         <th data-field="isAttended" data-visible="false">Atendido</th>
                                         <th data-field="fileName" data-align="center" data-sortable="true">Documento
                                         </th>
                                         <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n</th>
-                                        <th data-field="Actions" data-formatter="actionsUploadFileFormatter"
-                                            data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n
+                                        <th data-field="Actions" data-formatter="uploadCommentFileFormatter"
+                                            data-align="center" data-width="200px" data-events="actionComentEvents">Acci&oacute;n
                                         </th>
                                     </tr>
                                     </thead>

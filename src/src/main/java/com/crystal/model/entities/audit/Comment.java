@@ -21,7 +21,7 @@ public class Comment extends UserAuditInfo {
     @Column(name = "id_comment")
     private Long id;
 
-    @Column(name = "number", length = 50, unique = true, nullable = false)
+    @Column(name = "number", length = 50, nullable = false)
     @NotEmpty(message = "El numeral es un campo requerido")
     private String number;
 
@@ -64,7 +64,7 @@ public class Comment extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
     private List<Area> lstAreas;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "comment_upload_file_generic_rel",
             joinColumns = {@JoinColumn(name = "id_comment", referencedColumnName = "id_comment")},
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})

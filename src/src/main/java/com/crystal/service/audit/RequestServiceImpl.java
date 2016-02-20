@@ -224,14 +224,14 @@ public class RequestServiceImpl implements RequestService {
         if (model == null) {
             response.setHasError(true);
             response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
-            response.setTitle("Eliminar requerimiento");
+            response.setTitle("Eliminar documento");
             return;
         }
 
         if (model.isAttended() == true) {
             response.setHasError(true);
             response.setMessage("No es posible eliminar el archivo debido a que el requerimiento ya fue atendido");
-            response.setTitle("Eliminar requerimiento");
+            response.setTitle("Eliminar documento");
             return;
         }
 

@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit.dto;
 
+import com.crystal.model.shared.Constants;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,35 +21,49 @@ public class AttentionDto {
 
     private String auditName;
 
-    private String requestNumber;
-
     private String letterNumber;
 
+    private String requestNumber;
+
+    private String commentNumber;
+
     private String attentionUser;
+
+    private transient SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public AttentionDto() {
 
     }
 
     //para la atencion de oficios
-    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser,String auditName, String letterNumber) {
+    //para la atencion de observaciones
+    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String entityNumber, Integer type) {
         this.id = id;
         this.attentionComment = attentionComment;
         this.isAttended = isAttended;
         if (attentionDate != null)
-            this.attentionDateStr = new SimpleDateFormat("dd/MM/yyyy").format(attentionDate.getTime());
+            this.attentionDateStr = sdf.format(attentionDate.getTime());
         this.attentionUser = attentionUser;
         this.auditName = auditName;
-        this.letterNumber = letterNumber;
+        switch (type) {
+            case Constants.UploadFile.LETTER: {
+                this.letterNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.COMMENT: {
+                this.commentNumber = entityNumber;
+                break;
+            }
+        }
     }
 
     //para la atencion de requerimientos
-    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String letterNumber,  String requestNumber) {
+    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String letterNumber, String requestNumber) {
         this.id = id;
         this.attentionComment = attentionComment;
         this.isAttended = isAttended;
         if (attentionDate != null)
-            this.attentionDateStr = new SimpleDateFormat("dd/MM/yyyy").format(attentionDate.getTime());
+            this.attentionDateStr = sdf.format(attentionDate.getTime());
         this.attentionUser = attentionUser;
         this.auditName = auditName;
         this.letterNumber = letterNumber;
@@ -62,6 +77,7 @@ public class AttentionDto {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getAttentionComment() {
         return attentionComment;
@@ -117,5 +133,21 @@ public class AttentionDto {
 
     public void setLetterNumber(String letterNumber) {
         this.letterNumber = letterNumber;
+    }
+
+    public String getCommentNumber() {
+        return commentNumber;
+    }
+
+    public void setCommentNumber(String commentNumber) {
+        this.commentNumber = commentNumber;
+    }
+
+    public SimpleDateFormat getSdf() {
+        return sdf;
+    }
+
+    public void setSdf(SimpleDateFormat sdf) {
+        this.sdf = sdf;
     }
 }

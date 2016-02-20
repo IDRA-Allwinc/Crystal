@@ -3,6 +3,7 @@ package com.crystal.service.shared;
 import com.crystal.infrastructure.extensions.StringExt;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.audit.Comment;
 import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
 import com.crystal.model.entities.audit.Request;
@@ -11,6 +12,7 @@ import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileRequest;
 import com.crystal.repository.catalog.CatFileTypeRepository;
+import com.crystal.repository.catalog.CommentRepository;
 import com.crystal.repository.catalog.LetterRepository;
 import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
@@ -161,6 +163,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     RequestRepository requestRepository;
     @Autowired
     LetterRepository letterRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
     @Override
     @Transactional
@@ -192,6 +196,14 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 letterFileRel.setUploadFileGeneric(uploadFile);
                 lstFilesRel.add(letterFileRel);
                 letterRepository.saveAndFlush(lt);
+                break;
+            case Constants.UploadFile.COMMENT:
+                Comment cm = commentRepository.findOne(uploadRequest.getId());
+                List<UploadFileGeneric> lstEvidencesComm = cm.getLstEvidences();
+                if (lstEvidencesComm == null) lstEvidencesComm = new ArrayList<>();
+                uploadFile.setObsolete(false);
+                lstEvidencesComm.add(uploadFile);
+                commentRepository.saveAndFlush(cm);
                 break;
         }
 
@@ -253,7 +265,6 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                     return false;
                 }
                 return true;
-
             }
             case Constants.UploadFile.LETTER: {
                 Long requestId = uploadRequest.getId();
@@ -283,9 +294,36 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                     return false;
                 }
                 return true;
-
             }
+            case Constants.UploadFile.COMMENT: {
+                Long commentId = uploadRequest.getId();
+                if (commentId == null) {
+                    resMsg.setMessage("El archivo no está asociado a una observaci&oacute;n");
+                    resMsg.setHasError(true);
+                    return false;
+                }
 
+                Boolean isAttended = commentRepository.isAttendedById(commentId);
+
+                if (isAttended == null) {
+                    resMsg.setMessage("La observaci&oacute;n fue eliminada o no existe");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (isAttended == true) {
+                    resMsg.setMessage("No es posible agregar un archivo debido a que la observaci&oacute;n ya fue atendida");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+            }
         }
         return true;
     }

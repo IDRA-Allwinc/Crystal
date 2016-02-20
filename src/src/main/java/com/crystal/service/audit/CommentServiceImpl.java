@@ -6,7 +6,9 @@ import com.crystal.model.entities.audit.Comment;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.catalog.Area;
+import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
+import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditRepository;
 import com.crystal.repository.catalog.CommentRepository;
@@ -185,19 +187,50 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void upsertViewDocs(Long letterId, ModelAndView modelAndView) {
-//        LetterDto model = repository.findOneDto(letterId);
-//        model.setDescription("");
-//        Gson gson = new Gson();
-//        String sModel = gson.toJson(model);
-//        modelAndView.addObject("model", sModel);
+    public void upsertViewDocs(Long commmentId, ModelAndView modelAndView) {
+        CommentDto model = commentRepository.findDtoById(commmentId);
+        model.setType(Constants.UploadFile.COMMENT);
+        model.setDescription("");
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteUpFile(Long commentId, Long upFileId, ResponseMessage response) {
+        Comment model = commentRepository.findByIdAndIsObsolete(commentId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("La observaci&oacute;n ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar documento");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar el archivo debido a que el requerimiento ya fue atendido");
+            response.setTitle("Eliminar documento");
+            return;
+        }
+
+        List<UploadFileGeneric> lstFiles = model.getLstEvidences();
+
+        for (int i = lstFiles.size() - 1; i >= 0; i--) {
+            if (lstFiles.get(i).getId().equals(upFileId))
+                lstFiles.remove(i);
+        }
+
+        commentRepository.saveAndFlush(model);
     }
 
     @Override
     public void showAttention(Long id, ModelAndView modelAndView) {
-//        Gson gson = new Gson();
-//        AttentionDto model = repository.findAttentionInfoById(id);
-//        modelAndView.addObject("model", gson.toJson(model));
+        Gson gson = new Gson();
+        AttentionDto model = commentRepository.findAttentionInfoById(id);
+        String a = gson.toJson(model);
+        modelAndView.addObject("model", a);
     }
 
     @Override
@@ -213,7 +246,7 @@ public class CommentServiceImpl implements CommentService {
 
     private Comment attentionValidation(AttentionDto attentionDto, ResponseMessage response) {
 
-        Comment model = null;
+        Comment model;
 
         if (attentionDto.getId() == null) {
             response.setHasError(true);

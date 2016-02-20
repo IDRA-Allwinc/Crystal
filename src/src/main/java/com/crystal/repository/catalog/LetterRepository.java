@@ -37,7 +37,8 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
     @Query("select l.isAttended from Letter l where l.id = :letterId and l.isAttended= false")
     Boolean isAttendedById(@Param("letterId") Long letterId);
 
-    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(l.id, l.attentionComment, l.isAttended, l.attentionDate,l.attentionUser.fullName, a.name, l.number) from Letter l " +
+    //4000 referencia a com.crystal.model.shared.Constants
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(l.id, l.attentionComment, l.isAttended, l.attentionDate,l.attentionUser.fullName, a.name, l.number, 4000) from Letter l " +
             "left join l.attentionUser u " +
             "left join l.audit a " +
             "where l.id=:requestId and l.isObsolete = false")

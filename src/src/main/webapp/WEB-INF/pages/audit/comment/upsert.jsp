@@ -44,8 +44,7 @@
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.urlGetAreas="<c:url value='/previousRequest/request/getAreas.json'/>"; vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)}; vm.init(  );'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
-                            <input type="hidden" id="auditId" name="auditId" ng-model="vm.m.auditId"
-                                   ng-update-hidden/>
+                            <input type="hidden" id="auditId" name="auditId" ng-model="vm.m.auditId" ng-update-hidden/>
 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -114,6 +113,8 @@
                                                 </div>
                                         <span class="error"
                                               ng-show="FormUpCommentId.initDate.$invalid && !FormUpCommentId.initDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+
+                                                <input type="hidden" name="initDate" ng-model="vm.m.initDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                             </div>
                                         </div>
 
@@ -147,6 +148,7 @@
                                             </div>
                                         <span class="error"
                                               ng-show="FormUpCommentId.endDate.$invalid && !FormUpCommentId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                            <input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                         </div>
 
                                         <div class="col-xs-4 form-group">

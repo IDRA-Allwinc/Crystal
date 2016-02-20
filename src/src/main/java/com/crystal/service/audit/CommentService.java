@@ -17,4 +17,6 @@ public interface CommentService {
     void showAttention(Long commentId, ModelAndView modelAndView);
 
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
+
+    public void doDeleteUpFile(Long commentId, Long upFileId, ResponseMessage response);
 }

@@ -12,11 +12,11 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letter.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/letter/letter.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.1.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.1.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request.ctrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/requestViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request/request.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request/requestViewDocs.ctrl.js"></script>
 
     <script type="text/javascript">
         $(function () {
