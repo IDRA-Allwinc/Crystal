@@ -2,6 +2,7 @@
 <script type="text/javascript">
 
     function commentFormatter(value, row, index) {
+        debugger
         var arr = [];
         if (row.attended == true)
             arr = [
@@ -42,7 +43,7 @@
         window.showUpsert(idRequest, "#angJsjqGridIdComment", "<c:url value='/audit/comment/attention.json' />", "#tblGridComment");
     };
 
-    window.actionComentEvents = {
+    window.actionCommentEvents = {
         'click .act-edit-comment': function (e, value, row) {
             window.upsertComment(row.id);
         },
@@ -54,11 +55,6 @@
         },
         'click .act-view-docs-comment': function (e, value, row) {
             window.showUpsert(row.id, "#angJsjqGridIdComment", "<c:url value='/audit/comment/upsertViewDocs.json' />");
-        },
-        'click .act-download': function (e, value, row) {
-            var params = [];
-            params["idParam"] = row.id;
-            window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
         },
         'click .act-upf-delete': function (e, value, row) {
             window.showObsoleteParam({
@@ -124,7 +120,7 @@
                                 <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite
                                 </th>
                                 <th data-field="Actions" data-formatter="commentFormatter" data-align="center"
-                                    data-width="250px" data-events="actionComentEvents">Acci&oacute;n
+                                    data-width="250px" data-events="actionCommentEvents">Acci&oacute;n
                                 </th>
                             </tr>
                             </thead>

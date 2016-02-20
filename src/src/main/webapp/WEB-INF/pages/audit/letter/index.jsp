@@ -147,7 +147,7 @@
 </script>
 
 <div class="col-xs-12">
-    <div class="row animated fadeIn" id="angJsjqGridIdLetterLetter" data-ng-controller="modalDlgController as vm">
+    <div class="row animated fadeIn" id="angJsjqGridIdLetter" data-ng-controller="modalDlgController as vm">
 
         <div class="col-xs-12">
 

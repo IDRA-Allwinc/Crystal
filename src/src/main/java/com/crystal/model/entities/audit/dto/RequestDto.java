@@ -10,7 +10,7 @@ public class RequestDto {
     private Long id;
 
     @NotEmpty(message = "El numeral es un campo requerido")
-    @Length(min = 8, max = 50, message = "El numeral  debe tener entre 8 y 50 caracteres.")
+    @Length(min = 1, max = 8, message = "El numeral  debe tener entre 1 y 8 caracteres.")
     private String number;
 
     @NotEmpty(message = "La descripci&oacute;n es un campo requerido")

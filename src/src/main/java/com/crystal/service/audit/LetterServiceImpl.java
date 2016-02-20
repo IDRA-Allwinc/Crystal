@@ -6,6 +6,7 @@ import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.LetterDto;
 import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
 import com.crystal.model.entities.audit.dto.AttentionDto;
+import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileGenericDto;
 import com.crystal.repository.account.UserRepository;
@@ -221,6 +222,7 @@ public class LetterServiceImpl implements LetterService {
     @Override
     public void upsertViewDocs(Long letterId, ModelAndView modelAndView) {
         LetterDto model = repository.findOneDto(letterId);
+        model.setType(Constants.UploadFile.LETTER);
         model.setDescription("");
         Gson gson = new Gson();
         String sModel = gson.toJson(model);

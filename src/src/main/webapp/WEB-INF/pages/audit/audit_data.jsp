@@ -98,8 +98,8 @@
                                ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                        <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 2 y 8 caracteres</span>
-                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 2 y 8 caracteres</span>
+                        <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 8 y 200 caracteres</span>
+                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 8 y 200 caracteres</span>
                     </div>
                 </div>
             </div>
