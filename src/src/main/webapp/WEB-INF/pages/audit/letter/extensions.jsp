@@ -14,7 +14,6 @@
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    debugger;
                     var scope = angular.element($("#FormUpFileExtensionId")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
                         scope.er.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");

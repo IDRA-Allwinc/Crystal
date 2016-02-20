@@ -2,7 +2,6 @@
 <script type="text/javascript">
 
     function commentFormatter(value, row, index) {
-        debugger
         var arr = [];
         if (row.attended == true)
             arr = [
