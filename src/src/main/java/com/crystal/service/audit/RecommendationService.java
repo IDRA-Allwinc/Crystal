@@ -21,4 +21,7 @@ public interface RecommendationService {
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
 
     boolean findByNumber(RecommendationDto recommendationDto, ResponseMessage responseMessage);
+
+    void doDeleteUpFile(Long recommendationId, Long upFileId, ResponseMessage response);
+
 }

@@ -27,6 +27,8 @@ public class AttentionDto {
 
     private String commentNumber;
 
+    private String recommendationNumber;
+
     private String attentionUser;
 
     private transient SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -52,6 +54,10 @@ public class AttentionDto {
             }
             case Constants.UploadFile.COMMENT: {
                 this.commentNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.RECOMMENDATION: {
+                this.recommendationNumber = entityNumber;
                 break;
             }
         }
@@ -149,5 +155,13 @@ public class AttentionDto {
 
     public void setSdf(SimpleDateFormat sdf) {
         this.sdf = sdf;
+    }
+
+    public String getRecommendationNumber() {
+        return recommendationNumber;
+    }
+
+    public void setRecommendationNumber(String recommendationNumber) {
+        this.recommendationNumber = recommendationNumber;
     }
 }

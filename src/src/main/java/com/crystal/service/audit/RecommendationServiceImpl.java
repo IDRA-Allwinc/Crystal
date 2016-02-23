@@ -5,9 +5,12 @@ import com.crystal.model.entities.audit.Audit;
 import com.crystal.model.entities.audit.Comment;
 import com.crystal.model.entities.audit.Recommendation;
 import com.crystal.model.entities.audit.dto.AttentionDto;
+import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import com.crystal.model.entities.catalog.Area;
+import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
+import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditRepository;
 import com.crystal.repository.catalog.RecommendationRepository;
@@ -104,17 +107,59 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public void upsertViewDocs(Long recommendationId, ModelAndView modelAndView) {
+        RecommendationDto model = recommendationRepository.findDtoById(recommendationId);
+        model.setType(Constants.UploadFile.RECOMMENDATION);
+        model.setDescription("");
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
 
+    @Override
+    @Transactional
+    public void doDeleteUpFile(Long recommendationId, Long upFileId, ResponseMessage response) {
+        Recommendation model = recommendationRepository.findByIdAndIsObsolete(recommendationId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("La recomendaci&oacute;n ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar documento");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar el archivo debido a que el requerimiento ya fue atendido");
+            response.setTitle("Eliminar documento");
+            return;
+        }
+
+        List<UploadFileGeneric> lstFiles = model.getLstEvidences();
+
+        for (int i = lstFiles.size() - 1; i >= 0; i--) {
+            if (lstFiles.get(i).getId().equals(upFileId))
+                lstFiles.remove(i);
+        }
+
+        recommendationRepository.saveAndFlush(model);
     }
 
     @Override
     public void showAttention(Long recommendationId, ModelAndView modelAndView) {
-
+        Gson gson = new Gson();
+        AttentionDto model = recommendationRepository.findAttentionInfoById(recommendationId);
+        String a = gson.toJson(model);
+        modelAndView.addObject("model", a);
     }
 
     @Override
     public void doAttention(AttentionDto attentionDto, ResponseMessage response) {
+        Recommendation model = attentionValidation(attentionDto, response);
 
+        if (response.isHasError())
+            return;
+
+        doSave(model);
     }
 
     @Override
@@ -210,5 +255,31 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Transactional
     private void doSave(Recommendation model) {
         recommendationRepository.saveAndFlush(model);
+    }
+
+    private Recommendation attentionValidation(AttentionDto attentionDto, ResponseMessage response) {
+
+        Recommendation model;
+
+        if (attentionDto.getId() == null) {
+            response.setHasError(true);
+            response.setMessage("La recomendaci&oacute;n no existe o ya fue eliminada.");
+            return null;
+        } else {
+
+            model = recommendationRepository.findByIdAndIsObsolete(attentionDto.getId(), false);
+            if (model == null) {
+                response.setHasError(true);
+                response.setMessage("La recomendaci&oacute;n no existe o ya fue eliminada.");
+                return null;
+            }
+
+            model.setAttentionDate(Calendar.getInstance());
+            model.setAttentionComment(attentionDto.getAttentionComment());
+            model.setAttended(true);
+            model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+        }
+
+        return model;
     }
 }

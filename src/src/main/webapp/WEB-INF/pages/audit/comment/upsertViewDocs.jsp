@@ -72,7 +72,6 @@
                     </div>
                 </div>
             </div>
-**{{ct.m.isAttended}}--
 
             <div class="modal-body">
                 <div data-ng-show="ct.m.isAttended !== true">

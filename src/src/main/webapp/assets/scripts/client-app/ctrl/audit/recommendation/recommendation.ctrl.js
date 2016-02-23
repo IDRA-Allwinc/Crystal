@@ -8,12 +8,12 @@
 
     function recommendationController($scope, $rootScope, $sce, $timeout, $http) {
         var vm = this;
-        vm.m = {};
+        var milisDay = 24 * 60 * 60 * 1000; //hrs*min*seg*mil
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
-        vm.m = {};
         vm.init = init;
         vm.getAreas = getAreas;
+        vm.lstSelectedAreas = [];
         vm.findAssignedArea = findAssignedArea;
         vm.validateSelectedAreas = validateSelectedAreas;
         vm.pushArea = pushArea;
@@ -22,8 +22,6 @@
         vm.validateDates = validateDates;
         vm.addError = addError;
         vm.onChangeDate = onChangeDate;
-
-        var milisDay = 24 * 60 * 60 * 1000; //hrs*min*seg*mil
 
         function init() {
 

@@ -5,15 +5,15 @@
         var arr = [];
         if (row.attended == true)
             arr = [
-                '<button class="btn btn-primary dim act-view-recommendation-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>'
+                '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>'
             ];
         else
             arr = [
-                '<button class="btn btn-success dim act-edit-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
-                '<button class="btn btn-danger dim act-delete-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>'
+                '<button class="btn btn-success dim act-edit-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-danger dim act-delete-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar la recomendaci&oacute;n" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-thumbs-up"></i></button>'
             ];
 
         return arr.join('');
@@ -56,12 +56,20 @@
         'click .act-view-docs-recommendation': function (e, value, row) {
             window.showUpsert(row.id, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/upsertViewDocs.json' />");
         },
+        'click .act-upf-delete': function (e, value, row) {
+            window.showObsoleteParam({
+                recommendationId: row.recommendationId,
+                upfileId: row.id
+            }, "#angJsjqGridIdComment", "<c:url value='/audit/recommendation/doDeleteUpFile.json' />", "#tblUfCommentGrid");
+        },
         'click .act-download': function (e, value, row) {
             var params = [];
             params["idParam"] = row.id;
             window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
         }
     };
+
+
 </script>
 
 <div class="col-xs-12">

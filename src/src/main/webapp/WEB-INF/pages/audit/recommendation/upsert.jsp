@@ -32,7 +32,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Informaci&oacute;n de la recomendaci&oacute;n</h5>
+                                <h5>Informaci&oacute;n de la recomendacio&oacute;n</h5>
                             </div>
                         </div>
                     </div>
@@ -44,8 +44,7 @@
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.urlGetAreas="<c:url value='/previousRequest/request/getAreas.json'/>"; vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)}; vm.init(  );'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
-                            <input type="hidden" id="auditId" name="auditId" ng-model="vm.m.auditId"
-                                   ng-update-hidden/>
+                            <input type="hidden" id="auditId" name="auditId" ng-model="vm.m.auditId" ng-update-hidden/>
 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -55,7 +54,7 @@
 
                                         <div class="col-xs-8">
                                             <input type="text" name="number" ng-model="vm.m.number"
-                                                   placeholder="Ingrese el numeral de la recomendaci&oacute;n"
+                                                   placeholder="Ingrese el numeral de la recomendacio&oacute;n"
                                                    minlength="8"
                                                    maxlength="50"
                                                    ng-required="true" class="form-control">
@@ -114,6 +113,8 @@
                                                 </div>
                                         <span class="error"
                                               ng-show="FormUpRecommendationId.initDate.$invalid && !FormUpRecommendationId.initDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+
+                                                <input type="hidden" name="initDate" ng-model="vm.m.initDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                             </div>
                                         </div>
 
@@ -147,6 +148,7 @@
                                             </div>
                                         <span class="error"
                                               ng-show="FormUpRecommendationId.endDate.$invalid && !FormUpRecommendationId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                            <input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                         </div>
 
                                         <div class="col-xs-4 form-group">
@@ -201,7 +203,7 @@
                                                     ng-repeat="assignedArea in vm.lstSelectedAreas track by $index">
                                             <span class="badge badge-danger" ng-click="vm.popArea(assignedArea.id)"><i
                                                     class="fa fa-minus-circle"
-                                                    ></i></span>
+                                            ></i></span>
                                                     {{assignedArea.desc}}
                                                 </li>
                                             </ul>

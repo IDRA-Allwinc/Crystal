@@ -52,6 +52,7 @@ public class Constants {
         public static final int REQUEST = 3000;
         public static final int LETTER = 4000;
         public static final int COMMENT = 5000;
+        public static final int RECOMMENDATION = 6000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
 }

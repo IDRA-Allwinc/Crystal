@@ -1,16 +1,19 @@
 package com.crystal.repository.catalog;
 
 import com.crystal.model.entities.audit.Recommendation;
+import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RecommendationRepository extends JpaRepository<Recommendation,Long>{
 
-    @Query("select new com.crystal.model.entities.audit.dto.RecommendationDto(r.id, r.number, r.description, r.initDate, r.endDate, r.audit.id) from Recommendation r where r.id=:recommendationId and r.isObsolete = false")
+    @Query("select new com.crystal.model.entities.audit.dto.RecommendationDto(r.id, r.number, r.description, r.initDate, r.endDate, r.isAttended, r.audit.id) from Recommendation r where r.id=:recommendationId and r.isObsolete = false")
     RecommendationDto findDtoById(@Param("recommendationId")Long recommendationId);
 
 
@@ -22,4 +25,22 @@ public interface RecommendationRepository extends JpaRepository<Recommendation,L
 
 
     Recommendation findByNumberAndIsObsolete(String number, boolean b);
+
+
+    @Query("SELECT e.id FROM Recommendation r " +
+            "inner join r.lstEvidences e WHERE r.id=:id")
+    List<Long> findAllFilesIdsByRecommendationId(@Param("id") Long id);
+
+    @Query("select r.isAttended from Recommendation r where r.id = :recommendationId and r.isObsolete = false")
+    Boolean isAttendedById(@Param("recommendationId") Long recommendationId);
+
+
+    //6000 referencia a com.crystal.model.shared.Constants
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate, r.attentionUser.fullName, a.name, r.number, 6000) from Recommendation r " +
+            "left join r.attentionUser u " +
+            "inner join r.audit a " +
+            "where r.id=:recommendationId and r.isObsolete = false")
+    public AttentionDto findAttentionInfoById(@Param("recommendationId") Long recommendationId);
+
+
 }

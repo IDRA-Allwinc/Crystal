@@ -4,7 +4,9 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
+import com.crystal.model.entities.audit.view.CommentUploadFileView;
 import com.crystal.model.entities.audit.view.LetterUploadFileView;
+import com.crystal.model.entities.audit.view.RecommendationUploadFileView;
 import com.crystal.model.entities.audit.view.RecommendationView;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.audit.RecommendationService;
@@ -35,7 +37,6 @@ public class RecommendationController {
         ModelAndView modelAndView = new ModelAndView("/audit/recommendation/index");
         return modelAndView;
     }
-
 
     @RequestMapping(value = "/audit/recommendation/list", method = RequestMethod.GET)
     public Object recommendationList(@RequestParam(required = true) Long id) {
@@ -95,32 +96,41 @@ public class RecommendationController {
         return response;
     }
 
-
-
     @RequestMapping(value = "/audit/recommendation/upsertViewDocs", method = RequestMethod.POST)
     public ModelAndView upsertViewDocs(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/audit/letter/upsertViewDocs");
+        ModelAndView modelAndView = new ModelAndView("/audit/recommendation/upsertViewDocs");
         try {
-//            serviceLetter.upsertViewDocs(id, modelAndView);
+            recommendationService.upsertViewDocs(id, modelAndView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "upsertViewDocs", sharedUserService);
         }
         return modelAndView;
     }
 
-    @RequestMapping(value = "/audit/recommendation/listUfLetter", method = RequestMethod.GET)
-    public Object listUfComment(@RequestParam(required = true) Long letterId) {
-        HashMap<String, Object> filters = new HashMap();
-        filters.put("letterId", letterId);
-        filters.put("isAdditional", true);
-        return gridService.toGrid(LetterUploadFileView.class, filters);
+    @RequestMapping(value = "/audit/recommendation/doDeleteUpFile", method = RequestMethod.POST)
+    public ResponseMessage doDeleteUpFile(@RequestParam(required = true) Long recommendationId, @RequestParam(required = true) Long upfileId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            recommendationService.doDeleteUpFile(recommendationId, upfileId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteUpFile", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/recommendation/listUfRecommendation", method = RequestMethod.GET)
+    public Object listUfComment(@RequestParam(required = true) Long recommendationId) {
+        return gridService.toGrid(RecommendationUploadFileView.class, "recommendationId", recommendationId);
     }
 
     @RequestMapping(value = "/audit/recommendation/attention", method = RequestMethod.POST)
     public ModelAndView attentionRequestAudit(@RequestParam(required = true) Long id) {
-        ModelAndView modelAndView = new ModelAndView("/audit/letter/attention");
+        ModelAndView modelAndView = new ModelAndView("/audit/recommendation/attention");
         try {
-//            serviceLetter.showAttention(id, modelAndView);
+            recommendationService.showAttention(id, modelAndView);
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "attentionRequestAudit", sharedUserService);
         }
@@ -134,7 +144,7 @@ public class RecommendationController {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-//            serviceLetter.doAttention(attentionDto, response);
+            recommendationService.doAttention(attentionDto, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();

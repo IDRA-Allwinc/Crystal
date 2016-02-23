@@ -3,7 +3,6 @@ package com.crystal.model.entities.audit;
 import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.account.UserAuditInfo;
 import com.crystal.model.entities.audit.dto.AttentionDto;
-import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.UploadFileGeneric;
@@ -65,7 +64,7 @@ public class Recommendation extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
     private List<Area> lstAreas;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "recommendation_upload_file_generic_rel",
             joinColumns = {@JoinColumn(name = "id_recommendation", referencedColumnName = "id_recommendation")},
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
@@ -76,7 +75,6 @@ public class Recommendation extends UserAuditInfo {
             joinColumns = {@JoinColumn(name = "id_recommendation", referencedColumnName = "id_recommendation")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})
     private List<Extension> lstExtension;
-
 
     public Long getId() {
         return id;
