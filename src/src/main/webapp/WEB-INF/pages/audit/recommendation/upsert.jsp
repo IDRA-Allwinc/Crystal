@@ -32,7 +32,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Informaci&oacute;n de la recomendacio&oacute;n</h5>
+                                <h5>Informaci&oacute;n de la recomendaci&oacute;n</h5>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
 
                                         <div class="col-xs-8">
                                             <input type="text" name="number" ng-model="vm.m.number"
-                                                   placeholder="Ingrese el numeral de la recomendacio&oacute;n"
+                                                   placeholder="Ingrese el numeral de la recomendaci&oacute;n"
                                                    minlength="8"
                                                    maxlength="50"
                                                    ng-required="true" class="form-control">

@@ -19,7 +19,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Observaci&oacute;n</h4>
+                        <h4 class="modal-title">Recomendaci&oacute;n</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-bars modal-icon"></i>
@@ -52,7 +52,7 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="attentionComment" ng-model="vm.m.attentionComment"
-                                                      placeholder="Ingrese el comentario para indicar la atenci&oacute;n de la recomendacio&oacute;n"
+                                                      placeholder="Ingrese el comentario para indicar la atenci&oacute;n de la recomendaci&oacute;n"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
@@ -66,7 +66,7 @@
 
                             <div class="panel panel-primary" ng-if="vm.m.isAttended==true">
                                 <div class="panel-heading">
-                                    Recomendacio&oacute;n atendida n&uacute;mero <b>{{vm.m.recommendationNumber}}</b>
+                                    Recomendaci&oacute;n atendida n&uacute;mero <b>{{vm.m.recommendationNumber}}</b>
                                 </div>
                                 <div class="panel-body">
                                     <div>
