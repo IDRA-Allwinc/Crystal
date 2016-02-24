@@ -197,7 +197,7 @@
                                         </th>
                                         <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n</th>
                                         <th data-field="Actions" data-formatter="uploadObservationFileFormatter"
-                                            data-align="center" data-width="200px" data-events="actionComentEvents">Acci&oacute;n
+                                            data-align="center" data-width="200px" data-events="actionObservationEvents">Acci&oacute;n
                                         </th>
                                     </tr>
                                     </thead>

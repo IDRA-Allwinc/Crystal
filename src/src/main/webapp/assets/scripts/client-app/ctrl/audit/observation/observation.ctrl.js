@@ -37,6 +37,11 @@
             for (var i = 0; i < vm.lstSelectedAreas.length; i++) {
                 vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ") ";
             }
+
+
+            vm.m.observationType = window.initCatalog(vm.lstObservationType, vm.m.observationTypeId);
+            if(vm.m.observationType!=undefined)
+                vm.m.observationTypeId = vm.m.observationType.id;
         }
 
         function setOutError(msg) {

@@ -69,6 +69,12 @@ public class SelectList {
         this.description = secDescription;
     }
 
+    public SelectList(String code, String name, Long id) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+    }
+
 
     public Long getId() {
         return id;

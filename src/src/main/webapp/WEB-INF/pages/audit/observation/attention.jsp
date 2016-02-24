@@ -32,8 +32,8 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5 ng-if="vm.m.isAttended==false">Indicar atenci&oacute;n de la observaci&oacute;n n&uacute;mero <b>{{vm.m.observationNumber}}</b></h5>
-                                <h5 ng-if="vm.m.isAttended==true">Informaci&oacute;n de atenci&oacute;n de la observaci&oacute;n n&uacute;mero <b>{{vm.m.observationNumber}}</b></h5>
+                                <h5 ng-if="vm.m.isAttended==false">Indicar atenci&oacute;n del pliego de observaciones n&uacute;mero <b>{{vm.m.observationNumber}}</b></h5>
+                                <h5 ng-if="vm.m.isAttended==true">Informaci&oacute;n de atenci&oacute;n del pliego de observaciones n&uacute;mero <b>{{vm.m.observationNumber}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="attentionComment" ng-model="vm.m.attentionComment"
-                                                      placeholder="Ingrese el comentario para indicar la atenci&oacute;n de la observaci&oacute;n"
+                                                      placeholder="Ingrese el comentario para indicar la atenci&oacute;n del pliego de observaciones"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
@@ -66,7 +66,7 @@
 
                             <div class="panel panel-primary" ng-if="vm.m.isAttended==true">
                                 <div class="panel-heading">
-                                    Observaci&oacute;n atendida n&uacute;mero <b>{{vm.m.observationNumber}}</b>
+                                    Pliego de observaciones atendido n&uacute;mero <b>{{vm.m.observationNumber}}</b>
                                 </div>
                                 <div class="panel-body">
                                     <div>

@@ -6,6 +6,7 @@ import com.crystal.model.entities.audit.Observation;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
 import com.crystal.model.entities.catalog.Area;
+import com.crystal.model.entities.catalog.ObservationType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
@@ -66,7 +67,7 @@ public class ObservationServiceImpl implements ObservationService {
             model.setAuditId(auditId);
         }
 
-        modelView.addObject("lstObservationType", gson.toJson(observationTypeRepository.findAll()));
+        modelView.addObject("lstObservationType", gson.toJson(observationTypeRepository.findNoObsolete()));
         modelView.addObject("model", gson.toJson(model));
     }
 
@@ -175,6 +176,11 @@ public class ObservationServiceImpl implements ObservationService {
                 responseMessage.setMessage("Debe seleccionar al menos un &aacute;rea.");
                 return null;
             }
+
+
+            ObservationType ot =  new ObservationType();
+            ot.setId(observationDto.getObservationTypeId());
+            observation.setObservationType(ot);
 
             observation.merge(observationDto, null, null);
             observation.setLstAreas(lstNewSelectedAreas);

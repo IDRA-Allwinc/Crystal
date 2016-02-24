@@ -261,19 +261,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void observationType() {
-        List<String[]> lstDta = FileReader.readFile(PATH + "observation_type.txt", "\\|", 5);
+        List<String[]> lstDta = FileReader.readFile(PATH + "observation_type.txt", "\\|", 4);
+
         for (String[] data : lstDta) {
-            ObservationType model = observationTypeRepository.findOne(Long.parseLong(data[0]));
+            ObservationType model = observationTypeRepository.findByCode(data[2]);
             if (model == null) {
                 model = new ObservationType();
                 model.setId(Long.parseLong(data[0]));
             }
-
-            model.setCode(data[1]);
-            model.setObsolete(data[4].equals("1"));
+            model.setName(data[1]);
+            model.setCode(data[2]);
+            model.setObsolete(data[3].equals("1"));
             observationTypeRepository.save(model);
         }
         observationTypeRepository.flush();
+
     }
 
     @Autowired

@@ -33,11 +33,14 @@ public class ObservationDto {
 
     private boolean isAttended;
 
+    @NotNull(message = "El tipo del pliego de observaciones es un campo requerido")
+    private Long observationTypeId;
+
     public ObservationDto() {
 
     }
 
-    public ObservationDto(Long id, String number, String description, Calendar initDate, Calendar endDate, boolean isAttended, Long auditId) {
+    public ObservationDto(Long id, String number, String description, Calendar initDate, Calendar endDate, boolean isAttended, Long auditId, Long observationTypeId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         this.id = id;
@@ -47,6 +50,7 @@ public class ObservationDto {
         this.endDate = sdf.format(endDate.getTime());
         this.auditId = auditId;
         this.isAttended=isAttended;
+        this.observationTypeId = observationTypeId;
     }
 
     public Long getId() {
@@ -119,5 +123,13 @@ public class ObservationDto {
 
     public void setAttended(boolean isAttended) {
         this.isAttended = isAttended;
+    }
+
+    public Long getObservationTypeId() {
+        return observationTypeId;
+    }
+
+    public void setObservationTypeId(Long observationTypeId) {
+        this.observationTypeId = observationTypeId;
     }
 }

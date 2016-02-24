@@ -42,7 +42,7 @@
         window.showUpsert(idRequest, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/attention.json' />", "#tblGridRecommendation");
     };
 
-    window.actionComentEvents = {
+    window.actionRecommendationEvents = {
         'click .act-edit-recommendation': function (e, value, row) {
             window.upsertRecommendation(row.id);
         },
@@ -60,7 +60,7 @@
             window.showObsoleteParam({
                 recommendationId: row.recommendationId,
                 upfileId: row.id
-            }, "#angJsjqGridIdComment", "<c:url value='/audit/recommendation/doDeleteUpFile.json' />", "#tblUfCommentGrid");
+            }, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/doDeleteUpFile.json' />", "#tblUfCommentGrid");
         },
         'click .act-download': function (e, value, row) {
             var params = [];
@@ -122,7 +122,7 @@
                                 <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite
                                 </th>
                                 <th data-field="Actions" data-formatter="recommendationFormatter" data-align="center"
-                                    data-width="250px" data-events="actionComentEvents">Acci&oacute;n
+                                    data-width="250px" data-events="actionRecommendationEvents">Acci&oacute;n
                                 </th>
                             </tr>
                             </thead>

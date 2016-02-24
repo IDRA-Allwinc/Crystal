@@ -70,7 +70,7 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="description" ng-model="vm.m.description"
-                                                      placeholder="Ingrese la descripci&oacute;n del tipo de auditor&iacute;a"
+                                                      placeholder="Ingrese la descripci&oacute;n de la recomendaci&oacute;n"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>

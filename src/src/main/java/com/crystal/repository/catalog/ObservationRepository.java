@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ObservationRepository extends JpaRepository<Observation,Long>{
 
-    @Query("select new com.crystal.model.entities.audit.dto.ObservationDto(o.id, o.number, o.description, o.initDate, o.endDate, o.isAttended, o.audit.id) from Observation o where o.id=:observationId and o.isObsolete = false")
+    @Query("select new com.crystal.model.entities.audit.dto.ObservationDto(o.id, o.number, o.description, o.initDate, o.endDate, o.isAttended, o.audit.id, o.observationType.id) from Observation o where o.id=:observationId and o.isObsolete = false")
     ObservationDto findDtoById(@Param("observationId")Long observationId);
 
 

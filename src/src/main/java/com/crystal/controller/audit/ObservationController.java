@@ -121,8 +121,8 @@ public class ObservationController {
         }
     }
 
-    @RequestMapping(value = "/audit/observation/listUfComment", method = RequestMethod.GET)
-    public Object listUfComment(@RequestParam(required = true) Long observationId) {
+    @RequestMapping(value = "/audit/observation/listUfObservation", method = RequestMethod.GET)
+    public Object listUfObservation(@RequestParam(required = true) Long observationId) {
         return gridService.toGrid(ObservationUploadFileView.class, "observationId", observationId);
     }
 

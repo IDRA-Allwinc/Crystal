@@ -161,6 +161,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     CommentRepository commentRepository;
     @Autowired
     RecommendationRepository recommendationRepository;
+    @Autowired
+    ObservationRepository observationRepository;
 
     @Override
     @Transactional
@@ -208,6 +210,14 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 lstEvidencesRecommendation.add(uploadFile);
                 recommendationRepository.saveAndFlush(rm);
+                break;
+            case Constants.UploadFile.OBSERVATION:
+                Observation o = observationRepository.findOne(uploadRequest.getId());
+                List<UploadFileGeneric> lstEvidencesObservation = o.getLstEvidences();
+                if (lstEvidencesObservation == null) lstEvidencesObservation = new ArrayList<>();
+                uploadFile.setObsolete(false);
+                lstEvidencesObservation.add(uploadFile);
+                observationRepository.saveAndFlush(o);
                 break;
         }
 
@@ -346,6 +356,35 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
                 if (isAttended == true) {
                     resMsg.setMessage("No es posible agregar un archivo debido a que la recomendaci&oacute;n ya fue atendida");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+            }
+            case Constants.UploadFile.OBSERVATION: {
+                Long observationId = uploadRequest.getId();
+                if (observationId == null) {
+                    resMsg.setMessage("El archivo no está asociado a un pliego de observaciones");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                Boolean isAttended = observationRepository.isAttendedById(observationId);
+
+                if (isAttended == null) {
+                    resMsg.setMessage("El pliego de observaciones fue eliminada o no existe");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (isAttended == true) {
+                    resMsg.setMessage("No es posible agregar un archivo debido a que el pliego de observaciones ya fue atendido");
                     resMsg.setHasError(true);
                     return false;
                 }

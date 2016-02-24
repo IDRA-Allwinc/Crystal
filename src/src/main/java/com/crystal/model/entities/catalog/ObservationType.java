@@ -3,7 +3,7 @@ package com.crystal.model.entities.catalog;
 import javax.persistence.*;
 
 @Entity
-@Table(name="id_observation_type")
+@Table(name="observation_type")
 public class ObservationType {
 
     @Id

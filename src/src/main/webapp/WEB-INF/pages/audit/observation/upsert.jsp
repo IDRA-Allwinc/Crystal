@@ -70,13 +70,31 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="description" ng-model="vm.m.description"
-                                                      placeholder="Ingrese la descripci&oacute;n del tipo de auditor&iacute;a"
+                                                      placeholder="Ingrese la descripci&oacute;n del pliego de observaciones"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
                                             <span class="error" ng-show="FormUpObservationId.description.$error.required">*Campo requerido</span>
                                             <span class="error" ng-show="FormUpObservationId.description.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                             <span class="error" ng-show="FormUpObservationId.description.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 form-group">
+                                        <input type="hidden" ng-update-hidden ng-model="vm.m.observationTypeId"
+                                               name="observationTypeId" id="observationTypeId">
+
+                                        <label class="col-xs-3 control-label font-noraml">Tipo de pliego:</label>
+
+                                        <div class="col-xs-8">
+                                            <select class="form-control m-b" id="chosen-select"
+                                                    ng-required="true"
+                                                    ng-change="vm.m.observationTypeId = vm.m.observationType.id;"
+                                                    ng-options="c.name for c in vm.lstObservationType"
+                                                    ng-model="vm.m.observationType"></select>
+
+                                        <span class="error"
+                                              ng-show="FormUpId.observationTypeId.$error.required">*Campo requerido</span>
                                         </div>
                                     </div>
 
