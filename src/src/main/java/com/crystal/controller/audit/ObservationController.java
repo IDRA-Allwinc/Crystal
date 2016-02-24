@@ -68,6 +68,12 @@ public class ObservationController {
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
+
+            if (observationService.findByNumber(modelNew, response) == true) {
+                return response;
+            }
+
+
             observationService.save(modelNew, response);
             return response;
         } catch (Exception ex) {

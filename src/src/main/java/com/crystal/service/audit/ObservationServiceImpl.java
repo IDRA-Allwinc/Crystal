@@ -254,6 +254,23 @@ public class ObservationServiceImpl implements ObservationService {
         doSave(model);
     }
 
+    @Override
+    public boolean findByNumber(ObservationDto observationDto, ResponseMessage responseMessage) {
+        if (observationDto.getId() != null && observationRepository.findByNumberWithId(observationDto.getNumber(), observationDto.getId()) != null) {
+            responseMessage.setHasError(true);
+            responseMessage.setMessage("Ya existe un pliego de observaciones con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            return true;
+        }
+
+        if (observationDto.getId() == null && observationRepository.findByNumberAndIsObsolete(observationDto.getNumber(), false) != null) {
+            responseMessage.setHasError(true);
+            responseMessage.setMessage("Ya existe un pliego de recomendaciones con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            return true;
+        }
+
+        return false;
+    }
+
     private Observation attentionValidation(AttentionDto attentionDto, ResponseMessage response) {
 
         Observation model;

@@ -1,3 +1,3 @@
 ﻿id_observation_type|name|code|is_obsolete
 1|Preliminar|PRELIMINAR_CODE_OBSERVATION|0
-1|Final|FINAL_CODE_OBSERVATION|0
+2|Final|FINAL_CODE_OBSERVATION|0

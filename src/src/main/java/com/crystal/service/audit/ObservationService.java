@@ -20,4 +20,6 @@ public interface ObservationService {
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
 
     void doDeleteUpFile(Long observationId, Long upFileId, ResponseMessage response);
+
+    boolean findByNumber(ObservationDto observationDto, ResponseMessage response);
 }
