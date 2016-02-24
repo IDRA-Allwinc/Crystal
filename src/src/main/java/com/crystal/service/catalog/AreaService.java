@@ -23,4 +23,6 @@ public interface AreaService {
     List<SelectList> getSelectedAreasByCommentId(Long requestId);
 
     List<SelectList> getSelectedAreasByRecommendationId(Long requestId);
+
+    List<SelectList> getSelectedAreasByObservationId(Long requestId);
 }

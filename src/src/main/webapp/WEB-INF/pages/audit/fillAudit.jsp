@@ -26,6 +26,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/comment/commentViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/recommendation/recommendation.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/recommendation/recommendationViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/observation.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/observationViewDocs.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
@@ -61,7 +63,7 @@
                                 class="fa fa-eye i-big"></i></span>Observaciones</a></li>
                         <li><a href="#recommendations" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-hand-o-right i-big"></i></span>Recomendaciones</a></li>
-                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#observations" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-list-ul i-big"></i></span>Pliego de observaciones</a></li>
                         <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-money i-big"></i></span>Promociones de responsabilidad</a></li>
@@ -87,6 +89,10 @@
 
                         <div class="tab-pane animated fadeInDown" id="recommendations">
                             <%@ include file="/WEB-INF/pages/audit/recommendation/index.jsp"%>
+                        </div>
+
+                        <div class="tab-pane animated fadeInDown" id="observations">
+                            <%@ include file="/WEB-INF/pages/audit/observation/index.jsp"%>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="wornkin">
