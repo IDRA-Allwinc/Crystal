@@ -57,5 +57,10 @@ public interface AreaRepository extends JpaRepository<Area, Long> {
             "where o.id =:observationId and o.isObsolete=false")
     public List<SelectList> findSelectedAreasByObservationId(@Param("observationId") Long observationId);
 
+    @Query("select new com.crystal.model.shared.SelectList(ar.id, ar.name, ar.responsible) from Responsibility rp " +
+            "inner join rp.lstAreas as ar " +
+            "where rp.id =:responsibilityId and rp.isObsolete=false")
+    public List<SelectList> findSelectedAreasByResponsibilityId(@Param("responsibilityId") Long responsibilityId);
+
 
 }

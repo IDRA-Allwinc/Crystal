@@ -163,6 +163,9 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     RecommendationRepository recommendationRepository;
     @Autowired
     ObservationRepository observationRepository;
+    @Autowired
+    ResponsibilityRepository responsibilityRepository;
+
 
     @Override
     @Transactional
@@ -218,6 +221,14 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 lstEvidencesObservation.add(uploadFile);
                 observationRepository.saveAndFlush(o);
+                break;
+            case Constants.UploadFile.RESPONSIBILITY:
+                Responsibility rp = responsibilityRepository.findOne(uploadRequest.getId());
+                List<UploadFileGeneric> lstEvidencesResponsibility = rp.getLstEvidences();
+                if (lstEvidencesResponsibility == null) lstEvidencesResponsibility = new ArrayList<>();
+                uploadFile.setObsolete(false);
+                lstEvidencesResponsibility.add(uploadFile);
+                responsibilityRepository.saveAndFlush(rp);
                 break;
         }
 
@@ -385,6 +396,35 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
                 if (isAttended == true) {
                     resMsg.setMessage("No es posible agregar un archivo debido a que el pliego de observaciones ya fue atendido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+            }
+            case Constants.UploadFile.RESPONSIBILITY: {
+                Long responsibilityId = uploadRequest.getId();
+                if (responsibilityId == null) {
+                    resMsg.setMessage("El archivo no está asociado a una promoci&oacute;n");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                Boolean isAttended = responsibilityRepository.isAttendedById(responsibilityId);
+
+                if (isAttended == null) {
+                    resMsg.setMessage("La promoci&oacute;n fue eliminada o no existe");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (isAttended == true) {
+                    resMsg.setMessage("No es posible agregar un archivo debido a que la promoci&oacute;n ya fue atendida");
                     resMsg.setHasError(true);
                     return false;
                 }

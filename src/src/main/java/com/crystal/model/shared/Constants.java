@@ -54,6 +54,7 @@ public class Constants {
         public static final int COMMENT = 5000;
         public static final int RECOMMENDATION = 6000;
         public static final int OBSERVATION = 7000;
+        public static final int RESPONSIBILITY = 8000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
 }

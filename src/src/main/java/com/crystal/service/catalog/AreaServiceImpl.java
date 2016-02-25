@@ -108,6 +108,10 @@ public class AreaServiceImpl implements AreaService {
         return areaRepository.findSelectedAreasByObservationId(recommendationId);
     }
 
+    public List<SelectList> getSelectedAreasByResponsibilityId(Long recommendationId) {
+        return areaRepository.findSelectedAreasByResponsibilityId(recommendationId);
+    }
+
 }
 
 

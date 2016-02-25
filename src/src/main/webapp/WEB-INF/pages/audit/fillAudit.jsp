@@ -28,6 +28,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/recommendation/recommendationViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/observation.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/observationViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/responsibility.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/responsibilityViewDocs.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
@@ -65,7 +67,7 @@
                                 class="fa fa-hand-o-right i-big"></i></span>Recomendaciones</a></li>
                         <li><a href="#observations" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-list-ul i-big"></i></span>Pliego de observaciones</a></li>
-                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#responsibilities" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-money i-big"></i></span>Promociones de responsabilidad</a></li>
                         <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-clock-o i-big"></i></span>Eventos</a></li>
@@ -93,6 +95,10 @@
 
                         <div class="tab-pane animated fadeInDown" id="observations">
                             <%@ include file="/WEB-INF/pages/audit/observation/index.jsp"%>
+                        </div>
+
+                        <div class="tab-pane animated fadeInDown" id="responsibilities">
+                            <%@ include file="/WEB-INF/pages/audit/responsibility/index.jsp"%>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="wornkin">
