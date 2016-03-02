@@ -206,4 +206,9 @@ public class RequestController {
             return response;
         }
     }
+
+    @RequestMapping(value = "/previousRequest/request/getPossibleAssistants", method = RequestMethod.GET)
+    public String findPossibleAssistants(@RequestParam(required = true) String assistantStr) {
+        return new Gson().toJson(requestService.findPossibleAssistants(assistantStr));
+    }
 }

@@ -30,6 +30,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/observationViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/responsibility.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/responsibilityViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/event/event.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/event/eventViewDocs.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
@@ -69,7 +71,7 @@
                                 class="fa fa-list-ul i-big"></i></span>Pliego de observaciones</a></li>
                         <li><a href="#responsibilities" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-money i-big"></i></span>Promociones de responsabilidad</a></li>
-                        <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
+                        <li><a href="#events" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-clock-o i-big"></i></span>Eventos</a></li>
                         <li><a href="#wornkin" data-toggle="tab"><span class="label-icon pull-left"><i
                                 class="fa fa-comments-o i-big"></i></span>Notificaciones</a></li>
@@ -99,6 +101,10 @@
 
                         <div class="tab-pane animated fadeInDown" id="responsibilities">
                             <%@ include file="/WEB-INF/pages/audit/responsibility/index.jsp"%>
+                        </div>
+
+                        <div class="tab-pane animated fadeInDown" id="events">
+                            <%@ include file="/WEB-INF/pages/audit/event/index.jsp"%>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="wornkin">

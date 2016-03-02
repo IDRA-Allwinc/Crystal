@@ -165,6 +165,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     ObservationRepository observationRepository;
     @Autowired
     ResponsibilityRepository responsibilityRepository;
+    @Autowired
+    EventRepository eventRepository;
 
 
     @Override
@@ -229,6 +231,14 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 lstEvidencesResponsibility.add(uploadFile);
                 responsibilityRepository.saveAndFlush(rp);
+                break;
+            case Constants.UploadFile.EVENT:
+                Event ev = eventRepository.findOne(uploadRequest.getId());
+                List<UploadFileGeneric> lstEvidencesEvent = ev.getLstFiles();
+                if (lstEvidencesEvent == null) lstEvidencesEvent = new ArrayList<>();
+                uploadFile.setObsolete(false);
+                lstEvidencesEvent.add(uploadFile);
+                eventRepository.saveAndFlush(ev);
                 break;
         }
 
@@ -425,6 +435,21 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
                 if (isAttended == true) {
                     resMsg.setMessage("No es posible agregar un archivo debido a que la promoci&oacute;n ya fue atendida");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+            }
+            case Constants.UploadFile.EVENT: {
+                Long eventId = uploadRequest.getId();
+                if (eventId == null) {
+                    resMsg.setMessage("El archivo no está asociado a un evento");
                     resMsg.setHasError(true);
                     return false;
                 }

@@ -30,4 +30,7 @@ public interface RequestService {
     public void doSave(Request request);
 
     public void save(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage);
+
+
+    public List<SelectList> findPossibleAssistants(String assistantStr);
 }
