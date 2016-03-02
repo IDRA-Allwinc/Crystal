@@ -8,7 +8,6 @@
 
     function eventController($scope, $rootScope, $sce, $timeout, $http) {
         var vm = this;
-        var milisDay = 24 * 60 * 60 * 1000; //hrs*min*seg*mil
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
         vm.init = init;
@@ -20,21 +19,19 @@
         vm.popAssistant = popAssistant;
         vm.validateAll = validateAll;
         vm.addError = addError;
-        vm.onChangeDate = onChangeDate;
 
         function init() {
 
-            if (vm.m.initDate !== undefined) {
-                vm.m.initDate = new Date(vm.m.initDate);
-            }
-            if (vm.m.endDate !== undefined) {
-                vm.m.endDate = new Date(vm.m.endDate);
+            if (vm.m.meetingDate !== undefined) {
+                vm.m.meetingDate = new Date(vm.m.meetingDate);
+                vm.m.hour = vm.m.meetingHour;
+                vm.m.meetingHour = new Date(vm.m.meetingDate);
+
             }
 
-            vm.onChangeDate();
 
             for (var i = 0; i < vm.lstSelectedAssistants.length; i++) {
-                vm.lstSelectedAssistants[i].desc = vm.lstSelectedAssistants[i].name + " (" + vm.lstSelectedAssistants[i].description + ") ";
+                vm.lstSelectedAssistants[i].desc = vm.lstSelectedAssistants[i].responsible + " (" + vm.lstSelectedAssistants[i].name + ") ";
             }
 
 
@@ -92,21 +89,6 @@
             return false;
         }
 
-        function onChangeDate() {
-            try {
-                var init = new Date(vm.m.initDate);
-                var end = new Date(vm.m.endDate);
-                var days = (end - init) / milisDay;
-                if (days > 0) {
-                    vm.m.limitTimeDays = days;
-                }
-                else {
-                    vm.m.limitTimeDays = "";
-                }
-            } catch (e) {
-                vm.m.limitTimeDays = "";
-            }
-        }
 
         function validateSelectedAreas() {
             if (!(vm.lstSelectedAssistants.length > 0)) {

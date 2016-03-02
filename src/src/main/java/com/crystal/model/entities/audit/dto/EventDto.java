@@ -3,7 +3,6 @@ package com.crystal.model.entities.audit.dto;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -34,13 +33,20 @@ public class EventDto {
 
     }
 
-    public EventDto(Long id, String description, Long auditId, Long eventTypeId) {
+    public EventDto(Long id, String description, Long auditId, Long eventTypeId, Calendar meetingDate, Long meetingTypeId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdh = new SimpleDateFormat("HH:mm:ss");
 
         this.id = id;
         this.description = description;
         this.auditId = auditId;
         this.eventTypeId = eventTypeId;
+        this.meetingTypeId = meetingTypeId;
+        if(meetingDate != null){
+            this.meetingDate = sdf.format(meetingDate.getTime());
+            this.meetingHour = sdh.format(meetingDate.getTime());
+        }
+
     }
 
     public Long getId() {

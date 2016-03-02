@@ -3,9 +3,9 @@
 
     function eventFormatter(value, row, index) {
         var arr = [
-                '<button class="btn btn-success dim act-edit-event btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
-                '<button class="btn btn-danger dim act-delete-event btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-view-docs-event btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-success dim act-edit-event btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar la informaci&oacute;n del evento" type="button"><i class="fa fa-eye"></i></button>',
+                '<button class="btn btn-danger dim act-delete-event btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el evento" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-event btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del evento" type="button"><i class="fa fa-copy"></i></button>',
             ];
 
         return arr.join('');

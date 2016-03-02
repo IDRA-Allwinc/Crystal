@@ -18,7 +18,6 @@ import com.crystal.repository.catalog.EventTypeRepository;
 import com.crystal.repository.catalog.MeetingTypeRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
-import com.crystal.service.catalog.AreaService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +49,12 @@ public class EventServiceImpl implements EventService {
     UserRepository userRepository;
 
     @Autowired
-    AreaService areaService;
-
-    @Autowired
     AuditRepository auditRepository;
 
     @Autowired
     SharedUserService sharedUserService;
+
+
 
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
@@ -65,8 +63,8 @@ public class EventServiceImpl implements EventService {
         EventDto model;
         if (id != null) {
             model = eventRepository.findDtoById(id);
-            List<SelectList> lstSelectedAreas = areaService.getSelectedAreasByCommentId(id);
-            modelView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
+            List<SelectList> lstSelectedAssistants = eventRepository.findSelectedAssistantsByEventId(id);
+            modelView.addObject("lstSelectedAssistants", gson.toJson(lstSelectedAssistants));
         } else {
             model = new EventDto();
             model.setAuditId(auditId);
