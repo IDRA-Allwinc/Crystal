@@ -58,4 +58,9 @@ public class Constants {
         public static final int EVENT = 9000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
+
+    /////////////////////////Replication/////////////////////////////////////
+    public static final String RECOMMENDATION_R = "RECOMMENDATION";
+    public static final String OBSERVATION_R = "OBSERVATION";
+    public static final String RESPONSIBILITY_R = "RESPONSIBILITY";
 }

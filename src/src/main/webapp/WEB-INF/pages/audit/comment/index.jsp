@@ -66,6 +66,9 @@
             var params = [];
             params["idParam"] = row.id;
             window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+        },
+        'click .act-replicate-comment': function (e, value, row) {
+            window.showUpsert(row.id, "#angJsjqGridIdComment", "<c:url value='/audit/comment/replicate.json' />", "#tblGridComment");
         }
     };
 </script>

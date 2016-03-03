@@ -167,7 +167,7 @@
 
 
                                         <div class="col-xs-12 form-group typeahead-demo">
-                                            <label class="col-xs-2  col-xs-offset-1 control-label font-noraml">Buscar usuario</label>
+                                            <label class="col-xs-2  col-xs-offset-1 control-label font-noraml" ng-hide="vm.m.id!==undefined">Buscar usuario</label>
 
                                             <div class="col-xs-7">
                                                 <input type="text"
@@ -208,6 +208,9 @@
                                                     </li>
                                                     <li class="list-group-item animated fadeInDown"
                                                         ng-repeat="assignedAssistant in vm.lstSelectedAssistants track by $index">
+                                                        <span class="badge badge-danger" ng-click="vm.popAssistant(assignedAssistant.id)"><i
+                                                                class="fa fa-minus-circle"
+                                                        ></i></span>
                                                         {{assignedAssistant.desc}}
                                                     </li>
                                                 </ul>
