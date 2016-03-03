@@ -30,6 +30,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/observationViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/responsibility.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/responsibilityViewDocs.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/request/extensionRequest.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>

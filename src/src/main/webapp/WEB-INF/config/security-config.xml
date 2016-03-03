@@ -18,6 +18,7 @@
         <intercept-url pattern="/session/checkout.json" access="permitAll"/>
         <intercept-url pattern="/management/**" access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_MANAGER)"/>
         <intercept-url pattern="/previousRequest/**" access="	hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
+        <intercept-url pattern="/shared/area/**" access="	hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
         <intercept-url pattern="/audit/**" access="	hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
         <intercept-url pattern="/shared/**" access="permitAll"/>
 

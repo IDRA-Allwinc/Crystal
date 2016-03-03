@@ -30,4 +30,8 @@ public interface RequestService {
     public void doSave(Request request);
 
     public void save(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage);
+
+    public void extension(Long requestId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long requestId, Long extensionId, ResponseMessage response);
 }

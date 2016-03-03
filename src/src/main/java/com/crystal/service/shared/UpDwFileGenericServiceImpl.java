@@ -8,6 +8,7 @@ import com.crystal.model.entities.catalog.CatFileType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileRequest;
+import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.*;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -49,8 +51,35 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         switch (type) {
+            case Constants.UploadFile.EXTENSION_REQUEST:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_COMMENT:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_RECOMMENDATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_OBSERVATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
             case Constants.UploadFile.REQUEST:
                 file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_REQUEST + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.COMMENT:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_COMMENT + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.RECOMMENDATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_RECOMMENDATION + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.OBSERVATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_OBSERVATION + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.RESPONSIBILITY:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_RESPONSABILITY + userId.toString()).toString());
                 return true;
         }
 
@@ -63,7 +92,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     public void fillUploadFileGeneric(MultipartFile mpf, UploadFileGeneric file, UploadFileRequest uploadRequest, User user) {
         file.setFileName(mpf.getOriginalFilename());
         file.setSize(mpf.getSize());
-        file.setObsolete(true); //Se pone obsoleto mientras no esté asociado al reporte
+        file.setObsolete(true); //Se pone obsoleto mientras no esté asociado al oficio
         file.setDescription(uploadRequest.getDescription());
         file.setCreationTime(Calendar.getInstance());
         file.setCreationUser(user);
@@ -165,7 +194,10 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     ObservationRepository observationRepository;
     @Autowired
     ResponsibilityRepository responsibilityRepository;
-
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    SharedUserService sharedUserService;
 
     @Override
     @Transactional
@@ -177,6 +209,47 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         switch (type) {
+            case Constants.UploadFile.EXTENSION_REQUEST:
+                Request r =  requestRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtension = r.getLstExtension();
+                if (lstExtension == null) lstExtension = new ArrayList<>();
+                Extension e=new Extension();
+                e.setCreateDate(Calendar.getInstance());
+                e.setObsolete(false);
+                e.setInitial(false);
+                e.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                e.setUploadFileGeneric(uploadFile);
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    e.setEndDate(endDate);
+                    r.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtension.add(e);
+                requestRepository.saveAndFlush(r);
+                break;
+            case Constants.UploadFile.EXTENSION_COMMENT:
+                //crear objeto extension y guardarlo
+                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                break;
+            case Constants.UploadFile.EXTENSION_RECOMMENDATION:
+                //crear objeto extension y guardarlo
+                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                break;
+            case Constants.UploadFile.EXTENSION_OBSERVATION:
+                //crear objeto extension y guardarlo
+                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                break;
+            case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
+                //crear objeto extension y guardarlo
+                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                break;
             case Constants.UploadFile.REQUEST:
                 Request rq = requestRepository.findOne(uploadRequest.getId());
                 List<UploadFileGeneric> lstEvidences = rq.getLstEvidences();
@@ -262,6 +335,10 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             return true;
 
         switch (type) {
+            case Constants.UploadFile.EXTENSION_REQUEST: {
+
+                break;
+            }
             case Constants.UploadFile.REQUEST: {
                 Long requestId = uploadRequest.getId();
                 if (requestId == null) {

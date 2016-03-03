@@ -84,34 +84,78 @@
 
                                     <div class="col-xs-12">
 
-                                        <div class="col-xs-6 form-group">
-                                            <label class="col-xs-3 control-label font-noraml">Plazo otorgado:</label>
+                                        <div class="col-xs-4 form-group">
+                                            <div class="col-xs-12">
+                                                <label class="font-noraml">Fecha de inicio:</label>
 
-                                            <div class="col-xs-9">
-                                                <input type="text" name="limitTimeDays" ng-model="vm.m.limitTimeDays"
-                                                       placeholder="Ingrese el plazo otorgado en d&iacute;as"
-                                                       ng-pattern="/^[0-9]{1,3}$/"
-                                                       ng-change="vm.changeLimitDate()"
-                                                       ng-required="true" class="form-control" maxlength="3">
+                                                <div>
+                                                    <p class="input-group">
+                                                        <input type="text" class="form-control" name="initDate"
+                                                               uib-datepicker-popup="yyyy/MM/dd"
+                                                               placeholder="yyyy/mm/dd"
+                                                               ng-model="vm.m.initDate"
+                                                               is-open="vm.m.initDateIsOpened" ng-required="true"
+                                                               current-text="Hoy"
+                                                               clear-text="Limpiar"
+                                                               close-text="Cerrar"
+                                                               min-date="2000/01/01"
+                                                               max-date="vm.today"
+                                                               ng-change="vm.onChangeDate()"
+                                                               alt-input-formats="yyyy/MM/dd"
+                                                               ng-disabled="vm.m.id!==undefined"/>
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="vm.m.initDateIsOpened=true;"><i
+                                                            class="glyphicon glyphicon-calendar"></i></button>
+                                                  </span>
+                                                    </p>
+                                                    <span class="error" ng-show="FormUpRequestId.initDate.$error.required">*Campo requerido</span>
+                                                </div>
                                         <span class="error"
-                                              ng-show="FormUpRequestId.limitTimeDays.$error.required">*Campo requerido</span>
-                                                <span class="error" ng-show="FormUpRequestId.limitTimeDays.$error.maxlength">*Longitud m&aacute;xima de 3 caracteres</span>
-                                                <span class="error" ng-show="FormUpRequestId.limitTimeDays.$error.pattern">*El campo s&oacute;lo acepta n&uacute;meros</span>
+                                              ng-show="FormUpRequestId.initDate.$invalid && !FormUpRequestId.initDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+
+                                                <input type="hidden" name="initDate" ng-model="vm.m.initDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-6 form-group">
-                                            <label class="font-noraml col-xs-3">Fecha limite:</label>
+                                        <div class="col-xs-4 form-group">
+                                            <div class="col-xs-12">
+                                                <label class="font-noraml">Fecha l&iacute;mite:</label>
 
-                                            <div>
-                                                <p class="input-group">
-                                                    <input type="text" class="form-control" ng-model="vm.m.limitDate"
-                                                           disabled/>
-                                                      <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default"><i
-                                                                class="glyphicon glyphicon-calendar"></i></button>
-                                                      </span>
-                                                </p>
+                                                <div>
+                                                    <p class="input-group">
+                                                        <input type="text" class="form-control" name="endDate"
+                                                               uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
+                                                               is-open="vm.m.endDateIsOpened" ng-required="true"
+                                                               placeholder="yyyy/mm/dd"
+                                                               current-text="Hoy"
+                                                               clear-text="Limpiar"
+                                                               close-text="Cerrar"
+                                                               min-date="2000/01/01"
+                                                               max-date="vm.today"
+                                                               ng-change="vm.onChangeDate()"
+                                                               alt-input-formats="yyyy/MM/dd"
+                                                               ng-disabled="vm.m.id!==undefined"/>
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="vm.m.endDateIsOpened=true;"><i
+                                                            class="glyphicon glyphicon-calendar"></i></button>
+                                                  </span>
+                                                    </p>
+                                                    <span class="error"
+                                                          ng-show="FormUpRequestId.endDate.$error.required">*Campo requerido</span>
+                                                </div>
+                                            </div>
+                                        <span class="error"
+                                              ng-show="FormUpRequestId.endDate.$invalid && !FormUpRequestId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                            <input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
+                                        </div>
+
+                                        <div class="col-xs-4 form-group">
+                                            <label class="col-xs-12 font-noraml">Plazo otorgado:</label>
+                                            <br/>
+                                            <div class="col-xs-12">
+                                                <input type="text" name="limitTimeDays" ng-model="vm.m.limitTimeDays" class="form-control" disabled>
                                             </div>
                                         </div>
                                     </div>

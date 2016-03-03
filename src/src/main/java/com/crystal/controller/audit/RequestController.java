@@ -4,6 +4,7 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RequestDto;
+import com.crystal.model.entities.audit.view.RequestExtensionView;
 import com.crystal.model.entities.audit.view.RequestUploadFileView;
 import com.crystal.model.entities.audit.view.RequestView;
 import com.crystal.service.account.SharedUserService;
@@ -185,6 +186,36 @@ public class RequestController {
         } catch (Exception ex) {
             ex.printStackTrace();
             logException.Write(ex, this.getClass(), "doAttention", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/request/extension", method = RequestMethod.POST)
+    public ModelAndView extension(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/request/extension");
+        try {
+            requestService.extension(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "extension", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/request/extension/list", method = RequestMethod.GET)
+    public Object requestExtensionList(@RequestParam(required = true) Long id) {
+        return gridService.toGrid(RequestExtensionView.class, "requestId", id);
+    }
+
+    @RequestMapping(value = "/audit/request/doDeleteExtension", method = RequestMethod.POST)
+    public ResponseMessage doDeleteExtension(@RequestParam(required = true) Long requestId, @RequestParam(required = true) Long extensionId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            requestService.doDeleteExtension(requestId, extensionId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteExtension", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
         } finally {

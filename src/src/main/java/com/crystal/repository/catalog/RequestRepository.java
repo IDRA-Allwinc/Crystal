@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    @Query("select new com.crystal.model.entities.audit.dto.RequestDto(r.id, r.number, r.description, r.limitTimeDays, r.letter.id) from Request r where r.id=:requestId and r.isObsolete = false")
+    @Query("select new com.crystal.model.entities.audit.dto.RequestDto(r.id, r.number, r.description, r.initDate, r.endDate, r.letter.id) from Request r where r.id=:requestId and r.isObsolete = false")
     public RequestDto findDtoById(@Param("requestId") Long requestId);
 
     public Request findByNumberAndIsObsolete(String numberStr, boolean b);
