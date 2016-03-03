@@ -54,9 +54,19 @@ public class Recommendation extends UserAuditInfo {
     @Column(name = "is_obsolete", nullable = false)
     private boolean isObsolete;
 
+    @Column(name="is_replicated", nullable = false)
+    private boolean isReplicated;
+
+    @Column(name="replicated_as", nullable = true)
+    private String replicatedAs;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_comment", nullable = true)
+    private Comment comment;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "recommendation_area_rel",
@@ -209,5 +219,29 @@ public class Recommendation extends UserAuditInfo {
             attentionDate = Calendar.getInstance();
             attentionUser = user;
         }
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public boolean isReplicated() {
+        return isReplicated;
+    }
+
+    public void setReplicated(boolean replicated) {
+        isReplicated = replicated;
+    }
+
+    public String getReplicatedAs() {
+        return replicatedAs;
+    }
+
+    public void setReplicatedAs(String replicatedAs) {
+        this.replicatedAs = replicatedAs;
     }
 }

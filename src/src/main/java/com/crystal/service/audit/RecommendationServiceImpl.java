@@ -1,19 +1,17 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
-import com.crystal.model.entities.audit.Audit;
-import com.crystal.model.entities.audit.Comment;
-import com.crystal.model.entities.audit.Recommendation;
+import com.crystal.model.entities.audit.*;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import com.crystal.model.entities.catalog.Area;
+import com.crystal.model.entities.catalog.ObservationType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
-import com.crystal.repository.catalog.AuditRepository;
-import com.crystal.repository.catalog.RecommendationRepository;
+import com.crystal.repository.catalog.*;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
 import com.google.gson.Gson;
@@ -47,6 +45,15 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     AuditRepository auditRepository;
+
+    @Autowired
+    ObservationTypeRepository observationTypeRepository;
+
+    @Autowired
+    ObservationRepository observationRepository;
+
+    @Autowired
+    ResponsibilityRepository responsibilityRepository;
 
 
     @Override
@@ -278,8 +285,97 @@ public class RecommendationServiceImpl implements RecommendationService {
             model.setAttentionComment(attentionDto.getAttentionComment());
             model.setAttended(true);
             model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+            if(attentionDto.isReplication() == true){
+                model.setReplicated(true);
+                model.setReplicatedAs(attentionDto.getReplicateAs());
+            }
         }
 
         return model;
+    }
+
+    @Override
+    public void showReplication(Long id, ModelAndView modelAndView) {
+        Gson gson = new Gson();
+        AttentionDto model = recommendationRepository.findAttentionInfoById(id);
+        String a = gson.toJson(model);
+        modelAndView.addObject("lstObservationType", gson.toJson(observationTypeRepository.findNoObsolete()));
+        modelAndView.addObject("model", a);
+    }
+
+    @Override
+    public void doReplication(AttentionDto attentionDto, ResponseMessage response) {
+        if(!(attentionDto.getReplicateAs().equals(Constants.OBSERVATION_R) ||
+                attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))){
+            response.setHasError(true);
+            response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
+            return;
+        }
+
+        attentionDto.setReplication(true);
+
+        Recommendation model = attentionValidation(attentionDto, response);
+        if (response.isHasError())
+            return;
+
+        doSaveAndReplication(model, attentionDto);
+    }
+
+    @Transactional
+    private void doSaveAndReplication(Recommendation model, AttentionDto attentionDto) {
+
+
+        List<Area> lstSelectedAreas = model.getLstAreas();
+        List<Area> lstNewSelectedAreas = null;
+
+        if (lstSelectedAreas != null && lstSelectedAreas.size() > 0) {
+            lstNewSelectedAreas = new ArrayList<>();
+            for (Area item : lstSelectedAreas) {
+                Area a = new Area();
+                a.setId(item.getId());
+                lstNewSelectedAreas.add(a);
+            }
+        }
+
+        if(model.getReplicatedAs().equals(Constants.OBSERVATION_R)){
+            Observation observation = new Observation();
+
+            observation.setNumber(model.getNumber());
+            observation.setDescription(model.getDescription());
+            observation.setCreateDate(Calendar.getInstance());
+            observation.setInsAudit(sharedUserService.getLoggedUserId());
+            observation.setLstAreas(lstNewSelectedAreas);
+            observation.setAudit(model.getAudit());
+            observation.setInitDate(model.getInitDate());
+            observation.setEndDate(model.getEndDate());
+            ObservationType observationType = new ObservationType();
+            observationType.setId(attentionDto.getObservationTypeId());
+            observation.setObservationType(observationType);
+            observation.setObsolete(false);
+            observation.setRecommendation(model);
+
+            observationRepository.saveAndFlush(observation);
+
+        }
+        else if(model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)){
+            Responsibility responsibility = new Responsibility();
+
+            responsibility.setNumber(model.getNumber());
+            responsibility.setDescription(model.getDescription());
+            responsibility.setCreateDate(Calendar.getInstance());
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+            responsibility.setLstAreas(lstNewSelectedAreas);
+            responsibility.setAudit(model.getAudit());
+            responsibility.setInitDate(model.getInitDate());
+            responsibility.setEndDate(model.getEndDate());
+            responsibility.setObsolete(false);
+            responsibility.setRecommendation(model);
+
+            responsibilityRepository.saveAndFlush(responsibility);
+
+        }
+
+        recommendationRepository.saveAndFlush(model);
     }
 }

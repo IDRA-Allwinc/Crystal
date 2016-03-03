@@ -3,6 +3,7 @@ package com.crystal.service.audit;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.Audit;
 import com.crystal.model.entities.audit.Observation;
+import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
 import com.crystal.model.entities.catalog.Area;
@@ -14,6 +15,7 @@ import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditRepository;
 import com.crystal.repository.catalog.ObservationRepository;
 import com.crystal.repository.catalog.ObservationTypeRepository;
+import com.crystal.repository.catalog.ResponsibilityRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
@@ -52,6 +54,9 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Autowired
     ObservationTypeRepository observationTypeRepository;
+
+    @Autowired
+    ResponsibilityRepository responsibilityRepository;
 
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
@@ -292,8 +297,74 @@ public class ObservationServiceImpl implements ObservationService {
             model.setAttentionComment(attentionDto.getAttentionComment());
             model.setAttended(true);
             model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+            if(attentionDto.isReplication() == true){
+                model.setReplicated(true);
+                model.setReplicatedAs(attentionDto.getReplicateAs());
+            }
         }
 
         return model;
+    }
+
+    @Override
+    public void showReplication(Long id, ModelAndView modelAndView) {
+        Gson gson = new Gson();
+        AttentionDto model = observationRepository.findAttentionInfoById(id);
+        String a = gson.toJson(model);
+        modelAndView.addObject("model", a);
+    }
+
+    @Override
+    public void doReplication(AttentionDto attentionDto, ResponseMessage response) {
+        if(!attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R)){
+            response.setHasError(true);
+            response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
+            return;
+        }
+
+        attentionDto.setReplication(true);
+
+        Observation model = attentionValidation(attentionDto, response);
+        if (response.isHasError())
+            return;
+
+        doSaveAndReplication(model);
+    }
+
+    @Transactional
+    private void doSaveAndReplication(Observation model) {
+
+        List<Area> lstSelectedAreas = model.getLstAreas();
+        List<Area> lstNewSelectedAreas = null;
+
+        if (lstSelectedAreas != null && lstSelectedAreas.size() > 0) {
+            lstNewSelectedAreas = new ArrayList<>();
+            for (Area item : lstSelectedAreas) {
+                Area a = new Area();
+                a.setId(item.getId());
+                lstNewSelectedAreas.add(a);
+            }
+        }
+
+        if(model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)){
+            Responsibility responsibility = new Responsibility();
+
+            responsibility.setNumber(model.getNumber());
+            responsibility.setDescription(model.getDescription());
+            responsibility.setCreateDate(Calendar.getInstance());
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+            responsibility.setLstAreas(lstNewSelectedAreas);
+            responsibility.setAudit(model.getAudit());
+            responsibility.setInitDate(model.getInitDate());
+            responsibility.setEndDate(model.getEndDate());
+            responsibility.setObsolete(false);
+            responsibility.setObservation(model);
+
+            responsibilityRepository.saveAndFlush(responsibility);
+
+        }
+
+        observationRepository.saveAndFlush(model);
     }
 }

@@ -22,4 +22,8 @@ public interface ObservationService {
     void doDeleteUpFile(Long observationId, Long upFileId, ResponseMessage response);
 
     boolean findByNumber(ObservationDto observationDto, ResponseMessage response);
+
+    void showReplication(Long observationId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response);
 }
