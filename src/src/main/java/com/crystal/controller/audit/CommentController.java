@@ -152,4 +152,35 @@ public class CommentController {
         }
     }
 
+    @RequestMapping(value = "/audit/comment/replicate", method = RequestMethod.POST)
+    public ModelAndView replicateRequest(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/comment/replicate");
+        try {
+            commentService.showReplication(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attentionRequestAudit", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/audit/comment/doReplication", method = RequestMethod.POST)
+    public ResponseMessage doReplication(@Valid AttentionDto attentionDto, BindingResult result) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            if (DtoValidator.isValid(result, response) == false)
+                return response;
+
+            commentService.doReplication(attentionDto, response);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "doAttention", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
 }

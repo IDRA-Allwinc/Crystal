@@ -3,12 +3,16 @@ package com.crystal.service.catalog;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.catalog.SupervisoryEntity;
 import com.crystal.model.entities.catalog.dto.SupervisoryEntityDto;
+import com.crystal.model.shared.SelectList;
 import com.crystal.repository.catalog.SupervisoryEntityRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Service
 public class SupervisoryEntityServiceImpl implements SupervisoryEntityService {
@@ -59,6 +63,11 @@ public class SupervisoryEntityServiceImpl implements SupervisoryEntityService {
         se.setBelongsTo(supervisoryEntityDto.getBelongsTo());
 
         return se;
+    }
+
+    public List<SelectList> getPossibleAssistant(String assistantStr) {
+        assistantStr = "%" + assistantStr + "%";
+        return supervisoryEntityRepository.findAssistantsByStr(assistantStr, new PageRequest(0, 10));
     }
 }
 

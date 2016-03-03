@@ -17,6 +17,8 @@ import com.crystal.repository.catalog.RequestRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
+import com.crystal.service.catalog.AuditedEntityService;
+import com.crystal.service.catalog.SupervisoryEntityService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,11 @@ public class RequestServiceImpl implements RequestService {
     SharedUserService sharedUserService;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AuditedEntityService auditedEntityService;
+    @Autowired
+    SupervisoryEntityService supervisoryEntityService;
 
     @Autowired
     UploadFileGenericRepository uploadFileGenericRepository;
@@ -369,5 +376,16 @@ public class RequestServiceImpl implements RequestService {
         }
 
         requestRepository.saveAndFlush(model);
+    }
+
+
+    @Override
+    public List<SelectList> findPossibleAssistants(String assistantStr) {
+
+        List<SelectList> lstAssistants = auditedEntityService.getPossibleAssistant(assistantStr);
+
+        lstAssistants.addAll(supervisoryEntityService.getPossibleAssistant(assistantStr));
+
+        return lstAssistants;
     }
 }

@@ -34,4 +34,7 @@ public interface RequestService {
     public void extension(Long requestId, ModelAndView modelAndView);
 
     public void doDeleteExtension(Long requestId, Long extensionId, ResponseMessage response);
+
+
+    public List<SelectList> findPossibleAssistants(String assistantStr);
 }

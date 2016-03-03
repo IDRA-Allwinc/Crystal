@@ -64,6 +64,12 @@ public class Constants {
         public static final int RECOMMENDATION = 6000;
         public static final int OBSERVATION = 7000;
         public static final int RESPONSIBILITY = 8000;
+        public static final int EVENT = 9000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
+
+    /////////////////////////Replication/////////////////////////////////////
+    public static final String RECOMMENDATION_R = "RECOMMENDATION";
+    public static final String OBSERVATION_R = "OBSERVATION";
+    public static final String RESPONSIBILITY_R = "RESPONSIBILITY";
 }

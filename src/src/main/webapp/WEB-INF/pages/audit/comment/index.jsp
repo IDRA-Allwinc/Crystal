@@ -13,7 +13,8 @@
                 '<button class="btn btn-success dim act-edit-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>'
+                '<button class="btn btn-info dim act-attention-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>',
+                '<button class="btn btn-info dim act-replicate-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Replicar como" type="button"><i class="fa fa-hand-o-right"></i></button>'
             ];
 
         return arr.join('');
@@ -65,6 +66,9 @@
             var params = [];
             params["idParam"] = row.id;
             window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+        },
+        'click .act-replicate-comment': function (e, value, row) {
+            window.showUpsert(row.id, "#angJsjqGridIdComment", "<c:url value='/audit/comment/replicate.json' />", "#tblGridComment");
         }
     };
 </script>
