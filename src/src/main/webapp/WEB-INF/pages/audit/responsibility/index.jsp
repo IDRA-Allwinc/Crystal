@@ -78,7 +78,7 @@
                 <div class="col-xs-12">
                     <div class="col-xs-12 ibox-title navy-bg">
                         <span class="label-icon pull-left"><i
-                                class="fa fa-files-o i-big"></i></span>
+                                class="fa fa-money i-big"></i></span>
                         <h5>&nbsp;&nbsp;Promociones de responsabilidad</h5>
                     </div>
 

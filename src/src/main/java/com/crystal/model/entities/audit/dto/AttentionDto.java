@@ -47,6 +47,37 @@ public class AttentionDto {
 
     //para la atencion de oficios
     //para la atencion de observaciones
+    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String entityNumber, Integer type, boolean isReplication, String replicateAs) {
+        this.id = id;
+        this.attentionComment = attentionComment;
+        this.isAttended = isAttended;
+        if (attentionDate != null)
+            this.attentionDateStr = sdf.format(attentionDate.getTime());
+        this.attentionUser = attentionUser;
+        this.auditName = auditName;
+        switch (type) {
+            case Constants.UploadFile.LETTER: {
+                this.letterNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.COMMENT: {
+                this.commentNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.RECOMMENDATION: {
+                this.recommendationNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.OBSERVATION: {
+                this.observationNumber = entityNumber;
+                break;
+            }
+        }
+        this.isReplication = isReplication;
+        this.replicateAs = replicateAs;
+    }
+
+
     public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String entityNumber, Integer type) {
         this.id = id;
         this.attentionComment = attentionComment;
