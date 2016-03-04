@@ -144,7 +144,14 @@
                                 type: "danger"
                             }).then(function () { def.reject({ isError: true }); });
                     }
-                    else {
+                    else if(resp.message){
+                        vm.sharedSvc.showMsg(
+                            {
+                                title: resp.title,
+                                message: resp.message,
+                                type: "info"
+                            }).then(function () { def.reject({ isError: true }); });
+                    }else{
                         def.resolve();
                     }
                 },

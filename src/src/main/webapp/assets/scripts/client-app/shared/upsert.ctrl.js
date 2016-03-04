@@ -125,6 +125,7 @@
 
             } catch (e) {
                 vm.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                try{$scope.$apply();}catch (e) {console.log(e);}
             }
         };
 
@@ -147,6 +148,7 @@
 
             } catch (e) {
                 vm.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                try{$scope.$apply();}catch (e) {console.log(e);}
             }
         };
 

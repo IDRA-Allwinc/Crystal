@@ -2,3 +2,5 @@
 1|LIMIT_TIME|480000|Tiempo que debe pasar para mostrar el mensaje de finalización de sesión en milisegundos (8min).
 2|TOTAL_SESSION_LIMIT_TIME|600000|Tiempo total que dura la sesión en milisegundos (10min).
 3|PATH_TO_SAVE_UPLOAD_FILES|UploadFiles|Directorio para subir los archivos.
+4|EMAIL_NOTIFICATION_SENDER|allwinc@allwinc.com|Correo electrónico del remitente
+5|EMAIL_NOTIFICATION_TEMPLATE_BODY|<b>Estimado(a) %1$s,</b><br/><br/><p>Usted a ha recibido la siguiente notificación: </p><p><i>%2$s</i></p><br/><small>Mensaje enviado automáticamente por el sistema CRYSTAL</small>|Plantilla para las notificaciones

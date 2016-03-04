@@ -1,20 +1,21 @@
 package com.crystal.model.entities.audit;
 
+import com.crystal.model.entities.account.UserAuditInfo;
+import com.crystal.model.entities.catalog.Area;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name="notification")
-public class Notification {
+public class Notification extends UserAuditInfo {
 
     @Id
     @GeneratedValue
     @Column(name = "id_notification")
     private Long id;
 
-    @Column(name="title", length = 200, nullable = false)
+    @Column(name="title", length = 100, nullable = false)
     @NotEmpty(message="El título es un campo requerido")
     private String title;
 
@@ -26,8 +27,14 @@ public class Notification {
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
 
-    @OneToMany(mappedBy = "notification", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<NotificationReceiver> lstReceiver;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "notification_area_rel",
+            joinColumns = {@JoinColumn(name = "id_notification", referencedColumnName = "id_notification")},
+            inverseJoinColumns = {@JoinColumn(name = "id_area", referencedColumnName = "id_area")})
+    private List<Area> lstAreas;
+
+    @Column(name="is_obsolete", nullable = false)
+    private boolean isObsolete;
 
     public Long getId() {
         return id;
@@ -61,11 +68,19 @@ public class Notification {
         this.audit = audit;
     }
 
-    public List<NotificationReceiver> getLstReceiver() {
-        return lstReceiver;
+    public boolean isObsolete() {
+        return isObsolete;
     }
 
-    public void setLstReceiver(List<NotificationReceiver> lstReceiver) {
-        this.lstReceiver = lstReceiver;
+    public void setObsolete(boolean isObsolete) {
+        this.isObsolete = isObsolete;
+    }
+
+    public List<Area> getLstAreas() {
+        return lstAreas;
+    }
+
+    public void setLstAreas(List<Area> lstAreas) {
+        this.lstAreas = lstAreas;
     }
 }
