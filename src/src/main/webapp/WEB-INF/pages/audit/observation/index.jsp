@@ -40,12 +40,12 @@
         window.showUpsertParams(params, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/upsert.json' />", "#tblGridObservation");
     };
 
-    window.attentionObservation = function (idRequest) {
-        window.showUpsert(idRequest, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/attention.json' />", "#tblGridObservation");
+    window.attentionObservation = function (idObservation) {
+        window.showUpsert(idObservation, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/attention.json' />", "#tblGridObservation");
     };
 
-    window.extensionObservation = function (idRequest) {
-        window.showUpsert(idRequest, "#angJsjqGridIdComment", "<c:url value='/audit/observation/extension.json' />", "#tblGridComment");
+    window.extensionObservation = function (idObservation) {
+        window.showUpsert(idObservation, "#angJsjqGridIdComment", "<c:url value='/audit/observation/extension.json' />", "#tblGridComment");
     };
 
     window.actionObservationEvents = {

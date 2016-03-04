@@ -312,8 +312,29 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 observationRepository.saveAndFlush(obs);
                 break;
             case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
-                //crear objeto extension y guardarlo
-                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                Responsibility resp  =  responsibilityRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionResp = resp.getLstExtension();
+                if (lstExtensionResp == null) lstExtensionResp = new ArrayList<>();
+                Extension eResp =new Extension();
+                eResp.setCreateDate(Calendar.getInstance());
+                eResp.setObsolete(false);
+                eResp.setInitial(false);
+                eResp.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eResp.setUploadFileGeneric(uploadFile);
+                eResp.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eResp.setEndDate(endDate);
+                    resp.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionResp.add(eResp);
+                responsibilityRepository.saveAndFlush(resp);
                 break;
             case Constants.UploadFile.REQUEST:
                 Request rq = requestRepository.findOne(uploadRequest.getId());

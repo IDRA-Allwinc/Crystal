@@ -4,7 +4,7 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
-import com.crystal.model.entities.audit.view.RecomendationExtensionView;
+import com.crystal.model.entities.audit.view.RecommendationExtensionView;
 import com.crystal.model.entities.audit.view.RecommendationUploadFileView;
 import com.crystal.model.entities.audit.view.RecommendationView;
 import com.crystal.service.account.SharedUserService;
@@ -181,7 +181,7 @@ public class RecommendationController {
 
     @RequestMapping(value = "/audit/recommendation/extension/list", method = RequestMethod.GET)
     public Object recomendationExtensionList(@RequestParam(required = true) Long id) {
-        return gridService.toGrid(RecomendationExtensionView.class, "recommendationId", id);
+        return gridService.toGrid(RecommendationExtensionView.class, "recommendationId", id);
     }
 
 }

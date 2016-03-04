@@ -42,12 +42,12 @@
         window.showUpsertParams(params, "#angJsjqGridIdComment", "<c:url value='/audit/comment/upsert.json' />", "#tblGridComment");
     };
 
-    window.attentionComment = function (idRequest) {
-        window.showUpsert(idRequest, "#angJsjqGridIdComment", "<c:url value='/audit/comment/attention.json' />", "#tblGridComment");
+    window.attentionComment = function (idComment) {
+        window.showUpsert(idComment, "#angJsjqGridIdComment", "<c:url value='/audit/comment/attention.json' />", "#tblGridComment");
     };
 
-    window.extensionComment = function (idRequest) {
-        window.showUpsert(idRequest, "#angJsjqGridIdComment", "<c:url value='/audit/comment/extension.json' />", "#tblGridComment");
+    window.extensionComment = function (idComment) {
+        window.showUpsert(idComment, "#angJsjqGridIdComment", "<c:url value='/audit/comment/extension.json' />", "#tblGridComment");
     };
 
 

@@ -7,22 +7,22 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("SELECT e.id_extension, r.id_recommendation recommendationId, r.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, concat('', date(adddate(e.end_date, 0))) endDate, Addition.extensionId2 lastExtensionId " +
-        "        FROM Recommendation r  " +
-        "        INNER JOIN recommendation_extension_rel cer  ON r.id_recommendation = cer.id_recommendation  " +
-        "        INNER JOIN extension e ON cer.id_extension= e.id_extension  " +
+@Subselect("SELECT e.id_extension, r.id_responsibility responsibilityId, r.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, concat('', date(adddate(e.end_date, 0))) endDate, Addition.extensionId2 lastExtensionId " +
+        "        FROM Responsibility r  " +
+        "        INNER JOIN responsibility_extension_rel rer  ON r.id_responsibility = rer.id_responsibility  " +
+        "        INNER JOIN extension e ON rer.id_extension= e.id_extension  " +
         "        INNER JOIN upload_file_generic uf ON uf.id_upload_file_generic = e.id_upload_file_generic  " +
-        "        INNER JOIN (select e2.id_extension extensionId2, cer2.id_recommendation recommendationId2 from " +
+        "        INNER JOIN (select e2.id_extension extensionId2, rer2.id_responsibility responsibilityId2 from " +
         "                    Extension e2 " +
-        "                    INNER JOIN recommendation_extension_rel cer2  ON e2.id_extension = cer2.id_extension " +
-        "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.recommendationId2 = r.id_recommendation " +
+        "                    INNER JOIN responsibility_extension_rel rer2  ON e2.id_extension = rer2.id_extension " +
+        "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.responsibilityId2 = r.id_responsibility " +
         "        where e.is_obsolete = false and r.is_obsolete = false order by e.id_extension asc")
-public class RecomendationExtensionView {
+public class ResponsibilityExtensionView {
 
     @Id
     @Column(name = "id_extension")
     private Long id;
-    private Long recommendationId;
+    private Long responsibilityId;
     private boolean isAttended;
     private String fileId;
     private String fileName;
@@ -38,12 +38,12 @@ public class RecomendationExtensionView {
         this.id = id;
     }
 
-    public Long getRecommendationId() {
-        return recommendationId;
+    public Long getResponsibilityId() {
+        return responsibilityId;
     }
 
-    public void setRecommendationId(Long recommendationId) {
-        this.recommendationId = recommendationId;
+    public void setResponsibilityId(Long responsibilityId) {
+        this.responsibilityId = responsibilityId;
     }
 
     public boolean isAttended() {

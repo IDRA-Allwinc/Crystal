@@ -76,7 +76,6 @@ public class Responsibility extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})
     private List<Extension> lstExtension;
 
-
     public Long getId() {
         return id;
     }
