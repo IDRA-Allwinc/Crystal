@@ -180,7 +180,7 @@ public class RecommendationController {
     }
 
     @RequestMapping(value = "/audit/recommendation/extension/list", method = RequestMethod.GET)
-    public Object commentExtensionList(@RequestParam(required = true) Long id) {
+    public Object recomendationExtensionList(@RequestParam(required = true) Long id) {
         return gridService.toGrid(RecomendationExtensionView.class, "recommendationId", id);
     }
 

@@ -70,7 +70,7 @@ public class Responsibility extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "responsibility_extension_rel",
             joinColumns = {@JoinColumn(name = "id_responsibility", referencedColumnName = "id_responsibility")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})

@@ -3,14 +3,11 @@ package com.crystal.controller.audit;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
-import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
-import com.crystal.model.entities.audit.view.CommentUploadFileView;
-import com.crystal.model.entities.audit.view.CommentView;
+import com.crystal.model.entities.audit.view.ObservationExtensionView;
 import com.crystal.model.entities.audit.view.ObservationUploadFileView;
 import com.crystal.model.entities.audit.view.ObservationView;
 import com.crystal.service.account.SharedUserService;
-import com.crystal.service.audit.CommentService;
 import com.crystal.service.audit.ObservationService;
 import com.crystal.service.shared.GridService;
 import com.crystal.service.shared.SharedLogExceptionService;
@@ -160,6 +157,36 @@ public class ObservationController {
         } finally {
             return response;
         }
+    }
+
+    @RequestMapping(value = "/audit/observation/extension", method = RequestMethod.POST)
+    public ModelAndView extension(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/observation/extension");
+        try {
+            observationService.extension(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "extension", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/observation/doDeleteExtension", method = RequestMethod.POST)
+    public ResponseMessage doDeleteExtension(@RequestParam(required = true) Long observationId, @RequestParam(required = true) Long extensionId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            observationService.doDeleteExtension(observationId, extensionId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteExtension", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/observation/extension/list", method = RequestMethod.GET)
+    public Object observationExtensionList(@RequestParam(required = true) Long id) {
+        return gridService.toGrid(ObservationExtensionView.class, "observationId", id);
     }
 
 }

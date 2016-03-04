@@ -5,15 +5,15 @@
         var arr = [];
         if (row.attended == true)
             arr = [
-                '<button class="btn btn-primary dim act-view-docs-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la promoci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>'
             ];
         else
             arr = [
-                '<button class="btn btn-success dim act-edit-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-success dim act-edit-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n de la promoci&oacute;n" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-view-docs-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>'
+                '<button class="btn btn-primary dim act-view-docs-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la promoci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-info dim act-attention-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n de la promoci&oacute;n" type="button"><i class="fa fa-thumbs-up"></i></button>'
             ];
 
         return arr.join('');

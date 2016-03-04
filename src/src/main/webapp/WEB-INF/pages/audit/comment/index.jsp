@@ -5,16 +5,16 @@
         var arr = [];
         if (row.attended == true)
             arr = [
-                '<button class="btn btn-primary dim act-view-docs-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la observaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>',
                 '<button class="btn btn-warning dim act-extension-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
         else
             arr = [
-                '<button class="btn btn-success dim act-edit-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-success dim act-edit-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-view-docs-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la observaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-info dim act-attention-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-thumbs-up"></i></button>',
                 '<button class="btn btn-warning dim act-extension-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>',
                 '<button class="btn btn-info dim act-replicate-comment btn-tiny" data-toggle="tooltip" data-placement="top" title="Replicar como" type="button"><i class="fa fa-hand-o-right"></i></button>'
             ];

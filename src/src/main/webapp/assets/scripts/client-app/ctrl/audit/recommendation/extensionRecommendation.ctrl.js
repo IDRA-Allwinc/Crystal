@@ -25,7 +25,7 @@
         function setSuccess(result) {
             $scope.$apply(function () {
                 ervm.m.extensionComment = undefined;
-                ervm.m.endDateExtComm = undefined;
+                ervm.m.endDateExtRecomm = undefined;
             });
         }
 

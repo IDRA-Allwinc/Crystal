@@ -324,7 +324,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         if (model.isAttended() == true) {
             response.setHasError(true);
-            response.setMessage("No es posible eliminar la prorroga debido a que La observación ya fue atendida");
+            response.setMessage("No es posible eliminar la prorroga debido a que la observación ya fue atendida");
             response.setTitle("Eliminar prorroga");
             return;
         }
