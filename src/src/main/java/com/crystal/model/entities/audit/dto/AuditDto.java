@@ -21,7 +21,7 @@ public class AuditDto {
     private String letterDate;
 
     @NotEmpty(message = "El número de la aduitoría es un campo requerido")
-    @Size(min = 8, max = 200, message = "El número de la aduitoría debe tener entre 8 y 200 caracteres")
+    @Size(min = 2, max = 20, message = "El número de la aduitoría debe tener entre 2 y 20 caracteres")
     private String number;
 
     @NotEmpty(message = "El nombre de la aduitoría es un campo requerido")
@@ -29,7 +29,7 @@ public class AuditDto {
     private String name;
 
     @NotEmpty(message = "El objetivo de la auditoría es un campo requerido")
-    @Size(min = 8, max = 200, message = "El objetivo  de la aduitoría debe tener entre 8 y 200 caracteres")
+    @Size(min = 8, max = 300, message = "El objetivo  de la aduitoría debe tener entre 8 y 300 caracteres")
     private String objective;
 
     @NotNull(message = "El periodo de la revisión es un campo requerido")
@@ -42,7 +42,7 @@ public class AuditDto {
     private String auditedYear;
 
     @NotEmpty(message = "El programa presupuestario es un campo requerido")
-    @Size(min = 8, max = 200, message = "El programa presupuestario debe tener entre 8 y 200 caracteres")
+    @Size(min = 8, max = 300, message = "El programa presupuestario debe tener entre 8 y 200 caracteres")
     private String budgetProgram;
 
     @NotNull(message = "El órgano fiscalizador es un campo requerido")

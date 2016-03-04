@@ -26,9 +26,12 @@
 
     <div class="col-xs-12 modal-footer" ng-if="vm.isModal==false">
         <div class="col-xs-12 ">
-            <button class="col-xs-2 pull-right btn btn-primary" ng-disabled="up.WaitFor==true"
-                    ng-click="vm.validateAudit() == true ? up.submit('#FormUpId', '<c:url value='/audit/doUpsert.json' />', FormUpId.$valid):''">
+            <button class="col-xs-2 pull-right btn btn-primary" ng-show="up.WaitFor===false"
+                    ng-click="vm.validateAudit() === true ? up.submit('#FormUpId', '<c:url value='/audit/doUpsert.json' />', FormUpId.$valid):''">
                 Guardar
+            </button>
+            <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">
+                <i class="fa fa-refresh fa-spin"></i> &nbsp; Procesando
             </button>
         </div>
     </div>
@@ -37,9 +40,12 @@
         <button class="btn btn-white" ng-click="up.cancel()">
             Cancelar
         </button>
-        <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                ng-click="vm.validateAudit() == true ? up.submitRedirect('#FormUpId', '<c:url value='/audit/doUpsert.json' />', false):''">
+        <button class="btn btn-primary " ng-show="up.WaitFor===false"
+                ng-click="vm.validateAudit() === true ? up.submitRedirect('#FormUpId', '<c:url value='/audit/doUpsert.json' />', FormUpId.$valid):''">
             Guardar
+        </button>
+        <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">
+            <i class="fa fa-refresh fa-spin"></i> &nbsp; Procesando
         </button>
     </div>
 

@@ -94,12 +94,12 @@
                         <input type="text" name="number" ng-model="vm.m.number"
                                placeholder="Ingrese el n&uacute;mero de la auditor&iacute;a"
                                minlength="2"
-                               maxlength="8"
+                               maxlength="20"
                                ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                        <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 8 y 200 caracteres</span>
-                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 8 y 200 caracteres</span>
+                        <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 2 y 20 caracteres</span>
+                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 2 y 20 caracteres</span>
                     </div>
                 </div>
             </div>
@@ -135,11 +135,11 @@
                                             <textarea name="objective" ng-model="vm.m.objective"
                                                       placeholder="Ingrese el objetivo de la auditor&iacute;a"
                                                       minlength="8"
-                                                      maxlength="2000"
+                                                      maxlength="300"
                                                       ng-required="true" class="form-control"></textarea>
                         <span class="error" ng-show="FormUpId.objective.$error.required">*Campo requerido</span>
-                        <span class="error" ng-show="FormUpId.objective.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
-                        <span class="error" ng-show="FormUpId.objective.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                        <span class="error" ng-show="FormUpId.objective.$error.minlength">*El campo debe tener entre 8 y 300 caracteres</span>
+                        <span class="error" ng-show="FormUpId.objective.$error.maxlength">*El campo debe tener entre 8 y 300 caracteres</span>
                     </div>
                 </div>
                 <div class="col-xs-3">
@@ -266,16 +266,16 @@
                         <div>
                             <input type="text" name="budgetProgram"
                                    ng-model="vm.m.budgetProgram"
-                                   placeholder="Ingrese el objetivo de la auditor&iacute;a"
+                                   placeholder="Ingrese el programa presupuestario"
                                    minlength="8"
-                                   maxlength="2000"
+                                   maxlength="300"
                                    ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.budgetProgram.$error.required">*Campo requerido</span>
                                                     <span class="error"
-                                                          ng-show="FormUpId.budgetProgram.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                                          ng-show="FormUpId.budgetProgram.$error.minlength">*El campo debe tener entre 8 y 300 caracteres</span>
                                                     <span class="error"
-                                                          ng-show="FormUpId.budgetProgram.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                                          ng-show="FormUpId.budgetProgram.$error.maxlength">*El campo debe tener entre 8 y 300 caracteres</span>
                         </div>
                     </div>
                 </div>

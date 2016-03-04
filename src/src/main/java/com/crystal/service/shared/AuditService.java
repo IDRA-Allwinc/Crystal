@@ -7,6 +7,7 @@ import com.crystal.model.shared.SelectList;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 public interface AuditService {
@@ -22,7 +23,7 @@ public interface AuditService {
 
     void doObsolete(Long id, Long userId, ResponseMessage response);
 
-    public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request);
+    public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) throws ParseException;
 
     public void doSave(Audit audit);
 }

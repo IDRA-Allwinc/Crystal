@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-xs-10 tabcontent">
                     <div class="tab-content">
-                        <div class="tab-pane active animated fadeInDown" id="auditData">
+                        <div class="tab-pane active animated fadeInDown" id="auditData" ng-controller="upsertController as up" >
                             <%@ include file="/WEB-INF/pages/audit/partial-audit.jsp" %>
                         </div>
 
