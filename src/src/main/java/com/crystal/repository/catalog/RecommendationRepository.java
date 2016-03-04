@@ -42,5 +42,14 @@ public interface RecommendationRepository extends JpaRepository<Recommendation,L
             "where r.id=:recommendationId and r.isObsolete = false")
     public AttentionDto findAttentionInfoById(@Param("recommendationId") Long recommendationId);
 
+    @Query("select max(e.id) from Recommendation r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:recommendationId and e.id <> :extensionId and e.isObsolete = false")
+    public Long findSecondLastExtensionIdByRecommendationId(@Param("recommendationId")Long recommendationId, @Param("extensionId")Long extensionId);
+
+    @Query("select max(e.id) from Recommendation r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:recommendationId and e.isObsolete = false and e.isInitial = false ")
+    public Long findLastExtensionIdByRecommendationId(@Param("recommendationId")Long recommendationId);
 
 }

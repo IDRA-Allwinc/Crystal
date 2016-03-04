@@ -77,7 +77,7 @@ public class Comment extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "comment_extension_rel",
             joinColumns = {@JoinColumn(name = "id_comment", referencedColumnName = "id_comment")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})

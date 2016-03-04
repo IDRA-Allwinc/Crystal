@@ -301,7 +301,7 @@ public class RequestServiceImpl implements RequestService {
 
         if(e==null) {
             response.setHasError(true);
-            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
             response.setTitle("Eliminar prorroga");
             return;
         }
@@ -313,7 +313,7 @@ public class RequestServiceImpl implements RequestService {
             return;
         }
 
-        Long lastSecondId = extensionRepository.findSecondLastExtensionIdByRequestId(requestId,extensionId);
+        Long lastSecondId = requestRepository.findSecondLastExtensionIdByRequestId(requestId,extensionId);
 
         if (lastSecondId == null || lastSecondId == 0) {
             response.setHasError(true);
@@ -322,7 +322,7 @@ public class RequestServiceImpl implements RequestService {
             return;
         }
 
-        Long lastId = extensionRepository.findLastExtensionIdByRequestId(requestId);
+        Long lastId = requestRepository.findLastExtensionIdByRequestId(requestId);
 
         if (!lastId.equals(extensionId)) {
             response.setHasError(true);
@@ -333,7 +333,7 @@ public class RequestServiceImpl implements RequestService {
 
 
         Extension lastExtension = extensionRepository.findOne(extensionId);
-        Long lastExtentsionFileId = lastExtension.getUploadFileGeneric().getId();
+        Long lastExtensionFileId = lastExtension.getUploadFileGeneric().getId();
 
         lastExtension.setObsolete(true);
         lastExtension.setUploadFileGeneric(null);
@@ -346,7 +346,7 @@ public class RequestServiceImpl implements RequestService {
 
         extensionRepository.save(lastExtension);
         requestRepository.saveAndFlush(model);
-        uploadFileGenericRepository.delete(lastExtentsionFileId);
+        uploadFileGenericRepository.delete(lastExtensionFileId);
     }
 
     @Override

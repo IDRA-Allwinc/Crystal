@@ -2,10 +2,9 @@ package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.Audit;
-import com.crystal.model.entities.audit.Comment;
+import com.crystal.model.entities.audit.Extension;
 import com.crystal.model.entities.audit.Recommendation;
 import com.crystal.model.entities.audit.dto.AttentionDto;
-import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.Constants;
@@ -13,7 +12,9 @@ import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditRepository;
+import com.crystal.repository.catalog.ExtensionRepository;
 import com.crystal.repository.catalog.RecommendationRepository;
+import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
 import com.google.gson.Gson;
@@ -47,6 +48,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     AuditRepository auditRepository;
+
+    @Autowired
+    ExtensionRepository extensionRepository;
+
+    @Autowired
+    UploadFileGenericRepository uploadFileGenericRepository;
 
 
     @Override
@@ -215,6 +222,17 @@ public class RecommendationServiceImpl implements RecommendationService {
                     return null;
                 }
 
+                Extension e = new Extension();
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                e.setInitial(true);
+                e.setCreateDate(Calendar.getInstance());
+                e.setComment("Fecha de fin inicial.");
+                e.setEndDate(recommendation.getEndDate());
+                List<Extension> lstExtension =  new ArrayList<>();
+                lstExtension.add(e);
+                recommendation.setLstExtension(lstExtension);
+                recommendation.setInsAudit(sharedUserService.getLoggedUserId());
+
             }
 
             List<SelectList> lstSelectedAreas = new Gson().fromJson(recommendationDto.getLstSelectedAreas(), new TypeToken<List<SelectList>>() {
@@ -281,5 +299,85 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 
         return model;
+    }
+
+    @Override
+    public void extension(Long recommendationId, ModelAndView modelAndView) {
+        RecommendationDto model = recommendationRepository.findDtoById(recommendationId);
+        model.setType(Constants.UploadFile.EXTENSION_RECOMMENDATION);
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteExtension(Long recommendationId, Long extensionId, ResponseMessage response) {
+        Recommendation model = recommendationRepository.findByIdAndIsObsolete(recommendationId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("La observación ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar la prorroga debido a que La observación ya fue atendida");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
+
+        if(e==null) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isObsolete() == true) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastSecondId = recommendationRepository.findSecondLastExtensionIdByRecommendationId(recommendationId, extensionId);
+
+        if (lastSecondId == null || lastSecondId == 0) {
+            response.setHasError(true);
+            response.setMessage("No es posible recuperar la fecha de fin anterior.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastId = recommendationRepository.findLastExtensionIdByRecommendationId(recommendationId);
+
+        if (!lastId.equals(extensionId)) {
+            response.setHasError(true);
+            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+
+        Extension lastExtension = extensionRepository.findOne(extensionId);
+        Long lastExtensionFileId = lastExtension.getUploadFileGeneric().getId();
+
+        lastExtension.setObsolete(true);
+        lastExtension.setUploadFileGeneric(null);
+        lastExtension.setUserDel(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        Extension lastSecondExtension = extensionRepository.findOne(lastSecondId);
+
+        model.setEndDate(lastSecondExtension.getEndDate());
+        model.setUserUpd(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        extensionRepository.save(lastExtension);
+        recommendationRepository.saveAndFlush(model);
+        uploadFileGenericRepository.delete(lastExtensionFileId);
     }
 }

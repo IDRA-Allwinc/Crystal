@@ -24,4 +24,8 @@ public interface RecommendationService {
 
     void doDeleteUpFile(Long recommendationId, Long upFileId, ResponseMessage response);
 
+    public void extension(Long recommendationId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long recommendationId, Long extensionId, ResponseMessage response);
+
 }

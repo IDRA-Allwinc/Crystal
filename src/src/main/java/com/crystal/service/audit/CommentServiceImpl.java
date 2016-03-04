@@ -59,6 +59,12 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     ResponsibilityRepository responsibilityRepository;
 
+    @Autowired
+    ExtensionRepository extensionRepository;
+
+    @Autowired
+    UploadFileGenericRepository uploadFileGenericRepository;
+
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
         Gson gson = new Gson();
@@ -160,6 +166,16 @@ public class CommentServiceImpl implements CommentService {
                     return null;
                 }
 
+                Extension e = new Extension();
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                e.setInitial(true);
+                e.setCreateDate(Calendar.getInstance());
+                e.setComment("Fecha de fin inicial.");
+                e.setEndDate(comment.getEndDate());
+                List<Extension> lstExtension =  new ArrayList<>();
+                lstExtension.add(e);
+                comment.setLstExtension(lstExtension);
+                comment.setInsAudit(sharedUserService.getLoggedUserId());
             }
 
             List<SelectList> lstSelectedAreas = new Gson().fromJson(commentDto.getLstSelectedAreas(), new TypeToken<List<SelectList>>() {
@@ -388,5 +404,84 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.saveAndFlush(model);
     }
 
+    @Override
+    public void extension(Long commentId, ModelAndView modelAndView) {
+        CommentDto model = commentRepository.findDtoById(commentId);
+        model.setType(Constants.UploadFile.EXTENSION_COMMENT);
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteExtension(Long commentId, Long extensionId, ResponseMessage response) {
+        Comment model = commentRepository.findByIdAndIsObsolete(commentId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("La observación ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar la prorroga debido a que La observación ya fue atendida");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
+
+        if(e==null) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isObsolete() == true) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastSecondId = commentRepository.findSecondLastExtensionIdByCommentId(commentId, extensionId);
+
+        if (lastSecondId == null || lastSecondId == 0) {
+            response.setHasError(true);
+            response.setMessage("No es posible recuperar la fecha de fin anterior.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastId = commentRepository.findLastExtensionIdByCommentId(commentId);
+
+        if (!lastId.equals(extensionId)) {
+            response.setHasError(true);
+            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+
+        Extension lastExtension = extensionRepository.findOne(extensionId);
+        Long lastExtensionFileId = lastExtension.getUploadFileGeneric().getId();
+
+        lastExtension.setObsolete(true);
+        lastExtension.setUploadFileGeneric(null);
+        lastExtension.setUserDel(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        Extension lastSecondExtension = extensionRepository.findOne(lastSecondId);
+
+        model.setEndDate(lastSecondExtension.getEndDate());
+        model.setUserUpd(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        extensionRepository.save(lastExtension);
+        commentRepository.saveAndFlush(model);
+        uploadFileGenericRepository.delete(lastExtensionFileId);
+    }
 
 }

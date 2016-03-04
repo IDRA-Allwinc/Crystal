@@ -213,8 +213,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         switch (type) {
             case Constants.UploadFile.EXTENSION_REQUEST:
                 Request r =  requestRepository.findOne(uploadRequest.getId());
-                List<Extension> lstExtension = r.getLstExtension();
-                if (lstExtension == null) lstExtension = new ArrayList<>();
+                List<Extension> lstExtensionRq = r.getLstExtension();
+                if (lstExtensionRq == null) lstExtensionRq = new ArrayList<>();
                 Extension e=new Extension();
                 e.setCreateDate(Calendar.getInstance());
                 e.setObsolete(false);
@@ -233,16 +233,58 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                     return;
                 }
 
-                lstExtension.add(e);
+                lstExtensionRq.add(e);
                 requestRepository.saveAndFlush(r);
                 break;
             case Constants.UploadFile.EXTENSION_COMMENT:
-                //crear objeto extension y guardarlo
-                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                Comment c =  commentRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionCm = c.getLstExtension();
+                if (lstExtensionCm == null) lstExtensionCm = new ArrayList<>();
+                Extension eC =new Extension();
+                eC.setCreateDate(Calendar.getInstance());
+                eC.setObsolete(false);
+                eC.setInitial(false);
+                eC.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eC.setUploadFileGeneric(uploadFile);
+                eC.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eC.setEndDate(endDate);
+                    c.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionCm.add(eC);
+                commentRepository.saveAndFlush(c);
                 break;
             case Constants.UploadFile.EXTENSION_RECOMMENDATION:
-                //crear objeto extension y guardarlo
-                uploadFileGenericRepository.saveAndFlush(uploadFile);
+                Recommendation rec =  recommendationRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionRec = rec.getLstExtension();
+                if (lstExtensionRec == null) lstExtensionRec = new ArrayList<>();
+                Extension eRec =new Extension();
+                eRec.setCreateDate(Calendar.getInstance());
+                eRec.setObsolete(false);
+                eRec.setInitial(false);
+                eRec.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eRec.setUploadFileGeneric(uploadFile);
+                eRec.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eRec.setEndDate(endDate);
+                    rec.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionRec.add(eRec);
+                recommendationRepository.saveAndFlush(rec);
                 break;
             case Constants.UploadFile.EXTENSION_OBSERVATION:
                 //crear objeto extension y guardarlo

@@ -47,4 +47,14 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
             "and r.isAttended = false " +
             "and r.id in (:requestIds)")
     Long countRequestUnattendedInIds(@Param("requestIds") List<Long> requestIds);
+
+    @Query("select max(e.id) from Request r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:requestId and e.id <> :extensionId and e.isObsolete = false")
+    public Long findSecondLastExtensionIdByRequestId(@Param("requestId")Long requestId, @Param("extensionId")Long extensionId);
+
+    @Query("select max(e.id) from Request r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:requestId and e.isObsolete = false and e.isInitial = false ")
+    public Long findLastExtensionIdByRequestId(@Param("requestId")Long requestId);
 }

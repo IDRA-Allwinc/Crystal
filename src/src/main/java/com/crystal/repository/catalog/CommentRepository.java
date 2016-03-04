@@ -31,4 +31,14 @@ public interface CommentRepository extends JpaRepository<Comment,Long>{
             "inner join c.audit a " +
             "where c.id=:commentId and c.isObsolete = false")
     public AttentionDto findAttentionInfoById(@Param("commentId") Long commentId);
+
+    @Query("select max(e.id) from Comment c " +
+            "inner join c.lstExtension e " +
+            "where c.id=:commentId and e.id <> :extensionId and e.isObsolete = false")
+    public Long findSecondLastExtensionIdByCommentId(@Param("commentId")Long commentId, @Param("extensionId")Long extensionId);
+
+    @Query("select max(e.id) from Comment c " +
+            "inner join c.lstExtension e " +
+            "where c.id=:commentId and e.isObsolete = false and e.isInitial = false ")
+    public Long findLastExtensionIdByCommentId(@Param("commentId")Long commentId);
 }

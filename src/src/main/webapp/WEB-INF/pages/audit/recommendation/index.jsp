@@ -6,13 +6,15 @@
         if (row.attended == true)
             arr = [
                 '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>'
+                '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>',
+                '<button class="btn btn-warning dim act-extension-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
         else
             arr = [
                 '<button class="btn btn-success dim act-edit-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar la recomendaci&oacute;n" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-warning dim act-extension-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>',
                 '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-thumbs-up"></i></button>'
             ];
 
@@ -24,7 +26,7 @@
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
         if (row.isAttended !== true)
-            arr.push('<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar documento" type="button"><i class="fa fa-times-circle"></i></button>');
+            arr.push('<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
@@ -40,6 +42,10 @@
 
     window.attentionRecommendation = function (idRequest) {
         window.showUpsert(idRequest, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/attention.json' />", "#tblGridRecommendation");
+    };
+
+    window.extensionRecommendation = function (idRequest) {
+        window.showUpsert(idRequest, "#angJsjqGridIdComment", "<c:url value='/audit/recommendation/extension.json' />", "#tblGridComment");
     };
 
     window.actionRecommendationEvents = {
@@ -66,6 +72,9 @@
             var params = [];
             params["idParam"] = row.id;
             window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+        },
+        'click .act-extension-recommendation': function (e, value, row) {
+            window.extensionRecommendation(row.id);
         }
     };
 
