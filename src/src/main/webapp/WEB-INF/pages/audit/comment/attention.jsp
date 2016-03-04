@@ -1,3 +1,4 @@
+<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
@@ -90,6 +91,15 @@
                                             atenci&oacute;n:</b></label>
 
                                         <p>{{vm.m.attentionDateStr}}</p>
+                                    </div>
+                                    <div>
+                                        <label class="control-label font-noraml"><b>Replicada:</b></label>
+                                        <p>
+                                            {{vm.m.isReplication ?  "Replicada como " : "No fue replicada"}}
+                                            {{vm.m.replicateAs === '<%=Constants.RECOMMENDATION_R%>' ? "recomendaci&oacute;n" : ""}}
+                                            {{vm.m.replicateAs === '<%=Constants.OBSERVATION_R%>' ? "pliego de observaciones" : ""}}
+                                            {{vm.m.replicateAs === '<%=Constants.RESPONSIBILITY_R%>' ? "promoci&oacute;n" : ""}}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
