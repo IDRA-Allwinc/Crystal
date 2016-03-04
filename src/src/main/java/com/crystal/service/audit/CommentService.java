@@ -18,5 +18,9 @@ public interface CommentService {
 
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
 
-    public void doDeleteUpFile(Long commentId, Long upFileId, ResponseMessage response);
+    void doDeleteUpFile(Long commentId, Long upFileId, ResponseMessage response);
+
+    void showReplication(Long commentId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response);
 }

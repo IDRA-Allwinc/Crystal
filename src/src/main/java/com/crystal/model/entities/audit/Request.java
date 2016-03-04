@@ -21,7 +21,7 @@ public class Request extends UserAuditInfo {
     @Column(name = "id_request")
     private Long id;
 
-    @Column(name = "number", length = 200, unique = true, nullable = false)
+    @Column(name = "number", length = 200, nullable = false)
     @NotEmpty(message = "El numeral es un campo requerido")
     private String number;
 
@@ -32,9 +32,11 @@ public class Request extends UserAuditInfo {
     @Column(name = "create_date", nullable = false)
     private Calendar createDate;
 
-    @Column(name = "limit_time_days", nullable = false)
-    @NotEmpty(message = "El plazo otorgado es un campo requerido")
-    private Integer limitTimeDays;
+    @Column(name="init_date", nullable = false)
+    private Calendar initDate;
+
+    @Column(name="end_date", nullable = false)
+    private Calendar endDate;
 
     @Column(name = "is_attended", nullable = false)
     private boolean isAttended;
@@ -68,7 +70,7 @@ public class Request extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "request_extension_rel",
             joinColumns = {@JoinColumn(name = "id_request", referencedColumnName = "id_request")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})
@@ -104,14 +106,6 @@ public class Request extends UserAuditInfo {
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
-    }
-
-    public Integer getLimitTimeDays() {
-        return limitTimeDays;
-    }
-
-    public void setLimitTimeDays(Integer limitTimeDays) {
-        this.limitTimeDays = limitTimeDays;
     }
 
     public boolean isAttended() {
@@ -186,12 +180,27 @@ public class Request extends UserAuditInfo {
         this.attentionComment = attentionComment;
     }
 
+    public Calendar getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(Calendar initDate) {
+        this.initDate = initDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
     public void merge(RequestDto requestDto, AttentionDto attentionDto, User user) {
 
         if (requestDto != null) {
             number = requestDto.getNumber();
             description = requestDto.getDescription();
-            limitTimeDays = requestDto.getLimitTimeDays();
         }
 
         if (attentionDto != null) {

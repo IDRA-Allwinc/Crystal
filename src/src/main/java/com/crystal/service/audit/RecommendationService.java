@@ -24,4 +24,8 @@ public interface RecommendationService {
 
     void doDeleteUpFile(Long recommendationId, Long upFileId, ResponseMessage response);
 
+    void showReplication(Long recommendId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response);
+
 }

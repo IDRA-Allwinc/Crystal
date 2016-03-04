@@ -1,32 +1,41 @@
 package com.crystal.model.entities.audit;
 
-import com.crystal.model.entities.account.User;
+import com.crystal.model.entities.account.UserAuditInfo;
 import com.crystal.model.shared.UploadFileGeneric;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
 @Entity
 @Table(name="extension")
-public class Extension {
+public class Extension extends UserAuditInfo{
 
     @Id
     @GeneratedValue
     @Column(name = "id_extension")
     private Long id;
 
-    @Column(name="create_date", length = 200, nullable = false)
+    @Column(name="create_date", nullable = false)
     private Calendar createDate;
+
+    @Column(name="end_date", nullable = false)
+    @NotNull(message = "La fecha de fin es un campo requerido")
+    private Calendar endDate;
+
+    @Column(name = "comment", length = 2000, nullable = false)
+    @NotEmpty(message = "El comentario es un campo requerido")
+    private String comment;
 
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user", nullable = false)
-    private User createUser;
+    @Column(name="is_initial", nullable = false)
+    private boolean isInitial;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_upload_file_generic", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_upload_file_generic", nullable = true)
     private UploadFileGeneric uploadFileGeneric;
 
     public Long getId() {
@@ -45,6 +54,14 @@ public class Extension {
         this.createDate = createDate;
     }
 
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
     public boolean isObsolete() {
         return isObsolete;
     }
@@ -53,12 +70,12 @@ public class Extension {
         this.isObsolete = isObsolete;
     }
 
-    public User getCreateUser() {
-        return createUser;
+    public boolean isInitial() {
+        return isInitial;
     }
 
-    public void setCreateUser(User createUser) {
-        this.createUser = createUser;
+    public void setInitial(boolean isInitial) {
+        this.isInitial = isInitial;
     }
 
     public UploadFileGeneric getUploadFileGeneric() {
@@ -67,5 +84,13 @@ public class Extension {
 
     public void setUploadFileGeneric(UploadFileGeneric uploadFileGeneric) {
         this.uploadFileGeneric = uploadFileGeneric;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

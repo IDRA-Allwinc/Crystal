@@ -35,6 +35,12 @@ public class AttentionDto {
 
     private transient SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+    private boolean isReplication;
+
+    private String replicateAs;
+
+    private Long observationTypeId;
+
     public AttentionDto() {
 
     }
@@ -177,5 +183,29 @@ public class AttentionDto {
 
     public void setObservationNumber(String observationNumber) {
         this.observationNumber = observationNumber;
+    }
+
+    public String getReplicateAs() {
+        return replicateAs;
+    }
+
+    public void setReplicateAs(String replicateAs) {
+        this.replicateAs = replicateAs;
+    }
+
+    public Long getObservationTypeId() {
+        return observationTypeId;
+    }
+
+    public void setObservationTypeId(Long observationTypeId) {
+        this.observationTypeId = observationTypeId;
+    }
+
+    public boolean isReplication() {
+        return isReplication;
+    }
+
+    public void setReplication(boolean replication) {
+        isReplication = replication;
     }
 }

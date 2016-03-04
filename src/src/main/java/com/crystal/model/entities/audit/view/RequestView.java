@@ -11,16 +11,16 @@ import javax.persistence.Id;
  * Created by Administrator on 1/5/2016.
  */
 @Entity
-@Subselect("select id_request, number, description, id_letter idLetter, is_attended isAttended, concat('', date(adddate(create_date, limit_time_days))) deadLine, \n" +
+@Subselect("select r.id_request, r.number, concat(substring(r.description, 1,30),'...') description, r.id_letter idLetter, r.is_attended isAttended, concat('', date(adddate(r.init_date, 0))) initDate, concat('', date(adddate(r.end_date, 0))) endDate, \n" +
         "case " +
-        "when is_attended = 1 and attention_date < adddate(create_date, limit_time_days) then 'blue' " +
-        "when is_attended = 1 and attention_date >  adddate(create_date, limit_time_days) then 'orange' " +
-        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) <= " + Constants.redFlag + " then 'red' " +
-        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) = " + Constants.yelllowFlag+ "  then 'yellow' " +
-        "when is_attended = 0 and datediff(adddate(create_date, limit_time_days), current_timestamp) > " + Constants.yelllowFlag+ " then 'green' " +
+        "when is_attended = 1 and attention_date < end_date then 'blue' " +
+        "when is_attended = 1 and attention_date >  end_date then 'orange' " +
+        "when is_attended = 0 and datediff(r.end_date, current_timestamp) <= " + Constants.redFlag + " then 'red'  " +
+        "when is_attended = 0 and datediff(r.end_date, current_timestamp)  = " + Constants.yelllowFlag+ "  then 'yellow' " +
+        "when is_attended = 0 and datediff(r.end_date, current_timestamp)  > " + Constants.yelllowFlag+ " then 'green' " +
         "else 'red' " +
         "end color " +
-        "from request where is_obsolete = 0")
+        "from request r where is_obsolete = 0")
 public class RequestView {
     @Id
     @Column(name = "id_request")
@@ -34,9 +34,11 @@ public class RequestView {
 
     private Long idLetter;
 
-    private String deadLine;
-
     private boolean isAttended;
+
+    private String initDate;
+
+    private String endDate;
 
     public Long getId() {
         return id;
@@ -78,19 +80,27 @@ public class RequestView {
         this.idLetter = idLetter;
     }
 
-    public String getDeadLine() {
-        return deadLine;
-    }
-
-    public void setDeadLine(String deadLine) {
-        this.deadLine = deadLine;
-    }
-
     public boolean isAttended() {
         return isAttended;
     }
 
     public void setAttended(boolean isAttended) {
         this.isAttended = isAttended;
+    }
+
+    public String getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(String initDate) {
+        this.initDate = initDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

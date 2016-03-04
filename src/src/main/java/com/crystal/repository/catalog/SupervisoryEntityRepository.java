@@ -3,6 +3,7 @@ package com.crystal.repository.catalog;
 import com.crystal.model.entities.catalog.SupervisoryEntity;
 import com.crystal.model.entities.catalog.dto.SupervisoryEntityDto;
 import com.crystal.model.shared.SelectList;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,10 @@ public interface SupervisoryEntityRepository extends JpaRepository<SupervisoryEn
             "where (se.name like :supervisoryStr or se.responsible like :supervisoryStr) " +
             "and se.isObsolete=false")
     public List<SelectList> findSupervisoryEntitiesByStr(@Param("supervisoryStr") String supervisoryStr);
+
+    @Query("select new com.crystal.model.shared.SelectList(se.id, se.name, se.responsible, se.email, se.phone) from SupervisoryEntity se " +
+            "where " +
+            "(se.name like :assistantStr or  se.responsible like :assistantStr)" +
+            "and se.isObsolete = false")
+    public List<SelectList> findAssistantsByStr(@Param("assistantStr") String assistantStr, Pageable pageable);
 }

@@ -3,13 +3,17 @@ package com.crystal.service.catalog;
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.catalog.AuditedEntity;
 import com.crystal.model.entities.catalog.dto.AuditedEntityDto;
+import com.crystal.model.shared.SelectList;
 import com.crystal.repository.catalog.AuditedEntityRepository;
 import com.crystal.repository.catalog.AuditedEntityTypeRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Service
 public class AuditedEntityServiceImpl implements AuditedEntityService {
@@ -64,6 +68,11 @@ public class AuditedEntityServiceImpl implements AuditedEntityService {
         ae.setAuditedEntityType(auditedEntityTypeRepository.findOne(auditedEntityDto.getAuditedEntityTypeId()));
 
         return ae;
+    }
+
+    public List<SelectList> getPossibleAssistant(String assistantStr) {
+        assistantStr = "%" + assistantStr + "%";
+        return auditedEntityRepository.findAssistantsByStr(assistantStr, new PageRequest(0, 10));
     }
 }
 

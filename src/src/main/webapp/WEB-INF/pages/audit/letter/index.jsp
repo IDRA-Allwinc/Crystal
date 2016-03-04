@@ -9,7 +9,7 @@
                     columns: [{field: "id", title: "", visible: false},
                         {field: "number", title: "Numeral", align: "center"},
                         {field: "description", title: "Descripci&oacute;n", align: "center"},
-                        {field: "deadLine", title: "Fecha l&iacute;mite", align: "center"},
+                        {field: "endDate", title: "Fecha l&iacute;mite", align: "center"},
                         {
                             field: "action",
                             title: "Acci&oacute;n",
@@ -36,7 +36,8 @@
                 '<button class="btn btn-success dim act-edit-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>'
+                '<button class="btn btn-info dim act-attention-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>',
+                '<button class="btn btn-warning dim act-extension-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Agregar prorroga" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
 
         return arr.join('');
@@ -99,6 +100,10 @@
         window.showUpsert(idLetter, "#angJsjqGridIdLetter", "<c:url value='/audit/letter/attention.json' />", "#tblGrid");
     };
 
+    window.extensionReq = function (idRequest) {
+        window.showUpsert(idRequest, "#angJsjqGridIdLetter", "<c:url value='/audit/request/extension.json' />", "#tblGrid");
+    };
+
     window.actionEvents = {
         'click .act-edit': function (e, value, row) {
             window.upsertLetter(row.id);
@@ -131,6 +136,9 @@
         },
         'click .act-attention-req': function (e, value, row) {
             window.attentionReq(row.id);
+        },
+        'click .act-extension-req': function (e, value, row) {
+            window.extensionReq(row.id);
         },
         'click .act-upf-delete': function (e, value, row) {
             window.showObsoleteParam({

@@ -28,7 +28,12 @@ public class Constants {
     public static final String sessionExtendUrl = "/session/extend.json";
 
     public static final String FILE_PREFIX_USER = "USR_";
+    public static final String FILE_PREFIX_EXTENSION = "EXT_";
     public static final String FILE_PREFIX_REQUEST = "RQ_";
+    public static final String FILE_PREFIX_COMMENT = "CM_";
+    public static final String FILE_PREFIX_RECOMMENDATION = "RC_";
+    public static final String FILE_PREFIX_OBSERVATION = "OBS_";
+    public static final String FILE_PREFIX_RESPONSABILITY = "RES_";
     public static final String FILE_PREFIX_NONE = "NA_";
 
     public static final HashMap<String, Long> accessMap = new HashMap<>();
@@ -47,16 +52,26 @@ public class Constants {
     }
     /////////////////////////Settings/////////////////////////////////////
 
-    public static final Integer aaa = 3000;
-
     /////////////////////////UploadFileTypes/////////////////////////////////////
     public static class UploadFile {
+        public static final int EXTENSION_REQUEST= 2000;
+        public static final int EXTENSION_COMMENT= 2010;
+        public static final int EXTENSION_RECOMMENDATION= 2020;
+        public static final int EXTENSION_OBSERVATION= 2030;
+        public static final int EXTENSION_RESPONSIBILITY= 2040;
+
         public static final int REQUEST = 3000;
         public static final int LETTER = 4000;
         public static final int COMMENT = 5000;
         public static final int RECOMMENDATION = 6000;
         public static final int OBSERVATION = 7000;
         public static final int RESPONSIBILITY = 8000;
+        public static final int EVENT = 9000;
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
+
+    /////////////////////////Replication/////////////////////////////////////
+    public static final String RECOMMENDATION_R = "RECOMMENDATION";
+    public static final String OBSERVATION_R = "OBSERVATION";
+    public static final String RESPONSIBILITY_R = "RESPONSIBILITY";
 }
