@@ -13,7 +13,7 @@ import java.util.Calendar;
 public class Extension extends UserAuditInfo{
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_extension")
     private Long id;
 

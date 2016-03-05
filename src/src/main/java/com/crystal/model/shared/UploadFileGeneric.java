@@ -10,7 +10,7 @@ import java.util.Calendar;
 @Table(name = "upload_file_generic")
 public class UploadFileGeneric {
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_upload_file_generic")
     private Long id;
 

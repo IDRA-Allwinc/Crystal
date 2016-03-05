@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class SupervisoryEntity {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_supervisory_entity")
     private Long id;
 

@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class EventType {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_event_type")
     private Long id;
 

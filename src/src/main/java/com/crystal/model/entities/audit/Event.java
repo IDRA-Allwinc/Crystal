@@ -15,7 +15,7 @@ import java.util.List;
 public class Event extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_event")
     private Long id;
 

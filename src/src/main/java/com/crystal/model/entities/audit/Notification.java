@@ -11,7 +11,7 @@ import java.util.List;
 public class Notification extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_notification")
     private Long id;
 

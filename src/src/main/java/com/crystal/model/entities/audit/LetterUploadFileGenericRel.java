@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class LetterUploadFileGenericRel {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_letter_upload_file_generic_rel")
     private Long id;
 

@@ -200,6 +200,8 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     UserRepository userRepository;
     @Autowired
     SharedUserService sharedUserService;
+    @Autowired
+    LetterUploadFileGenericRelRepository letterUploadFileGenericRelRepository;
 
     @Override
     @Transactional
@@ -262,16 +264,13 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 break;
             case Constants.UploadFile.LETTER:
                 Letter lt = letterRepository.findOne(uploadRequest.getId());
-                List<LetterUploadFileGenericRel> lstFilesRel = lt.getLstFiles();
-                if (lstFilesRel == null) lstFilesRel = new ArrayList<>();
-                uploadFile.setObsolete(false);
                 LetterUploadFileGenericRel letterFileRel = new LetterUploadFileGenericRel();
+                uploadFile.setObsolete(false);
                 letterFileRel.setLetter(lt);
                 letterFileRel.setAdditional(true);
-                uploadFileGenericRepository.saveAndFlush(uploadFile);
                 letterFileRel.setUploadFileGeneric(uploadFile);
-                lstFilesRel.add(letterFileRel);
-                letterRepository.saveAndFlush(lt);
+                uploadFileGenericRepository.save(uploadFile);
+                letterUploadFileGenericRelRepository.saveAndFlush(letterFileRel);
                 break;
             case Constants.UploadFile.COMMENT:
                 Comment cm = commentRepository.findOne(uploadRequest.getId());

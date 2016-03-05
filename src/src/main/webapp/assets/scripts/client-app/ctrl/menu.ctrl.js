@@ -37,7 +37,9 @@
         function getElapsedTime() {
             vm.svc.post(vm.checkUrl, vm, null, true).then(function (res) {
                 if (res.hasToLogout == true) {
-                    document.forms[vm.logoutUrl].submit();
+                    $timeout(function(){
+                        document.forms[vm.logoutUrl].submit();
+                    }, 1000);
                     return;
                     //window.location.replace(vm.logoutUrl);
                 }

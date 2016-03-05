@@ -19,7 +19,7 @@ import java.util.List;
 public class Observation extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_observation")
     private Long id;
 

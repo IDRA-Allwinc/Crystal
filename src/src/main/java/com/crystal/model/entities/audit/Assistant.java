@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Assistant {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_assistant")
     private Long id;
 

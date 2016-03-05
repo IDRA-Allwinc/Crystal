@@ -12,7 +12,7 @@ public class Role {
 
     //se omiten las validaciones, el catalogo no se gestiona por pantallas jsp
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_role")
     private Long id;
 
