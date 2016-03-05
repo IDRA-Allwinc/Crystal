@@ -2,22 +2,22 @@
 
 <script>
 
-    function actionsFormatterRequestExtension(value, row, index) {
+    function actionsFormatterRecommendationExtension(value, row, index) {
         var arr = [];
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-        if (row.isAttended !== true && row.id==row.lastExtensionId)
-            arr.push('<button class="btn btn-danger dim act-ext-req-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
+        if (row.attended !== true && row.id==row.lastExtensionId)
+            arr.push('<button class="btn btn-danger dim act-ext-recommendation-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
 
-    window.actionEventsRequestExtension = {
-        'click .act-ext-req-delete': function (e, value, row) {
+    window.actionEventsRecommendationExtension = {
+        'click .act-ext-recommendation-delete': function (e, value, row) {
             window.showObsoleteParam({
-                requestId: row.requestId,
+                recommendationId: row.recommendationId,
                 extensionId: row.id
-            }, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doDeleteExtension.json' />", "#tblUfExtensionRequestGrid");
+            }, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/doDeleteExtension.json' />", "#tblUfExtensionRecommendationGrid");
         },
         'click .act-download': function (e, value, row) {
             var params = [];
@@ -27,8 +27,8 @@
     };
 
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionRequest");
-        var tableId = '#tblUfExtensionRequestGrid';
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionRecommendation");
+        var tableId = '#tblUfExtensionRecommendationGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
@@ -39,21 +39,21 @@
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    var scope = angular.element($("#FormUpFileExtensionRequest")).scope();
+                    var scope = angular.element($("#FormUpFileExtensionRecommendation")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
-                        scope.vm.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
+                        scope.ervm.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
                     }
                     if (data.result.hasError === true) {
-                        scope.vm.setOutError(data.result.message);
+                        scope.ervm.setOutError(data.result.message);
                         return;
                     }
 
-                    scope.vm.setSuccess(data.result);
+                    scope.ervm.setSuccess(data.result);
                     $(tableId).bootstrapTable('refresh', 'showLoading');
 
                 } catch (ex) {
-                    scope.vm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
+                    scope.ervm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
                     return;
                 } finally {
                     window.setTimeout(function () {
@@ -78,8 +78,8 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" data-ng-controller="extensionRequestController as vm"
-         data-ng-init='vm.m = ${(model == null ? "{}" : model)};'>
+    <div class="modal-dialog" style="width:960px" data-ng-controller="extensionRecommendationController as ervm"
+         data-ng-init='ervm.m = ${(model == null ? "{}" : model)};'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -99,22 +99,22 @@
             </div>
 
             <div class="modal-body">
-                <div data-ng-show="vm.m.isAttended !== true">
+                <div data-ng-show="ervm.m.isAttended !== true">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Agregar prorroga al requerimiento <b>{{vm.m.number}}</b></h5>
+                                    <h5>Agregar prorroga a la recomendaci&oacute;n <b>{{ervm.m.number}}</b></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <form id="FormUpFileExtensionRequest" name="FormUpFileExtensionRequest" class="form-horizontal"
+                        <form id="FormUpFileExtensionRecommendation" name="FormUpFileExtensionRecommendation" class="form-horizontal"
                               role="form"
                               enctype="multipart/form-data">
-                            <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
-                            <input type="hidden" id="type" name="type" ng-model="vm.m.type" ng-update-hidden/>
+                            <input type="hidden" id="id" name="id" ng-model="ervm.m.id" ng-update-hidden/>
+                            <input type="hidden" id="type" name="type" ng-model="ervm.m.type" ng-update-hidden/>
 
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
@@ -136,24 +136,24 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="endDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
-                                                           is-open="vm.m.endDateIsOpened" ng-required="true"
+                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="ervm.m.endDateExtRecomm"
+                                                           is-open="ervm.m.endDateIsOpened" ng-required="true"
                                                            placeholder="yyyy/mm/dd"
                                                            current-text="Hoy"
                                                            clear-text="Limpiar"
                                                            close-text="Cerrar"
-                                                           min-date="vm.today"
+                                                           min-date="ervm.today"
                                                            alt-input-formats="yyyy/MM/dd"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
-                                                            ng-click="vm.m.endDateIsOpened=true;"><i
+                                                            ng-click="ervm.m.endDateIsOpened=true;"><i
                                                             class="glyphicon glyphicon-calendar"></i></button>
                                                   </span>
                                                 </p>
                                                     <span class="error"
-                                                          ng-show="FormUpFileExtensionRequest.endDate.$error.required">*Campo requerido</span>
+                                                          ng-show="FormUpFileExtensionRecommendation.endDate.$error.required">*Campo requerido</span>
                                                 <span class="error"
-                                                      ng-show="FormUpFileExtensionRequest.endDate.$invalid && !FormUpFileExtensionRequest.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                      ng-show="FormUpFileExtensionRecommendation.endDate.$invalid && !FormUpFileExtensionRecommendation.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
                                             </div>
                                         </div>
 
@@ -162,22 +162,22 @@
                                         <div>
                                             <label class="font-noraml">Comentario:</label>
 
-                                        <textarea name="extensionComment" rows="3" ng-model="vm.m.extensionComment"
+                                        <textarea name="extensionComment" rows="3" ng-model="ervm.m.extensionComment"
                                                   placeholder="Ingrese el comentario para la prorroga"
                                                   ng-required="true" ng-minlength="2" ng-maxlength="2000"
                                                   class="form-control"></textarea>
                                         <span class="error"
-                                              ng-show="FormUpFileExtensionRequest.extensionComment.$error.required">*Campo requerido</span>
+                                              ng-show="FormUpFileExtensionRecommendation.extensionComment.$error.required">*Campo requerido</span>
                                             <span class="error"
-                                                  ng-show="FormUpFileExtensionRequest.extensionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                                  ng-show="FormUpFileExtensionRecommendation.extensionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                             <span class="error"
-                                                  ng-show="FormUpFileExtensionRequest.extensionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                                  ng-show="FormUpFileExtensionRecommendation.extensionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <div class="row" data-ng-show="vm.m.extensionComment&&vm.m.endDate">
+                                <div class="row" data-ng-show="ervm.m.extensionComment&&ervm.m.endDate">
                                     <br/>
 
                                     <div class="row">
@@ -203,15 +203,15 @@
                                 <div class="row">
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <div ng-show="vm.MsgError" class="alert alert-error element-center"
-                                                 ng-bind-html="vm.MsgError">
+                                            <div ng-show="ervm.MsgError" class="alert alert-error element-center"
+                                                 ng-bind-html="ervm.MsgError">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <div ng-show="vm.MsgSuccess" class="alert alert-success element-center"
-                                                 ng-bind-html="vm.MsgSuccess">
+                                            <div ng-show="ervm.MsgSuccess" class="alert alert-success element-center"
+                                                 ng-bind-html="ervm.MsgSuccess">
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Prorrogas para el requerimiento <b>{{vm.m.number}}</b></h5>
+                                <h5>Prorrogas para la recomendaci&oacute;n <b>{{ervm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -235,9 +235,9 @@
                     <div class="col-xs-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <table id="tblUfExtensionRequestGrid"
+                                <table id="tblUfExtensionRecommendationGrid"
                                        data-toggle="table"
-                                       data-url="<c:url value='/audit/request/extension/list.json' />?id={{vm.m.id}}"
+                                       data-url="<c:url value='/audit/recommendation/extension/list.json' />?id={{ervm.m.id}}"
                                        data-height="auto"
                                        data-side-pagination="server"
                                        data-pagination="true"
@@ -255,13 +255,13 @@
                                     <thead>
                                     <tr>
                                         <th data-field="id" data-visible="false">Identificador</th>
-                                        <th data-field="commentId" data-visible="false">ID requisito</th>
+                                        <th data-field="recommendationId" data-visible="false">ID requisito</th>
                                         <th data-field="isAttended" data-visible="false">Atendido</th>
                                         <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
                                         <th data-field="extensionComment" data-align="center" data-sortable="true">Comentario</th>
                                         <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite</th>
-                                        <th data-field="Actions" data-formatter="actionsFormatterRequestExtension"
-                                            data-align="center" data-width="200px" data-events="actionEventsRequestExtension">Acci&oacute;n
+                                        <th data-field="Actions" data-formatter="actionsFormatterRecommendationExtension"
+                                            data-align="center" data-width="200px" data-events="actionEventsRecommendationExtension">Acci&oacute;n
                                         </th>
                                     </tr>
                                     </thead>
@@ -272,7 +272,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" ng-click="vm.refreshParentGrid('#tblGrid'); up.cancel();">
+                <button class="btn btn-default" ng-click="ervm.refreshParentGrid('#tblGridRecommendation'); up.cancel();">
                     Regresar
                 </button>
             </div>

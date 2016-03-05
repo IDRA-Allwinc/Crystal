@@ -54,7 +54,7 @@
 
                                         <div class="col-xs-8">
                                             <input type="text" name="number" ng-model="vm.m.number"
-                                                   placeholder="Ingrese el numeral de la observaci&oacute;n"
+                                                   placeholder="Ingrese el numeral de la promoci&oacute;n"
                                                    minlength="8"
                                                    maxlength="50"
                                                    ng-required="true" class="form-control">

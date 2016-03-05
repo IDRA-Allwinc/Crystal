@@ -23,4 +23,8 @@ public interface CommentService {
     void showReplication(Long commentId, ModelAndView modelAndView);
 
     void doReplication(AttentionDto attentionDto, ResponseMessage response);
+
+    public void extension(Long commentId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long commentId, Long extensionId, ResponseMessage response);
 }

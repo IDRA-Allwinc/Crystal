@@ -2,6 +2,7 @@ package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.Audit;
+import com.crystal.model.entities.audit.Extension;
 import com.crystal.model.entities.audit.Observation;
 import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
@@ -13,6 +14,7 @@ import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditRepository;
+import com.crystal.repository.catalog.ExtensionRepository;
 import com.crystal.repository.catalog.ObservationRepository;
 import com.crystal.repository.catalog.ObservationTypeRepository;
 import com.crystal.repository.catalog.ResponsibilityRepository;
@@ -57,6 +59,12 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Autowired
     ResponsibilityRepository responsibilityRepository;
+
+    @Autowired
+    ExtensionRepository extensionRepository;
+
+    @Autowired
+    UploadFileGenericRepository uploadFileGenericRepository;
 
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
@@ -159,6 +167,17 @@ public class ObservationServiceImpl implements ObservationService {
                     return null;
                 }
 
+                Extension e = new Extension();
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                e.setInitial(true);
+                e.setCreateDate(Calendar.getInstance());
+                e.setComment("Fecha de fin inicial.");
+                e.setEndDate(observation.getEndDate());
+                List<Extension> lstExtension = new ArrayList<>();
+                lstExtension.add(e);
+                observation.setLstExtension(lstExtension);
+                observation.setInsAudit(sharedUserService.getLoggedUserId());
+
             }
 
             List<SelectList> lstSelectedAreas = new Gson().fromJson(observationDto.getLstSelectedAreas(), new TypeToken<List<SelectList>>() {
@@ -183,7 +202,7 @@ public class ObservationServiceImpl implements ObservationService {
             }
 
 
-            ObservationType ot =  new ObservationType();
+            ObservationType ot = new ObservationType();
             ot.setId(observationDto.getObservationTypeId());
             observation.setObservationType(ot);
 
@@ -298,7 +317,7 @@ public class ObservationServiceImpl implements ObservationService {
             model.setAttended(true);
             model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
 
-            if(attentionDto.isReplication() == true){
+            if (attentionDto.isReplication() == true) {
                 model.setReplicated(true);
                 model.setReplicatedAs(attentionDto.getReplicateAs());
             }
@@ -317,7 +336,7 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Override
     public void doReplication(AttentionDto attentionDto, ResponseMessage response) {
-        if(!attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R)){
+        if (!attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R)) {
             response.setHasError(true);
             response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
             return;
@@ -347,7 +366,7 @@ public class ObservationServiceImpl implements ObservationService {
             }
         }
 
-        if(model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)){
+        if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
             Responsibility responsibility = new Responsibility();
 
             responsibility.setNumber(model.getNumber());
@@ -366,5 +385,85 @@ public class ObservationServiceImpl implements ObservationService {
         }
 
         observationRepository.saveAndFlush(model);
+    }
+
+    @Override
+    public void extension(Long observationId, ModelAndView modelAndView) {
+        ObservationDto model = observationRepository.findDtoById(observationId);
+        model.setType(Constants.UploadFile.EXTENSION_OBSERVATION);
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteExtension(Long observationId, Long extensionId, ResponseMessage response) {
+        Observation model = observationRepository.findByIdAndIsObsolete(observationId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("El pliego  ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar la prorroga debido a que el pliego  ya fue atendida");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
+
+        if (e == null) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isObsolete() == true) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastSecondId = observationRepository.findSecondLastExtensionIdByObservationId(observationId, extensionId);
+
+        if (lastSecondId == null || lastSecondId == 0) {
+            response.setHasError(true);
+            response.setMessage("No es posible recuperar la fecha de fin anterior.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastId = observationRepository.findLastExtensionIdByObservationId(observationId);
+
+        if (!lastId.equals(extensionId)) {
+            response.setHasError(true);
+            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+
+        Extension lastExtension = extensionRepository.findOne(extensionId);
+        Long lastExtensionFileId = lastExtension.getUploadFileGeneric().getId();
+
+        lastExtension.setObsolete(true);
+        lastExtension.setUploadFileGeneric(null);
+        lastExtension.setUserDel(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        Extension lastSecondExtension = extensionRepository.findOne(lastSecondId);
+
+        model.setEndDate(lastSecondExtension.getEndDate());
+        model.setUserUpd(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        extensionRepository.save(lastExtension);
+        observationRepository.saveAndFlush(model);
+        uploadFileGenericRepository.delete(lastExtensionFileId);
     }
 }

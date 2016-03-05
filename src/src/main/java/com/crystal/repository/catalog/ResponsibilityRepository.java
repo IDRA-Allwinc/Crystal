@@ -44,7 +44,15 @@ public interface ResponsibilityRepository extends JpaRepository<Responsibility,L
     public AttentionDto findAttentionInfoById(@Param("responsibilityId") Long responsibilityId);
 
 
+    @Query("select max(e.id) from Responsibility r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:responsibilityId and e.id <> :extensionId and e.isObsolete = false")
+    public Long findSecondLastExtensionIdByResponsibilityId(@Param("responsibilityId")Long responsibilityId, @Param("extensionId")Long extensionId);
 
+    @Query("select max(e.id) from Responsibility r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:responsibilityId and e.isObsolete = false and e.isInitial = false ")
+    public Long findLastExtensionIdByResponsibilityId(@Param("responsibilityId")Long responsibilityId);
 
-
+    
 }

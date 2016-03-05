@@ -2,7 +2,7 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpRequestId");
     });
 </script>
 
@@ -19,7 +19,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Requerimiento previo</h4>
+                        <h4 class="modal-title">Requerimiento de auditor&iacute;a</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-bars modal-icon"></i>
@@ -40,7 +40,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpId" name="FormUpId" class="form-horizontal" role="form"
+                        <form id="FormUpRequestId" name="FormUpRequestId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.urlGetAreas="<c:url value='/previousRequest/request/getAreas.json'/>"; vm.lstSelectedAreas = ${(lstSelectedAreas == null ? "[]" : lstSelectedAreas)}; vm.init();'>
 
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
@@ -60,9 +60,9 @@
                                                    maxlength="8"
                                                    ng-required="true" class="form-control">
                                         <span class="error"
-                                              ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 1 y 8 caracteres</span>
-                                            <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 1 y 8 caracteres</span>
+                                              ng-show="FormUpRequestId.number.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpRequestId.number.$error.minlength">*El campo debe tener entre 1 y 8 caracteres</span>
+                                            <span class="error" ng-show="FormUpRequestId.number.$error.maxlength">*El campo debe tener entre 1 y 8 caracteres</span>
                                         </div>
                                     </div>
 
@@ -71,47 +71,91 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="description" ng-model="vm.m.description"
-                                                      placeholder="Ingrese la descripci&oacute;n del requerimiento"
+                                                      placeholder="Ingrese la descripci&oacute;n del tipo de auditor&iacute;a"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
-                                            <span class="error" ng-show="FormUpId.description.$error.required">*Campo requerido</span>
-                                            <span class="error" ng-show="FormUpId.description.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
-                                            <span class="error" ng-show="FormUpId.description.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpRequestId.description.$error.required">*Campo requerido</span>
+                                            <span class="error" ng-show="FormUpRequestId.description.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                            <span class="error" ng-show="FormUpRequestId.description.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                         </div>
                                     </div>
 
 
                                     <div class="col-xs-12">
 
-                                        <div class="col-xs-6 form-group">
-                                            <label class="col-xs-3 control-label font-noraml">Plazo otorgado:</label>
+                                        <div class="col-xs-4 form-group">
+                                            <div class="col-xs-12">
+                                                <label class="font-noraml">Fecha de inicio:</label>
 
-                                            <div class="col-xs-9">
-                                                <input type="text" name="limitTimeDays" ng-model="vm.m.limitTimeDays"
-                                                       placeholder="Ingrese el plazo otorgado en d&iacute;as"
-                                                       ng-pattern="/^[0-9]{1,3}$/"
-                                                       ng-change="vm.changeLimitDate()"
-                                                       ng-required="true" class="form-control" maxlength="3">
+                                                <div>
+                                                    <p class="input-group">
+                                                        <input type="text" class="form-control" name="initDate"
+                                                               uib-datepicker-popup="yyyy/MM/dd"
+                                                               placeholder="yyyy/mm/dd"
+                                                               ng-model="vm.m.initDate"
+                                                               is-open="vm.m.initDateIsOpened" ng-required="true"
+                                                               current-text="Hoy"
+                                                               clear-text="Limpiar"
+                                                               close-text="Cerrar"
+                                                               min-date="2000/01/01"
+                                                               max-date="vm.today"
+                                                               ng-change="vm.onChangeDate()"
+                                                               alt-input-formats="yyyy/MM/dd"
+                                                               ng-disabled="vm.m.id!==undefined"/>
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="vm.m.initDateIsOpened=true;"><i
+                                                            class="glyphicon glyphicon-calendar"></i></button>
+                                                  </span>
+                                                    </p>
+                                                    <span class="error" ng-show="FormUpRequestId.initDate.$error.required">*Campo requerido</span>
+                                                </div>
                                         <span class="error"
-                                              ng-show="FormUpId.limitTimeDays.$error.required">*Campo requerido</span>
-                                                <span class="error" ng-show="FormUpId.limitTimeDays.$error.maxlength">*Longitud m&aacute;xima de 3 caracteres</span>
-                                                <span class="error" ng-show="FormUpId.limitTimeDays.$error.pattern">*El campo s&oacute;lo acepta n&uacute;meros</span>
+                                              ng-show="FormUpRequestId.initDate.$invalid && !FormUpRequestId.initDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+
+                                                <input type="hidden" name="initDate" ng-model="vm.m.initDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-6 form-group">
-                                            <label class="font-noraml col-xs-3">Fecha limite:</label>
+                                        <div class="col-xs-4 form-group">
+                                            <div class="col-xs-12">
+                                                <label class="font-noraml">Fecha l&iacute;mite:</label>
 
-                                            <div>
-                                                <p class="input-group">
-                                                    <input type="text" class="form-control" ng-model="vm.m.limitDate"
-                                                           disabled/>
-                                                      <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default"><i
-                                                                class="glyphicon glyphicon-calendar"></i></button>
-                                                      </span>
-                                                </p>
+                                                <div>
+                                                    <p class="input-group">
+                                                        <input type="text" class="form-control" name="endDate"
+                                                               uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
+                                                               is-open="vm.m.endDateIsOpened" ng-required="true"
+                                                               placeholder="yyyy/mm/dd"
+                                                               current-text="Hoy"
+                                                               clear-text="Limpiar"
+                                                               close-text="Cerrar"
+                                                               min-date="2000/01/01"
+                                                               max-date="vm.today"
+                                                               ng-change="vm.onChangeDate()"
+                                                               alt-input-formats="yyyy/MM/dd"
+                                                               ng-disabled="vm.m.id!==undefined"/>
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="vm.m.endDateIsOpened=true;"><i
+                                                            class="glyphicon glyphicon-calendar"></i></button>
+                                                  </span>
+                                                    </p>
+                                                    <span class="error"
+                                                          ng-show="FormUpRequestId.endDate.$error.required">*Campo requerido</span>
+                                                </div>
+                                            </div>
+                                        <span class="error"
+                                              ng-show="FormUpRequestId.endDate.$invalid && !FormUpRequestId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                            <input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
+                                        </div>
+
+                                        <div class="col-xs-4 form-group">
+                                            <label class="col-xs-12 font-noraml">Plazo otorgado:</label>
+                                            <br/>
+                                            <div class="col-xs-12">
+                                                <input type="text" name="limitTimeDays" ng-model="vm.m.limitTimeDays" class="form-control" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -187,7 +231,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary" ng-show="up.WaitFor===false"
-                        ng-click="vm.validateAll()== false ? up.submit('#FormUpId', '<c:url value='/previousRequest/request/doUpsert.json' />', FormUpId.$valid):''">
+                        ng-click="vm.validateAll()== false ? up.submit('#FormUpRequestId', '<c:url value='/previousRequest/request/doUpsert.json' />', FormUpRequestId.$valid):''">
                     Guardar
                 </button>
                 <button class="btn btn-warning" ng-disabled="up.WaitFor===true" data-ng-show="up.WaitFor===true">

@@ -36,6 +36,10 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/event/event.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/event/eventViewDocs.ctrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/notification/notification.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/comment/extensionComment.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/recommendation/extensionRecommendation.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/observation/extensionObservation.ctrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/responsibility/extensionResponsibility.ctrl.js"></script>
 
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>

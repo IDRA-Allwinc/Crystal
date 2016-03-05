@@ -2,11 +2,11 @@
     "use strict";
     angular
         .module(window.constMainApp)
-        .controller('extensionRequestController', extensionRequestController);
+        .controller('extensionCommentController', extensionCommentController);
 
-    extensionRequestController.$inject = ["$scope", "$sce", "$timeout"];
+    extensionCommentController.$inject = ["$scope", "$sce", "$timeout"];
 
-    function extensionRequestController($scope, $sce, $timeout) {
+    function extensionCommentController($scope, $sce, $timeout) {
         var vm = this;
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
@@ -25,7 +25,7 @@
         function setSuccess(result) {
             $scope.$apply(function () {
                 vm.m.extensionComment = undefined;
-                vm.m.endDate = undefined;
+                vm.m.endDateExtComm = undefined;
             });
         }
 

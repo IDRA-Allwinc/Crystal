@@ -91,7 +91,7 @@ public class Observation extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "observation_extension_rel",
             joinColumns = {@JoinColumn(name = "id_observation", referencedColumnName = "id_observation")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})

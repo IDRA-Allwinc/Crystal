@@ -42,5 +42,13 @@ public interface ObservationRepository extends JpaRepository<Observation,Long>{
             "where o.id=:observationId and o.isObsolete = false")
     public AttentionDto findAttentionInfoById(@Param("observationId") Long observationId);
 
+    @Query("select max(e.id) from Observation o " +
+            "inner join o.lstExtension e " +
+            "where o.id=:observationId and e.id <> :extensionId and e.isObsolete = false")
+    public Long findSecondLastExtensionIdByObservationId(@Param("observationId")Long observationId, @Param("extensionId")Long extensionId);
 
+    @Query("select max(e.id) from Observation o " +
+            "inner join o.lstExtension e " +
+            "where o.id=:observationId and e.isObsolete = false and e.isInitial = false ")
+    public Long findLastExtensionIdByObservationId(@Param("observationId")Long observationId);
 }

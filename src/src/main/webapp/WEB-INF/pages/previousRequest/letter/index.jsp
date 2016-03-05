@@ -28,7 +28,7 @@
                         columns: [{field: "id", title: "", visible: false},
                             {field: "number", title: "Numeral", align: "center"},
                             {field: "description", title: "Descripci&oacute;n", align: "center"},
-                            {field: "deadLine", title: "Fecha l&iacute;mite", align: "center"},
+                            {field: "endDate", title: "Fecha l&iacute;mite", align: "center"},
                             {
                                 field: "action",
                                 title: "Acci&oacute;n",

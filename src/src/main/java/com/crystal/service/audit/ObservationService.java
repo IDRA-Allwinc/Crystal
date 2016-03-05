@@ -23,6 +23,10 @@ public interface ObservationService {
 
     boolean findByNumber(ObservationDto observationDto, ResponseMessage response);
 
+    public void extension(Long observationId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long observationId, Long extensionId, ResponseMessage response);
+
     void showReplication(Long observationId, ModelAndView modelAndView);
 
     void doReplication(AttentionDto attentionDto, ResponseMessage response);

@@ -2,22 +2,22 @@
 
 <script>
 
-    function actionsFormatterRequestExtension(value, row, index) {
+    function actionsFormatterObservationExtension(value, row, index) {
         var arr = [];
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-        if (row.isAttended !== true && row.id==row.lastExtensionId)
-            arr.push('<button class="btn btn-danger dim act-ext-req-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
+        if (row.attended !== true && row.id==row.lastExtensionId)
+            arr.push('<button class="btn btn-danger dim act-ext-observation-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
 
-    window.actionEventsRequestExtension = {
-        'click .act-ext-req-delete': function (e, value, row) {
+    window.actionEventsObservationExtension = {
+        'click .act-ext-observation-delete': function (e, value, row) {
             window.showObsoleteParam({
-                requestId: row.requestId,
+                observationId: row.observationId,
                 extensionId: row.id
-            }, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doDeleteExtension.json' />", "#tblUfExtensionRequestGrid");
+            }, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/doDeleteExtension.json' />", "#tblUfExtensionObservationGrid");
         },
         'click .act-download': function (e, value, row) {
             var params = [];
@@ -27,8 +27,8 @@
     };
 
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionRequest");
-        var tableId = '#tblUfExtensionRequestGrid';
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionObservation");
+        var tableId = '#tblUfExtensionObservationGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
@@ -39,7 +39,7 @@
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    var scope = angular.element($("#FormUpFileExtensionRequest")).scope();
+                    var scope = angular.element($("#FormUpFileExtensionObservation")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
                         scope.vm.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
@@ -78,7 +78,7 @@
 
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
-    <div class="modal-dialog" style="width:960px" data-ng-controller="extensionRequestController as vm"
+    <div class="modal-dialog" style="width:960px" data-ng-controller="extensionObservationController as vm"
          data-ng-init='vm.m = ${(model == null ? "{}" : model)};'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
@@ -104,13 +104,13 @@
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Agregar prorroga al requerimiento <b>{{vm.m.number}}</b></h5>
+                                    <h5>Agregar prorroga al pliego <b>{{vm.m.number}}</b></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <form id="FormUpFileExtensionRequest" name="FormUpFileExtensionRequest" class="form-horizontal"
+                        <form id="FormUpFileExtensionObservation" name="FormUpFileExtensionObservation" class="form-horizontal"
                               role="form"
                               enctype="multipart/form-data">
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
@@ -136,7 +136,7 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="endDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
+                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDateExtObs"
                                                            is-open="vm.m.endDateIsOpened" ng-required="true"
                                                            placeholder="yyyy/mm/dd"
                                                            current-text="Hoy"
@@ -151,9 +151,9 @@
                                                   </span>
                                                 </p>
                                                     <span class="error"
-                                                          ng-show="FormUpFileExtensionRequest.endDate.$error.required">*Campo requerido</span>
+                                                          ng-show="FormUpFileExtensionObservation.endDate.$error.required">*Campo requerido</span>
                                                 <span class="error"
-                                                      ng-show="FormUpFileExtensionRequest.endDate.$invalid && !FormUpFileExtensionRequest.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                      ng-show="FormUpFileExtensionObservation.endDate.$invalid && !FormUpFileExtensionObservation.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
                                             </div>
                                         </div>
 
@@ -167,11 +167,11 @@
                                                   ng-required="true" ng-minlength="2" ng-maxlength="2000"
                                                   class="form-control"></textarea>
                                         <span class="error"
-                                              ng-show="FormUpFileExtensionRequest.extensionComment.$error.required">*Campo requerido</span>
+                                              ng-show="FormUpFileExtensionObservation.extensionComment.$error.required">*Campo requerido</span>
                                             <span class="error"
-                                                  ng-show="FormUpFileExtensionRequest.extensionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                                  ng-show="FormUpFileExtensionObservation.extensionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                             <span class="error"
-                                                  ng-show="FormUpFileExtensionRequest.extensionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                                  ng-show="FormUpFileExtensionObservation.extensionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
                                         </div>
 
                                     </div>
@@ -225,7 +225,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Prorrogas para el requerimiento <b>{{vm.m.number}}</b></h5>
+                                <h5>Prorrogas para el pliego <b>{{vm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -235,9 +235,9 @@
                     <div class="col-xs-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <table id="tblUfExtensionRequestGrid"
+                                <table id="tblUfExtensionObservationGrid"
                                        data-toggle="table"
-                                       data-url="<c:url value='/audit/request/extension/list.json' />?id={{vm.m.id}}"
+                                       data-url="<c:url value='/audit/observation/extension/list.json' />?id={{vm.m.id}}"
                                        data-height="auto"
                                        data-side-pagination="server"
                                        data-pagination="true"
@@ -255,13 +255,13 @@
                                     <thead>
                                     <tr>
                                         <th data-field="id" data-visible="false">Identificador</th>
-                                        <th data-field="commentId" data-visible="false">ID requisito</th>
+                                        <th data-field="observationId" data-visible="false">ID requisito</th>
                                         <th data-field="isAttended" data-visible="false">Atendido</th>
                                         <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
                                         <th data-field="extensionComment" data-align="center" data-sortable="true">Comentario</th>
                                         <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite</th>
-                                        <th data-field="Actions" data-formatter="actionsFormatterRequestExtension"
-                                            data-align="center" data-width="200px" data-events="actionEventsRequestExtension">Acci&oacute;n
+                                        <th data-field="Actions" data-formatter="actionsFormatterObservationExtension"
+                                            data-align="center" data-width="200px" data-events="actionEventsObservationExtension">Acci&oacute;n
                                         </th>
                                     </tr>
                                     </thead>
@@ -272,7 +272,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" ng-click="vm.refreshParentGrid('#tblGrid'); up.cancel();">
+                <button class="btn btn-default" ng-click="vm.refreshParentGrid('#tblGridObservation'); up.cancel();">
                     Regresar
                 </button>
             </div>

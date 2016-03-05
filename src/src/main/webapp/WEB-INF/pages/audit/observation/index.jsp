@@ -5,15 +5,17 @@
         var arr = [];
         if (row.attended == true)
             arr = [
-                '<button class="btn btn-primary dim act-view-docs-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>'
+                '<button class="btn btn-primary dim act-view-docs-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del pliego" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-info dim act-attention-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>',
+                '<button class="btn btn-warning dim act-extension-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
         else
             arr = [
-                '<button class="btn btn-success dim act-edit-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del requerimiento" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-success dim act-edit-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del pliego" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-view-docs-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-info dim act-attention-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>',
+                '<button class="btn btn-primary dim act-view-docs-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del pliego" type="button"><i class="fa fa-copy"></i></button>',
+                '<button class="btn btn-warning dim act-extension-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>',
+                '<button class="btn btn-info dim act-attention-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del pliego" type="button"><i class="fa fa-thumbs-up"></i></button>',
                 '<button class="btn btn-info dim act-replicate-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Replicar como" type="button"><i class="fa fa-hand-o-right"></i></button>'
             ];
 
@@ -39,8 +41,12 @@
         window.showUpsertParams(params, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/upsert.json' />", "#tblGridObservation");
     };
 
-    window.attentionObservation = function (idRequest) {
-        window.showUpsert(idRequest, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/attention.json' />", "#tblGridObservation");
+    window.attentionObservation = function (idObservation) {
+        window.showUpsert(idObservation, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/attention.json' />", "#tblGridObservation");
+    };
+
+    window.extensionObservation = function (idObservation) {
+        window.showUpsert(idObservation, "#angJsjqGridIdComment", "<c:url value='/audit/observation/extension.json' />", "#tblGridComment");
     };
 
     window.actionObservationEvents = {
@@ -69,6 +75,9 @@
         },
         'click .act-replicate-observation': function (e, value, row) {
             window.showUpsert(row.id, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/replicate.json' />", "#tblGridObservation");
+        },
+        'click .act-extension-observation': function (e, value, row) {
+            window.extensionObservation(row.id);
         }
     };
 </script>
