@@ -203,6 +203,20 @@ public class LetterController {
         return gridService.toGrid(LetterUploadFileView.class, filters);
     }
 
+    @RequestMapping(value = "/audit/letter/doDeleteUpFile", method = RequestMethod.POST)
+    public ResponseMessage doDeleteUpFile(@RequestParam(required = true) Long letterId, @RequestParam(required = true) Long upfileId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            serviceLetter.doDeleteUpFile(letterId, upfileId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteUpFile", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
     @RequestMapping(value = "/audit/letter/attention", method = RequestMethod.POST)
     public ModelAndView attentionRequestAudit(@RequestParam(required = true) Long id) {
         ModelAndView modelAndView = new ModelAndView("/audit/letter/attention");

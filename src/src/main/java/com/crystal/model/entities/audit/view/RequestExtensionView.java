@@ -86,11 +86,11 @@ public class RequestExtensionView {
         this.lastExtensionId = lastExtensionId;
     }
 
-    public boolean isAttended() {
+    public boolean getIsAttended() {
         return isAttended;
     }
 
-    public void setAttended(boolean isAttended) {
+    public void setIsAttended(boolean isAttended) {
         this.isAttended = isAttended;
     }
 }

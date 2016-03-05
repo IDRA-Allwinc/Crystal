@@ -3,7 +3,7 @@
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormUpFileLetterId");
-        var tableId = '#tblUfRequestAuditGrid';
+        var tableId = '#tblUfLetterAuditGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
@@ -172,7 +172,7 @@
                     <div class="col-xs-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <table id="tblUfRequestAuditGrid"
+                                <table id="tblUfLetterAuditGrid"
                                        data-toggle="table"
                                        data-url="<c:url value='/audit/letter/listUfLetter.json' />?letterId={{lt.m.id}}"
                                        data-height="auto"
@@ -197,7 +197,7 @@
                                         <th data-field="fileName" data-align="center" data-sortable="true">Documento
                                         </th>
                                         <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n</th>
-                                        <th data-field="Actions" data-formatter="actionsUploadFileFormatter"
+                                        <th data-field="Actions" data-formatter="actionsUploadFileLetterFormatter"
                                             data-align="center" data-width="200px" data-events="actionEvents">Acci&oacute;n
                                         </th>
                                     </tr>

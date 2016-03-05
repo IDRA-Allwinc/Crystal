@@ -75,6 +75,16 @@
         return arr.join('');
     }
 
+    function actionsUploadFileLetterFormatter(value, row, index) {
+        var arr = [];
+        arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
+
+        if (row.isAttended !== true)
+            arr.push('<button class="btn btn-danger dim act-upf-letter-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar documento" type="button"><i class="fa fa-times-circle"></i></button>');
+
+        return arr.join('');
+    }
+
     window.upsertLetter = function (id) {
         var params;
         if (id != undefined)
@@ -146,6 +156,12 @@
                 requestId: row.requestId,
                 upfileId: row.id
             }, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doDeleteUpFile.json' />", "#tblUfRequestAuditGrid");
+        },
+        'click .act-upf-letter-delete': function (e, value, row) {
+            window.showObsoleteParam({
+                letterId: row.letterId,
+                upfileId: row.id
+            }, "#angJsjqGridIdLetter", "<c:url value='/audit/letter/doDeleteUpFile.json' />", "#tblUfLetterAuditGrid");
         },
         'click .act-download': function (e, value, row) {
             var params = [];
