@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class AuditedEntity {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_audited_entity")
     private Long id;
 

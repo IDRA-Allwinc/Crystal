@@ -7,7 +7,7 @@ import java.util.Calendar;
 @Table(name = "log_get_request")
 public class LogGetRequest {
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_get_request_log")
     private Long id;
 

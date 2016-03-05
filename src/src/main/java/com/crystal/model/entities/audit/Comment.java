@@ -17,7 +17,7 @@ import java.util.List;
 public class Comment extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_comment")
     private Long id;
 

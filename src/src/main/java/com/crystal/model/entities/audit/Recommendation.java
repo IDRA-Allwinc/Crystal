@@ -17,7 +17,7 @@ import java.util.List;
 public class Recommendation extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_recommendation")
     private Long id;
 

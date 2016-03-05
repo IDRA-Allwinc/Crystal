@@ -32,6 +32,8 @@
         function submit(formId, urlToPost, isValid, hasReturnId) {
             var dataSer;
             vm.MsgError = "";
+            vm.MsgSuccess = $sce.trustAsHtml("");
+
             if (isValid !== undefined) {
                 if (isValid !== true) {
                     vm.MsgError = $sce.trustAsHtml("Existe uno o más campos que no son válidos, son requeridos o su longitud está fuera de lo permitido.");
@@ -77,6 +79,7 @@
             var dataSer, stVal = true;
 
             vm.MsgError = "";
+            vm.MsgSuccess = $sce.trustAsHtml("");
 
             if (isValid !== undefined) {
                 if (isValid !== true) {
