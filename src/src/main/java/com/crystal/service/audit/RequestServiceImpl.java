@@ -108,17 +108,16 @@ public class RequestServiceImpl implements RequestService {
             response.setMessage("No es posible eliminar un requerimiento que ya ha sido atendido.");
             response.setTitle("Eliminar requerimiento");
             return;
-        }
-        else if (model.getLstExtension()!= null) {
+        } else if (model.getLstExtension() != null) {
 
             boolean hasExtension = false;
 
-            for(Extension e : model.getLstExtension()){
-                if(e.isInitial()==false&&e.isObsolete()==false)
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
                     hasExtension = true;
             }
 
-            if(hasExtension) {
+            if (hasExtension) {
                 response.setHasError(true);
                 response.setMessage("No es posible eliminar un requerimiento que ya tiene una prorroga.");
                 response.setTitle("Eliminar requerimiento");
@@ -172,7 +171,7 @@ public class RequestServiceImpl implements RequestService {
                 e.setCreateDate(Calendar.getInstance());
                 e.setComment("Fecha de fin inicial.");
                 e.setEndDate(request.getEndDate());
-                List<Extension> lstExtension =  new ArrayList<>();
+                List<Extension> lstExtension = new ArrayList<>();
                 lstExtension.add(e);
                 request.setLstExtension(lstExtension);
                 request.setInsAudit(sharedUserService.getLoggedUserId());
@@ -299,7 +298,7 @@ public class RequestServiceImpl implements RequestService {
 
         Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
 
-        if(e==null) {
+        if (e == null) {
             response.setHasError(true);
             response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
             response.setTitle("Eliminar prorroga");
@@ -313,7 +312,7 @@ public class RequestServiceImpl implements RequestService {
             return;
         }
 
-        Long lastSecondId = requestRepository.findSecondLastExtensionIdByRequestId(requestId,extensionId);
+        Long lastSecondId = requestRepository.findSecondLastExtensionIdByRequestId(requestId, extensionId);
 
         if (lastSecondId == null || lastSecondId == 0) {
             response.setHasError(true);
