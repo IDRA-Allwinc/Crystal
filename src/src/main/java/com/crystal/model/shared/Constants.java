@@ -47,6 +47,8 @@ public class Constants {
         public static final String TOTAL_SESSION_LIMIT_TIME_KEY = "TOTAL_SESSION_LIMIT_TIME";
         public static final String LIMIT_TIME_KEY = "LIMIT_TIME";
         public static final String PATH_TO_SAVE_UPLOAD_FILES = "PATH_TO_SAVE_UPLOAD_FILES";
+        public static final String EMAIL_NOTIFICATION_SENDER = "EMAIL_NOTIFICATION_SENDER";
+        public static final String EMAIL_NOTIFICATION_TEMPLATE_BODY = "EMAIL_NOTIFICATION_TEMPLATE_BODY";
     }
     /////////////////////////Settings/////////////////////////////////////
 

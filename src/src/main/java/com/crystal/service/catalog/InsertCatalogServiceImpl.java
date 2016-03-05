@@ -20,7 +20,6 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 //    private String PATH = "C:\\Projects\\IDRASoft\\Crystal\\db\\";
 //    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
 //    private String PATH = "C:\\Users\\Administrator\\IdeaProjects\\Crystal\\db\\";
-
     private String PATH = "/Users/ArturoDeLaRosa/Documents/Projects/Crystal/db/";
 
     @Autowired
@@ -285,7 +284,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     public void systemSettings() {
         List<String[]> lstDta = FileReader.readFile(PATH + "system_settings.txt", "\\|", 4);
         for (String[] data : lstDta) {
-            SystemSetting model = systemSettingRepository.findOne(Long.parseLong(data[0]));
+            SystemSetting model = systemSettingRepository.findByKey(data[1]);
             if (model == null) {
                 model = new SystemSetting();
                 model.setId(Long.parseLong(data[0]));

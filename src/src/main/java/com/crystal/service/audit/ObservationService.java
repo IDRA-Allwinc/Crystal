@@ -27,4 +27,7 @@ public interface ObservationService {
 
     public void doDeleteExtension(Long observationId, Long extensionId, ResponseMessage response);
 
-    }
+    void showReplication(Long observationId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response);
+}

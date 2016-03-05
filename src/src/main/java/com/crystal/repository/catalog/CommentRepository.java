@@ -26,7 +26,7 @@ public interface CommentRepository extends JpaRepository<Comment,Long>{
     Boolean isAttendedById(@Param("commentId") Long commentId);
 
     //5000 referencia a com.crystal.model.shared.Constants
-    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(c.id, c.attentionComment, c.isAttended, c.attentionDate, c.attentionUser.fullName, a.name, c.number, 5000) from Comment c " +
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(c.id, c.attentionComment, c.isAttended, c.attentionDate, c.attentionUser.fullName, a.name, c.number, 5000, c.isReplicated, c.replicatedAs) from Comment c " +
             "left join c.attentionUser u " +
             "inner join c.audit a " +
             "where c.id=:commentId and c.isObsolete = false")

@@ -36,7 +36,7 @@ public interface ObservationRepository extends JpaRepository<Observation,Long>{
 
 
     //7000 referencia a com.crystal.model.shared.Constants
-    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(o.id, o.attentionComment, o.isAttended, o.attentionDate, o.attentionUser.fullName, a.name, o.number, 7000) from Observation o " +
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(o.id, o.attentionComment, o.isAttended, o.attentionDate, o.attentionUser.fullName, a.name, o.number, 7000, o.isReplicated, o.replicatedAs) from Observation o " +
             "left join o.attentionUser u " +
             "inner join o.audit a " +
             "where o.id=:observationId and o.isObsolete = false")

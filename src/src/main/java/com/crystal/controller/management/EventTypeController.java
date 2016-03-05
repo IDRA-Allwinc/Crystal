@@ -56,7 +56,6 @@ public class EventTypeController {
 
     @RequestMapping(value = "/management/eventType/doUpsert", method = RequestMethod.POST)
     public ResponseMessage doUpsert(@Valid EventTypeDto modelNew, BindingResult result, Model m) {
-
         ResponseMessage response = new ResponseMessage();
 
         try {

@@ -36,7 +36,7 @@ public interface RecommendationRepository extends JpaRepository<Recommendation,L
 
 
     //6000 referencia a com.crystal.model.shared.Constants
-    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate, r.attentionUser.fullName, a.name, r.number, 6000) from Recommendation r " +
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate, r.attentionUser.fullName, a.name, r.number, 6000, r.isReplicated, r.replicatedAs) from Recommendation r " +
             "left join r.attentionUser u " +
             "inner join r.audit a " +
             "where r.id=:recommendationId and r.isObsolete = false")

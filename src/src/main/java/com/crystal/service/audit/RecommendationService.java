@@ -28,4 +28,8 @@ public interface RecommendationService {
 
     public void doDeleteExtension(Long recommendationId, Long extensionId, ResponseMessage response);
 
+    void showReplication(Long recommendId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response);
+
 }

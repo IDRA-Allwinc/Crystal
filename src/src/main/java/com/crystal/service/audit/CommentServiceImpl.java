@@ -362,6 +362,7 @@ public class CommentServiceImpl implements CommentService {
             recommendation.setInitDate(model.getInitDate());
             recommendation.setEndDate(model.getEndDate());
             recommendation.setObsolete(false);
+            recommendation.setComment(model);
 
             recommendationRepository.saveAndFlush(recommendation);
         }
@@ -380,6 +381,7 @@ public class CommentServiceImpl implements CommentService {
             observationType.setId(attentionDto.getObservationTypeId());
             observation.setObservationType(observationType);
             observation.setObsolete(false);
+            observation.setComment(model);
 
             observationRepository.saveAndFlush(observation);
 
@@ -396,6 +398,7 @@ public class CommentServiceImpl implements CommentService {
             responsibility.setInitDate(model.getInitDate());
             responsibility.setEndDate(model.getEndDate());
             responsibility.setObsolete(false);
+            responsibility.setComment(model);
 
             responsibilityRepository.saveAndFlush(responsibility);
 

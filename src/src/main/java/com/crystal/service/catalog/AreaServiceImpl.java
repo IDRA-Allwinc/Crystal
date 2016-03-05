@@ -112,6 +112,21 @@ public class AreaServiceImpl implements AreaService {
         return areaRepository.findSelectedAreasByResponsibilityId(recommendationId);
     }
 
+    @Override
+    public List<SelectList> getAreasWithResponsibleByAuditId(Long auditId) {
+        return areaRepository.findAreasWithResponsibleByAuditId(auditId);
+    }
+
+    @Override
+    public List<SelectList> getAreasWithEmailResponsibleByAuditId(Long auditId) {
+        return areaRepository.findAreasWithEmailResponsibleByAuditId(auditId);
+    }
+
+    @Override
+    public List<SelectList> getSelectedAreasByNotificationId(Long notificationId) {
+        return areaRepository.findSelectedAreasByNotificationId(notificationId);
+    }
+
 }
 
 
