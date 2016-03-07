@@ -38,6 +38,9 @@
                     max-sessions="1"
                     expired-url="/index.html"/>
         </session-management>
+        <headers>
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
     </http>
 
     <beans:bean id="rfc2898" class="com.crystal.infrastructure.security.CryptoRfc2898"/>

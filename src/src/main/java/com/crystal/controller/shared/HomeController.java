@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class HomeController {
-
-    //@Autowired
-    //private LoginService service;
 
     @Autowired
     SharedLogExceptionService logException;
@@ -29,27 +28,19 @@ public class HomeController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public @ResponseBody
     ModelAndView index(ModelMap map){
-        ModelAndView model = new ModelAndView("/index");
+        ModelAndView model = new ModelAndView("/shared/body");
 
         try{
-
-            //Long userId = sharedUserService.getLoggedUserId();
             return mainPageService.generatePage("", model, -1l);
-
-            /*if(userId == null || userId < 1)
-                return mainPageService.generatePage(Constants.ROLE_ANONYMOUS, model, userId);
-
-            List<String> lstRoles = sharedUserService.getLstRolesByUserId(userId);
-                          `
-            if(lstRoles == null || lstRoles.size() < 1)
-                return mainPageService.generatePage(Constants.ROLE_ANONYMOUS, model, userId);
-            */
-
-            //return mainPageService.generatePage(lstRoles.get(0), model, userId);
 
         }catch (Exception ex){
             logException.Write(ex, this.getClass(), "index", sharedUserService);
             return model;
         }
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public @ResponseBody ModelAndView body(HttpServletResponse response){
+        return new ModelAndView("/index");
     }
 }
