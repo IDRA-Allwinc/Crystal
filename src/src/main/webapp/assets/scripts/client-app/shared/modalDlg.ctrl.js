@@ -4,9 +4,9 @@
         .module(window.constMainApp)
         .controller('modalDlgController', modalDlgController);
 
-    modalDlgController.$inject = ["$scope", "$q", "sharedSvc"];
+    modalDlgController.$inject = ["$scope", "$q", "sharedSvc", "$sce"];
 
-    function modalDlgController($scope, $q, sharedSvc) {
+    function modalDlgController($scope, $q, sharedSvc, $sce) {
         var vm = this;
         vm.m = [];
         vm.sharedSvc = sharedSvc;
@@ -139,7 +139,7 @@
                     if (resp.hasError === true) {
                         vm.sharedSvc.showMsg(
                             {
-                                title: resp.title,
+                                title: $sce.trustAsHtml(resp.title),
                                 message: resp.message,
                                 type: "danger"
                             }).then(function () { def.reject({ isError: true }); });

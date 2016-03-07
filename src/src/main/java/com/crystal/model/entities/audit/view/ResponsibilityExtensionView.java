@@ -16,7 +16,7 @@ import javax.persistence.Id;
         "                    Extension e2 " +
         "                    INNER JOIN responsibility_extension_rel rer2  ON e2.id_extension = rer2.id_extension " +
         "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.responsibilityId2 = r.id_responsibility " +
-        "        where e.is_obsolete = false and r.is_obsolete = false order by e.id_extension asc")
+        "        where   e.is_obsolete = false and e.is_initial = false and r.is_obsolete = false order by e.id_extension asc")
 public class ResponsibilityExtensionView {
 
     @Id

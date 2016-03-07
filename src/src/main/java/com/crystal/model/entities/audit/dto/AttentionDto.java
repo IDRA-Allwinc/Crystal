@@ -39,6 +39,10 @@ public class AttentionDto {
 
     private String replicateAs;
 
+    private String initDate;
+
+    private String endDate;
+
     private Long observationTypeId;
 
     public AttentionDto() {
@@ -238,5 +242,21 @@ public class AttentionDto {
 
     public void setReplication(boolean replication) {
         isReplication = replication;
+    }
+
+    public String getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(String initDate) {
+        this.initDate = initDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

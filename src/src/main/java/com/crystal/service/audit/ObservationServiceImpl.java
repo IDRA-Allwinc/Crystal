@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -113,11 +114,21 @@ public class ObservationServiceImpl implements ObservationService {
             return;
         }
 
-        if (model.getLstExtension() != null && model.getLstExtension().size() > 0) {
-            response.setHasError(true);
-            response.setMessage("No es posible eliminar un pliego de observaciones que ya tiene una prorroga.");
-            response.setTitle("Eliminar pliego de observaciones");
-            return;
+        if (model.getLstExtension() != null) {
+
+            boolean hasExtension = false;
+
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
+                    hasExtension = true;
+            }
+
+            if (hasExtension) {
+                response.setHasError(true);
+                response.setMessage("No es posible eliminar un pliego de observaciones que ya tiene una prorroga.");
+                response.setTitle("Eliminar pliego de observaciones");
+                return;
+            }
         }
 
         model.setObsolete(true);
@@ -335,7 +346,7 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
     @Override
-    public void doReplication(AttentionDto attentionDto, ResponseMessage response) {
+    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
         if (!attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R)) {
             response.setHasError(true);
             response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
@@ -348,11 +359,11 @@ public class ObservationServiceImpl implements ObservationService {
         if (response.isHasError())
             return;
 
-        doSaveAndReplication(model);
+        doSaveAndReplication(model,attentionDto);
     }
 
     @Transactional
-    private void doSaveAndReplication(Observation model) {
+    private void doSaveAndReplication(Observation model ,AttentionDto attentionDto) throws ParseException {
 
         List<Area> lstSelectedAreas = model.getLstAreas();
         List<Area> lstNewSelectedAreas = null;
@@ -366,6 +377,9 @@ public class ObservationServiceImpl implements ObservationService {
             }
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+
         if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
             Responsibility responsibility = new Responsibility();
 
@@ -375,10 +389,27 @@ public class ObservationServiceImpl implements ObservationService {
             responsibility.setInsAudit(sharedUserService.getLoggedUserId());
             responsibility.setLstAreas(lstNewSelectedAreas);
             responsibility.setAudit(model.getAudit());
-            responsibility.setInitDate(model.getInitDate());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            responsibility.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
             responsibility.setEndDate(model.getEndDate());
+
             responsibility.setObsolete(false);
             responsibility.setObservation(model);
+
+
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(responsibility.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            responsibility.setLstExtension(lstExtension);
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
 
             responsibilityRepository.saveAndFlush(responsibility);
 

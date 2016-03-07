@@ -74,4 +74,6 @@ public class Constants {
     public static final String RECOMMENDATION_R = "RECOMMENDATION";
     public static final String OBSERVATION_R = "OBSERVATION";
     public static final String RESPONSIBILITY_R = "RESPONSIBILITY";
+
+    public static final String EVENT_TYPE_MEETING = "MEETING";
 }

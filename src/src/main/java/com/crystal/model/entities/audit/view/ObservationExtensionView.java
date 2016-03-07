@@ -7,16 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("SELECT e.id_extension, r.id_observation observationId, r.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, concat('', date(adddate(e.end_date, 0))) endDate, Addition.extensionId2 lastExtensionId " +
-        "        FROM Observation r  " +
-        "        INNER JOIN observation_extension_rel oer  ON r.id_observation = oer.id_observation  " +
-        "        INNER JOIN extension e ON oer.id_extension= e.id_extension  " +
+@Subselect("SELECT e.id_extension, c.id_observation observationId, c.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, concat('', date(adddate(e.end_date, 0))) endDate, Addition.extensionId2 lastExtensionId " +
+        "        FROM Observation c  " +
+        "        INNER JOIN observation_extension_rel oec  ON c.id_observation = oec.id_observation  " +
+        "        INNER JOIN extension e ON oec.id_extension= e.id_extension  " +
         "        INNER JOIN upload_file_generic uf ON uf.id_upload_file_generic = e.id_upload_file_generic  " +
         "        INNER JOIN (select e2.id_extension extensionId2, oer2.id_observation observationId2 from " +
         "                    Extension e2 " +
         "                    INNER JOIN observation_extension_rel oer2  ON e2.id_extension = oer2.id_extension " +
-        "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.observationId2 = r.id_observation " +
-        "        where e.is_obsolete = false and r.is_obsolete = false order by e.id_extension asc")
+        "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.observationId2 = c.id_observation " +
+        "        where   e.is_obsolete = false and e.is_initial = false and c.is_obsolete = false order by e.id_extension asc")
 public class ObservationExtensionView {
 
     @Id

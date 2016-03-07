@@ -5,6 +5,8 @@ import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+
 public interface ObservationService {
 
     void upsert(Long id, Long auditId, ModelAndView modelView);
@@ -29,5 +31,5 @@ public interface ObservationService {
 
     void showReplication(Long observationId, ModelAndView modelAndView);
 
-    void doReplication(AttentionDto attentionDto, ResponseMessage response);
+    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 }

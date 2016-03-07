@@ -6,11 +6,13 @@ import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+
 public interface RecommendationService {
 
     void upsert(Long id, Long auditId, ModelAndView modelView);
 
-    void save(RecommendationDto modelNew, ResponseMessage response);
+    void save(RecommendationDto modelNew, ResponseMessage response) throws ParseException;
 
     void doObsolete(Long id, ResponseMessage response);
 
@@ -30,6 +32,6 @@ public interface RecommendationService {
 
     void showReplication(Long recommendId, ModelAndView modelAndView);
 
-    void doReplication(AttentionDto attentionDto, ResponseMessage response);
+    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 
 }

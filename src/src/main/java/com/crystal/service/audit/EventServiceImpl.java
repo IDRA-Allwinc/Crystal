@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +56,6 @@ public class EventServiceImpl implements EventService {
     SharedUserService sharedUserService;
 
 
-
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
         Gson gson = new Gson();
@@ -75,7 +75,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void save(EventDto modelNew, ResponseMessage response) {
+    public void save(EventDto modelNew, ResponseMessage response) throws ParseException {
 
         Event model = businessValidation(modelNew, null, response);
 
@@ -114,10 +114,12 @@ public class EventServiceImpl implements EventService {
         eventRepository.saveAndFlush(model);
     }
 
-    private Event businessValidation(EventDto eventDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+    private Event businessValidation(EventDto eventDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
         Event event = null;
 
         if (eventDto != null) {
+
+            EventType evenType = eventTypeRepository.findOne(eventDto.getEventTypeId());
             Long id = eventDto.getId();
 
             if (id != null) {
@@ -131,63 +133,54 @@ public class EventServiceImpl implements EventService {
                 event.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd HH:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                 event = new Event();
                 event.setCreateDate(Calendar.getInstance());
                 event.setInsAudit(sharedUserService.getLoggedUserId());
-                try {
-                    if(eventDto.getMeetingHour() != null){
-                        Calendar meeting = Calendar.getInstance();
-                        meeting.setTime(sdf.parse(eventDto.getMeetingDate() + " " + eventDto.getMeetingHour()));
-                        event.setMeetingDate(meeting);
 
-                        MeetingType mt =  new MeetingType();
-                        mt.setId(eventDto.getMeetingTypeId());
-                        event.setMeetingType(mt);
+                if (evenType.getCode() != null && evenType.getCode().equals(Constants.EVENT_TYPE_MEETING)) {
+                    Calendar meeting = Calendar.getInstance();
+                    meeting.setTime(sdf.parse(eventDto.getMeetingDate() + " " + eventDto.getMeetingHour()));
+                    event.setMeetingDate(meeting);
+
+                    MeetingType mt = new MeetingType();
+                    mt.setId(eventDto.getMeetingTypeId());
+                    event.setMeetingType(mt);
+
+                    List<SelectList> lstSelectedAssistants = new Gson().fromJson(eventDto.getLstSelectedAssistants(), new TypeToken<List<SelectList>>() {
+                    }.getType());
+
+                    if (event.getLstAssistant() != null) {
+                        event.setLstAssistant(null);
                     }
-                } catch (Exception e) {
-                    return null;
+
+                    List<Assistant> lstNewSelectedAssistants;
+
+
+                    if (lstSelectedAssistants != null && lstSelectedAssistants.size() > 0) {
+                        lstNewSelectedAssistants = new ArrayList<>();
+                        for (SelectList item : lstSelectedAssistants) {
+                            Assistant a = new Assistant();
+                            a.setName(item.getResponsible());
+                            a.setBelongsTo(item.getName());
+                            a.setEmail(item.getEmail());
+                            a.setPhone(item.getPhone());
+                            a.setEvent(event);
+                            lstNewSelectedAssistants.add(a);
+                        }
+                        event.setLstAssistant(lstNewSelectedAssistants);
+                    } else {
+                        responseMessage.setHasError(true);
+                        responseMessage.setMessage("Debe seleccionar al menos un &aacute;rea.");
+                        return null;
+                    }
+
                 }
-
             }
-
-
-            List<SelectList> lstSelectedAssistants = new Gson().fromJson(eventDto.getLstSelectedAssistants(), new TypeToken<List<SelectList>>() {
-            }.getType());
-
-            if (event.getLstAssistant() != null) {
-                event.setLstAssistant(null);
-            }
-
-            List<Assistant> lstNewSelectedAssistants;
-
-
-
-            if (lstSelectedAssistants != null && lstSelectedAssistants.size() > 0) {
-                lstNewSelectedAssistants = new ArrayList<>();
-                for (SelectList item : lstSelectedAssistants) {
-                    Assistant a = new Assistant();
-                    a.setName(item.getResponsible());
-                    a.setBelongsTo(item.getName());
-                    a.setEmail(item.getEmail());
-                    a.setPhone(item.getPhone());
-                    a.setEvent(event);
-                    lstNewSelectedAssistants.add(a);
-                }
-            } else {
-                responseMessage.setHasError(true);
-                responseMessage.setMessage("Debe seleccionar al menos un &aacute;rea.");
-                return null;
-            }
-
-
-            EventType ev =  new EventType();
-            ev.setId(eventDto.getEventTypeId());
-            event.setEventType(ev);
 
             event.setDescription(eventDto.getDescription());
+            event.setEventType(evenType);
 
-            event.setLstAssistant(lstNewSelectedAssistants);
             Audit a = auditRepository.findOne(eventDto.getAuditId());
             event.setAudit(a);
         }

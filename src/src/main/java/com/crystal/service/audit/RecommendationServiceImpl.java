@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +35,6 @@ import java.util.List;
 
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
-
 
 
     @Autowired
@@ -86,7 +86,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public void save(RecommendationDto modelNew, ResponseMessage response) {
+    public void save(RecommendationDto modelNew, ResponseMessage response) throws ParseException {
         Recommendation model = businessValidation(modelNew, null, response);
         if (response.isHasError())
             return;
@@ -111,11 +111,21 @@ public class RecommendationServiceImpl implements RecommendationService {
             return;
         }
 
-        if (model.getLstExtension() != null && model.getLstExtension().size() > 0) {
-            response.setHasError(true);
-            response.setMessage("No es posible eliminar una recomendaci&oacute;n que ya tiene una prorroga.");
-            response.setTitle("Eliminar recomendaci&oacute;n");
-            return;
+        if (model.getLstExtension() != null) {
+
+            boolean hasExtension = false;
+
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
+                    hasExtension = true;
+            }
+
+            if (hasExtension) {
+                response.setHasError(true);
+                response.setMessage("No es posible eliminar una recomendaci&oacute;n que ya tiene una prorroga.");
+                response.setTitle("Eliminar recomendaci&oacute;n");
+                return;
+            }
         }
 
         model.setObsolete(true);
@@ -198,7 +208,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         return false;
     }
 
-    private Recommendation businessValidation(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+    private Recommendation businessValidation(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
         Recommendation recommendation = null;
 
         if (recommendationDto != null) {
@@ -223,16 +233,13 @@ public class RecommendationServiceImpl implements RecommendationService {
                 recommendation = new Recommendation();
                 recommendation.setCreateDate(Calendar.getInstance());
                 recommendation.setInsAudit(sharedUserService.getLoggedUserId());
-                try {
-                    Calendar init = Calendar.getInstance();
-                    Calendar end = Calendar.getInstance();
-                    init.setTime(sdf.parse(recommendationDto.getInitDate()));
-                    end.setTime(sdf.parse(recommendationDto.getEndDate()));
-                    recommendation.setInitDate(init);
-                    recommendation.setEndDate(end);
-                } catch (Exception e) {
-                    return null;
-                }
+
+                Calendar init = Calendar.getInstance();
+                Calendar end = Calendar.getInstance();
+                init.setTime(sdf.parse(recommendationDto.getInitDate()));
+                end.setTime(sdf.parse(recommendationDto.getEndDate()));
+                recommendation.setInitDate(init);
+                recommendation.setEndDate(end);
 
                 Extension e = new Extension();
                 e.setInsAudit(sharedUserService.getLoggedUserId());
@@ -240,7 +247,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 e.setCreateDate(Calendar.getInstance());
                 e.setComment("Fecha de fin inicial.");
                 e.setEndDate(recommendation.getEndDate());
-                List<Extension> lstExtension =  new ArrayList<>();
+                List<Extension> lstExtension = new ArrayList<>();
                 lstExtension.add(e);
                 recommendation.setLstExtension(lstExtension);
                 recommendation.setInsAudit(sharedUserService.getLoggedUserId());
@@ -309,7 +316,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             model.setAttended(true);
             model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
 
-            if(attentionDto.isReplication() == true){
+            if (attentionDto.isReplication() == true) {
                 model.setReplicated(true);
                 model.setReplicatedAs(attentionDto.getReplicateAs());
             }
@@ -328,9 +335,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public void doReplication(AttentionDto attentionDto, ResponseMessage response) {
-        if(!(attentionDto.getReplicateAs().equals(Constants.OBSERVATION_R) ||
-                attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))){
+    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+        if (!(attentionDto.getReplicateAs().equals(Constants.OBSERVATION_R) ||
+                attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))) {
             response.setHasError(true);
             response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
             return;
@@ -346,7 +353,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Transactional
-    private void doSaveAndReplication(Recommendation model, AttentionDto attentionDto) {
+    private void doSaveAndReplication(Recommendation model, AttentionDto attentionDto) throws ParseException {
 
 
         List<Area> lstSelectedAreas = model.getLstAreas();
@@ -361,7 +368,10 @@ public class RecommendationServiceImpl implements RecommendationService {
             }
         }
 
-        if(model.getReplicatedAs().equals(Constants.OBSERVATION_R)){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+
+        if (model.getReplicatedAs().equals(Constants.OBSERVATION_R)) {
             Observation observation = new Observation();
 
             observation.setNumber(model.getNumber());
@@ -370,8 +380,24 @@ public class RecommendationServiceImpl implements RecommendationService {
             observation.setInsAudit(sharedUserService.getLoggedUserId());
             observation.setLstAreas(lstNewSelectedAreas);
             observation.setAudit(model.getAudit());
-            observation.setInitDate(model.getInitDate());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            observation.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
             observation.setEndDate(model.getEndDate());
+
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(observation.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            observation.setLstExtension(lstExtension);
+            observation.setInsAudit(sharedUserService.getLoggedUserId());
+
             ObservationType observationType = new ObservationType();
             observationType.setId(attentionDto.getObservationTypeId());
             observation.setObservationType(observationType);
@@ -380,8 +406,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
             observationRepository.saveAndFlush(observation);
 
-        }
-        else if(model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)){
+        } else if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
             Responsibility responsibility = new Responsibility();
 
             responsibility.setNumber(model.getNumber());
@@ -390,10 +415,26 @@ public class RecommendationServiceImpl implements RecommendationService {
             responsibility.setInsAudit(sharedUserService.getLoggedUserId());
             responsibility.setLstAreas(lstNewSelectedAreas);
             responsibility.setAudit(model.getAudit());
-            responsibility.setInitDate(model.getInitDate());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            responsibility.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
             responsibility.setEndDate(model.getEndDate());
+
             responsibility.setObsolete(false);
             responsibility.setRecommendation(model);
+
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(responsibility.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            responsibility.setLstExtension(lstExtension);
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
 
             responsibilityRepository.saveAndFlush(responsibility);
 
@@ -432,7 +473,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
 
-        if(e==null) {
+        if (e == null) {
             response.setHasError(true);
             response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
             response.setTitle("Eliminar prorroga");

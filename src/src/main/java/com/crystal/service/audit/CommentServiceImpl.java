@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,7 +84,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void save(CommentDto modelNew, ResponseMessage response) {
+    public void save(CommentDto modelNew, ResponseMessage response) throws ParseException {
 
         Comment model = businessValidation(modelNew, null, response);
 
@@ -100,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
         if (model == null) {
             response.setHasError(true);
             response.setMessage("La observaci&oacute;n ya fue eliminada o no existe en el sistema.");
-            response.setTitle("Eliminar requerimiento");
+            response.setTitle("Eliminar observaci&oacute;n");
             return;
         }
 
@@ -111,11 +112,21 @@ public class CommentServiceImpl implements CommentService {
             return;
         }
 
-        if (model.getLstExtension() != null && model.getLstExtension().size() > 0) {
-            response.setHasError(true);
-            response.setMessage("No es posible eliminar una observaci&oacute;n que ya tiene una prorroga.");
-            response.setTitle("Eliminar observaci&oacute;n");
-            return;
+        if (model.getLstExtension() != null) {
+
+            boolean hasExtension = false;
+
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
+                    hasExtension = true;
+            }
+
+            if (hasExtension) {
+                response.setHasError(true);
+                response.setMessage("No es posible eliminar una observaci&oacute;n que ya tiene una prorroga.");
+                response.setTitle("Eliminar observaci&oacute;n");
+                return;
+            }
         }
 
         model.setObsolete(true);
@@ -130,7 +141,7 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.saveAndFlush(model);
     }
 
-    private Comment businessValidation(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+    private Comment businessValidation(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
         Comment comment = null;
 
         if (commentDto != null) {
@@ -155,16 +166,12 @@ public class CommentServiceImpl implements CommentService {
                 comment = new Comment();
                 comment.setCreateDate(Calendar.getInstance());
                 comment.setInsAudit(sharedUserService.getLoggedUserId());
-                try {
-                    Calendar init = Calendar.getInstance();
-                    Calendar end = Calendar.getInstance();
-                    init.setTime(sdf.parse(commentDto.getInitDate()));
-                    end.setTime(sdf.parse(commentDto.getEndDate()));
-                    comment.setInitDate(init);
-                    comment.setEndDate(end);
-                } catch (Exception e) {
-                    return null;
-                }
+                Calendar init = Calendar.getInstance();
+                Calendar end = Calendar.getInstance();
+                init.setTime(sdf.parse(commentDto.getInitDate()));
+                end.setTime(sdf.parse(commentDto.getEndDate()));
+                comment.setInitDate(init);
+                comment.setEndDate(end);
 
                 Extension e = new Extension();
                 e.setInsAudit(sharedUserService.getLoggedUserId());
@@ -172,7 +179,7 @@ public class CommentServiceImpl implements CommentService {
                 e.setCreateDate(Calendar.getInstance());
                 e.setComment("Fecha de fin inicial.");
                 e.setEndDate(comment.getEndDate());
-                List<Extension> lstExtension =  new ArrayList<>();
+                List<Extension> lstExtension = new ArrayList<>();
                 lstExtension.add(e);
                 comment.setLstExtension(lstExtension);
                 comment.setInsAudit(sharedUserService.getLoggedUserId());
@@ -294,7 +301,7 @@ public class CommentServiceImpl implements CommentService {
             model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
 
 
-            if(attentionDto.isReplication() == true){
+            if (attentionDto.isReplication() == true) {
                 model.setReplicated(true);
                 model.setReplicatedAs(attentionDto.getReplicateAs());
             }
@@ -314,10 +321,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void doReplication(AttentionDto attentionDto, ResponseMessage response) {
-        if(!(attentionDto.getReplicateAs().equals(Constants.RECOMMENDATION_R) ||
+    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+        if (!(attentionDto.getReplicateAs().equals(Constants.RECOMMENDATION_R) ||
                 attentionDto.getReplicateAs().equals(Constants.OBSERVATION_R) ||
-                attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))){
+                attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))) {
             response.setHasError(true);
             response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
             return;
@@ -333,7 +340,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional
-    private void doSaveAndReplication(Comment model, AttentionDto attentionDto) {
+    private void doSaveAndReplication(Comment model, AttentionDto attentionDto) throws ParseException {
 
 
         List<Area> lstSelectedAreas = model.getLstAreas();
@@ -348,9 +355,10 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
 
-
-        if(model.getReplicatedAs().equals(Constants.RECOMMENDATION_R)){
+        if (model.getReplicatedAs().equals(Constants.RECOMMENDATION_R)) {
             Recommendation recommendation = new Recommendation();
 
             recommendation.setNumber(model.getNumber());
@@ -359,14 +367,29 @@ public class CommentServiceImpl implements CommentService {
             recommendation.setInsAudit(sharedUserService.getLoggedUserId());
             recommendation.setLstAreas(lstNewSelectedAreas);
             recommendation.setAudit(model.getAudit());
-            recommendation.setInitDate(model.getInitDate());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            recommendation.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
             recommendation.setEndDate(model.getEndDate());
+
             recommendation.setObsolete(false);
             recommendation.setComment(model);
 
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(recommendation.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            recommendation.setLstExtension(lstExtension);
+            recommendation.setInsAudit(sharedUserService.getLoggedUserId());
+
             recommendationRepository.saveAndFlush(recommendation);
-        }
-        else if(model.getReplicatedAs().equals(Constants.OBSERVATION_R)){
+        } else if (model.getReplicatedAs().equals(Constants.OBSERVATION_R)) {
             Observation observation = new Observation();
 
             observation.setNumber(model.getNumber());
@@ -375,18 +398,36 @@ public class CommentServiceImpl implements CommentService {
             observation.setInsAudit(sharedUserService.getLoggedUserId());
             observation.setLstAreas(lstNewSelectedAreas);
             observation.setAudit(model.getAudit());
-            observation.setInitDate(model.getInitDate());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            observation.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
             observation.setEndDate(model.getEndDate());
+
+            observation.setObsolete(false);
+            observation.setComment(model);
+
             ObservationType observationType = new ObservationType();
             observationType.setId(attentionDto.getObservationTypeId());
             observation.setObservationType(observationType);
             observation.setObsolete(false);
             observation.setComment(model);
 
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(observation.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            observation.setLstExtension(lstExtension);
+            observation.setInsAudit(sharedUserService.getLoggedUserId());
+
             observationRepository.saveAndFlush(observation);
 
-        }
-        else if(model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)){
+        } else if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
             Responsibility responsibility = new Responsibility();
 
             responsibility.setNumber(model.getNumber());
@@ -395,10 +436,29 @@ public class CommentServiceImpl implements CommentService {
             responsibility.setInsAudit(sharedUserService.getLoggedUserId());
             responsibility.setLstAreas(lstNewSelectedAreas);
             responsibility.setAudit(model.getAudit());
-            responsibility.setInitDate(model.getInitDate());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            responsibility.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
             responsibility.setEndDate(model.getEndDate());
+
             responsibility.setObsolete(false);
             responsibility.setComment(model);
+
+            responsibility.setObsolete(false);
+            responsibility.setComment(model);
+
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(responsibility.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            responsibility.setLstExtension(lstExtension);
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
 
             responsibilityRepository.saveAndFlush(responsibility);
 
@@ -437,7 +497,7 @@ public class CommentServiceImpl implements CommentService {
 
         Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
 
-        if(e==null) {
+        if (e == null) {
             response.setHasError(true);
             response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
             response.setTitle("Eliminar prorroga");

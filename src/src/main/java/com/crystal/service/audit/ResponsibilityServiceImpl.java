@@ -103,11 +103,21 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
             return;
         }
 
-        if (model.getLstExtension() != null && model.getLstExtension().size() > 0) {
-            response.setHasError(true);
-            response.setMessage("No es posible eliminar una promoci&oacute;n que ya tiene una prorroga.");
-            response.setTitle("Eliminar promoci&oacute;n");
-            return;
+        if (model.getLstExtension() != null) {
+
+            boolean hasExtension = false;
+
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
+                    hasExtension = true;
+            }
+
+            if (hasExtension) {
+                response.setHasError(true);
+                response.setMessage("No es posible eliminar una promoci&oacute;n que ya ha sido atendida.");
+                response.setTitle("Eliminar promoci&oacute;n");
+                return;
+            }
         }
 
         model.setObsolete(true);

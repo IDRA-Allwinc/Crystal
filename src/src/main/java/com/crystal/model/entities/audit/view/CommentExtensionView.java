@@ -16,7 +16,7 @@ import javax.persistence.Id;
         "                    Extension e2 " +
         "                    INNER JOIN comment_extension_rel cer2  ON e2.id_extension = cer2.id_extension " +
         "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.commentId2 = c.id_comment " +
-        "        where e.is_obsolete = false and c.is_obsolete = false order by e.id_extension asc")
+        "        where   e.is_obsolete = false and e.is_initial = false and c.is_obsolete = false order by e.id_extension asc")
 public class CommentExtensionView {
 
     @Id

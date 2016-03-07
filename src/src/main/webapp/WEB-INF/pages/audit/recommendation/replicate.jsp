@@ -3,7 +3,7 @@
 
 <script>
     $(document).ready(function () {
-        window.showModalFormDlg("#dlgUpModalId", "#FormUpRecommendationAttentionId");
+        window.showModalFormDlg("#dlgUpModalId", "#FormUpCommentAttentionId");
     });
 </script>
 
@@ -41,7 +41,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <form id="FormUpRecommendationAttentionId" name="FormUpRecommendationAttentionId" class="form-horizontal" role="form"
+                        <form id="FormUpCommentAttentionId" name="FormUpCommentAttentionId" class="form-horizontal" role="form"
                               ng-init='vm.m = ${(model == null ? "{}" : model)}; vm.lstObservationType=${(lstObservationType == null ? "[]" : lstObservationType)}; vm.init();'>
                             <input type="hidden" id="id" name="id" ng-model="vm.m.id" ng-update-hidden/>
                             <div class="row" ng-if="vm.m.isAttended==false">
@@ -55,7 +55,7 @@
                                         <label class="radio-inline"><input type="radio" ng-model="vm.m.replicateAs" ng-value="'<%=Constants.OBSERVATION_R%>'">Pliego de observaciones</label>
                                         <label class="radio-inline"><input type="radio" ng-model="vm.m.replicateAs" ng-value="'<%=Constants.RESPONSIBILITY_R%>'">Promoci&oacute;n de responsabilidades</label>
                                         <br/>
-                                        <span class="error" ng-show="FormUpRecommendationAttentionId.replicateAs.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpCommentAttentionId.replicateAs.$error.required">*Campo requerido</span>
                                     </div>
                                 </div>
 
@@ -92,9 +92,84 @@
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
-                                        <span class="error" ng-show="FormUpRecommendationAttentionId.attentionComment.$error.required">*Campo requerido</span>
-                                        <span class="error" ng-show="FormUpRecommendationAttentionId.attentionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
-                                        <span class="error" ng-show="FormUpRecommendationAttentionId.attentionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                        <span class="error" ng-show="FormUpCommentAttentionId.attentionComment.$error.required">*Campo requerido</span>
+                                        <span class="error" ng-show="FormUpCommentAttentionId.attentionComment.$error.minlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                        <span class="error" ng-show="FormUpCommentAttentionId.attentionComment.$error.maxlength">*El campo debe tener entre 8 y 2000 caracteres</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+
+                                    <div class="col-xs-4 form-group">
+                                        <div class="col-xs-12">
+                                            <label class="font-noraml">Fecha de inicio:</label>
+
+                                            <div>
+                                                <p class="input-group">
+                                                    <input type="text" class="form-control" name="initDate"
+                                                           uib-datepicker-popup="yyyy/MM/dd"
+                                                           placeholder="yyyy/mm/dd"
+                                                           ng-model="vm.m.initDate"
+                                                           is-open="vm.m.initDateIsOpened" ng-required="true"
+                                                           current-text="Hoy"
+                                                           clear-text="Limpiar"
+                                                           close-text="Cerrar"
+                                                           min-date="2000/01/01"
+                                                           max-date="vm.today"
+                                                           ng-change="vm.onChangeDate()"
+                                                           alt-input-formats="yyyy/MM/dd"
+                                                            />
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="vm.m.initDateIsOpened=true;"><i
+                                                            class="glyphicon glyphicon-calendar"></i></button>
+                                                  </span>
+                                                </p>
+                                                <span class="error" ng-show="FormUpCommentAttentionId.initDate.$error.required">*Campo requerido</span>
+                                            </div>
+                                        <span class="error"
+                                              ng-show="FormUpCommentAttentionId.initDate.$invalid && !FormUpCommentAttentionId.initDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-4 form-group">
+                                        <div class="col-xs-12">
+                                            <label class="font-noraml">Fecha l&iacute;mite:</label>
+
+                                            <div>
+                                                <p class="input-group">
+                                                    <input type="text" class="form-control" name="endDate"
+                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
+                                                           is-open="vm.m.endDateIsOpened" ng-required="true"
+                                                           placeholder="yyyy/mm/dd"
+                                                           current-text="Hoy"
+                                                           clear-text="Limpiar"
+                                                           close-text="Cerrar"
+                                                           min-date="2000/01/01"
+                                                           max-date="vm.today"
+                                                           ng-change="vm.onChangeDate()"
+                                                           alt-input-formats="yyyy/MM/dd"
+                                                            />
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="vm.m.endDateIsOpened=true;"><i
+                                                            class="glyphicon glyphicon-calendar"></i></button>
+                                                  </span>
+                                                </p>
+                                                    <span class="error"
+                                                          ng-show="FormUpCommentAttentionId.endDate.$error.required">*Campo requerido</span>
+                                            </div>
+                                        </div>
+                                        <span class="error"
+                                              ng-show="FormUpCommentAttentionId.endDate.$invalid && !FormUpCommentAttentionId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                    </div>
+
+                                    <div class="col-xs-4 form-group">
+                                        <label class="col-xs-12 font-noraml">Plazo otorgado:</label>
+                                        <br/>
+                                        <div class="col-xs-12">
+                                            <input type="text" name="limitTimeDays" ng-model="vm.m.limitTimeDays" class="form-control" disabled>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -117,7 +192,7 @@
                     Cancelar
                 </button>
                 <button class="btn btn-primary " ng-disabled="up.WaitFor==true"
-                        ng-click="up.submit('#FormUpRecommendationAttentionId', '<c:url value='/audit/recommendation/doReplication.json' />', FormUpRecommendationAttentionId.$valid)">
+                        ng-click="vm.validateDates()==false ? up.submit('#FormUpCommentAttentionId', '<c:url value='/audit/recommendation/doReplication.json' />', FormUpCommentAttentionId.$valid):''">
                     Guardar
                 </button>
             </div>
