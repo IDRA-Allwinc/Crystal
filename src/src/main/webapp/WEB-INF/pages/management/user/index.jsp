@@ -49,7 +49,7 @@
     <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1001;">
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
-    <div id="page-wrapper" class="gray-bg">
+    <div id="page-wrapper-a" class="gray-bg">
         <%@ include file="/WEB-INF/pages/shared/header-bar.jsp" %>
 
         <div class="row wrapper border-bottom white-bg page-heading">
