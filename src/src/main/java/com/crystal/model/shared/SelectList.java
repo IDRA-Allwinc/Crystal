@@ -19,6 +19,10 @@ public class SelectList {
     private Long value;
     private String subName;
 
+    private String responsible;
+    private String email;
+    private String phone;
+
 
     public SelectList() {
     }
@@ -73,6 +77,14 @@ public class SelectList {
         this.id = id;
         this.name = name;
         this.code = code;
+    }
+
+    public SelectList(Long id, String name, String responsible, String email, String phone) {
+        this.id = id;
+        this.name = name;
+        this.responsible = responsible;
+        this.email = email;
+        this.phone = phone;
     }
 
 
@@ -198,5 +210,29 @@ public class SelectList {
 
     public void setSubName(String subName) {
         this.subName = subName;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

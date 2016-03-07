@@ -2,7 +2,9 @@ package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.Audit;
+import com.crystal.model.entities.audit.Extension;
 import com.crystal.model.entities.audit.Observation;
+import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
 import com.crystal.model.entities.catalog.Area;
@@ -12,8 +14,10 @@ import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.AuditRepository;
+import com.crystal.repository.catalog.ExtensionRepository;
 import com.crystal.repository.catalog.ObservationRepository;
 import com.crystal.repository.catalog.ObservationTypeRepository;
+import com.crystal.repository.catalog.ResponsibilityRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +57,15 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Autowired
     ObservationTypeRepository observationTypeRepository;
+
+    @Autowired
+    ResponsibilityRepository responsibilityRepository;
+
+    @Autowired
+    ExtensionRepository extensionRepository;
+
+    @Autowired
+    UploadFileGenericRepository uploadFileGenericRepository;
 
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
@@ -100,11 +114,21 @@ public class ObservationServiceImpl implements ObservationService {
             return;
         }
 
-        if (model.getLstExtension() != null && model.getLstExtension().size() > 0) {
-            response.setHasError(true);
-            response.setMessage("No es posible eliminar un pliego de observaciones que ya tiene una prorroga.");
-            response.setTitle("Eliminar pliego de observaciones");
-            return;
+        if (model.getLstExtension() != null) {
+
+            boolean hasExtension = false;
+
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
+                    hasExtension = true;
+            }
+
+            if (hasExtension) {
+                response.setHasError(true);
+                response.setMessage("No es posible eliminar un pliego de observaciones que ya tiene una prorroga.");
+                response.setTitle("Eliminar pliego de observaciones");
+                return;
+            }
         }
 
         model.setObsolete(true);
@@ -154,6 +178,17 @@ public class ObservationServiceImpl implements ObservationService {
                     return null;
                 }
 
+                Extension e = new Extension();
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                e.setInitial(true);
+                e.setCreateDate(Calendar.getInstance());
+                e.setComment("Fecha de fin inicial.");
+                e.setEndDate(observation.getEndDate());
+                List<Extension> lstExtension = new ArrayList<>();
+                lstExtension.add(e);
+                observation.setLstExtension(lstExtension);
+                observation.setInsAudit(sharedUserService.getLoggedUserId());
+
             }
 
             List<SelectList> lstSelectedAreas = new Gson().fromJson(observationDto.getLstSelectedAreas(), new TypeToken<List<SelectList>>() {
@@ -178,7 +213,7 @@ public class ObservationServiceImpl implements ObservationService {
             }
 
 
-            ObservationType ot =  new ObservationType();
+            ObservationType ot = new ObservationType();
             ot.setId(observationDto.getObservationTypeId());
             observation.setObservationType(ot);
 
@@ -292,8 +327,174 @@ public class ObservationServiceImpl implements ObservationService {
             model.setAttentionComment(attentionDto.getAttentionComment());
             model.setAttended(true);
             model.setAttentionUser(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+            if (attentionDto.isReplication() == true) {
+                model.setReplicated(true);
+                model.setReplicatedAs(attentionDto.getReplicateAs());
+            }
         }
 
         return model;
+    }
+
+    @Override
+    public void showReplication(Long id, ModelAndView modelAndView) {
+        Gson gson = new Gson();
+        AttentionDto model = observationRepository.findAttentionInfoById(id);
+        String a = gson.toJson(model);
+        modelAndView.addObject("model", a);
+    }
+
+    @Override
+    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+        if (!attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R)) {
+            response.setHasError(true);
+            response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
+            return;
+        }
+
+        attentionDto.setReplication(true);
+
+        Observation model = attentionValidation(attentionDto, response);
+        if (response.isHasError())
+            return;
+
+        doSaveAndReplication(model,attentionDto);
+    }
+
+    @Transactional
+    private void doSaveAndReplication(Observation model ,AttentionDto attentionDto) throws ParseException {
+
+        List<Area> lstSelectedAreas = model.getLstAreas();
+        List<Area> lstNewSelectedAreas = null;
+
+        if (lstSelectedAreas != null && lstSelectedAreas.size() > 0) {
+            lstNewSelectedAreas = new ArrayList<>();
+            for (Area item : lstSelectedAreas) {
+                Area a = new Area();
+                a.setId(item.getId());
+                lstNewSelectedAreas.add(a);
+            }
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+
+        if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
+            Responsibility responsibility = new Responsibility();
+
+            responsibility.setNumber(model.getNumber());
+            responsibility.setDescription(model.getDescription());
+            responsibility.setCreateDate(Calendar.getInstance());
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+            responsibility.setLstAreas(lstNewSelectedAreas);
+            responsibility.setAudit(model.getAudit());
+
+            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
+            responsibility.setInitDate(calendar);
+
+            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
+            responsibility.setEndDate(model.getEndDate());
+
+            responsibility.setObsolete(false);
+            responsibility.setObservation(model);
+
+
+            Extension e = new Extension();
+            e.setInsAudit(sharedUserService.getLoggedUserId());
+            e.setInitial(true);
+            e.setCreateDate(Calendar.getInstance());
+            e.setComment("Fecha de fin inicial.");
+            e.setEndDate(responsibility.getEndDate());
+            List<Extension> lstExtension = new ArrayList<>();
+            lstExtension.add(e);
+            responsibility.setLstExtension(lstExtension);
+            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+
+            responsibilityRepository.saveAndFlush(responsibility);
+
+        }
+
+        observationRepository.saveAndFlush(model);
+    }
+
+    @Override
+    public void extension(Long observationId, ModelAndView modelAndView) {
+        ObservationDto model = observationRepository.findDtoById(observationId);
+        model.setType(Constants.UploadFile.EXTENSION_OBSERVATION);
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteExtension(Long observationId, Long extensionId, ResponseMessage response) {
+        Observation model = observationRepository.findByIdAndIsObsolete(observationId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("El pliego  ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar la prorroga debido a que el pliego  ya fue atendida");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
+
+        if (e == null) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isObsolete() == true) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastSecondId = observationRepository.findSecondLastExtensionIdByObservationId(observationId, extensionId);
+
+        if (lastSecondId == null || lastSecondId == 0) {
+            response.setHasError(true);
+            response.setMessage("No es posible recuperar la fecha de fin anterior.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastId = observationRepository.findLastExtensionIdByObservationId(observationId);
+
+        if (!lastId.equals(extensionId)) {
+            response.setHasError(true);
+            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+
+        Extension lastExtension = extensionRepository.findOne(extensionId);
+        Long lastExtensionFileId = lastExtension.getUploadFileGeneric().getId();
+
+        lastExtension.setObsolete(true);
+        lastExtension.setUploadFileGeneric(null);
+        lastExtension.setUserDel(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        Extension lastSecondExtension = extensionRepository.findOne(lastSecondId);
+
+        model.setEndDate(lastSecondExtension.getEndDate());
+        model.setUserUpd(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        extensionRepository.save(lastExtension);
+        observationRepository.saveAndFlush(model);
+        uploadFileGenericRepository.delete(lastExtensionFileId);
     }
 }

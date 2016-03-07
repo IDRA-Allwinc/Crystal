@@ -14,7 +14,7 @@ import java.util.List;
 public class Letter extends UserAuditInfo{
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_letter")
     private Long id;
 

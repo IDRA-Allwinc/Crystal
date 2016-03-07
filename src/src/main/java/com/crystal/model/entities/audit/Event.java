@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit;
 
+import com.crystal.model.entities.account.UserAuditInfo;
 import com.crystal.model.entities.catalog.*;
 import com.crystal.model.shared.UploadFileGeneric;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,15 +12,15 @@ import java.util.List;
 
 @Entity
 @Table(name="event")
-public class Event {
+public class Event extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_event")
     private Long id;
 
     @Column(name="description", length = 2000, nullable = false)
-    @NotEmpty(message="La descripción es un campo requerido")
+    @NotEmpty(message="Los comentarios es un campo requerido")
     private String description;
 
     @Column(name="meeting_date", nullable = true)
@@ -31,6 +32,9 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
+
+    @Column(name="is_obsolete", nullable = false)
+    private boolean isObsolete;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_event_type", nullable = false)
@@ -44,7 +48,7 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Assistant> lstAssistant;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "event_upload_file_generic_rel",
             joinColumns = {@JoinColumn(name = "id_event", referencedColumnName = "id_event")},
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
@@ -121,4 +125,13 @@ public class Event {
     public void setLstFiles(List<UploadFileGeneric> lstFiles) {
         this.lstFiles = lstFiles;
     }
+
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
 }

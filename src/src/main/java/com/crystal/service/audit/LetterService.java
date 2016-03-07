@@ -21,4 +21,6 @@ public interface LetterService {
     void showAttention(Long letterId, ModelAndView modelAndView);
 
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
+
+    public void doDeleteUpFile(Long letterId, Long upFileId, ResponseMessage response);
 }

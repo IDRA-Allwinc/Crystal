@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class RequestDto {
 
@@ -17,8 +19,11 @@ public class RequestDto {
     @Length(min = 8, max = 2000, message = "La descripci&oacute;n debe tener entre 8 y 2000 caracteres.")
     private String description;
 
-    @NotNull(message = "El plazo otorgado es un campo requerido")
-    private Integer limitTimeDays;
+    @NotNull(message = "La fecha de inicio es un campo requerido")
+    private String initDate;
+
+    @NotNull(message = "La fecha líimite es un campo requerido")
+    private String endDate;
 
     private String lstSelectedAreas;
 
@@ -37,11 +42,13 @@ public class RequestDto {
         this.isAttended = isAttended;
     }
 
-    public RequestDto(Long id, String number, String description, Integer limitTimeDays, Long letterId) {
+    public RequestDto(Long id, String number, String description, Calendar initDate, Calendar endDate, Long letterId) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.number = number;
         this.description = description;
-        this.limitTimeDays = limitTimeDays;
+        this.initDate =sdf.format(initDate.getTime());
+        this.endDate = sdf.format(endDate.getTime());
         this.letterId = letterId;
     }
 
@@ -69,12 +76,20 @@ public class RequestDto {
         this.description = description;
     }
 
-    public Integer getLimitTimeDays() {
-        return limitTimeDays;
+    public String getInitDate() {
+        return initDate;
     }
 
-    public void setLimitTimeDays(Integer limitTimeDays) {
-        this.limitTimeDays = limitTimeDays;
+    public void setInitDate(String initDate) {
+        this.initDate = initDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getLstSelectedAreas() {

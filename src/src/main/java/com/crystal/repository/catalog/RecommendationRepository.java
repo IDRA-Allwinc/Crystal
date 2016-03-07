@@ -36,11 +36,20 @@ public interface RecommendationRepository extends JpaRepository<Recommendation,L
 
 
     //6000 referencia a com.crystal.model.shared.Constants
-    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate, r.attentionUser.fullName, a.name, r.number, 6000) from Recommendation r " +
+    @Query("select new  com.crystal.model.entities.audit.dto.AttentionDto(r.id, r.attentionComment, r.isAttended, r.attentionDate, r.attentionUser.fullName, a.name, r.number, 6000, r.isReplicated, r.replicatedAs) from Recommendation r " +
             "left join r.attentionUser u " +
             "inner join r.audit a " +
             "where r.id=:recommendationId and r.isObsolete = false")
     public AttentionDto findAttentionInfoById(@Param("recommendationId") Long recommendationId);
 
+    @Query("select max(e.id) from Recommendation r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:recommendationId and e.id <> :extensionId and e.isObsolete = false")
+    public Long findSecondLastExtensionIdByRecommendationId(@Param("recommendationId")Long recommendationId, @Param("extensionId")Long extensionId);
+
+    @Query("select max(e.id) from Recommendation r " +
+            "inner join r.lstExtension e " +
+            "where r.id=:recommendationId and e.isObsolete = false and e.isInitial = false ")
+    public Long findLastExtensionIdByRecommendationId(@Param("recommendationId")Long recommendationId);
 
 }

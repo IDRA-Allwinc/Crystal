@@ -8,25 +8,29 @@
 
     function extensionRequestController($scope, $sce, $timeout) {
         var vm = this;
-        vm.m = {};
-
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
+        vm.refreshParentGrid = refreshParentGrid;
+        vm.today = new Date();
 
-        function setOutError(msg){
-            $scope.$apply(function(){
+        function setOutError(msg) {
+            $scope.$apply(function () {
                 vm.MsgError = $sce.trustAsHtml(msg);
-                $timeout(function(){
+                $timeout(function () {
                     vm.MsgError = $sce.trustAsHtml("");
                 }, 8000);
             });
         }
 
-        function setSuccess(result){
-            $scope.$apply(function(){
-                vm.m.description = "";
-                //vm.MsgSuccess = $sce.trustAsHtml(result.message);
+        function setSuccess(result) {
+            $scope.$apply(function () {
+                vm.m.extensionComment = undefined;
+                vm.m.endDate = undefined;
             });
+        }
+
+        function refreshParentGrid(tableId) {
+            $(tableId).bootstrapTable('refresh', 'showLoading');
         }
     }
 })();

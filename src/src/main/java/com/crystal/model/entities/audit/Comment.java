@@ -17,7 +17,7 @@ import java.util.List;
 public class Comment extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_comment")
     private Long id;
 
@@ -54,6 +54,13 @@ public class Comment extends UserAuditInfo {
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
 
+    @Column(name="is_replicated", nullable = false)
+    private boolean isReplicated;
+
+    @Column(name="replicated_as", nullable = true)
+    private String replicatedAs;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
@@ -70,7 +77,7 @@ public class Comment extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "comment_extension_rel",
             joinColumns = {@JoinColumn(name = "id_comment", referencedColumnName = "id_comment")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})
@@ -211,5 +218,19 @@ public class Comment extends UserAuditInfo {
         }
     }
 
+    public boolean isReplicated() {
+        return isReplicated;
+    }
 
+    public void setReplicated(boolean replicated) {
+        isReplicated = replicated;
+    }
+
+    public String getReplicatedAs() {
+        return replicatedAs;
+    }
+
+    public void setReplicatedAs(String replicatedAs) {
+        this.replicatedAs = replicatedAs;
+    }
 }

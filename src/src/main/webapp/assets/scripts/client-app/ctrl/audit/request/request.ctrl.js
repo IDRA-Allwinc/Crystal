@@ -18,14 +18,21 @@
         vm.containsArea = containsArea;
         vm.getAreas = getAreas;
         vm.findAssignedArea = findAssignedArea;
-        vm.validateLimitDays = validateLimitDays;
+        vm.validateDates = validateDates;
         vm.validateAll = validateAll;
-        vm.changeLimitDate = changeLimitDate;
-        vm.millisecondsDay = 86400000;
+        vm.onChangeDate = onChangeDate;
+        var milisDay = 86400000;
 
         function init() {
-            if (vm.m.limitTimeDays != undefined)
-                vm.changeLimitDate();
+
+            if (vm.m.initDate !== undefined) {
+                vm.m.initDate = new Date(vm.m.initDate);
+            }
+            if (vm.m.endDate !== undefined) {
+                vm.m.endDate = new Date(vm.m.endDate);
+            }
+
+            vm.onChangeDate();
 
             for (var i = 0; i < vm.lstSelectedAreas.length; i++) {
                 vm.lstSelectedAreas[i].desc = vm.lstSelectedAreas[i].name + " (" + vm.lstSelectedAreas[i].description + ") ";
@@ -33,7 +40,7 @@
         }
 
         function validateAll() {
-            var f = vm.validateSelectedAreas() || vm.validateLimitDays();
+            var f = vm.validateSelectedAreas() || vm.validateDates();
             return f;
         }
 
@@ -44,30 +51,7 @@
                     break;
                 }
             }
-        };
-
-        function changeLimitDate() {
-            try {
-                var limit = parseInt(vm.m.limitTimeDays);
-                if (isNaN(limit) || limit == 0)
-                    vm.m.limitDate = undefined;
-                else
-                    vm.m.limitDate = convertDate(limit);
-            } catch (ex) {
-                vm.m.limitDate = undefined;
-            }
-        };
-
-        function convertDate(addDays) {
-            function pad(s) {
-                return (s < 10) ? '0' + s : s;
-            }
-
-            var mil = new Date().getTime() + (addDays * vm.millisecondsDay);
-            var d = new Date(mil);
-            return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/');
         }
-
 
         function validateSelectedAreas() {
             if (!(vm.lstSelectedAreas.length > 0)) {
@@ -75,15 +59,37 @@
                 return true;
             }
             return false;
-        };
+        }
 
-        function validateLimitDays() {
-            if (!(parseInt(vm.m.limitTimeDays) > 0)) {
-                vm.addError("El plazo debe ser mayor a cero.")
-                return true;
+        function onChangeDate() {
+            try {
+                var init = new Date(vm.m.initDate);
+                var end = new Date(vm.m.endDate);
+                var days = (end - init) / milisDay;
+                if (days > 0) {
+                    vm.m.limitTimeDays = days;
+                }
+                else {
+                    vm.m.limitTimeDays = "";
+                }
+            } catch (e) {
+                vm.m.limitTimeDays = "";
             }
+        }
+
+        function validateDates() {
+            if (vm.m.initDate !== undefined && vm.m.endDate !== undefined) {
+                var init = new Date(vm.m.initDate);
+                var end = new Date(vm.m.endDate);
+
+                if (init >= end) {
+                    vm.addError("La fecha l&iacute;mite debe ser mayor a la fecha inicio.");
+                    return true;
+                }
+            }
+
             return false;
-        };
+        }
 
         function addError(msgError) {
             $rootScope.$broadcast('showMsgErrorUpsert', msgError);
@@ -95,17 +101,19 @@
                     return true;
                 }
             }
-            return false
-        };
+            return false;
+        }
 
 
         function pushArea(element) {
-            if (!containsArea(element))
+            if (!containsArea(element)) {
                 vm.lstSelectedAreas.push(element);
-            else
+            }
+            else {
                 vm.addError("El &aacute;rea ya ha sido seleccionada.");
+            }
             vm.m.areaSel = undefined;
-        };
+        }
 
         function getAreas(str) {
             return $http.get(vm.urlGetAreas, {params: {areaStr: str}})
@@ -122,7 +130,7 @@
                         return item;
                     });
                 });
-        };
+        }
 
         function findAssignedArea(obj) {
             for (var x = 0; x < vm.lstSelectedAreas.length; x++) {
@@ -131,6 +139,6 @@
                 }
             }
             return false;
-        };
+        }
     }
 })();

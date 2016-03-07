@@ -7,7 +7,7 @@ import java.util.Calendar;
 @Table(name = "log_exception")
 public class LogException {
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_log_exception")
     private Long id;
 

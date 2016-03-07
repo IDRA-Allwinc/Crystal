@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class ObservationType {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_observation_type")
     private Long id;
 

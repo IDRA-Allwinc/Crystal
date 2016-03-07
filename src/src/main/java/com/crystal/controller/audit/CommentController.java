@@ -4,6 +4,7 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.CommentDto;
+import com.crystal.model.entities.audit.view.CommentExtensionView;
 import com.crystal.model.entities.audit.view.CommentUploadFileView;
 import com.crystal.model.entities.audit.view.CommentView;
 import com.crystal.service.account.SharedUserService;
@@ -150,6 +151,67 @@ public class CommentController {
         } finally {
             return response;
         }
+    }
+
+    @RequestMapping(value = "/audit/comment/replicate", method = RequestMethod.POST)
+    public ModelAndView replicateRequest(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/comment/replicate");
+        try {
+            commentService.showReplication(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attentionRequestAudit", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/audit/comment/doReplication", method = RequestMethod.POST)
+    public ResponseMessage doReplication(@Valid AttentionDto attentionDto, BindingResult result) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            if (DtoValidator.isValid(result, response) == false)
+                return response;
+
+            commentService.doReplication(attentionDto, response);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "doAttention", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/comment/extension", method = RequestMethod.POST)
+    public ModelAndView extension(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/comment/extension");
+        try {
+            commentService.extension(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "extension", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/comment/doDeleteExtension", method = RequestMethod.POST)
+    public ResponseMessage doDeleteExtension(@RequestParam(required = true) Long commentId, @RequestParam(required = true) Long extensionId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            commentService.doDeleteExtension(commentId, extensionId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteExtension", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/comment/extension/list", method = RequestMethod.GET)
+    public Object commentExtensionList(@RequestParam(required = true) Long id) {
+        return gridService.toGrid(CommentExtensionView.class, "commentId", id);
     }
 
 }

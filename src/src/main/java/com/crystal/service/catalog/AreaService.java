@@ -27,4 +27,10 @@ public interface AreaService {
     List<SelectList> getSelectedAreasByObservationId(Long requestId);
 
     List<SelectList> getSelectedAreasByResponsibilityId(Long requestId);
+
+    List<SelectList> getAreasWithResponsibleByAuditId(Long auditId);
+
+    List<SelectList> getAreasWithEmailResponsibleByAuditId(Long auditId);
+
+    List<SelectList> getSelectedAreasByNotificationId(Long id);
 }

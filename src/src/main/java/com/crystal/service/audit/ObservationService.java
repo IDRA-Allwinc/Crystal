@@ -5,6 +5,8 @@ import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+
 public interface ObservationService {
 
     void upsert(Long id, Long auditId, ModelAndView modelView);
@@ -22,4 +24,12 @@ public interface ObservationService {
     void doDeleteUpFile(Long observationId, Long upFileId, ResponseMessage response);
 
     boolean findByNumber(ObservationDto observationDto, ResponseMessage response);
+
+    public void extension(Long observationId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long observationId, Long extensionId, ResponseMessage response);
+
+    void showReplication(Long observationId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 }

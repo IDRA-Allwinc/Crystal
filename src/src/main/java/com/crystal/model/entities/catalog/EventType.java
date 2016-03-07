@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class EventType {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_event_type")
     private Long id;
 
@@ -24,6 +24,9 @@ public class EventType {
 
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
+
+    @Column(name="code", nullable = true)
+    private String code;
 
     public Long getId() {
         return id;
@@ -60,5 +63,13 @@ public class EventType {
     public void merge(EventTypeDto modelNew) {
         name = modelNew.getName();
         description = modelNew.getDescription();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

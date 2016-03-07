@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Audit extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_audit")
     private Long id;
 
@@ -31,15 +32,15 @@ public class Audit extends UserAuditInfo {
     @NotNull(message = "La fecha del oficio es un campo requerido")
     private Calendar letterDate;
 
-    @Column(name = "number", length = 200, nullable = false)
+    @Column(name = "number", length = 20, nullable = false)
     @NotEmpty(message = "El número de la aduitoría es un campo requerido")
     private String number;
 
-    @Column(name = "name", length = 200, nullable = false)
+    @Column(name = "name", length = 210, nullable = false)
     @NotEmpty(message = "El nombre de la aduitoría es un campo requerido")
     private String name;
 
-    @Column(name = "objective", length = 2000, nullable = false)
+    @Column(name = "objective", length = 310, nullable = false)
     @NotEmpty(message = "El objetivo de la auditoría es un campo requerido")
     private String objective;
 
@@ -55,7 +56,7 @@ public class Audit extends UserAuditInfo {
     @NotNull(message = "El año fiscalizado es un campo requerido")
     private Calendar auditedYear;
 
-    @Column(name = "budget_program", length = 255, nullable = false)
+    @Column(name = "budget_program", length = 310, nullable = false)
     @NotEmpty(message = "El programa presupuestario es un campo requerido")
     private String budgetProgram;
 
@@ -280,8 +281,10 @@ public class Audit extends UserAuditInfo {
         this.isObsolete = isObsolete;
     }
 
-    public void merge(AuditDto auditDto) {
+    public void merge(AuditDto auditDto) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdfM = new SimpleDateFormat("yyyy/MM");
+        SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
         this.letterNumber = auditDto.getLetterNumber();
         this.number = auditDto.getNumber();
         this.name = auditDto.getName();
@@ -291,14 +294,9 @@ public class Audit extends UserAuditInfo {
         this.reviewInitDate = Calendar.getInstance();
         this.reviewEndDate = Calendar.getInstance();
         this.auditedYear = Calendar.getInstance();
-        try {
-            this.letterDate.setTime(sdf.parse(auditDto.getLetterDate()));
-            this.reviewInitDate.setTime(sdf.parse(auditDto.getReviewInitDate()));
-            this.reviewEndDate.setTime(sdf.parse(auditDto.getReviewEndDate()));
-            this.auditedYear.setTime(sdf.parse(auditDto.getAuditedYear()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
+        this.letterDate.setTime(sdf.parse(auditDto.getLetterDate()));
+        this.reviewInitDate.setTime(sdfM.parse(auditDto.getReviewInitDate()));
+        this.reviewEndDate.setTime(sdfM.parse(auditDto.getReviewEndDate()));
+        this.auditedYear.setTime(sdfY.parse(auditDto.getAuditedYear()));
     }
 }

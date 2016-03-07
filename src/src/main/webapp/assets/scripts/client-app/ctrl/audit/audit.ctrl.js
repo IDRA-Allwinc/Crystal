@@ -36,7 +36,7 @@
         };
 
         function init() {
-            vm.m.auditType = window.initCatalog(vm.lstAuditTypes, vm.m.auditTypeId);
+            vm.m.auditType = window.initCatalog(vm.lstAuditTypes, (vm.m.auditType ? vm.m.auditType.id : undefined));
 
             if (vm.m.auditType != null)
                 vm.m.auditTypeId = vm.m.auditType.id;
@@ -145,7 +145,12 @@
                 valid = false
             }
 
-            if (msg != "")
+            if(vm.m.reviewInitDate > vm.m.reviewEndDate){
+                msg += "La fecha del periodo inicial de revisi&oacute;n no puede ser mayor a la fecha del periodo final<br/>";
+                valid = false
+            }
+
+            if (msg !== "")
                 $rootScope.$broadcast('showMsgErrorUpsert', msg);
 
             return valid;

@@ -4,6 +4,8 @@ public class UploadFileRequest {
 
     private Long id;
     private String description;
+    private String extensionComment;
+    private String endDate;
     private Integer type;
     private Boolean closeUploadFile;
 
@@ -37,5 +39,21 @@ public class UploadFileRequest {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getExtensionComment() {
+        return extensionComment;
+    }
+
+    public void setExtensionComment(String extensionComment) {
+        this.extensionComment = extensionComment;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

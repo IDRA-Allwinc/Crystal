@@ -1,7 +1,7 @@
-id|name|description|obsolete
-1|Inicio de auditoría|Inicio de auditoría|0
-2|Notificación de requerimientos|Notificación de requerimientos iniciales|0
-3|Atención de requerimientos|Atención de requerimientos|0
-4|Informe de resultados|Informe de resultados|0
-5|Seguimiento|Seguimiento|0
-6|Reunión|Reunión|0
+id|name|description|code|obsolete
+1|Inicio de auditoría|Inicio de auditoría|null|0
+2|Notificación de requerimientos|Notificación de requerimientos iniciales|null|0
+3|Atención de requerimientos|Atención de requerimientos|null|0
+4|Informe de resultados|null|Informe de resultados|null|0
+5|Seguimiento|Seguimiento|null|0
+6|Reunión|Reunión|MEETING|0

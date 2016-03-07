@@ -4,9 +4,9 @@
         .module(window.constMainApp)
         .controller('upsertController', upsertController);
 
-    upsertController.$inject = ["$scope", "$rootScope", "$sce", "notify"];
+    upsertController.$inject = ["$scope", "$rootScope", "$sce", "notify", "$timeout"];
 
-    function upsertController($scope, $rootScope, $sce, notify) {
+    function upsertController($scope, $rootScope, $sce, notify, $timeout) {
         var vm = this;
         vm.WaitFor = false;
         vm.MsgError = "";
@@ -32,6 +32,8 @@
         function submit(formId, urlToPost, isValid, hasReturnId) {
             var dataSer;
             vm.MsgError = "";
+            vm.MsgSuccess = $sce.trustAsHtml("");
+
             if (isValid !== undefined) {
                 if (isValid !== true) {
                     vm.MsgError = $sce.trustAsHtml("Existe uno o más campos que no son válidos, son requeridos o su longitud está fuera de lo permitido.");
@@ -73,21 +75,29 @@
             }
         };
 
-        function submitRedirect(formId, urlToPost, hasReturnId, validate) {
+        function submitRedirect(formId, urlToPost, isValid, hasReturnId) {
             var dataSer, stVal = true;
 
-            if (validate != undefined)
-                stVal = validate();
+            vm.MsgError = "";
+            vm.MsgSuccess = $sce.trustAsHtml("");
 
-            //if ($(formId).valid() === false || stVal === false) {
-            if ($(formId).valid() === false || stVal === false) {
+            if (isValid !== undefined) {
+                if (isValid !== true) {
+                    vm.MsgError = $sce.trustAsHtml("Existe uno o más campos que no son válidos, son requeridos o su longitud está fuera de lo permitido.");
+                    vm.Invalid = true;
+                    return false;
+                }
+            }
+
+            if ($(formId).valid() === false) {
+                vm.MsgError = $sce.trustAsHtml("Debe proporcionar toda la información para guardar.");
                 vm.Invalid = true;
                 return false;
             }
 
             vm.WaitFor = true;
-
             dataSer = $(formId).serialize() + vm.tokenCsrfForm;
+
             if (hasReturnId === true) {
                 $.post(urlToPost, dataSer)
                     .success(vm.handleSuccessWithId)
@@ -125,6 +135,12 @@
 
             } catch (e) {
                 vm.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                try{$scope.$apply();}catch (e) {console.log(e);}
+            } finally{
+                $timeout(function () {
+                    vm.MsgSuccess = $sce.trustAsHtml("");
+                    vm.MsgError = $sce.trustAsHtml("");
+                }, 8000);
             }
         };
 
@@ -147,6 +163,12 @@
 
             } catch (e) {
                 vm.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
+                try{$scope.$apply();}catch (e) {console.log(e);}
+            } finally{
+                $timeout(function () {
+                    vm.MsgSuccess = $sce.trustAsHtml("");
+                    vm.MsgError = $sce.trustAsHtml("");
+                }, 8000);
             }
         };
 
@@ -198,6 +220,11 @@
                     notify({message: resp.message, classes: 'alert-danger'});
                 }
                 $scope.$apply();
+            }  finally{
+                $timeout(function () {
+                    vm.MsgSuccess = $sce.trustAsHtml("");
+                    vm.MsgError = $sce.trustAsHtml("");
+                }, 8000);
             }
         };
 
@@ -208,6 +235,10 @@
                 notify({message: resp.message, classes: 'alert-danger'});
             }
             $scope.$apply();
+
+            $timeout(function () {
+                vm.MsgError = $sce.trustAsHtml("");
+            }, 8000);
         };
 
         function cancel(isOk) {

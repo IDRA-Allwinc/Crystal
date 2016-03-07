@@ -17,7 +17,7 @@ import java.util.List;
 public class Responsibility extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_responsibility")
     private Long id;
 
@@ -58,6 +58,18 @@ public class Responsibility extends UserAuditInfo {
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_comment", nullable = true)
+    private Comment comment;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_recommendation", nullable = true)
+    private Recommendation recommendation;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_observation", nullable = true)
+    private Observation observation;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "responsibility_area_rel",
             joinColumns = {@JoinColumn(name = "id_responsibility", referencedColumnName = "id_responsibility")},
@@ -70,12 +82,11 @@ public class Responsibility extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "responsibility_extension_rel",
             joinColumns = {@JoinColumn(name = "id_responsibility", referencedColumnName = "id_responsibility")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})
     private List<Extension> lstExtension;
-
 
     public Long getId() {
         return id;
@@ -212,5 +223,27 @@ public class Responsibility extends UserAuditInfo {
         }
     }
 
+    public Comment getComment() {
+        return comment;
+    }
 
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public Recommendation getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(Recommendation recommendation) {
+        this.recommendation = recommendation;
+    }
+
+    public Observation getObservation() {
+        return observation;
+    }
+
+    public void setObservation(Observation observation) {
+        this.observation = observation;
+    }
 }

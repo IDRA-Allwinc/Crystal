@@ -19,7 +19,7 @@ import java.util.List;
 public class Observation extends UserAuditInfo {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_observation")
     private Long id;
 
@@ -56,6 +56,12 @@ public class Observation extends UserAuditInfo {
     @Column(name="is_obsolete", nullable = false)
     private boolean isObsolete;
 
+    @Column(name="is_replicated", nullable = false)
+    private boolean isReplicated;
+
+    @Column(name="replicated_as", nullable = true)
+    private String replicatedAs;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_audit", nullable = false)
     private Audit audit;
@@ -64,6 +70,14 @@ public class Observation extends UserAuditInfo {
     @JoinColumn(name = "id_observation_type", nullable = false)
     @NotNull(message="El tipo de observación es un campo requerido")
     private ObservationType observationType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_comment", nullable = true)
+    private Comment comment;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_recommendation", nullable = true)
+    private Recommendation recommendation;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "observation_area_rel",
@@ -77,7 +91,7 @@ public class Observation extends UserAuditInfo {
             inverseJoinColumns = {@JoinColumn(name = "id_upload_file_generic", referencedColumnName = "id_upload_file_generic")})
     private List<UploadFileGeneric> lstEvidences;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "observation_extension_rel",
             joinColumns = {@JoinColumn(name = "id_observation", referencedColumnName = "id_observation")},
             inverseJoinColumns = {@JoinColumn(name = "id_extension", referencedColumnName = "id_extension")})
@@ -225,5 +239,37 @@ public class Observation extends UserAuditInfo {
             attentionDate = Calendar.getInstance();
             attentionUser = user;
         }
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public boolean isReplicated() {
+        return isReplicated;
+    }
+
+    public void setReplicated(boolean replicated) {
+        isReplicated = replicated;
+    }
+
+    public String getReplicatedAs() {
+        return replicatedAs;
+    }
+
+    public void setReplicatedAs(String replicatedAs) {
+        this.replicatedAs = replicatedAs;
+    }
+
+    public Recommendation getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(Recommendation recommendation) {
+        this.recommendation = recommendation;
     }
 }

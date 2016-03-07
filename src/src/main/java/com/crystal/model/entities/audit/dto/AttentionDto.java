@@ -35,12 +35,53 @@ public class AttentionDto {
 
     private transient SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+    private boolean isReplication;
+
+    private String replicateAs;
+
+    private String initDate;
+
+    private String endDate;
+
+    private Long observationTypeId;
+
     public AttentionDto() {
 
     }
 
     //para la atencion de oficios
     //para la atencion de observaciones
+    public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String entityNumber, Integer type, boolean isReplication, String replicateAs) {
+        this.id = id;
+        this.attentionComment = attentionComment;
+        this.isAttended = isAttended;
+        if (attentionDate != null)
+            this.attentionDateStr = sdf.format(attentionDate.getTime());
+        this.attentionUser = attentionUser;
+        this.auditName = auditName;
+        switch (type) {
+            case Constants.UploadFile.LETTER: {
+                this.letterNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.COMMENT: {
+                this.commentNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.RECOMMENDATION: {
+                this.recommendationNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.OBSERVATION: {
+                this.observationNumber = entityNumber;
+                break;
+            }
+        }
+        this.isReplication = isReplication;
+        this.replicateAs = replicateAs;
+    }
+
+
     public AttentionDto(Long id, String attentionComment, boolean isAttended, Calendar attentionDate, String attentionUser, String auditName, String entityNumber, Integer type) {
         this.id = id;
         this.attentionComment = attentionComment;
@@ -177,5 +218,45 @@ public class AttentionDto {
 
     public void setObservationNumber(String observationNumber) {
         this.observationNumber = observationNumber;
+    }
+
+    public String getReplicateAs() {
+        return replicateAs;
+    }
+
+    public void setReplicateAs(String replicateAs) {
+        this.replicateAs = replicateAs;
+    }
+
+    public Long getObservationTypeId() {
+        return observationTypeId;
+    }
+
+    public void setObservationTypeId(Long observationTypeId) {
+        this.observationTypeId = observationTypeId;
+    }
+
+    public boolean isReplication() {
+        return isReplication;
+    }
+
+    public void setReplication(boolean replication) {
+        isReplication = replication;
+    }
+
+    public String getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(String initDate) {
+        this.initDate = initDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

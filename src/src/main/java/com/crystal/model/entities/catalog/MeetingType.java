@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class MeetingType {
 
     @Id
-    @GeneratedValue
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_meeting_type")
     private Long id;
 

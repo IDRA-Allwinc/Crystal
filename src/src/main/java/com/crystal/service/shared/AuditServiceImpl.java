@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +74,7 @@ public class AuditServiceImpl implements AuditService {
 
     }
 
-    private Audit businessValidation(AuditDto auditDto, ResponseMessage responseMessage) {
+    private Audit businessValidation(AuditDto auditDto, ResponseMessage responseMessage) throws ParseException {
         Audit audit;
 
         if (auditDto.getId() != null) {
@@ -100,11 +101,17 @@ public class AuditServiceImpl implements AuditService {
 
         audit.merge(auditDto);
 
+        if(audit.getReviewInitDate().compareTo(audit.getReviewEndDate()) > 0){
+            responseMessage.setHasError(true);
+            responseMessage.setMessage("La fecha del periodo inicial de revisión no puede ser mayor a la fecha del periodo final.");
+            return null;
+        }
+
         return audit;
     }
 
     @Override
-    public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) {
+    public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) throws ParseException {
 
         Audit audit;
         audit = businessValidation(auditDto, responseMessage);

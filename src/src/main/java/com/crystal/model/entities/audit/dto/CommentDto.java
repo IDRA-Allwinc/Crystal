@@ -38,7 +38,7 @@ public class CommentDto {
     }
 
     public CommentDto(Long id, String number, String description, Calendar initDate, Calendar endDate, boolean isAttended, Long auditId) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         this.id = id;
         this.number = number;

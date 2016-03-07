@@ -5,10 +5,12 @@ import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.CommentDto;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+
 public interface CommentService {
     public void upsert(Long id, Long auditId, ModelAndView modelView);
 
-    void save(CommentDto modelNew, ResponseMessage response);
+    void save(CommentDto modelNew, ResponseMessage response) throws ParseException;
 
     void doObsolete(Long id, ResponseMessage response);
 
@@ -18,5 +20,13 @@ public interface CommentService {
 
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
 
-    public void doDeleteUpFile(Long commentId, Long upFileId, ResponseMessage response);
+    void doDeleteUpFile(Long commentId, Long upFileId, ResponseMessage response);
+
+    void showReplication(Long commentId, ModelAndView modelAndView);
+
+    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
+
+    public void extension(Long commentId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long commentId, Long extensionId, ResponseMessage response);
 }

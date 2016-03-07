@@ -8,6 +8,7 @@ import com.crystal.model.entities.catalog.CatFileType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.model.shared.UploadFileRequest;
+import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.*;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -49,8 +51,35 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         switch (type) {
+            case Constants.UploadFile.EXTENSION_REQUEST:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_COMMENT:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_RECOMMENDATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_OBSERVATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                return true;
             case Constants.UploadFile.REQUEST:
                 file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_REQUEST + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.COMMENT:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_COMMENT + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.RECOMMENDATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_RECOMMENDATION + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.OBSERVATION:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_OBSERVATION + userId.toString()).toString());
+                return true;
+            case Constants.UploadFile.RESPONSIBILITY:
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_RESPONSABILITY + userId.toString()).toString());
                 return true;
         }
 
@@ -63,7 +92,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     public void fillUploadFileGeneric(MultipartFile mpf, UploadFileGeneric file, UploadFileRequest uploadRequest, User user) {
         file.setFileName(mpf.getOriginalFilename());
         file.setSize(mpf.getSize());
-        file.setObsolete(true); //Se pone obsoleto mientras no esté asociado al reporte
+        file.setObsolete(true); //Se pone obsoleto mientras no esté asociado al oficio
         file.setDescription(uploadRequest.getDescription());
         file.setCreationTime(Calendar.getInstance());
         file.setCreationUser(user);
@@ -165,7 +194,14 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     ObservationRepository observationRepository;
     @Autowired
     ResponsibilityRepository responsibilityRepository;
-
+    @Autowired
+    EventRepository eventRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    SharedUserService sharedUserService;
+    @Autowired
+    LetterUploadFileGenericRelRepository letterUploadFileGenericRelRepository;
 
     @Override
     @Transactional
@@ -177,6 +213,131 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         switch (type) {
+            case Constants.UploadFile.EXTENSION_REQUEST:
+                Request r =  requestRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionRq = r.getLstExtension();
+                if (lstExtensionRq == null) lstExtensionRq = new ArrayList<>();
+                Extension e=new Extension();
+                e.setCreateDate(Calendar.getInstance());
+                e.setObsolete(false);
+                e.setInitial(false);
+                e.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                e.setUploadFileGeneric(uploadFile);
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    e.setEndDate(endDate);
+                    r.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionRq.add(e);
+                requestRepository.saveAndFlush(r);
+                break;
+            case Constants.UploadFile.EXTENSION_COMMENT:
+                Comment c =  commentRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionCm = c.getLstExtension();
+                if (lstExtensionCm == null) lstExtensionCm = new ArrayList<>();
+                Extension eC =new Extension();
+                eC.setCreateDate(Calendar.getInstance());
+                eC.setObsolete(false);
+                eC.setInitial(false);
+                eC.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eC.setUploadFileGeneric(uploadFile);
+                eC.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eC.setEndDate(endDate);
+                    c.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionCm.add(eC);
+                commentRepository.saveAndFlush(c);
+                break;
+            case Constants.UploadFile.EXTENSION_RECOMMENDATION:
+                Recommendation rec =  recommendationRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionRec = rec.getLstExtension();
+                if (lstExtensionRec == null) lstExtensionRec = new ArrayList<>();
+                Extension eRec =new Extension();
+                eRec.setCreateDate(Calendar.getInstance());
+                eRec.setObsolete(false);
+                eRec.setInitial(false);
+                eRec.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eRec.setUploadFileGeneric(uploadFile);
+                eRec.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eRec.setEndDate(endDate);
+                    rec.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionRec.add(eRec);
+                recommendationRepository.saveAndFlush(rec);
+                break;
+            case Constants.UploadFile.EXTENSION_OBSERVATION:
+                Observation obs =  observationRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionObs = obs.getLstExtension();
+                if (lstExtensionObs == null) lstExtensionObs = new ArrayList<>();
+                Extension eObs =new Extension();
+                eObs.setCreateDate(Calendar.getInstance());
+                eObs.setObsolete(false);
+                eObs.setInitial(false);
+                eObs.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eObs.setUploadFileGeneric(uploadFile);
+                eObs.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eObs.setEndDate(endDate);
+                    obs.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionObs.add(eObs);
+                observationRepository.saveAndFlush(obs);
+                break;
+            case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
+                Responsibility resp  =  responsibilityRepository.findOne(uploadRequest.getId());
+                List<Extension> lstExtensionResp = resp.getLstExtension();
+                if (lstExtensionResp == null) lstExtensionResp = new ArrayList<>();
+                Extension eResp =new Extension();
+                eResp.setCreateDate(Calendar.getInstance());
+                eResp.setObsolete(false);
+                eResp.setInitial(false);
+                eResp.setComment(uploadRequest.getExtensionComment());
+                uploadFile.setObsolete(false);
+                eResp.setUploadFileGeneric(uploadFile);
+                eResp.setInsAudit(sharedUserService.getLoggedUserId());
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                    eResp.setEndDate(endDate);
+                    resp.setEndDate(endDate);
+                }catch (Exception ex){
+                    return;
+                }
+
+                lstExtensionResp.add(eResp);
+                responsibilityRepository.saveAndFlush(resp);
+                break;
             case Constants.UploadFile.REQUEST:
                 Request rq = requestRepository.findOne(uploadRequest.getId());
                 List<UploadFileGeneric> lstEvidences = rq.getLstEvidences();
@@ -187,16 +348,13 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 break;
             case Constants.UploadFile.LETTER:
                 Letter lt = letterRepository.findOne(uploadRequest.getId());
-                List<LetterUploadFileGenericRel> lstFilesRel = lt.getLstFiles();
-                if (lstFilesRel == null) lstFilesRel = new ArrayList<>();
-                uploadFile.setObsolete(false);
                 LetterUploadFileGenericRel letterFileRel = new LetterUploadFileGenericRel();
+                uploadFile.setObsolete(false);
                 letterFileRel.setLetter(lt);
                 letterFileRel.setAdditional(true);
-                uploadFileGenericRepository.saveAndFlush(uploadFile);
                 letterFileRel.setUploadFileGeneric(uploadFile);
-                lstFilesRel.add(letterFileRel);
-                letterRepository.saveAndFlush(lt);
+                uploadFileGenericRepository.save(uploadFile);
+                letterUploadFileGenericRelRepository.saveAndFlush(letterFileRel);
                 break;
             case Constants.UploadFile.COMMENT:
                 Comment cm = commentRepository.findOne(uploadRequest.getId());
@@ -230,6 +388,14 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 lstEvidencesResponsibility.add(uploadFile);
                 responsibilityRepository.saveAndFlush(rp);
                 break;
+            case Constants.UploadFile.EVENT:
+                Event ev = eventRepository.findOne(uploadRequest.getId());
+                List<UploadFileGeneric> lstEvidencesEvent = ev.getLstFiles();
+                if (lstEvidencesEvent == null) lstEvidencesEvent = new ArrayList<>();
+                uploadFile.setObsolete(false);
+                lstEvidencesEvent.add(uploadFile);
+                eventRepository.saveAndFlush(ev);
+                break;
         }
 
     }
@@ -262,6 +428,10 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             return true;
 
         switch (type) {
+            case Constants.UploadFile.EXTENSION_REQUEST: {
+
+                break;
+            }
             case Constants.UploadFile.REQUEST: {
                 Long requestId = uploadRequest.getId();
                 if (requestId == null) {
@@ -425,6 +595,21 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
                 if (isAttended == true) {
                     resMsg.setMessage("No es posible agregar un archivo debido a que la promoci&oacute;n ya fue atendida");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+
+                if (StringExt.isNullOrWhiteSpace(uploadRequest.getDescription())) {
+                    resMsg.setMessage("Descripción es un campo requerido");
+                    resMsg.setHasError(true);
+                    return false;
+                }
+                return true;
+            }
+            case Constants.UploadFile.EVENT: {
+                Long eventId = uploadRequest.getId();
+                if (eventId == null) {
+                    resMsg.setMessage("El archivo no está asociado a un evento");
                     resMsg.setHasError(true);
                     return false;
                 }

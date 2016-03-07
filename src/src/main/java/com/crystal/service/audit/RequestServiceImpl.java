@@ -1,6 +1,7 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Extension;
 import com.crystal.model.entities.audit.Letter;
 import com.crystal.model.entities.audit.Request;
 import com.crystal.model.entities.audit.dto.AttentionDto;
@@ -10,10 +11,14 @@ import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.model.shared.UploadFileGeneric;
+import com.crystal.repository.catalog.ExtensionRepository;
 import com.crystal.repository.catalog.LetterRepository;
 import com.crystal.repository.catalog.RequestRepository;
+import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
+import com.crystal.service.catalog.AuditedEntityService;
+import com.crystal.service.catalog.SupervisoryEntityService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,11 +40,21 @@ public class RequestServiceImpl implements RequestService {
     AreaService areaService;
     @Autowired
     LetterRepository letterRepository;
+    @Autowired
+    ExtensionRepository extensionRepository;
 
     @Autowired
     SharedUserService sharedUserService;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AuditedEntityService auditedEntityService;
+    @Autowired
+    SupervisoryEntityService supervisoryEntityService;
+
+    @Autowired
+    UploadFileGenericRepository uploadFileGenericRepository;
 
     @Override
     public void upsert(Long letterId, Long id, ModelAndView modelView) {
@@ -92,6 +108,21 @@ public class RequestServiceImpl implements RequestService {
             response.setMessage("No es posible eliminar un requerimiento que ya ha sido atendido.");
             response.setTitle("Eliminar requerimiento");
             return;
+        } else if (model.getLstExtension() != null) {
+
+            boolean hasExtension = false;
+
+            for (Extension e : model.getLstExtension()) {
+                if (e.isInitial() == false && e.isObsolete() == false)
+                    hasExtension = true;
+            }
+
+            if (hasExtension) {
+                response.setHasError(true);
+                response.setMessage("No es posible eliminar un requerimiento que ya tiene una prorroga.");
+                response.setTitle("Eliminar requerimiento");
+                return;
+            }
         }
 
         model.setObsolete(true);
@@ -120,8 +151,29 @@ public class RequestServiceImpl implements RequestService {
                 request.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                 request = new Request();
                 request.setCreateDate(Calendar.getInstance());
+                try {
+                    Calendar init = Calendar.getInstance();
+                    Calendar end = Calendar.getInstance();
+                    init.setTime(sdf.parse(requestDto.getInitDate()));
+                    end.setTime(sdf.parse(requestDto.getEndDate()));
+                    request.setInitDate(init);
+                    request.setEndDate(end);
+                } catch (Exception e) {
+                    return null;
+                }
+
+                Extension e = new Extension();
+                e.setInsAudit(sharedUserService.getLoggedUserId());
+                e.setInitial(true);
+                e.setCreateDate(Calendar.getInstance());
+                e.setComment("Fecha de fin inicial.");
+                e.setEndDate(request.getEndDate());
+                List<Extension> lstExtension = new ArrayList<>();
+                lstExtension.add(e);
+                request.setLstExtension(lstExtension);
                 request.setInsAudit(sharedUserService.getLoggedUserId());
             }
 
@@ -217,6 +269,86 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public void extension(Long requestId, ModelAndView modelAndView) {
+        RequestDto model = requestRepository.findDtoAttById(requestId);
+        model.setType(Constants.UploadFile.EXTENSION_REQUEST);
+        Gson gson = new Gson();
+        String sModel = gson.toJson(model);
+        modelAndView.addObject("model", sModel);
+    }
+
+    @Override
+    @Transactional
+    public void doDeleteExtension(Long requestId, Long extensionId, ResponseMessage response) {
+        Request model = requestRepository.findByIdAndIsObsolete(requestId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar la prorroga debido a que el requerimiento ya fue atendido");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
+
+        if (e == null) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        if (model.isObsolete() == true) {
+            response.setHasError(true);
+            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastSecondId = requestRepository.findSecondLastExtensionIdByRequestId(requestId, extensionId);
+
+        if (lastSecondId == null || lastSecondId == 0) {
+            response.setHasError(true);
+            response.setMessage("No es posible recuperar la fecha de fin anterior.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+        Long lastId = requestRepository.findLastExtensionIdByRequestId(requestId);
+
+        if (!lastId.equals(extensionId)) {
+            response.setHasError(true);
+            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prorroga");
+            return;
+        }
+
+
+        Extension lastExtension = extensionRepository.findOne(extensionId);
+        Long lastExtensionFileId = lastExtension.getUploadFileGeneric().getId();
+
+        lastExtension.setObsolete(true);
+        lastExtension.setUploadFileGeneric(null);
+        lastExtension.setUserDel(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        Extension lastSecondExtension = extensionRepository.findOne(lastSecondId);
+
+        model.setEndDate(lastSecondExtension.getEndDate());
+        model.setUserUpd(userRepository.findOne(sharedUserService.getLoggedUserId()));
+
+        extensionRepository.save(lastExtension);
+        requestRepository.saveAndFlush(model);
+        uploadFileGenericRepository.delete(lastExtensionFileId);
+    }
+
+    @Override
     @Transactional
     public void doDeleteUpFile(Long requestId, Long upFileId, ResponseMessage response) {
         Request model = requestRepository.findByIdAndIsObsolete(requestId, false);
@@ -243,5 +375,16 @@ public class RequestServiceImpl implements RequestService {
         }
 
         requestRepository.saveAndFlush(model);
+    }
+
+
+    @Override
+    public List<SelectList> findPossibleAssistants(String assistantStr) {
+
+        List<SelectList> lstAssistants = auditedEntityService.getPossibleAssistant(assistantStr);
+
+        lstAssistants.addAll(supervisoryEntityService.getPossibleAssistant(assistantStr));
+
+        return lstAssistants;
     }
 }

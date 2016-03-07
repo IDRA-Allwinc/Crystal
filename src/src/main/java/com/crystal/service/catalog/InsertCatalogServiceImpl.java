@@ -17,11 +17,10 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-//    private String PATH = "C:\\Projects\\IDRASoft\\Crystal\\db\\";
-//    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
+    //    private String PATH = "C:\\Projects\\IDRASoft\\Crystal\\db\\";
+    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
 //    private String PATH = "C:\\Users\\Administrator\\IdeaProjects\\Crystal\\db\\";
-
-    private String PATH = "/Users/ArturoDeLaRosa/Documents/Projects/Crystal/db/";
+//    private String PATH = "/Users/ArturoDeLaRosa/Documents/Projects/Crystal/db/";
 
     @Autowired
     RoleRepository roleRepository;
@@ -148,7 +147,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
         for (String[] data : lstDta) {
             AuditType model = auditTypeRepository.findOne(Long.parseLong(data[0]));
-            if(model == null) {
+            if (model == null) {
                 model = new AuditType();
                 model.setId(Long.parseLong(data[0]));
             }
@@ -167,7 +166,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void eventType() {
-        List<String[]> lstDta = FileReader.readFile(PATH + "event_type.txt", "\\|", 4);
+        List<String[]> lstDta = FileReader.readFile(PATH + "event_type.txt", "\\|", 5);
 
         for (String[] data : lstDta) {
             EventType model = eventTypeRepository.findOne(Long.parseLong(data[0]));
@@ -179,7 +178,9 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
             model.setName(data[1]);
             model.setDescription(data[2]);
-            model.setObsolete(data[3].equals("1"));
+            if (!data[3].equals("null"))
+                model.setCode(data[3]);
+            model.setObsolete(data[4].equals("1"));
             eventTypeRepository.save(model);
         }
 
@@ -285,7 +286,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     public void systemSettings() {
         List<String[]> lstDta = FileReader.readFile(PATH + "system_settings.txt", "\\|", 4);
         for (String[] data : lstDta) {
-            SystemSetting model = systemSettingRepository.findOne(Long.parseLong(data[0]));
+            SystemSetting model = systemSettingRepository.findByKey(data[1]);
             if (model == null) {
                 model = new SystemSetting();
                 model.setId(Long.parseLong(data[0]));

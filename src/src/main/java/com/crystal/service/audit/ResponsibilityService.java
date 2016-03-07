@@ -21,4 +21,8 @@ public interface ResponsibilityService {
     public void doDeleteUpFile(Long responsibilityId, Long upFileId, ResponseMessage response);
 
     boolean findByNumber(ResponsibilityDto responsibilityDto, ResponseMessage responseMessage);
+
+    public void extension(Long responsibilityId, ModelAndView modelAndView);
+
+    public void doDeleteExtension(Long responsibilityId, Long extensionId, ResponseMessage response);
 }

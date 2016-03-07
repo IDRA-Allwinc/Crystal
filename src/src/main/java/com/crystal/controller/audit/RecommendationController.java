@@ -4,8 +4,7 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
-import com.crystal.model.entities.audit.view.CommentUploadFileView;
-import com.crystal.model.entities.audit.view.LetterUploadFileView;
+import com.crystal.model.entities.audit.view.RecommendationExtensionView;
 import com.crystal.model.entities.audit.view.RecommendationUploadFileView;
 import com.crystal.model.entities.audit.view.RecommendationView;
 import com.crystal.service.account.SharedUserService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 
 @RestController
 public class RecommendationController {
@@ -156,5 +154,65 @@ public class RecommendationController {
         }
     }
 
+    @RequestMapping(value = "/audit/recommendation/replicate", method = RequestMethod.POST)
+    public ModelAndView replicateRequest(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/recommendation/replicate");
+        try {
+            recommendationService.showReplication(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attentionRequestAudit", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/audit/recommendation/doReplication", method = RequestMethod.POST)
+    public ResponseMessage doReplication(@Valid AttentionDto attentionDto, BindingResult result) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            if (DtoValidator.isValid(result, response) == false)
+                return response;
+
+            recommendationService.doReplication(attentionDto, response);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "doAttention", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/recommendation/extension", method = RequestMethod.POST)
+    public ModelAndView extension(@RequestParam(required = true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("/audit/recommendation/extension");
+        try {
+            recommendationService.extension(id, modelAndView);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "extension", sharedUserService);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/audit/recommendation/doDeleteExtension", method = RequestMethod.POST)
+    public ResponseMessage doDeleteExtension(@RequestParam(required = true) Long recommendationId, @RequestParam(required = true) Long extensionId) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            recommendationService.doDeleteExtension(recommendationId, extensionId, response);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doDeleteExtension", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+        } finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/audit/recommendation/extension/list", method = RequestMethod.GET)
+    public Object recomendationExtensionList(@RequestParam(required = true) Long id) {
+        return gridService.toGrid(RecommendationExtensionView.class, "recommendationId", id);
+    }
 
 }

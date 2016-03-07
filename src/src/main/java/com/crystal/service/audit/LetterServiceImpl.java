@@ -1,10 +1,7 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
-import com.crystal.model.entities.audit.Audit;
-import com.crystal.model.entities.audit.Letter;
-import com.crystal.model.entities.audit.LetterDto;
-import com.crystal.model.entities.audit.LetterUploadFileGenericRel;
+import com.crystal.model.entities.audit.*;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.UploadFileGeneric;
@@ -230,6 +227,39 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
+    @Transactional
+    public void doDeleteUpFile(Long letterId, Long upFileId, ResponseMessage response) {
+        Letter model = repository.findByIdAndIsObsolete(letterId, false);
+
+        if (model == null) {
+            response.setHasError(true);
+            response.setMessage("El oficio ya fue eliminado o no existe en el sistema.");
+            response.setTitle("Eliminar documento");
+            return;
+        }
+
+        if (model.isAttended() == true) {
+            response.setHasError(true);
+            response.setMessage("No es posible eliminar el archivo debido a que el requerimiento ya fue atendido");
+            response.setTitle("Eliminar documento");
+            return;
+        }
+
+        List<LetterUploadFileGenericRel> lstFiles = model.getLstFiles();
+
+        for (int i = lstFiles.size() - 1; i >= 0; i--) {
+            UploadFileGeneric file =lstFiles.get(i).getUploadFileGeneric();
+            if (file.getId().equals(upFileId)) {
+                file.setObsolete(true);
+                repositoryUf.save(file);
+                lstFiles.remove(i);
+            }
+        }
+
+        repository.saveAndFlush(model);
+    }
+
+    @Override
     public void showAttention(Long id, ModelAndView modelAndView) {
         Gson gson = new Gson();
         AttentionDto model = repository.findAttentionInfoById(id);
@@ -287,4 +317,6 @@ public class LetterServiceImpl implements LetterService {
 
         return model;
     }
+
+
 }
