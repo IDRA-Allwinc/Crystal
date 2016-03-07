@@ -4,7 +4,6 @@ import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.infrastructure.validation.DtoValidator;
 import com.crystal.model.entities.audit.Notification;
 import com.crystal.model.entities.audit.dto.NotificationDto;
-import com.crystal.model.entities.audit.dto.RecommendationDto;
 import com.crystal.model.entities.audit.view.NotificationView;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.audit.NotificationService;
@@ -104,10 +103,7 @@ public class NotificationController {
 
         ResponseMessage response = new ResponseMessage();
         try {
-            //notificationService.doObsolete(id, response);
-            response.setTitle("Eliminar notificación");
-            response.setHasError(true);
-            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            notificationService.doObsolete(id, response);
             return response;
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doObsolete", sharedUserService);

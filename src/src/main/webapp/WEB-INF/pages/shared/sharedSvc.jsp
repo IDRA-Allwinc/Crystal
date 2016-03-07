@@ -18,7 +18,7 @@
             <div class="modal-header">
                 <div class="alert alert-{{vm.type=='primary'?'info':vm.type}}">
                     <button type="button" class="close" ng-click="vm.ok()">&times;</button>
-                    <h4 class="modal-title element-center">{{vm.title}}</h4>
+                    <h4 class="modal-title element-center" ng-bind-html="vm.title"></h4>
                 </div>
             </div>
             <div class="modal-body">
@@ -39,7 +39,8 @@
             <div class="modal-header">
                 <div class="alert alert-{{vm.type=='primary'?'info':vm.type}}">
                     <button type="button" class="close" ng-click="vm.no()">&times;</button>
-                    <h4 class="modal-title element-center">{{vm.title}}</h4>
+                    <%--<h4 class="modal-title element-center" ng-bind-html="vm.title"></h4>--%>
+                    <div class="element-center" ng-bind-html="vm.title"></div>
                 </div>
             </div>
             <div class="modal-body">

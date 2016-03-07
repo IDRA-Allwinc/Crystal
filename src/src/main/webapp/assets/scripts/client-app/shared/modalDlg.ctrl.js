@@ -139,7 +139,7 @@
                     if (resp.hasError === true) {
                         vm.sharedSvc.showMsg(
                             {
-                                title: $sce.trustAsHtml(resp.title),
+                                title: resp.title,
                                 message: resp.message,
                                 type: "danger"
                             }).then(function () { def.reject({ isError: true }); });

@@ -114,7 +114,7 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
 
             if (hasExtension) {
                 response.setHasError(true);
-                response.setMessage("No es posible eliminar una promoci&oacute;n que ya ha sido atendida.");
+                response.setMessage("No es posible eliminar una promoci&oacute;n que ya tiene una prorroga.");
                 response.setTitle("Eliminar promoci&oacute;n");
                 return;
             }

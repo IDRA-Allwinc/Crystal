@@ -31,7 +31,7 @@
         vm.ok = ok;
 
         $scope.$watch('vm.sharedSvc.cfgMsg', function (cfg) {
-            vm.title = cfg.title;
+            vm.title = $sce.trustAsHtml(cfg.title);
             vm.message = $sce.trustAsHtml(cfg.message);
             vm.type = cfg.type;
         });
@@ -59,7 +59,7 @@
         vm.no = no;
 
         $scope.$watch('vm.sharedSvc.cfgMsg', function (cfg) {
-            vm.title = cfg.title;
+            vm.title = $sce.trustAsHtml(cfg.title);
             vm.message = $sce.trustAsHtml(cfg.message);
             vm.type = cfg.type;
         });

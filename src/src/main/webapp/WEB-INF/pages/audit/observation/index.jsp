@@ -12,7 +12,7 @@
         else
             arr = [
                 '<button class="btn btn-success dim act-edit-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n del pliego" type="button"><i class="fa fa-edit"></i></button>',
-                '<button class="btn btn-danger dim act-delete-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-danger dim act-delete-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el pliego" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del pliego" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-warning dim act-extension-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>',
                 '<button class="btn btn-info dim act-attention-observation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del pliego" type="button"><i class="fa fa-thumbs-up"></i></button>',
