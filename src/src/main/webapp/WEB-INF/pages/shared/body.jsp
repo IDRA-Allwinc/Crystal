@@ -26,7 +26,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">CRYSTAL</a>
+                <a class="navbar-brand" href="<c:url value='/login.html'/>">CRYSTAL</a>
             </div>
             <div class="collapse navbar-collapse" id="subenlaces">
                 <ul class="nav navbar-nav navbar-right">
@@ -35,7 +35,9 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">Cat&aacute;logos<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<c:url value='/management/auditedEntity/index.html'/>" target="IContent">Entes
+                                <li><a href="<c:url value='/management/auditedEntity/index.html'/>" target="IContent">
+                                    <%--<i class="glyphicon glyphicon-heart"></i>\--%>
+                                    Entes
                                     fiscalizados</a></li>
                                 <li><a href="<c:url value='/management/supervisoryEntity/index.html'/>"
                                        target="IContent">&Oacute;rganos fiscalizadores</a></li>
@@ -97,7 +99,7 @@
     </nav>
 </main>
 
-<iframe id="IContent" name="IContent" src="/login.html" frameborder="0" width="100%" height="1024px"
+<iframe id="IContent" name="IContent" src="<c:url value='/login.html'/>" frameborder="0" width="100%" height="1024px"
         scrolling="no"></iframe>
 <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
 </body>

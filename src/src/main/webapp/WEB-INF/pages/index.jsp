@@ -8,8 +8,12 @@
 
     <sec:authorize access="isAuthenticated()">
         <script type="text/javascript">
+
+            var url = "<c:url value='/'/>";
+
             if (window.parent !== window.top ) {
-                window.top.location.replace("/");
+
+                window.top.location.replace(url);
             }
 
         </script>
