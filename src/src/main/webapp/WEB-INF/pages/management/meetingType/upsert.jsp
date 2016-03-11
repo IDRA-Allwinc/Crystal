@@ -21,7 +21,7 @@
                         <h4 class="modal-title">Tipo de reuni&oacute;n</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-quote-right modal-icon"></i>
+                        <i class="fa fa-bookmark modal-icon"></i>
                     </div>
                 </div>
             </div>

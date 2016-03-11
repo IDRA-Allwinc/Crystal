@@ -4,7 +4,7 @@
         .module(window.constMainApp)
         .service('sharedSvc', sharedSvc);
 
-    sharedSvc.$inject = ["$timeout", "$q", "$interval","connSvc"];
+    sharedSvc.$inject = ["$timeout", "$q", "$interval", "connSvc"];
 
     function sharedSvc($timeout, $q, $interval, connSvc) {
         var vm = this;
@@ -23,7 +23,7 @@
         vm.showMsg = showMsg;
         vm.showConf = showConf;
         vm.hideMsg = hideMsg;
-        vm.connSvc=connSvc;
+        vm.connSvc = connSvc;
 
         function initCatalog(lstCatalog, m, keyItem, keyId) {
             var item = lstCatalog[0];
@@ -102,20 +102,43 @@
         };
 
         vm.showingSessionDlg = false;
+        vm.isExtended = false;
         vm.interval = 1000; //intervalo en milisegundos
         vm.count = 120; //contador en segundos
-        vm.timer = null;
-        vm.startTimer = startTimer;
-        vm.stopTimer = stopTimer;
         vm.updateCount = updateCount;
         vm.updateMessage = updateMessage;
         vm.logoutUrl = "";
         vm.extendUrl = "";
         vm.showCountdown = showCountdown;
-        vm.extend= extend;
+        vm.extend = extend;
         vm.countdownMessage = 'La sesi&oacute;n est&aacute; por terminar y el sistema se cerrar&aacute; en <b>$count segundos</b>. <br/>&iquest;Desea extender su sesi&oacute;n?';
+        vm.doLogout = doLogout;
+        vm.doCountDown = doCountDown;
+
+
+        function doCountDown() {
+
+            $timeout(function () {
+                try {
+                    vm.updateCount();
+                } catch (e) {
+
+                }
+            }, vm.interval).then(function () {
+                if (vm.isExtended == true) {
+                    vm.isExtended = false;
+                    return;
+                } else if (vm.count == 0) {
+                    vm.doLogout();
+                    return;
+                } else {
+                    vm.doCountDown();
+                }
+            });
+        }
 
         function showCountdown(cfg) {
+
             vm.showingSessionDlg = true;
             dlgMsgBox = $('#CountDownDlgId');
             vm.cfgMsg = cfg;
@@ -123,60 +146,60 @@
 
             var def = $q.defer();
 
+
             $timeout(function () {
                 dlgMsgBox.modal('show');
 
-                vm.startTimer();
+                vm.doCountDown();
 
                 dlgMsgBox.on('hidden.bs.modal', function () {
 
+                    dlgMsgBox.off();
                     vm.showSessionDlg = false;
 
                     if (vm.respMsg.vm.IsOk === true) {
                         vm.extend();
                         def.resolve();
-                    }
-                    else {
-                        document.forms[vm.logoutUrl].submit();
-                        //window.location.replace(vm.logoutUrl);
+                    } else {
+                        vm.doLogout();
                         def.reject();
                     }
 
                 });
+
             }, 1);
             return def.promise;
-        };
+        }
 
-        function startTimer() {
-            vm.timer = $interval(vm.updateCount, vm.interval);
-        };
-
-        function stopTimer() {
-            if (angular.isDefined(vm.timer)) {
-                $interval.cancel(vm.timer);
+        function doLogout() {
+            vm.count = 120;
+            if (window.top !== window.self && window.top.logout !== undefined) {
+                window.top.logout();
             }
-        };
+        }
+
 
         function updateCount() {
-            if (vm.count == 0) {
-                vm.stopTimer();
-                //window.location.replace(vm.logoutUrl);
-                document.forms[vm.logoutUrl].submit();
-            }
-            else {
+            if (vm.count > 0) {
                 vm.count--;
                 vm.updateMessage();
+                return true;
             }
-        };
+            else {
+                return false;
+            }
+        }
 
         function updateMessage() {
             vm.cfgMsg.message = vm.countdownMessage.replace("$count", vm.count.toString());
         };
 
-        function extend(){
+        function extend() {
             vm.connSvc.post(vm.extendUrl, vm, undefined, true).then(function (res) {
-                if (res.hasError == false && res.returnData==true) {
-                    //window.location.reload();
+                if (res.hasError == false && res.returnData == true) {
+                    vm.showingSessionDlg = false;
+                    vm.isExtended = true;
+                    vm.count = 120;
                 }
             });
         }

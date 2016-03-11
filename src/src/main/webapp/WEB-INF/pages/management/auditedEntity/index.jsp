@@ -45,7 +45,7 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1002;">
+    <div>
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
     <div class="gray-bg">
@@ -76,7 +76,7 @@
                         <div class="ibox-title">
                             <span class="label label-success pull-right">Entes fiscalizados</span>
                             <h2 class="text-navy">
-                                <i class="fa fa-sitemap"></i> &nbsp; Administraci&oacute;n de entes fiscalizados
+                                <i class="fa fa-asterisk"></i> &nbsp; Administraci&oacute;n de entes fiscalizados
                             </h2>
                         </div>
                         <div class="ibox-content">

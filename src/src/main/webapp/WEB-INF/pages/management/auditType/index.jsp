@@ -45,7 +45,7 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1006;">
+    <div>
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
     <div id="page-wrapper-a" class="gray-bg">
@@ -76,7 +76,7 @@
                         <div class="ibox-title">
                             <span class="label label-success pull-right">Tipos de auditor&iacute;a</span>
                             <h2 class="text-navy">
-                                <i class="fa fa-bars"></i> &nbsp; Administraci&oacute;n de tipos de auditor&iacute;a
+                                <i class="fa fa-cog"></i> &nbsp; Administraci&oacute;n de tipos de auditor&iacute;a
                             </h2>
                         </div>
                         <div class="ibox-content">

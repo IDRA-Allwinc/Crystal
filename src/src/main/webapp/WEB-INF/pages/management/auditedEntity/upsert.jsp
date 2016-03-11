@@ -1,4 +1,3 @@
-<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
@@ -24,7 +23,7 @@
                         <h4 class="modal-title">Ente fiscalizado</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-sitemap modal-icon"></i>
+                        <i class="fa fa-asterisk modal-icon"></i>
                     </div>
                 </div>
             </div>

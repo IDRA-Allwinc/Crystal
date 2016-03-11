@@ -24,7 +24,7 @@
                         <h4 class="modal-title">&Aacute;rea</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-cubes modal-icon"></i>
+                        <i class="fa fa-th modal-icon"></i>
                     </div>
                 </div>
             </div>

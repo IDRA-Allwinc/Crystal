@@ -5,13 +5,16 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
+          type="text/css">
 
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.1.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.1.0.min.js"></script>
 
-    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet"
+          type="text/css">
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
+          type="text/css">
     <link href="${pageContext.request.contextPath}/assets/content/plugins/iCheck/custom.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
@@ -44,9 +47,9 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done" ng-cloak>
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=3;">
-        <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
-    </div>
+
+    <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
+
     <div id="page-wrapper-a" class="gray-bg">
         <%@ include file="/WEB-INF/pages/shared/header-bar.jsp" %>
 
@@ -87,32 +90,33 @@
                 </div>
                 <div class="col-xs-10 tabcontent">
                     <div class="tab-content">
-                        <div class="tab-pane active animated fadeInDown" id="auditData" ng-controller="upsertController as up" >
+                        <div class="tab-pane active animated fadeInDown" id="auditData"
+                             ng-controller="upsertController as up">
                             <%@ include file="/WEB-INF/pages/audit/partial-audit.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="letters">
-                            <%@ include file="/WEB-INF/pages/audit/letter/index.jsp"%>
+                            <%@ include file="/WEB-INF/pages/audit/letter/index.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="comments">
-                            <%@ include file="/WEB-INF/pages/audit/comment/index.jsp"%>
+                            <%@ include file="/WEB-INF/pages/audit/comment/index.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="recommendations">
-                            <%@ include file="/WEB-INF/pages/audit/recommendation/index.jsp"%>
+                            <%@ include file="/WEB-INF/pages/audit/recommendation/index.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="observations">
-                            <%@ include file="/WEB-INF/pages/audit/observation/index.jsp"%>
+                            <%@ include file="/WEB-INF/pages/audit/observation/index.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="responsibilities">
-                            <%@ include file="/WEB-INF/pages/audit/responsibility/index.jsp"%>
+                            <%@ include file="/WEB-INF/pages/audit/responsibility/index.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="events">
-                            <%@ include file="/WEB-INF/pages/audit/event/index.jsp"%>
+                            <%@ include file="/WEB-INF/pages/audit/event/index.jsp" %>
                         </div>
 
                         <div class="tab-pane animated fadeInDown" id="notification">

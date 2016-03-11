@@ -44,7 +44,7 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=3;">
+    <div>
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
     <div id="page-wrapper-a" class="gray-bg">
@@ -76,7 +76,7 @@
                             <span class="label label-success pull-right">Auditor&iacute;as</span>
 
                             <h2 class="text-navy">
-                                <i class="fa fa-users"></i> &nbsp; Administraci&oacute;n de auditor&iacute;as
+                                <i class="fa fa-briefcase"></i> &nbsp; Administraci&oacute;n de auditor&iacute;as
                             </h2>
                         </div>
                         <div class="ibox-content">

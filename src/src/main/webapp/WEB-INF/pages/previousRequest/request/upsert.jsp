@@ -22,7 +22,7 @@
                         <h4 class="modal-title">Requerimiento de auditor&iacute;a</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-bars modal-icon"></i>
+                        <i class="fa fa-list-alt modal-icon"></i>
                     </div>
                 </div>
             </div>

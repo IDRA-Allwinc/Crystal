@@ -22,7 +22,7 @@
                         <h4 class="modal-title">Usuario</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-users modal-icon"></i>
+                        <i class="fa fa-user modal-icon"></i>
                     </div>
                 </div>
             </div>

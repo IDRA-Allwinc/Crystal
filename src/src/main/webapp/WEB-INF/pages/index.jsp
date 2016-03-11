@@ -11,7 +11,7 @@
 
             var url = "<c:url value='/'/>";
 
-            if (window.parent !== window.top ) {
+            if (window.parent !== window.top) {
 
                 window.top.location.replace(url);
             }
@@ -25,13 +25,14 @@
 </sec:authorize>
 
 <sec:authorize access="isAuthenticated()">
-    <div id="wrapper">
-        <div class="gray-bg">
-            <%@ include file="/WEB-INF/pages/shared/header-bar.jsp" %>
-        </div>
-    </div>
+    <%--<div id="wrapper">--%>
+    <%--<div class="gray-bg">--%>
+    <%--<%@ include file="/WEB-INF/pages/shared/header-bar.jsp" %>--%>
+    <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
+    <%@ include file="/WEB-INF/pages/shared/sharedSvc.jsp" %>
+    <%--</div>--%>
+    <%--</div>--%>
 </sec:authorize>
-
 </body>
 </html>
 

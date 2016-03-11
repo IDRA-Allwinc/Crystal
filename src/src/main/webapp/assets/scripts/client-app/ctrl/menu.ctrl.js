@@ -14,45 +14,47 @@
         vm.logoutUrl = "";
         vm.extendUrl = "";
 
-        vm.startTimer = startTimer;
-        vm.stopTimer = stopTimer;
-        vm.timer = null;
-
         vm.getElapsedTime = getElapsedTime;
         vm.init = init;
+        vm.checkSession = checkSession;
 
         //intervalo de repeticion en milisengundos
         vm.interval = 30000;
 
-        function startTimer() {
-            vm.timer = $interval(vm.getElapsedTime, vm.interval);
-        }
-
-        function stopTimer() {
-            if (angular.isDefined(vm.timer)) {
-                $interval.cancel(vm.timer);
-            }
-        }
-
-        function getElapsedTime() {
-            vm.svc.post(vm.checkUrl, vm, null, true).then(function (res) {
-                if (res.hasToLogout == true) {
-                    $timeout(function(){
-                        document.forms[vm.logoutUrl].submit();
-                    }, 1000);
-                    return;
-                    //window.location.replace(vm.logoutUrl);
+        function checkSession() {
+            $timeout(function () {
+                try {
+                    vm.getElapsedTime();
                 }
+                catch (e) {
 
-                if (parseInt(res.returnData) > 0 && sharedSvc.showingSessionDlg == false) {
-                    var cfg = {title: 'Extender sesi&oacute;n', message: '', type: 'warning'};
-                    sharedSvc.showCountdown(cfg);
                 }
+            }, vm.interval).then(function(){
+                vm.checkSession();
             });
         }
 
+        function getElapsedTime() {
+
+            if (sharedSvc.showingSessionDlg == false) {
+
+                vm.svc.post(vm.checkUrl, vm, null, true).then(function (res) {
+
+                    if (res.hasToLogout == true && window.top !== window.self && window.top.logout !== undefined) {
+                        window.top.logout();
+                        return;
+                    }
+                    else if (parseInt(res.returnData) > 0) {
+                        var cfg = {title: 'Extender sesi&oacute;n', message: '', type: 'warning'};
+                        sharedSvc.showCountdown(cfg);
+                    }
+                });
+
+            }
+        }
+
         function init() {
-            vm.startTimer();
+            vm.checkSession();
             sharedSvc.logoutUrl = vm.logoutUrl;
             sharedSvc.extendUrl = vm.extendUrl;
         }

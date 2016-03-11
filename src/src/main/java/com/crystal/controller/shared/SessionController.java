@@ -21,18 +21,22 @@ public class SessionController {
     public ResponseMessage checkout() {
 
         ResponseMessage responseMessage = new ResponseMessage();
-
         String usrName = sharedUserService.getLoggedUsername();
+
+        //si la sesion ha caducado
+        if (usrName.equals(Constants.anonymousUser))
+            responseMessage.setHasToLogout(true);
+
         Long lastUserRequestTime = Constants.accessMap.get(usrName);
+
 
         if (lastUserRequestTime != null && !usrName.equals(Constants.anonymousUser)) {
             Calendar now = Calendar.getInstance();
             Long elapsedTime = now.getTimeInMillis() - lastUserRequestTime;
 
-            if (elapsedTime >= Long.parseLong(Constants.SystemSettings.Map.get(Constants.SystemSettings.TOTAL_SESSION_LIMIT_TIME_KEY)))
+            if (elapsedTime >= Long.parseLong(Constants.SystemSettings.Map.get(Constants.SystemSettings.TOTAL_SESSION_LIMIT_TIME_KEY))) {
                 responseMessage.setHasToLogout(true);
-
-            if (elapsedTime >= Long.parseLong(Constants.SystemSettings.Map.get(Constants.SystemSettings.LIMIT_TIME_KEY))) {
+            } else if (elapsedTime >= Long.parseLong(Constants.SystemSettings.Map.get(Constants.SystemSettings.LIMIT_TIME_KEY))) {
                 responseMessage.setHasError(false);
                 responseMessage.setReturnData(elapsedTime);
             } else {
@@ -41,9 +45,7 @@ public class SessionController {
             }
         }
 
-        //si la sesion ha caducado
-        if (usrName.equals(Constants.anonymousUser))
-            responseMessage.setHasToLogout(true);
+
 
         return responseMessage;
     }

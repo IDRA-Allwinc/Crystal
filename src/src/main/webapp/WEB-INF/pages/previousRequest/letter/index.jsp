@@ -138,7 +138,7 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=2">
+    <div>
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
     <div id="page-wrapper-a" class="gray-bg">
@@ -170,7 +170,7 @@
                             <span class="label label-success pull-right">Requerimientos Previos</span>
 
                             <h2 class="text-navy">
-                                <i class="fa fa-list"></i> &nbsp; Administraci&oacute;n de Requerimientos Previos
+                                <i class="fa fa-list-alt"></i> &nbsp; Administraci&oacute;n de Requerimientos Previos
                             </h2>
                         </div>
                         <div class="ibox-content">

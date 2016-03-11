@@ -24,7 +24,7 @@
                         <h4 class="modal-title">&Oacute;rgano fiscalizador</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-eye modal-icon"></i>
+                        <i class="fa fa-certificate modal-icon"></i>
                     </div>
                 </div>
             </div>

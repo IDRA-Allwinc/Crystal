@@ -39,7 +39,7 @@
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <div id="wrapper">
-    <div data-ng-controller="menuController as mn" data-ng-init="mn.menu=1; mn.subMenu=1003;">
+    <div>
         <%@ include file="/WEB-INF/pages/shared/menu.jsp" %>
     </div>
     <div id="page-wrapper-a" class="gray-bg">
@@ -74,7 +74,7 @@
                             <span class="label label-success pull-right">Tipos de eventos</span>
 
                             <h2 class="text-navy">
-                                <i class="fa fa-th-large"></i> &nbsp; Administraci&oacute;n de tipos de eventos
+                                <i class="fa fa-dashboard"></i> &nbsp; Administraci&oacute;n de tipos de eventos
                             </h2>
                         </div>
                         <div class="ibox-content">
