@@ -31,19 +31,34 @@
             $http({
                 method: 'POST',
                 url: urlToGo,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 data: data
             }).success(function (res) {
                 vm.handleSuccess(res, def, keepWorking);
-            }).error(function (res) {
-                vm.handleError(res, def);
+            }).error(function (res, status) {
+
+                var isLogin = false;
+                var lastStr = undefined;
+                var arr = urlToGo.split("/");
+
+                if (arr && arr.length)
+                    lastStr = arr[arr.length - 1];
+
+                if (lastStr === "login")
+                    isLogin = true;
+
+                if (isLogin && status === 403) {
+                    vm.handleError(res, def, true);
+                } else {
+                    vm.handleError(res, def);
+                }
             });
             return def.promise;
         }
 
         function handleSuccess(res, def, keepWorking) {
 
-            if (res === undefined || res === null || typeof res == 'string'){
+            if (res === undefined || res === null || typeof res == 'string') {
                 vm.vmxt.working = false;
                 vm.handleError(null, def);
                 return;
@@ -58,7 +73,7 @@
                     vm.vmxt.working = false;
                 def.resolve(res);
             }
-            else{
+            else {
                 vm.vmxt.working = false;
                 vm.handleError(null, def);
                 return;
@@ -66,9 +81,17 @@
             def.reject(res);
         };
 
-        function handleError(res, def) {
+        function handleError(res, def, reload) {
+
             vm.vmxt.working = false;
-            vm.vmxt.msgErr = "Error de red. Por favor intente en un momento";
+
+            if (reload) {
+                vm.vmxt.msgErr = "La sesión ha expirado. Por favor recargue la página e intente nuevamente.";
+            }
+            else {
+                vm.vmxt.msgErr = "Error de red. Por favor intente en un momento";
+            }
+
             vm.hideMsgErr();
             def.reject(res);
         };

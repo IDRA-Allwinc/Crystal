@@ -27,7 +27,7 @@
                     vm.getElapsedTime();
                 }
                 catch (e) {
-
+                    vm.getElapsedTime();
                 }
             }, vm.interval).then(function(){
                 vm.checkSession();
