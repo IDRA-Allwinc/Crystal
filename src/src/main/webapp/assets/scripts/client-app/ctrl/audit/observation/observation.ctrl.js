@@ -8,7 +8,7 @@
 
     function observationController($scope, $rootScope, $sce, $timeout, $http) {
         var vm = this;
-        var milisDay = 24 * 60 * 60 * 1000; //hrs*min*seg*mil
+        var milisDay = 86400000;
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
         vm.init = init;
@@ -89,11 +89,9 @@
 
         function onChangeDate() {
             try {
-                var init = new Date(vm.m.initDate);
-                var end = new Date(vm.m.endDate);
-                var days = (end - init) / milisDay;
+                var days = (vm.m.endDate - vm.m.initDate) / milisDay;
                 if (days > 0) {
-                    vm.m.limitTimeDays = days;
+                    vm.m.limitTimeDays = Math.round(days);
                 }
                 else {
                     vm.m.limitTimeDays = "";
@@ -105,8 +103,8 @@
 
         function validateDates() {
             if (vm.m.initDate !== undefined && vm.m.endDate !== undefined) {
-                var init = new Date(vm.m.initDate);
-                var end = new Date(vm.m.endDate);
+                var init = vm.m.initDate;
+                var end = vm.m.endDate;
 
                 if (init >= end) {
                     vm.addError("La fecha l&iacute;mite debe ser mayor a la fecha inicio.");

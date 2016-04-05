@@ -17,7 +17,7 @@ public interface RequestService {
 
     public List<SelectList> findAreasByRole(SharedUserService sharedUserService, String areaStr);
 
-    public boolean findByNumber(RequestDto requestDto, ResponseMessage responseMessage);
+    public boolean findByNumberAndLetterId(RequestDto requestDto, ResponseMessage responseMessage);
 
     void upsertViewDocs(Long requestId, ModelAndView modelAndView);
 

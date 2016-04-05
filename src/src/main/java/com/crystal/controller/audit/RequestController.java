@@ -72,7 +72,7 @@ public class RequestController {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            if (requestService.findByNumber(modelNew, response) == true) {
+            if (requestService.findByNumberAndLetterId(modelNew, response) == true) {
                 return response;
             }
 
@@ -98,7 +98,7 @@ public class RequestController {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            if (requestService.findByNumber(modelNew, response) == true) {
+            if (requestService.findByNumberAndLetterId(modelNew, response) == true) {
                 return response;
             }
 

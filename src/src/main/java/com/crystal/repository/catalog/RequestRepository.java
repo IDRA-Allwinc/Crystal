@@ -16,10 +16,10 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("select new com.crystal.model.entities.audit.dto.RequestDto(r.id, r.number, r.description, r.initDate, r.endDate, r.letter.id) from Request r where r.id=:requestId and r.isObsolete = false")
     public RequestDto findDtoById(@Param("requestId") Long requestId);
 
-    public Request findByNumberAndIsObsolete(String numberStr, boolean b);
-
-    @Query("select r from Request r where r.id <> :requestId and r.number=:numberStr and r.isObsolete = false")
-    public Request findByNumberWithId(@Param("numberStr") String numberStr, @Param("requestId") Long requestId);
+    @Query("select r.id from Request r " +
+            "inner join r.letter l " +
+            "where r.number=:numberStr and r.isObsolete = false and l.id = :letterId")
+    public Long findByNumberWithIdAndLetterId(@Param("numberStr") String numberStr, @Param("letterId") Long letterId);
 
     @Query("select new com.crystal.model.entities.audit.dto.RequestDto(r.id, r.number, r.isAttended) from Request r where r.id = :requestId and r.isObsolete = false")
     public RequestDto findDtoAttById(@Param("requestId") Long requestId);

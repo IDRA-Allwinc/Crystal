@@ -19,7 +19,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Requerimiento de auditor&iacute;a</h4>
+                        <h4 class="modal-title">Requerimiento previo</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-list-alt modal-icon"></i>

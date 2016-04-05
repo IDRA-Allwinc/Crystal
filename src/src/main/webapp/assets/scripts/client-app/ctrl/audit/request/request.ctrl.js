@@ -63,11 +63,9 @@
 
         function onChangeDate() {
             try {
-                var init = new Date(vm.m.initDate);
-                var end = new Date(vm.m.endDate);
-                var days = (end - init) / milisDay;
+                var days = (vm.m.endDate - vm.m.initDate) / milisDay;
                 if (days > 0) {
-                    vm.m.limitTimeDays = days;
+                    vm.m.limitTimeDays = Math.round(days);
                 }
                 else {
                     vm.m.limitTimeDays = "";
@@ -79,8 +77,8 @@
 
         function validateDates() {
             if (vm.m.initDate !== undefined && vm.m.endDate !== undefined) {
-                var init = new Date(vm.m.initDate);
-                var end = new Date(vm.m.endDate);
+                var init = vm.m.initDate;
+                var end = vm.m.endDate;
 
                 if (init >= end) {
                     vm.addError("La fecha l&iacute;mite debe ser mayor a la fecha inicio.");

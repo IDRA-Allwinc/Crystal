@@ -226,17 +226,17 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public boolean findByNumber(RequestDto requestDto, ResponseMessage responseMessage) {
+    public boolean findByNumberAndLetterId(RequestDto requestDto, ResponseMessage responseMessage) {
 
-        if (requestDto.getId() != null && requestRepository.findByNumberWithId(requestDto.getNumber(), requestDto.getId()) != null) {
-            responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe un requerimiento con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
-            return true;
-        }
+        Long existId = requestRepository.findByNumberWithIdAndLetterId(requestDto.getNumber(), requestDto.getLetterId());
 
-        if (requestDto.getId() == null && requestRepository.findByNumberAndIsObsolete(requestDto.getNumber(), false) != null) {
+        if (existId != null && requestDto.getId()!= null && !existId.equals(requestDto.getId())){
+                responseMessage.setHasError(true);
+                responseMessage.setMessage("Ya existe un requerimiento con el numeral indicado para este oficio. Por favor revise la informaci&oacute;n e intente de nuevo.");
+                return true;
+        }else if(existId != null && requestDto.getId() == null ){
             responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe un requerimiento con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            responseMessage.setMessage("Ya existe un requerimiento con el numeral indicado para este oficio. Por favor revise la informaci&oacute;n e intente de nuevo.");
             return true;
         }
 
@@ -263,7 +263,6 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage) {
         Request model = requestRepository.findOne(attentionDto.getId());
-
         requestRepository.saveAndFlush(model);
         responseMessage.setHasError(false);
     }
