@@ -25,7 +25,6 @@
                 '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
-        ;
 
         window.upsert = function (id) {
             window.showUpsert(id, "#angJsjqGridId", "<c:url value='/audit/upsert.json' />", "#tblGrid");

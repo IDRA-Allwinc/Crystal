@@ -439,4 +439,11 @@ div.blocker img {
     padding-right: 0% !important;
 }
 
+#page-wrapper-a{
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+    margin-top: 40px;
+}
 /*vertical tabs bootstrap*/

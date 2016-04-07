@@ -68,32 +68,42 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION)">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reportes<span
-                                class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" target="IContent"><i class="fa fa-shield"></i>Auditor&iacute;as</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        </sec:authorize>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">Reportes<span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" target="IContent"><i class="fa fa-shield"></i>Auditor&iacute;as</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="<c:url value='/report/index.html'/>" target="IContent"><span
+                                    class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;Reportes</a>
+                        </li>
+                    </sec:authorize>
 
 
-                        <sec:authorize
-                                access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
-                    <li>
-                        <a href="<c:url value='/shared/area/index.html'/>" target="IContent"><span
-                                class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;&Aacute;reas</a>
-                    </li>
-                    <li>
-                        <a href="<c:url value='/previousRequest/letter/index.html'/>" target="IContent"><span
-                                class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Requerimientos
-                            previos</a>
-                    </li>
-                    <li>
-                        <a href="<c:url value='/audit/index.html'/>" target="IContent"><span
-                                class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>&nbsp;Auditor&iacute;as</a>
-                    </li>
+                    <sec:authorize access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
+                        <li>
+                            <a href="<c:url value='/shared/area/index.html'/>" target="IContent"><span
+                                    class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;&Aacute;reas</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value='/previousRequest/letter/index.html'/>" target="IContent"><span
+                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Requerimientos
+                                previos</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value='/audit/index.html'/>" target="IContent"><span
+                                    class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>&nbsp;Auditor&iacute;as</a>
+                        </li>
+                    </sec:authorize>
+
+                    <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
+                        <li>
+                            <a href="<c:url value='/report/index.html'/>" target="IContent"><span
+                                    class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;Reportes</a>
+                        </li>
                     </sec:authorize>
 
 
