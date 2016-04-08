@@ -50,11 +50,13 @@ public class GridService<T> {
         if (params.containsKey("sort") && params.containsKey("order")) {
             String sort = params.get("sort")[0];
             String order = params.get("order")[0];
-            Path<String> field = r.get(sort);
-            if (order.equals("asc"))
-                q.orderBy(cb.asc(field));
-            else
-                q.orderBy(cb.desc(field));
+            try{
+                Path<String> field = r.get(sort);
+                if (order.equals("asc"))
+                    q.orderBy(cb.asc(field));
+                else
+                    q.orderBy(cb.desc(field));
+            }catch (Exception ex){}
         }
 
         List<Predicate> predicates = new ArrayList<>();

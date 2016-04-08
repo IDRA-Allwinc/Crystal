@@ -13,11 +13,11 @@ import javax.persistence.Id;
 @Entity
 @Subselect("select r.id_request, r.number, concat(substring(r.description, 1,30),'...') description, r.id_letter idLetter, r.is_attended isAttended, concat('', date(adddate(r.init_date, 0))) initDate, concat('', date(adddate(r.end_date, 0))) endDate, \n" +
         "case " +
-        "when is_attended = 1 and attention_date < end_date then 'blue' " +
-        "when is_attended = 1 and attention_date >  end_date then 'orange' " +
-        "when is_attended = 0 and datediff(r.end_date, current_timestamp) <= " + Constants.redFlag + " then 'red'  " +
-        "when is_attended = 0 and datediff(r.end_date, current_timestamp)  = " + Constants.yelllowFlag+ "  then 'yellow' " +
-        "when is_attended = 0 and datediff(r.end_date, current_timestamp)  > " + Constants.yelllowFlag+ " then 'green' " +
+        "when is_attended = 1 and attention_date < end_date then 'blue-tr' " +
+        "when is_attended = 1 and attention_date >  end_date then 'orange-tr' " +
+        "when is_attended = 0 and datediff(r.end_date, current_timestamp) <= " + Constants.redFlag + " then 'red-tr'  " +
+        "when is_attended = 0 and datediff(r.end_date, current_timestamp)  = " + Constants.yelllowFlag+ "  then 'yellow-tr' " +
+        "when is_attended = 0 and datediff(r.end_date, current_timestamp)  > " + Constants.yelllowFlag+ " then 'green-tr' " +
         "else 'red' " +
         "end color " +
         "from request r where is_obsolete = 0")

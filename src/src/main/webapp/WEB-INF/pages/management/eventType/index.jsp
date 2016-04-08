@@ -102,9 +102,7 @@
                                    data-id-field="id">
                                 <thead>
                                 <tr>
-                                    <th data-field="id" data-visible="false" data-card-visible="false"
-                                        data-switchable="false">Identificador
-                                    </th>
+                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
                                     <th data-field="name" data-align="center" data-sortable="true"
                                         >Tipo de evento
                                     </th>

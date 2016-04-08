@@ -21,24 +21,23 @@
     <script type="text/javascript">
         $(function () {
             $('#tblGrid').on("expand-row.bs.table", function (index, row, $detail, container) {
-                $.get("<c:url value='/previousRequest/request/list.json' />", {idLetter: $detail.id}).done(function (data) {
-                    var $t = container.html('<table></table>').find('table');
-                    $t.bootstrapTable({
-                        rowStyle: rowStyle,
-                        columns: [{field: "id", title: "", visible: false},
-                            {field: "number", title: "Numeral", align: "center"},
-                            {field: "description", title: "Descripci&oacute;n", align: "center"},
-                            {field: "endDate", title: "Fecha l&iacute;mite", align: "center"},
-                            {
-                                field: "action",
-                                title: "Acci&oacute;n",
-                                align: "center",
-                                formatter: requestFormatter,
-                                events: window.actionEvents
-                            }
-                        ],
-                        data: data.rows
-                    });
+                var $t = container.html('<table></table>').find('table');
+                $t.bootstrapTable({
+                    rowStyle: rowStyle,
+                    columns: [{field: "id", title: "", visible: false},
+                        {field: "number", title: "Numeral", align: "center",  sortable: "true"},
+                        {field: "description", title: "Descripci&oacute;n", align: "center"},
+                        {field: "endDate", title: "Fecha l&iacute;mite", align: "center"},
+                        {
+                            field: "action",
+                            title: "Acci&oacute;n",
+                            align: "center",
+                            formatter: requestFormatter,
+                            events: window.actionEvents
+                        }
+                    ],
+                    sidePagination: 'server',
+                    url: "<c:url value='/previousRequest/request/list.json' />?idLetter=" + $detail.id
                 });
             });
         });
@@ -201,8 +200,7 @@
                                    data-id-field="id">
                                 <thead>
                                 <tr>
-                                    <th data-field="id" data-visible="false">Identificador
-                                    </th>
+                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
                                     <th data-field="name" data-align="center" data-sortable="true">Oficio
                                     </th>
                                     <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n

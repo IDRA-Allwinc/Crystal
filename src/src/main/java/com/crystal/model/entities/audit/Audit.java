@@ -9,7 +9,9 @@ import com.crystal.model.entities.catalog.SupervisoryEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,9 +34,9 @@ public class Audit extends UserAuditInfo {
     @NotNull(message = "La fecha del oficio es un campo requerido")
     private Calendar letterDate;
 
-    @Column(name = "number", length = 20, nullable = false)
+    @Column(name = "number", columnDefinition = "DECIMAL(15,0)", nullable = false)
     @NotEmpty(message = "El número de la aduitoría es un campo requerido")
-    private String number;
+    private BigInteger number;
 
     @Column(name = "name", length = 210, nullable = false)
     @NotEmpty(message = "El nombre de la aduitoría es un campo requerido")
@@ -70,7 +72,7 @@ public class Audit extends UserAuditInfo {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_audit_type", nullable = false)
-    @NotNull(message = "El tipo de auditoria es un campo requerido")
+    @NotNull(message = "El tipo de auditoría es un campo requerido")
     private AuditType auditType;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -129,11 +131,11 @@ public class Audit extends UserAuditInfo {
         this.letterDate = letterDate;
     }
 
-    public String getNumber() {
+    public BigInteger getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(BigInteger number) {
         this.number = number;
     }
 

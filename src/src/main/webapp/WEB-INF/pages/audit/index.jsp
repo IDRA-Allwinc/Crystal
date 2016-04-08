@@ -103,20 +103,16 @@
                                    data-id-field="id">
                                 <thead>
                                 <tr>
-                                    <th data-field="id" data-visible="false" data-card-visible="false"
-                                        data-switchable="false">Identificador
+                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador
                                     </th>
                                     <th data-field="auditedYearStr" data-align="center" data-sortable="true"
                                         data-filter-control="input">A&ntilde;o fiscalizado
                                     </th>
-                                    <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero
-                                        de oficio
+                                    <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero de oficio
                                     </th>
-                                    <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de
-                                        auditor&iacute;a
+                                    <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de la auditor&iacute;a
                                     </th>
-                                    <th data-field="name" data-align="center" data-sortable="true">Nombre de N&uacute;mero
-                                        de auditor&iacute;a
+                                    <th data-field="name" data-align="center" data-sortable="true">Nombre de la auditor&iacute;a
                                     </th>
                                     <th data-field="auditType" data-align="center" data-sortable="true">Tipo de auditor&iacute;a</th>
                                     <th data-field="Actions" data-formatter="actionsFormatter" data-align="center"

@@ -191,9 +191,9 @@
                                        data-id-field="id">
                                     <thead>
                                     <tr>
-                                        <th data-field="id" data-visible="false">Identificador</th>
-                                        <th data-field="requestId" data-visible="false">ID requisito</th>
-                                        <th data-field="isAttended" data-visible="false">Atendido</th>
+                                        <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                        <th data-field="requestId" data-visible="false" data-card-visible="false" data-switchable="false">ID requisito</th>
+                                        <th data-field="isAttended" data-visible="false" data-card-visible="false" data-switchable="false">Atendido</th>
                                         <th data-field="fileName" data-align="center" data-sortable="true">Documento
                                         </th>
                                         <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n</th>

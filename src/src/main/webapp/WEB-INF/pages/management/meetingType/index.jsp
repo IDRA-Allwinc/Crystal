@@ -47,19 +47,19 @@
 
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-xs-12">
-                <h2>Tipos de reuniones</h2>
+                <h2>Tipos de reuni&oacute;n</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="">Cat&aacute;logos</a>
                     </li>
                     <li>
-                        <a href="">Tipos de reuniones</a>
+                        <a href="">Tipos de reuni&oacute;n</a>
                     </li>
                 </ol>
                 <br/>
 
                 <div class="alert alert-info alert-10">
-                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar tipos de reuniones del sistema.
+                    <i class="fa fa-lightbulb-o fa-lg"></i> &nbsp En esta secci&oacute;n puede administrar tipos de reuni&oacute;n del sistema.
                 </div>
             </div>
         </div>
@@ -70,10 +70,10 @@
                 <div class="col-xs-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-success pull-right">Tipos de reuniones</span>
+                            <span class="label label-success pull-right">Tipos de reuni&oacute;n</span>
 
                             <h2 class="text-navy">
-                                <i class="fa fa-bookmark"></i> &nbsp; Administraci&oacute;n de tipos de reuniones
+                                <i class="fa fa-bookmark"></i> &nbsp; Administraci&oacute;n de tipos de reuni&oacute;n
                             </h2>
                         </div>
                         <div class="ibox-content">
@@ -101,11 +101,9 @@
                                    data-id-field="id">
                                 <thead>
                                 <tr>
-                                    <th data-field="id" data-visible="false" data-card-visible="false"
-                                        data-switchable="false">Identificador
-                                    </th>
-                                    <th data-field="name" data-align="center" data-sortable="true"
-                                        >Tipo de reuni&oacute;n
+                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                    <th data-field="name" data-align="center" data-sortable="true">
+                                        Tipo de reuni&oacute;n
                                     </th>
                                     <th data-field="description" data-align="center" data-sortable="true"
                                         >Descripci&oacute;n

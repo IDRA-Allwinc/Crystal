@@ -87,26 +87,22 @@
         <div class="col-xs-12">
             <div class="col-xs-5 form-group">
                 <div class="col-xs-12">
-                    <label class="control-label font-noraml">N&uacute;mero de la
-                        auditor&iacute;a:</label>
+                    <label class="control-label font-noraml">N&uacute;mero de la auditor&iacute;a:</label>
 
                     <div>
                         <input type="text" name="number" ng-model="vm.m.number"
                                placeholder="Ingrese el n&uacute;mero de la auditor&iacute;a"
-                               minlength="2"
-                               maxlength="20"
+                               maxlength="15"
                                ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.number.$error.required">*Campo requerido</span>
-                        <span class="error" ng-show="FormUpId.number.$error.minlength">*El campo debe tener entre 2 y 20 caracteres</span>
-                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener entre 2 y 20 caracteres</span>
+                        <span class="error" ng-show="FormUpId.number.$error.maxlength">*El campo debe tener m&aacute;ximo 15 d&iacute;gitos</span>
                     </div>
                 </div>
             </div>
             <div class="col-xs-7 form-group">
                 <div class="col-xs-12">
-                    <label class="control-label font-noraml">Nombre de la
-                        auditor&iacute;a:</label>
+                    <label class="control-label font-noraml">Nombre de la auditor&iacute;a:</label>
 
                     <div>
                         <input type="text" name="name" ng-model="vm.m.name"

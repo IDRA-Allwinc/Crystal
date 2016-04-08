@@ -147,7 +147,7 @@
                                                     <input type="hidden" ng-update-hidden ng-model="vm.m.meetingTypeId"
                                                            name="meetingTypeId" id="meetingTypeId">
 
-                                                    <label class="font-noraml">Tipo de reunion:</label>
+                                                    <label class="font-noraml">Tipo de reuni&oacute;n:</label>
 
                                                     <div class="col-xs-12">
                                                         <select class="form-control m-b" id="chosen-select-meeting"

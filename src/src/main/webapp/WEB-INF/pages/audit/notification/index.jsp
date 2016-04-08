@@ -76,8 +76,8 @@
                                data-id-field="id">
                             <thead>
                             <tr>
-                                <th data-field="id" data-visible="false">Identificador</th>
-                                <th data-field="auditId" data-visible="false">Identificador auditor&iacute;a</th>
+                                <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                <th data-field="auditId" data-visible="false" data-card-visible="false" data-switchable="false">Identificador auditor&iacute;a</th>
                                 <th data-field="title" data-align="center" class="col-xs-2" data-sortable="true">Asunto</th>
                                 <th data-field="message" data-align="center" class="col-xs-6" data-sortable="true">Mensaje</th>
                                 <th data-field="calIns" class="col-xs-2" data-align="center" data-sortable="true">Fecha</th>

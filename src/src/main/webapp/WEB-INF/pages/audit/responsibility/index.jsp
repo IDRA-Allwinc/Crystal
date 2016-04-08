@@ -7,14 +7,14 @@
             arr = [
                 '<button class="btn btn-primary dim act-view-docs-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la promoci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la observaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>',
-                '<button class="btn btn-warning dim act-extension-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
+                '<button class="btn btn-warning dim act-extension-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Pr&oacute;rrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
         else
             arr = [
                 '<button class="btn btn-success dim act-edit-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n de la promoci&oacute;n" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar la promoci&oacute;n" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la promoci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-warning dim act-extension-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>',
+                '<button class="btn btn-warning dim act-extension-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Pr&oacute;rrogas" type="button"><i class="fa fa-clock-o"></i></button>',
                 '<button class="btn btn-info dim act-attention-responsibility btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n de la promoci&oacute;n" type="button"><i class="fa fa-thumbs-up"></i></button>'
             ];
 
@@ -120,8 +120,7 @@
                                data-id-field="id">
                             <thead>
                             <tr>
-                                <th data-field="id" data-visible="false">Identificador
-                                </th>
+                                <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
                                 <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero
                                 </th>
                                 <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n

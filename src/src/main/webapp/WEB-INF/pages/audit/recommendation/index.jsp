@@ -7,14 +7,14 @@
             arr = [
                 '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-eye"></i></button>',
-                '<button class="btn btn-warning dim act-extension-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
+                '<button class="btn btn-warning dim act-extension-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Pr&oacute;rrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
         else
             arr = [
                 '<button class="btn btn-success dim act-edit-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar la informaci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-edit"></i></button>',
                 '<button class="btn btn-danger dim act-delete-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar la recomendaci&oacute;n" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos de la recomendaci&oacute;n" type="button"><i class="fa fa-copy"></i></button>',
-                '<button class="btn btn-warning dim act-extension-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>',
+                '<button class="btn btn-warning dim act-extension-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Pr&oacute;rrogas" type="button"><i class="fa fa-clock-o"></i></button>',
                 '<button class="btn btn-info dim act-attention-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n de la recomendaci&oacute;n" type="button"><i class="fa fa-thumbs-up"></i></button>',
                 '<button class="btn btn-info dim act-replicate-recommendation btn-tiny" data-toggle="tooltip" data-placement="top" title="Replicar como" type="button"><i class="fa fa-hand-o-right"></i></button>'
             ];
@@ -27,7 +27,7 @@
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
         if (row.isAttended !== true)
-            arr.push('<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
+            arr.push('<button class="btn btn-danger dim act-upf-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar pr&oacute;rroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
@@ -126,7 +126,7 @@
                                data-id-field="id">
                             <thead>
                             <tr>
-                                <th data-field="id" data-visible="false">Identificador
+                                <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador
                                 </th>
                                 <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero
                                 </th>

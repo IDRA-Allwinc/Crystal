@@ -98,7 +98,7 @@ public class EventServiceImpl implements EventService {
 
 //        if (model.getLstExtension() != null && model.getLstExtension().size() > 0) {
 //            response.setHasError(true);
-//            response.setMessage("No es posible eliminar una observaci&oacute;n que ya tiene una prorroga.");
+//            response.setMessage("No es posible eliminar una observaci&oacute;n que ya tiene una prórroga.");
 //            response.setTitle("Eliminar observaci&oacute;n");
 //            return;
 //        }

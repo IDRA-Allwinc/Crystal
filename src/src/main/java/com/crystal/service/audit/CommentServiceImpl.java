@@ -123,7 +123,7 @@ public class CommentServiceImpl implements CommentService {
 
             if (hasExtension) {
                 response.setHasError(true);
-                response.setMessage("No es posible eliminar una observaci&oacute;n que ya tiene una prorroga.");
+                response.setMessage("No es posible eliminar una observación que ya tiene una prórroga.");
                 response.setTitle("Eliminar observaci&oacute;n");
                 return;
             }
@@ -484,14 +484,14 @@ public class CommentServiceImpl implements CommentService {
         if (model == null) {
             response.setHasError(true);
             response.setMessage("La observación ya fue eliminada o no existe en el sistema.");
-            response.setTitle("Eliminar prorroga");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
         if (model.isAttended() == true) {
             response.setHasError(true);
-            response.setMessage("No es posible eliminar la prorroga debido a que La observación ya fue atendida");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("No es posible eliminar la prórroga debido a que La observación ya fue atendida");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
@@ -499,15 +499,15 @@ public class CommentServiceImpl implements CommentService {
 
         if (e == null) {
             response.setHasError(true);
-            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("La prórroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
         if (model.isObsolete() == true) {
             response.setHasError(true);
-            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("La prórroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
@@ -516,7 +516,7 @@ public class CommentServiceImpl implements CommentService {
         if (lastSecondId == null || lastSecondId == 0) {
             response.setHasError(true);
             response.setMessage("No es posible recuperar la fecha de fin anterior.");
-            response.setTitle("Eliminar prorroga");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
@@ -524,8 +524,8 @@ public class CommentServiceImpl implements CommentService {
 
         if (!lastId.equals(extensionId)) {
             response.setHasError(true);
-            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("La prórroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 

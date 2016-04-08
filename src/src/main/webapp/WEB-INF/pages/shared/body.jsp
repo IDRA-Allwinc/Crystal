@@ -28,12 +28,23 @@
 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#subenlaces">
-                    <span class="sr-only">Interruptor de Navegación</span>
+                    <span class="sr-only"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<c:url value='/login.html'/>" target="IContent">CRYSTAL</a>
+                <div>
+                    <a class="navbar-brand" style="padding: 5px 5px !important; height: 35px !important;"
+                       href="<c:url value='/login.html'/>" target="IContent">
+                        CRYSTAL
+                    </a>
+                </div>
+                <sec:authorize access="isAuthenticated()">
+                    <div style="color:#fff !important; font-size: 12px; margin-left: -10px; clear: left; min-width: 400px; width: 400px; ">
+                        <i class=""></i> <%=auth.getName()%> &nbsp;|&nbsp; Perfil: <%=auth.getAuthorities().iterator().next().getAuthority()%>
+                    </div>
+                </sec:authorize>
+
             </div>
             <div class="collapse navbar-collapse" id="subenlaces">
                 <ul class="nav navbar-nav navbar-right">
@@ -59,8 +70,8 @@
                                     de eventos</a></li>
                                 <li><a href="<c:url value='/management/meetingType/index.html'/>"
                                        target="IContent"><span class="glyphicon glyphicon-bookmark"
-                                                               aria-hidden="true"></span>&nbsp;Tipos
-                                    de reuni&oacute;n</a></li>
+                                                               aria-hidden="true"></span>&nbsp;Tipos de
+                                    reuni&oacute;n</a></li>
                                 <li><a href="<c:url value='/management/user/index.html'/>"
                                        target="IContent"><span class="glyphicon glyphicon-user"
                                                                aria-hidden="true"></span>&nbsp;Usuarios</a></li>
@@ -83,15 +94,15 @@
                     </sec:authorize>
 
 
-                    <sec:authorize access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
+                    <sec:authorize
+                            access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)">
                         <li>
                             <a href="<c:url value='/shared/area/index.html'/>" target="IContent"><span
                                     class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;&Aacute;reas</a>
                         </li>
                         <li>
                             <a href="<c:url value='/previousRequest/letter/index.html'/>" target="IContent"><span
-                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Requerimientos
-                                previos</a>
+                                    class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Requerimientos previos</a>
                         </li>
                         <li>
                             <a href="<c:url value='/audit/index.html'/>" target="IContent"><span
@@ -118,7 +129,7 @@
 </main>
 
 <iframe id="IContent" name="IContent" src="<c:url value='/login.html'/>" frameborder="0" width="100%" height="1024px"
-        scrolling="no"></iframe>
+        scrolling="yes"></iframe>
 <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
 </body>
 </html>

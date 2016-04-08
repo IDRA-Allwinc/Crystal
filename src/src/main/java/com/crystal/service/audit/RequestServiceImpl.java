@@ -119,7 +119,7 @@ public class RequestServiceImpl implements RequestService {
 
             if (hasExtension) {
                 response.setHasError(true);
-                response.setMessage("No es posible eliminar un requerimiento que ya tiene una prorroga.");
+                response.setMessage("No es posible eliminar un requerimiento que ya tiene una prórroga.");
                 response.setTitle("Eliminar requerimiento");
                 return;
             }
@@ -284,14 +284,14 @@ public class RequestServiceImpl implements RequestService {
         if (model == null) {
             response.setHasError(true);
             response.setMessage("El requerimiento ya fue eliminado o no existe en el sistema.");
-            response.setTitle("Eliminar prorroga");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
         if (model.isAttended() == true) {
             response.setHasError(true);
-            response.setMessage("No es posible eliminar la prorroga debido a que el requerimiento ya fue atendido");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("No es posible eliminar la prórroga debido a que el requerimiento ya fue atendido");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
@@ -299,15 +299,15 @@ public class RequestServiceImpl implements RequestService {
 
         if (e == null) {
             response.setHasError(true);
-            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("La prórroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
         if (model.isObsolete() == true) {
             response.setHasError(true);
-            response.setMessage("La prorroga fue ya fue eliminada o no existe en el sistema.");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("La prórroga fue ya fue eliminada o no existe en el sistema.");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
@@ -316,7 +316,7 @@ public class RequestServiceImpl implements RequestService {
         if (lastSecondId == null || lastSecondId == 0) {
             response.setHasError(true);
             response.setMessage("No es posible recuperar la fecha de fin anterior.");
-            response.setTitle("Eliminar prorroga");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 
@@ -324,8 +324,8 @@ public class RequestServiceImpl implements RequestService {
 
         if (!lastId.equals(extensionId)) {
             response.setHasError(true);
-            response.setMessage("La prorroga que intenta eliminar no es la última registrada.");
-            response.setTitle("Eliminar prorroga");
+            response.setMessage("La prórroga que intenta eliminar no es la última registrada.");
+            response.setTitle("Eliminar prórroga");
             return;
         }
 

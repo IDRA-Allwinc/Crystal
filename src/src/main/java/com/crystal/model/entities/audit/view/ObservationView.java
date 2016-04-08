@@ -10,11 +10,11 @@ import javax.persistence.Id;
 @Entity
 @Subselect("select o.id_observation, o.number, concat(substring(o.description, 1,30),'...') description, concat('', date(adddate(o.init_date, 0))) initDate, concat('', date(adddate(o.end_date, 0))) endDate, o.is_attended isAttended, a.id_audit auditId,\n" +
         "case " +
-        "when is_attended = 1 and o.attention_date <  o.end_date then 'blue' " +
-        "when is_attended = 1 and o.attention_date > o.end_date then 'orange' " +
-        "when is_attended = 0 and datediff(o.end_date, current_timestamp) <= " + Constants.redFlag + " then 'red' " +
-        "when is_attended = 0 and datediff(o.end_date, current_timestamp)  = " + Constants.yelllowFlag+ "  then 'yellow' " +
-        "when is_attended = 0 and datediff(o.end_date, current_timestamp)  > " + Constants.yelllowFlag+ " then 'green' " +
+        "when is_attended = 1 and o.attention_date <  o.end_date then 'blue-tr' " +
+        "when is_attended = 1 and o.attention_date > o.end_date then 'orange-tr' " +
+        "when is_attended = 0 and datediff(o.end_date, current_timestamp) <= " + Constants.redFlag + " then 'red-tr' " +
+        "when is_attended = 0 and datediff(o.end_date, current_timestamp)  = " + Constants.yelllowFlag+ "  then 'yellow-tr' " +
+        "when is_attended = 0 and datediff(o.end_date, current_timestamp)  > " + Constants.yelllowFlag+ " then 'green-tr' " +
         "end color \n" +
         "from observation o  \n" +
         "left join audit a on o.id_audit = a.id_audit \n" +

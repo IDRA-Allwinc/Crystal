@@ -7,7 +7,7 @@
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
         if (row.attended !== true && row.id==row.lastExtensionId)
-            arr.push('<button class="btn btn-danger dim act-ext-responsibility-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar prorroga" type="button"><i class="fa fa-times-circle"></i></button>');
+            arr.push('<button class="btn btn-danger dim act-ext-responsibility-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar pr&oacute;rroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
@@ -90,7 +90,7 @@
                         <img src="${pageContext.request.contextPath}/assets/img/LogoSE.png" , height="90" width="200">
                     </div>
                     <div class="col-xs-6" style="padding-top: 40px;">
-                        <h4 class="modal-title">Prorrogas</h4>
+                        <h4 class="modal-title">Pr&oacute;rrogas</h4>
                     </div>
                     <div class="col-xs-3" align="right">
                         <i class="fa fa-copy modal-icon"></i>
@@ -104,7 +104,7 @@
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Agregar prorroga a la recomendaci&oacute;n <b>{{vm.m.number}}</b></h5>
+                                    <h5>Agregar pr&oacute;rroga a la recomendaci&oacute;n <b>{{vm.m.number}}</b></h5>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                                             <label class="font-noraml">Comentario:</label>
 
                                         <textarea name="extensionComment" rows="3" ng-model="vm.m.extensionComment"
-                                                  placeholder="Ingrese el comentario para la prorroga"
+                                                  placeholder="Ingrese el comentario para la pr&oacute;rroga"
                                                   ng-required="true" ng-minlength="2" ng-maxlength="2000"
                                                   class="form-control"></textarea>
                                         <span class="error"
@@ -225,7 +225,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Prorrogas para la recomendaci&oacute;n <b>{{vm.m.number}}</b></h5>
+                                <h5>Pr&oacute;rrogas para la recomendaci&oacute;n <b>{{vm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -254,9 +254,9 @@
                                        data-id-field="id">
                                     <thead>
                                     <tr>
-                                        <th data-field="id" data-visible="false">Identificador</th>
-                                        <th data-field="responsibilityId" data-visible="false">ID requisito</th>
-                                        <th data-field="isAttended" data-visible="false">Atendido</th>
+                                        <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
+                                        <th data-field="responsibilityId" data-visible="false" data-card-visible="false" data-switchable="false">ID requisito</th>
+                                        <th data-field="isAttended" data-visible="false" data-card-visible="false" data-switchable="false">Atendido</th>
                                         <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
                                         <th data-field="extensionComment" data-align="center" data-sortable="true">Comentario</th>
                                         <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite</th>

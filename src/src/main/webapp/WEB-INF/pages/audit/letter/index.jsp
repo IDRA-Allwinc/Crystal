@@ -2,24 +2,23 @@
 <script type="text/javascript">
     $(function () {
         $('#tblGrid').on("expand-row.bs.table", function (index, row, $detail, container) {
-            $.get("<c:url value='/audit/request/list.json' />", {idLetter: $detail.id}).done(function (data) {
-                var $t = container.html('<table></table>').find('table');
-                $t.bootstrapTable({
-                    rowStyle: rowStyle,
-                    columns: [{field: "id", title: "", visible: false},
-                        {field: "number", title: "Numeral", align: "center"},
-                        {field: "description", title: "Descripci&oacute;n", align: "center"},
-                        {field: "endDate", title: "Fecha l&iacute;mite", align: "center"},
-                        {
-                            field: "action",
-                            title: "Acci&oacute;n",
-                            align: "center",
-                            formatter: requestFormatter,
-                            events: window.actionEvents
-                        }
-                    ],
-                    data: data.rows
-                });
+            var $t = container.html('<table></table>').find('table');
+            $t.bootstrapTable({
+                rowStyle: rowStyle,
+                columns: [{field: "id", title: "", visible: false},
+                    {field: "number", title: "Numeral", align: "center", sortable: "true"},
+                    {field: "description", title: "Descripci&oacute;n", align: "center"},
+                    {field: "endDate", title: "Fecha l&iacute;mite", align: "center"},
+                    {
+                        field: "action",
+                        title: "Acci&oacute;n",
+                        align: "center",
+                        formatter: requestFormatter,
+                        events: window.actionEvents
+                    }
+                ],
+                sidePagination: 'server',
+                url: "<c:url value='/audit/request/list.json' />?idLetter=" + $detail.id
             });
         });
     });
@@ -30,7 +29,7 @@
             arr = [
                 '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar informaci&oacute;n de la atenci&oacute;n del requerimiento" type="button"><i class="fa fa-eye"></i></button>',
-                '<button class="btn btn-warning dim act-extension-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
+                '<button class="btn btn-warning dim act-extension-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Pr&oacute;rrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
         else
             arr = [
@@ -38,7 +37,7 @@
                 '<button class="btn btn-danger dim act-delete-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el requerimiento" type="button"><i class="fa fa-times-circle"></i></button>',
                 '<button class="btn btn-primary dim act-view-docs btn-tiny" data-toggle="tooltip" data-placement="top" title="Visualizar documentos del requerimiento" type="button"><i class="fa fa-copy"></i></button>',
                 '<button class="btn btn-info dim act-attention-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Indicar atenci&oacute;n del requerimiento" type="button"><i class="fa fa-thumbs-up"></i></button>',
-                '<button class="btn btn-warning dim act-extension-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Prorrogas" type="button"><i class="fa fa-clock-o"></i></button>'
+                '<button class="btn btn-warning dim act-extension-req btn-tiny" data-toggle="tooltip" data-placement="top" title="Pr&oacute;rrogas" type="button"><i class="fa fa-clock-o"></i></button>'
             ];
 
         return arr.join('');
@@ -214,13 +213,14 @@
                                data-id-field="id">
                             <thead>
                             <tr>
-                                <th data-field="id" data-visible="false">Identificador
+                                <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador
                                 </th>
                                 <th data-field="name" data-align="center" data-sortable="true">Oficio
                                 </th>
                                 <th data-field="description" data-align="center" data-sortable="true">Descripci&oacute;n
                                 </th>
-                                <th data-field="Actions" data-formatter="actionsFormatterLetterAudit" data-align="center"
+                                <th data-field="Actions" data-formatter="actionsFormatterLetterAudit"
+                                    data-align="center"
                                     data-width="250px" data-events="actionEvents">Acci&oacute;n
                                 </th>
                             </tr>

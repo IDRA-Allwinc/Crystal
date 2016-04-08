@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <div>
-                                        <label class="control-label font-noraml"><b>Auditoria:</b></label>
+                                        <label class="control-label font-noraml"><b>Auditor&iacute;a:</b></label>
 
                                         <p>{{vm.m.auditName}}</p>
                                     </div>

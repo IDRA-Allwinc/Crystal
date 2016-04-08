@@ -6,18 +6,12 @@
 <head>
     <%@ include file="/WEB-INF/pages/shared/head.jsp" %>
 
-    <sec:authorize access="isAuthenticated()">
         <script type="text/javascript">
-
             var url = "<c:url value='/'/>";
-
             if (window.parent !== window.top) {
-
                 window.top.location.replace(url);
             }
-
         </script>
-    </sec:authorize>
 </head>
 <body scroll="no" ng-app="crystal" class="pace-done">
 <sec:authorize access="isAnonymous()">

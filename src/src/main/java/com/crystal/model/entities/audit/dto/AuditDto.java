@@ -3,8 +3,11 @@ package com.crystal.model.entities.audit.dto;
 import com.crystal.model.shared.SelectList;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -20,9 +23,10 @@ public class AuditDto {
     @NotNull(message = "La fecha del oficio es un campo requerido")
     private String letterDate;
 
-    @NotEmpty(message = "El número de la aduitoría es un campo requerido")
-    @Size(min = 2, max = 20, message = "El número de la aduitoría debe tener entre 2 y 20 caracteres")
-    private String number;
+    @NotNull(message = "El número de la aduitoría es un campo requerido")
+    @Digits(integer = 15, fraction = 0, message = "El número de la aduitoría debe tener máximo 15 dígitos")
+    @Min(value = 1, message = "El número de la aduitoría debe ser mayor a cero")
+    private BigInteger number;
 
     @NotEmpty(message = "El nombre de la aduitoría es un campo requerido")
     @Size(min = 8, max = 200, message = "El nombre de la aduitoría debe tener entre 8 y 200 caracteres")
@@ -51,7 +55,7 @@ public class AuditDto {
     @NotNull(message = "El ente fiscalizado es un campo requerido")
     private Long auditedEntityId;
 
-    @NotNull(message = "El tipo de auditoria es un campo requerido")
+    @NotNull(message = "El tipo de auditoría es un campo requerido")
     private Long auditTypeId;
 
     private SelectList supervisoryEntity;
@@ -63,7 +67,7 @@ public class AuditDto {
     public AuditDto() {
     }
 
-    public AuditDto(Long id, String letterNumber, Calendar letterDate, String number, String name, String objective, Calendar reviewInitDate, Calendar reviewEndDate, Calendar auditedYear, String budgetProgram,
+    public AuditDto(Long id, String letterNumber, Calendar letterDate, BigInteger number, String name, String objective, Calendar reviewInitDate, Calendar reviewEndDate, Calendar auditedYear, String budgetProgram,
                     Long idSupervisoryEntity, String nameSupervisoryEntity, String responsibleSupervisoryEntity,
                     Long idAuditedEntity, String nameAuditedEntity, String responsibleAuditedEntity,
                     Long idAuditType, String nameAuditType) {
@@ -108,11 +112,11 @@ public class AuditDto {
         this.letterDate = letterDate;
     }
 
-    public String getNumber() {
+    public BigInteger getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(BigInteger number) {
         this.number = number;
     }
 

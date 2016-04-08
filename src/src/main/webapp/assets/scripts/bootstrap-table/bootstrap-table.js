@@ -899,6 +899,7 @@
         var $this = event.type === "keypress" ? $(event.currentTarget) : $(event.currentTarget).parent(),
             $this_ = this.$header.find('th').eq($this.index());
 
+        event.stopPropagation();
         this.$header.add(this.$header_).find('span.order').remove();
 
         if (this.options.sortName === $this.data('field')) {

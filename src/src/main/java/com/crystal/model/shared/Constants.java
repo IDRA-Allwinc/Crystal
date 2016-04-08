@@ -16,11 +16,11 @@ public class Constants {
     public static final String AUTHORITY_MANAGER = "Administrador";
     public static final String AUTHORITY_DIRECTION = "Director";
 
-    //codigos de tipos de entes fiscalizados (solo existen 2, subsecreatarias y organos independientes)
+    //codigos de tipos de entes fiscalizados (solo existen 2, subsecretarías y organos independientes)
     public static final String ENTITY_TYPE_SECRETARY = "TYPE_SECRETARY";
     public static final String ENTITY_TYPE_INDEPENDENT_BODY = "TYPE_INDEPENDENT_BODY";
 
-    //nombre de usuario que otorga spring security cuando no se ha iniciado sesion
+    //nombre de usuario que otorga spring security cuando no se ha iniciado sesión
     public static final String anonymousUser = "anonymousUser";
 
     //session check urls
