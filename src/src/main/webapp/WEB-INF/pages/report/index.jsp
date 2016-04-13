@@ -1,3 +1,4 @@
+<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -15,8 +16,8 @@
           type="text/css">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/report/report.ctrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.1.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.1.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.min.js"></script>
 
     <script type="text/javascript">
     </script>
@@ -215,17 +216,17 @@
                                                                                 <td class="text-center">{{row.auditNumber}}</td>
                                                                                 <td class="text-center">{{row.emitted}}</td>
                                                                                 <td class="text-center">{{row.attended}}</td>
-                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "constante", "<c:url value='/report/x.json' />");'>
+                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RECOMMENDATION_R%>", "<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
                                                                                         {{ row.recommendations }}
                                                                                     </div>
                                                                                 </a></td>
-                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "constante","<c:url value='/report/x.json' />");'>
+                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.OBSERVATION_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
                                                                                         {{ row.observations }}
                                                                                     </div>
                                                                                 </a></td>
-                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "constante","<c:url value='/report/x.json' />");'>
+                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RESPONSIBILITY_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
                                                                                         {{ row.responsibilities }}
                                                                                     </div>
