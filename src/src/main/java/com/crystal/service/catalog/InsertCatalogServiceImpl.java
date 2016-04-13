@@ -17,10 +17,11 @@ import java.util.List;
 @Service("insertCatalogService")
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
-    private String PATH = "C:\\Projects\\IDRASoft\\Crystal\\db\\";
+//    private String PATH = "C:\\Projects\\IDRASoft\\Crystal\\db\\";
 //    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
 //    private String PATH = "C:\\Users\\Administrator\\IdeaProjects\\Crystal\\db\\";
 //    private String PATH = "/Users/ArturoDeLaRosa/Documents/Projects/Crystal/db/";
+    private String PATH = "C:\\Projects\\Crystal\\Crystal\\db\\";
 
     @Autowired
     RoleRepository roleRepository;
