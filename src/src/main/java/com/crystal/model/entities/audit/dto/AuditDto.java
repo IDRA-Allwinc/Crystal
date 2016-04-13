@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class AuditDto {
@@ -63,6 +64,8 @@ public class AuditDto {
     private SelectList auditType;
     private String lstSelectedAreas;
     private String role;
+    private List<SelectList> lstUnattendedEntities;
+    private String detailType;
 
     public AuditDto() {
     }
@@ -230,5 +233,21 @@ public class AuditDto {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<SelectList> getLstUnattendedEntities() {
+        return lstUnattendedEntities;
+    }
+
+    public void setLstUnattendedEntities(List<SelectList> lstUnattendedEntities) {
+        this.lstUnattendedEntities = lstUnattendedEntities;
+    }
+
+    public String getDetailType() {
+        return detailType;
+    }
+
+    public void setDetailType(String detailType) {
+        this.detailType = detailType;
     }
 }

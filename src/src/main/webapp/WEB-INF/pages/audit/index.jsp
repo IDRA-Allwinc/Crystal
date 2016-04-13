@@ -1,3 +1,4 @@
+<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -5,11 +6,11 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.3.1-csp.css" rel="stylesheet"
           type="text/css">
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/audit/audit.ctrl.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.1.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.1.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-1.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.min.js"></script>
 
 
     <script type="text/javascript">
@@ -22,7 +23,10 @@
         function actionsFormatter(value, row, index) {
             return [
                 '<button class="btn btn-success dim act-audit-track btn-tiny" data-toggle="tooltip" data-placement="top" title="Seguimiento de auditor&iacute;a" type="button"><i class="fa fa-arrow-circle-o-right"></i></button>',
-                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>'
+                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-info dim act-recomendaciones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-warning dim act-observaciones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
+                '<button class="btn btn-primary dim act-promociones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
 
@@ -36,7 +40,27 @@
             },
             'click .act-delete': function (e, value, row) {
                 window.showObsolete(row.id, "#angJsjqGridId", "<c:url value='/audit/doObsolete.json' />", "#tblGrid");
-            }
+            }/*,
+            //TODO OCUPAR PARA EL DETALLE DE LOS TABLEROS
+            'click .act-recomendaciones': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.id;
+                params["detailType"] = '<%=Constants.RECOMMENDATION_R%>';
+                window.goToNewWnd("<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />", params);
+            },
+            'click .act-observaciones': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.id;
+                params["detailType"] = '<%=Constants.OBSERVATION_R%>';
+                window.goToNewWnd("<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />", params);
+            },
+            'click .act-promociones': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.id;
+                params["detailType"] = '<%=Constants.RESPONSIBILITY_R%>';
+                window.goToNewWnd("<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />", params);
+            }*/
+
         };
     </script>
 
@@ -103,14 +127,17 @@
                                    data-id-field="id">
                                 <thead>
                                 <tr>
-                                    <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador
+                                    <th data-field="id" data-visible="false" data-card-visible="false"
+                                        data-switchable="false">Identificador
                                     </th>
                                     <th data-field="auditedYearStr" data-align="center" data-sortable="true"
                                         data-filter-control="input">A&ntilde;o fiscalizado
                                     </th>
-                                    <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero de oficio
+                                    <th data-field="letterNumber" data-align="center" data-sortable="true">N&uacute;mero
+                                        de oficio
                                     </th>
-                                    <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de la auditor&iacute;a
+                                    <th data-field="number" data-align="center" data-sortable="true">N&uacute;mero de la
+                                        auditor&iacute;a
                                     </th>
                                     <th data-field="name" data-align="center" data-sortable="true">Nombre de la auditor&iacute;a
                                     </th>

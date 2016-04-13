@@ -100,7 +100,8 @@
                                                                    ng-disabled="vm.m.id!==undefined"
                                                                    placeholder="yyyy/mm/dd"
                                                                    ng-model="vm.m.meetingDate"
-                                                                   is-open="vm.m.initDateIsOpened" ng-required="vm.m.eventType.name === 'Reuni&oacute;n'"
+                                                                   is-open="vm.m.initDateIsOpened"
+                                                                   ng-required="vm.m.eventType.name === 'Reuni&oacute;n'"
                                                                    current-text="Hoy"
                                                                    clear-text="Limpiar"
                                                                    close-text="Cerrar"
@@ -110,36 +111,68 @@
                                                                    alt-input-formats="yyyy/MM/dd"
                                                                    ng-disabled="vm.m.id!==undefined"/>
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-default" ng-click="vm.m.initDateIsOpened=true;">
+                                                                <button type="button" class="btn btn-default"
+                                                                        ng-click="vm.m.initDateIsOpened=true;">
                                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                                 </button>
                                                             </span>
                                                     </div>
-                                                    <span class="error" ng-show="FormUpEventId.meetingDate.$error.required">*Campo requerido</span>
-                                                    <span class="error" ng-show="FormUpEventId.meetingDate.$invalid && !FormUpEventId.meetingDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
-                                                    <input type="hidden" name="meetingDate" ng-model="vm.m.meetingDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
+                                                    <span class="error"
+                                                          ng-show="FormUpEventId.meetingDate.$error.required">*Campo requerido</span>
+                                                    <span class="error"
+                                                          ng-show="FormUpEventId.meetingDate.$invalid && !FormUpEventId.meetingDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                    <input type="hidden" name="meetingDate" ng-model="vm.m.meetingDate"
+                                                           ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-3 form-group">
                                                 <div class="col-xs-12">
                                                     <label class="font-noraml">Hora:</label>
-
                                                     <div>
                                                         <p class="input-group">
-                                                            <input type="time" class="form-control" id="meetingHour" name="meetingHour" ng-hide="vm.m.id!==undefined" ng-model="vm.m.meetingHour"
-                                                                   placeholder="HH:mm:ss" min="00:00:00" max="23:59:59" ng-required="vm.m.eventType.name === 'Reuni&oacute;n'" />
+                                                            <uib-timepicker ng-model="vm.ctrlHour" ng-change="vm.changed()" hour-step="1" ng-init="vm.changed(true)"
+                                                                            ng-hide="vm.m.id!==undefined" ng-required="vm.m.eventType.name === 'Reuni&oacute;n'"
+                                                                            minute-step="5" show-meridian="false"></uib-timepicker>
+                                                            <input type="hidden" id="meetingHour" name="meetingHour" ng-hide="vm.m.id!==undefined"
+                                                                   ng-required="vm.m.eventType.name === 'Reuni&oacute;n'" ng-model="vm.ctrlHourTx" ng-update-hidden>
+                                                            <%--<input type="time" class="form-control" id="meetingHour"--%>
+                                                                   <%--name="meetingHour" ng-hide="vm.m.id!==undefined"--%>
+                                                                   <%--ng-model="vm.m.meetingHour"--%>
+                                                                   <%--placeholder="HH:mm" min="00:00" max="23:59"--%>
+                                                                   <%--ng-required="vm.m.eventType.name === 'Reuni&oacute;n'"/>--%>
 
-                                                            <input type="text" class="form-control" ng-model="vm.m.hour" ng-disabled="vm.m.id!==undefined"  ng-show="vm.m.id!==undefined">
+                                                            <input type="text" class="form-control" ng-model="vm.m.hour"
+                                                                   ng-disabled="true"
+                                                                   ng-show="vm.m.id!==undefined">
                                                         </p>
-                                                        <span class="error"
+                                                    <span class="error"
                                                           ng-show="FormUpEventId.meetingHour.$error.required">*Campo requerido</span>
-                                                        <span class="error" ng-show="FormUpEventId.meetingHour.$error.time">No es una hora valida!</span>
+                                                        <span class="error"
+                                                              ng-show="FormUpEventId.meetingHour.$error.time">No es una hora valida!</span>
                                                     </div>
                                                 </div>
-                                                <span class="error"
-                                                      ng-show="FormUpEventId.endDate.$invalid && !FormUpEventId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
-                                                <input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
+                                                <%--<div class="col-xs-12">--%>
+                                                <%--<uib-timepicker ng-model="vm.ctrlHour" ng-change="changed()" hour-step="1" minute-step="5" show-meridian="false"></uib-timepicker>--%>
+                                                <%--</div>--%>
+                                                <%--<div class="col-xs-12">--%>
+                                                <%--<label class="font-noraml">Hora: {{vm.ctrlHour}}</label>--%>
+
+                                                <%--<div>--%>
+                                                <%--<p class="input-group">--%>
+                                                <%--<input type="time" class="form-control" id="meetingHour" name="meetingHour" ng-hide="vm.m.id!==undefined" ng-model="vm.m.meetingHour"--%>
+                                                <%--placeholder="HH:mm" min="00:00" max="23:59" ng-required="vm.m.eventType.name === 'Reuni&oacute;n'" />--%>
+
+                                                <%--<input type="text" class="form-control" ng-model="vm.m.hour" ng-disabled="vm.m.id!==undefined"  ng-show="vm.m.id!==undefined">--%>
+                                                <%--</p>--%>
+                                                <%--<span class="error"--%>
+                                                <%--ng-show="FormUpEventId.meetingHour.$error.required">*Campo requerido</span>--%>
+                                                <%--<span class="error" ng-show="FormUpEventId.meetingHour.$error.time">No es una hora valida!</span>--%>
+                                                <%--</div>--%>
+                                                <%--</div>--%>
+                                                <%--<span class="error"--%>
+                                                <%--ng-show="FormUpEventId.endDate.$invalid && !FormUpEventId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>--%>
+                                                <%--<input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>--%>
                                             </div>
 
                                             <div class="col-xs-5 form-group">
@@ -157,7 +190,8 @@
                                                                 ng-options="c.name for c in vm.lstMeetingType"
                                                                 ng-model="vm.m.meetingType"></select>
 
-                                                        <span class="error" ng-show="FormUpId.meetingTypeId.$error.required">*Campo requerido</span>
+                                                        <span class="error"
+                                                              ng-show="FormUpId.meetingTypeId.$error.required">*Campo requerido</span>
                                                     </div>
                                                 </div>
 
@@ -167,7 +201,8 @@
 
 
                                         <div class="col-xs-12 form-group typeahead-demo">
-                                            <label class="col-xs-2  col-xs-offset-1 control-label font-noraml" ng-hide="vm.m.id!==undefined">Buscar usuario</label>
+                                            <label class="col-xs-2  col-xs-offset-1 control-label font-noraml"
+                                                   ng-hide="vm.m.id!==undefined">Buscar usuario</label>
 
                                             <div class="col-xs-7">
                                                 <input type="text"
@@ -201,16 +236,18 @@
                                                        name="lstSelectedAssistants">
 
                                                 <ul class="list-group">
-                                                    <li class="list-group-item" ng-if="!vm.lstSelectedAssistants.length>0">
+                                                    <li class="list-group-item"
+                                                        ng-if="!vm.lstSelectedAssistants.length>0">
                                                     <span class="badge badge-warning"><i
                                                             class="fa fa-exclamation-triangle"></i></span>
                                                         No hay usuarios seleccionadas
                                                     </li>
                                                     <li class="list-group-item animated fadeInDown"
                                                         ng-repeat="assignedAssistant in vm.lstSelectedAssistants track by $index">
-                                                        <span class="badge badge-danger" ng-click="vm.popAssistant(assignedAssistant.id)"><i
+                                                        <span class="badge badge-danger"
+                                                              ng-click="vm.popAssistant(assignedAssistant.id)"><i
                                                                 class="fa fa-minus-circle"
-                                                        ></i></span>
+                                                                ></i></span>
                                                         {{assignedAssistant.desc}}
                                                     </li>
                                                 </ul>
@@ -237,7 +274,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-white" ng-click="up.cancel()">
-                    {{vm.m.id!==undefined ?  "Regresar" : "Cancelar"}}
+                    {{vm.m.id!==undefined ? "Regresar" : "Cancelar"}}
                 </button>
                 <button class="btn btn-primary" ng-show="up.WaitFor===false" ng-hide="vm.m.id!==undefined"
                         ng-click="vm.validateAll()== false ? up.submit('#FormUpEventId', '<c:url value='/audit/event/doUpsert.json' />', FormUpEventId.$valid):''">

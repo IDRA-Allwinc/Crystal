@@ -70,7 +70,7 @@ public class Constants {
     }
     /////////////////////////UploadFileTypes/////////////////////////////////////
 
-    /////////////////////////Replication/////////////////////////////////////
+    /////////////////////////Replication-Detail/////////////////////////////////////
     public static final String RECOMMENDATION_R = "RECOMMENDATION";
     public static final String OBSERVATION_R = "OBSERVATION";
     public static final String RESPONSIBILITY_R = "RESPONSIBILITY";

@@ -11,7 +11,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
 
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.3.1-csp.css" rel="stylesheet"
           type="text/css">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/client-app/ctrl/report/report.ctrl.js"></script>
