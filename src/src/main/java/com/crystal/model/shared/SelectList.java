@@ -7,6 +7,7 @@ public class SelectList {
     private Long id;
     private Integer idAux;
     private Calendar calendar;
+    private String calendarStr;
     private String name;
     private String description;
     private String code;
@@ -85,6 +86,13 @@ public class SelectList {
         this.responsible = responsible;
         this.email = email;
         this.phone = phone;
+    }
+
+    //para listar en el detalle las obs, reconmen, etc, sin atender
+    public SelectList(String name, String description, Calendar limitDate) {
+        this.name = name;
+        this.description= description;
+        this.calendarStr = sdf.format(limitDate.getTime());
     }
 
 

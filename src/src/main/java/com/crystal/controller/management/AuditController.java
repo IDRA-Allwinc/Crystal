@@ -108,4 +108,19 @@ public class AuditController {
         return modelView;
     }
 
+    @RequestMapping(value = "/audit/getInfoDetail", method = RequestMethod.GET)
+    public ModelAndView getInfoDetail(@RequestParam(required = true) Long id, @RequestParam(required = true) String type) {
+
+        ModelAndView model = new ModelAndView("/audit/infoDetail/infoDetail");
+
+        try {
+            auditservice.getInfoDetail(id, type, model);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "getInfoDetail", sharedUserService);
+        }
+
+        return model;
+    }
+
 }

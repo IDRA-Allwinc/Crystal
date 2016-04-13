@@ -26,4 +26,6 @@ public interface AuditService {
     public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) throws ParseException;
 
     public void doSave(Audit audit);
+
+    public ModelAndView getInfoDetail(Long auditId, String type, ModelAndView model);
 }
