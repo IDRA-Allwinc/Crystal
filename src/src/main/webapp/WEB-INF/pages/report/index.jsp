@@ -5,7 +5,7 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/pages/shared/headTb.jsp" %>
-    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.1.0-csp.css" rel="stylesheet"
+    <link href="${pageContext.request.contextPath}/assets/content/ui-bootstrap-custom-1.3.1-csp.css" rel="stylesheet"
           type="text/css">
 
     <script type="text/javascript">

@@ -1,4 +1,5 @@
-﻿(function () {
+﻿window.angJsDependencies.push('ui.bootstrap');
+(function () {
     "use strict";
     angular
         .module(window.constMainApp)
@@ -19,6 +20,17 @@
         vm.popAssistant = popAssistant;
         vm.validateAll = validateAll;
         vm.addError = addError;
+        vm.changed = changed;
+
+        function changed(bInit) {
+            if(bInit)  {
+                vm.ctrlHour = new Date(2016, 0, 1, 12, 0, 0, 0);
+                vm.ctrlHourTx = "12:00";
+            }
+
+            vm.ctrlHourTx = vm.ctrlHour.getHours() + ":" + vm.ctrlHour.getMinutes();
+
+        }
 
         function init() {
 
