@@ -35,7 +35,7 @@ public class EventDto {
 
     public EventDto(Long id, String description, Long auditId, Long eventTypeId, Calendar meetingDate, Long meetingTypeId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat sdh = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdh = new SimpleDateFormat("HH:mm");
 
         this.id = id;
         this.description = description;

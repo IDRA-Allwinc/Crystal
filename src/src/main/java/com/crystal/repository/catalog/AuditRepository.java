@@ -24,10 +24,10 @@ public interface AuditRepository extends JpaRepository<Audit, Long> {
     Audit findByIdAndIsObsolete(Long id, boolean bIsObsolete);
 
 
-    @Query(value = "select a from Audit a " +
+    @Query(value = "select count(a.id) from Audit a " +
             "where a.isObsolete=false " +
             "and a.letterNumber=:letterNumber " +
             "and a.id <> :auditId")
-    public Audit findByLetterNumberAndId(@Param("letterNumber") String letterNumber, @Param("auditId") Long auditId);
+    public Long findByLetterNumberAndId(@Param("letterNumber") String letterNumber, @Param("auditId") Long auditId);
 
 }
