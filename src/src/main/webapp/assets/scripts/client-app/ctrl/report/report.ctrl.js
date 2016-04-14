@@ -204,11 +204,13 @@
                 },
                 beforePageContent: function (data) {
                     doc.setFontSize(12);
-                    doc.text("Observaciones por órgano fiscalizador", 40, 30);
+                    doc.text("Observaciones por órgano fiscalizador: " + vm.selectedSupervisory.name, 40, 40);
                 },
                 afterPageContent: function (data) {
                     doc.setFontSize(8);
-                    doc.text("R = Recomendación, PO = Pliego de observaciones, PRAS = Responsabilidad Administrativa Sancionatoria", data.settings.margin.left, data.cursor.y + 20);
+                    var text = "R = Recomendación, PO = Pliego de observaciones, PRAS = Responsabilidad Administrativa Sancionatoria",
+                        xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(text) * doc.internal.getFontSize() / 2);
+                    doc.text(text, xOffset, data.cursor.y + 20);
                 }
             });
             doc.save('table.pdf')
@@ -216,18 +218,23 @@
 
         function makePDFObject() {
 
-            var finalObject = vm.supervisoryData.slice();
+            var finalObject = angular.copy(vm.supervisoryData);
             var tempObjectF = undefined;
             var tempObjectS = undefined;
 
 
             if (vm.selectedEntity !== undefined) {
-                tempObjectS = vm.entityTypeData.slice();
-                for (var i = 0; i < tempObjectS.length; i++) {
-                    if (tempObjectS[i].aux === vm.selectedEntity) {
+                tempObjectF = angular.copy(vm.entityTypeData);
+                tempObjectS = angular.copy(vm.entityData);
+                for (var j = 0; j < tempObjectF.length; j++) {
+                    tempObjectF[j].id = "     - "+tempObjectF[j].id;
+                }
+                for (var i = 0; i < tempObjectF.length; i++) {
+                    if (tempObjectF[i].aux === vm.selectedEntity) {
                         i++;
-                        for (var j = 0; j < vm.entityData.length; j++) {
-                            tempObjectS.splice(i, 0, vm.entityData[j]);
+                        for (var j = 0; j < tempObjectS.length; j++) {
+                            tempObjectS[j].id = "        > "+tempObjectS[j].id;
+                            tempObjectF.splice(i, 0, tempObjectS[j]);
                             i++;
                         }
                         break;
@@ -238,9 +245,17 @@
 
             if (vm.selectedEntityType !== undefined) {
                 if (tempObjectS === undefined) {
-                    tempObjectS = vm.entityTypeData.slice();
+                    tempObjectS = angular.copy(vm.entityTypeData);
+                    for (var j = 0; j < tempObjectS.length; j++) {
+                        tempObjectS[j].id = "     - "+tempObjectS[j].id;
+                    }
+                }else{
+                    tempObjectS = tempObjectF;
                 }
-                tempObjectF = vm.yearData.slice();
+                tempObjectF = angular.copy(vm.yearData);
+                for (var j = 0; j < tempObjectF.length; j++) {
+                    tempObjectF[j].id = "  + "+tempObjectF[j].id;
+                }
                 for (var i = 0; i < tempObjectF.length; i++) {
                     if (tempObjectF[i].aux === vm.selectedEntityType) {
                         i++;
@@ -256,7 +271,10 @@
 
             if (vm.selectedYear !== undefined) {
                 if (tempObjectF === undefined) {
-                    tempObjectF = vm.yearData.slice();
+                    tempObjectF = vm.yearData.slice(0);
+                    for (var j = 0; j < tempObjectF.length; j++) {
+                        tempObjectF[j].id = "  + "+tempObjectF[j].id;
+                    }
                 }
                 for (var i = 0; i < finalObject.length; i++) {
                     if (finalObject[i].id === vm.selectedYear) {

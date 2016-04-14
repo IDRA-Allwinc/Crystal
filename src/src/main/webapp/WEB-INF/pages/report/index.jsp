@@ -69,7 +69,7 @@
                                     <input type="text"
                                            ng-model="vmr.entity"
                                            uib-typeahead="entity as entity.name for entity in vmr.lstSupervisorEntities | filter:$viewValue | limitTo:8"
-                                           class="form-control"
+                                           class="form-control text-center"
                                            typeahead-min-length="0"
                                            typeahead-on-select='vmr.selectSupervisory($item, "<c:url value='/report/getReportDataBySupervisor.json' />");'>
                                 </div>
@@ -81,7 +81,7 @@
                             <div class="row" data-ng-show="vmr.selectedSupervisory !== undefined">
                                 <div class="col-xs-4 col-xs-offset-4 text-center">
                                     <h4>Órgano fiscalizador: {{vmr.selectedSupervisory.name}}</h4>
-                                    <button ng-click="vmr.exportToPDF()">Exportar a PDF</button>
+                                    <button class="btn btn-info" ng-click="vmr.exportToPDF()"><i class="fa fa-file-pdf-o"></i>  Exportar a PDF</button>
                                 </div>
                             </div>
                             <br/>
@@ -119,9 +119,9 @@
                                         </thead>
                                         <tbody class="tableReportC1">
                                         <tr class="animate-repeat" ng-repeat-start="row in vmr.supervisoryData">
-                                            <td class="text-center">
+                                            <td>
                                                 <a ng-click='vmr.selectYear(row.id, "<c:url value='/report/getReportDataBySupervisorYear.json' />");'>
-                                                    <div style="height:100%;width:100%">
+                                                    <div class="tableReportFRow1">
                                                         {{ row.id }}
                                                     </div>
                                                 </a>
@@ -149,9 +149,9 @@
                                                     <col style="width:10%">
                                                     <tbody class="tableReportC2">
                                                     <tr ng-repeat-start="row in vmr.yearData">
-                                                        <td class="text-center">
+                                                        <td>
                                                             <a ng-click='vmr.selectEntityType(row.aux, "<c:url value='/report/getReportDataBySupervisorYearEntityType.json' />");'>
-                                                                <div style="height:100%;width:100%">
+                                                                <div class="tableReportFRow2">
                                                                     {{row.id}}
                                                                 </div>
                                                             </a>
@@ -180,9 +180,9 @@
                                                                 <col style="width:10%">
                                                                 <tbody class="tableReportC3">
                                                                 <tr ng-repeat-start="row in vmr.entityTypeData">
-                                                                    <td class="text-center">
+                                                                    <td>
                                                                         <a ng-click='vmr.selectEntity(row.aux, "<c:url value='/report/getReportDataBySupervisorYearEntity.json' />");'>
-                                                                            <div style="height:100%;width:100%">
+                                                                            <div class="tableReportFRow3">
                                                                                 {{ row.id }}
                                                                             </div>
                                                                         </a>
@@ -212,7 +212,10 @@
                                                                             <col style="width:10%">
                                                                             <tbody class="tableReportC4">
                                                                             <tr ng-repeat="row in vmr.entityData">
-                                                                                <td class="text-center">{{row.id}}</td>
+                                                                                <td>
+                                                                                    <div class="tableReportFRow4">
+                                                                                        {{row.id}}
+                                                                                    </div></td>
                                                                                 <td class="text-center">{{row.auditNumber}}</td>
                                                                                 <td class="text-center">{{row.emitted}}</td>
                                                                                 <td class="text-center">{{row.attended}}</td>

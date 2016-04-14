@@ -483,7 +483,29 @@ div.blocker img {
     background: #ECEFF1;
 }
 
+.tableReportFRow1{
+    height:100%;
+    width:100%;
+}
 
+.tableReportFRow2{
+    height:100%;
+    width:100%;
+    margin-left:15px;
+}
+
+
+.tableReportFRow3{
+    height:100%;
+    width:100%;
+    margin-left:30px;
+}
+
+.tableReportFRow4{
+    height:100%;
+    width:100%;
+    margin-left:45px;
+}
 
 
 
