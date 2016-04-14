@@ -109,7 +109,7 @@ public class AuditServiceImpl implements AuditService {
 
         audit.merge(auditDto);
 
-        if(audit.getReviewInitDate().compareTo(audit.getReviewEndDate()) > 0){
+        if (audit.getReviewInitDate().compareTo(audit.getReviewEndDate()) > 0) {
             responseMessage.setHasError(true);
             responseMessage.setMessage("La fecha del periodo inicial de revisión no puede ser mayor a la fecha del periodo final.");
             return null;
@@ -218,5 +218,31 @@ public class AuditServiceImpl implements AuditService {
         model.setObsolete(true);
         model.setDelAudit(userId);
         auditRepository.saveAndFlush(model);
+    }
+
+    @Override
+    public ModelAndView getInfoDetail(Long auditId, String type, ModelAndView modelAndView) {
+
+        AuditDto auditDto = auditRepository.findDtoById(auditId);
+
+        switch (type) {
+            case Constants.RECOMMENDATION_R:
+                auditDto.setLstUnattendedEntities(auditRepository.getUnattendedRecommendations(auditId));
+                break;
+            case Constants.OBSERVATION_R:
+                auditDto.setLstUnattendedEntities(auditRepository.getUnattendedObservations(auditId));
+                break;
+            case Constants.RESPONSIBILITY_R:
+                auditDto.setLstUnattendedEntities(auditRepository.getUnattendedResponsibility(auditId));
+                break;
+        }
+
+        auditDto.setDetailType(type);
+
+        Gson gson = new Gson();
+        modelAndView.addObject("model", gson.toJson(auditDto));
+
+        return modelAndView;
+
     }
 }

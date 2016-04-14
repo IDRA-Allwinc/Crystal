@@ -455,3 +455,41 @@ div.blocker img {
     margin-top: 40px;
 }
 /*vertical tabs bootstrap*/
+
+
+
+.tableReportP{
+    border: 1px solid #E0E0E0;
+}
+
+.tableReportHeader{
+    background: #9E9E9E;
+    color: #ffffff;
+}
+
+.tableReportC1{
+    background: #ffffff;
+}
+
+.tableReportC2{
+    background: #E0F7FA;
+}
+
+.tableReportC3{
+    background: #E0F2F1;
+}
+
+.tableReportC4{
+    background: #ECEFF1;
+}
+
+
+
+
+
+
+
+
+
+
+
