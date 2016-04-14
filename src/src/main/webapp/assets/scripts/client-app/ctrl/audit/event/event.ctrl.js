@@ -28,7 +28,9 @@
                 vm.ctrlHourTx = "12:00";
             }
 
-            vm.ctrlHourTx = vm.ctrlHour.getHours() + ":" + vm.ctrlHour.getMinutes();
+            try  {
+                vm.ctrlHourTx = vm.ctrlHour.getHours() + ":" + vm.ctrlHour.getMinutes();
+            }catch (e){ vm.ctrlHourTx = "00:00"}
 
         }
 
@@ -123,7 +125,7 @@
         function getAssistants(str) {
             return $http.get(vm.urlGetAssistants, {params: {assistantStr: str}})
                 .then(function (response) {
-
+                     debugger;
                     for (var x = response.data.length - 1; x > -1; x--) {
                         if (vm.findAssignedAssistant(response.data[x]) === true) {
                             response.data.splice(x, 1);
