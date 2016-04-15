@@ -6,33 +6,24 @@
         var arr = [];
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-        if (row.isAttended !== true && row.id==row.lastExtensionId)
+        if (row.isAttended !== true )//&& row.id==row.lastExtensionId) //DESCOMENTAR/AGREGAR PARA PERMITIR ELIMINAR SOLO LA ULTIMA PRORROGA, REVISAR LAS CONSULTAS DE LAS VISTAS PARA LOS GRIDS Y LOS DTOS
             arr.push('<button class="btn btn-danger dim act-ext-req-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar pr&oacute;rroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
-
-    window.actionEventsRequestExtension = {
-        'click .act-ext-req-delete': function (e, value, row) {
-            window.showObsoleteParam({
-                requestId: row.requestId,
-                extensionId: row.id
-            }, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doDeleteExtension.json' />", "#tblUfExtensionRequestGrid");
-        },
-        'click .act-download': function (e, value, row) {
-            var params = [];
-            params["idParam"] = row.fileId;
-            window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
-        }
-    };
+    
 
     $(document).ready(function () {
+        
         window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionRequest");
         var tableId = '#tblUfExtensionRequestGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
         var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
+        var scope = angular.element($("#FormUpFileExtensionRequest")).scope();
+        scope.vm.tableId=tableId;
+        
 
         $('#docfileupload').fileupload({
             url: url,
@@ -49,8 +40,7 @@
                         return;
                     }
 
-                    scope.vm.setSuccess(data.result);
-                    $(tableId).bootstrapTable('refresh', 'showLoading');
+                    scope.vm.setSuccess();
 
                 } catch (ex) {
                     scope.vm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
@@ -71,6 +61,25 @@
             }
         }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+        window.actionEventsRequestExtension = {
+            'click .act-ext-req-delete': function (e, value, row) {
+                window.showObsoleteParam({
+                    requestId: row.requestId,
+                    extensionId: row.id
+                }, "#angJsjqGridIdLetter", "<c:url value='/audit/request/doDeleteExtension.json' />", "#tblUfExtensionRequestGrid", undefined, undefined,scope.vm.refreshExtensionRequest);
+            },
+            'click .act-download': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.fileId;
+                window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+            }
+        };
+
+        $('#dlgUpModalId').on('hidden.bs.modal', function () {
+            scope.vm.refreshParentGrid("#tblGrid");
+        })
     })
     ;
 
@@ -79,7 +88,8 @@
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
     <div class="modal-dialog" style="width:960px" data-ng-controller="extensionRequestController as vm"
-         data-ng-init='vm.m = ${(model == null ? "{}" : model)};'>
+         data-ng-init='vm.m = ${(model == null ? "{}" : model)};
+         vm.urlRefresh="<c:url value='/audit/request/refresh.json'/>";'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -99,7 +109,7 @@
             </div>
 
             <div class="modal-body">
-                <div data-ng-show="vm.m.isAttended !== true">
+                <div data-ng-show="vm.m.isAttended !== true  && vm.m.hasExtension == false">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">

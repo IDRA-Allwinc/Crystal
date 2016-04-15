@@ -33,6 +33,8 @@ public class CommentDto {
 
     private boolean isAttended;
 
+    private boolean hasExtension;
+
     public CommentDto() {
 
     }
@@ -119,5 +121,13 @@ public class CommentDto {
 
     public void setAttended(boolean isAttended) {
         this.isAttended = isAttended;
+    }
+
+    public boolean isHasExtension() {
+        return hasExtension;
+    }
+
+    public void setHasExtension(boolean hasExtension) {
+        this.hasExtension = hasExtension;
     }
 }

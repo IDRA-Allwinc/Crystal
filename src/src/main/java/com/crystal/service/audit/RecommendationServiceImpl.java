@@ -446,6 +446,10 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public void extension(Long recommendationId, ModelAndView modelAndView) {
         RecommendationDto model = recommendationRepository.findDtoById(recommendationId);
+        Long lastExtensionId = recommendationRepository.findLastExtensionIdByRecommendationId(recommendationId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
         model.setType(Constants.UploadFile.EXTENSION_RECOMMENDATION);
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
@@ -521,5 +525,20 @@ public class RecommendationServiceImpl implements RecommendationService {
         extensionRepository.save(lastExtension);
         recommendationRepository.saveAndFlush(model);
         uploadFileGenericRepository.delete(lastExtensionFileId);
+    }
+
+    public ResponseMessage refreshExtensionRecommendation(Long id, ResponseMessage responseMessage){
+        Gson gson = new Gson();
+        RecommendationDto model = recommendationRepository.findDtoById(id);
+        Long lastExtensionId = recommendationRepository.findLastExtensionIdByRecommendationId(id);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
+        model.setType(Constants.UploadFile.EXTENSION_RECOMMENDATION);
+
+        responseMessage.setHasError(false);
+        responseMessage.setReturnData(gson.toJson(model));
+
+        return responseMessage;
     }
 }

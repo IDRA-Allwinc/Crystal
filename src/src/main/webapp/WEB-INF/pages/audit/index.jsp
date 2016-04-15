@@ -23,10 +23,10 @@
         function actionsFormatter(value, row, index) {
             return [
                 '<button class="btn btn-success dim act-audit-track btn-tiny" data-toggle="tooltip" data-placement="top" title="Seguimiento de auditor&iacute;a" type="button"><i class="fa fa-arrow-circle-o-right"></i></button>',
-                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-info dim act-recomendaciones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-warning dim act-observaciones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
-                '<button class="btn btn-primary dim act-promociones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>'
+                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>'
+//                '<button class="btn btn-info dim act-recomendaciones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
+//                '<button class="btn btn-warning dim act-observaciones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>',
+//                '<button class="btn btn-primary dim act-promociones btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar auditor&iacute;a" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
 

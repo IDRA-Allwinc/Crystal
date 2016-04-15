@@ -33,6 +33,8 @@ public class ObservationDto {
 
     private boolean isAttended;
 
+    private boolean hasExtension;
+
     @NotNull(message = "El tipo del pliego de observaciones es un campo requerido")
     private Long observationTypeId;
 
@@ -131,5 +133,13 @@ public class ObservationDto {
 
     public void setObservationTypeId(Long observationTypeId) {
         this.observationTypeId = observationTypeId;
+    }
+
+    public boolean isHasExtension() {
+        return hasExtension;
+    }
+
+    public void setHasExtension(boolean hasExtension) {
+        this.hasExtension = hasExtension;
     }
 }

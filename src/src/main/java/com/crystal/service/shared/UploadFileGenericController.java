@@ -83,6 +83,11 @@ public class UploadFileGenericController {
             String path = request.getSession().getServletContext().getRealPath("");
             path = new File(path, uFile.getPath()).toString();
 
+            //SI SE TRATA DE UN ARCHIVO ASOCIADO A UNA PRORROGA SE VALIDA
+            if(upDwFileGenericService.validateExtensions(resMsg,uploadRequest)==true)
+                return resMsg;
+
+
             if (!upDwFileGenericService.saveOnDiskUploadFile(mpf, path, uFile, resMsg, logException, sharedUserService))
                 return resMsg;
 

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -52,19 +53,19 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
         switch (type) {
             case Constants.UploadFile.EXTENSION_REQUEST:
-                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION + userId.toString()).toString());
                 return true;
             case Constants.UploadFile.EXTENSION_COMMENT:
-                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION + userId.toString()).toString());
                 return true;
             case Constants.UploadFile.EXTENSION_RECOMMENDATION:
-                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION + userId.toString()).toString());
                 return true;
             case Constants.UploadFile.EXTENSION_OBSERVATION:
-                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION + userId.toString()).toString());
                 return true;
             case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
-                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION+ userId.toString()).toString());
+                file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_EXTENSION + userId.toString()).toString());
                 return true;
             case Constants.UploadFile.REQUEST:
                 file.setPath(new File(Constants.SystemSettings.Map.get(Constants.SystemSettings.PATH_TO_SAVE_UPLOAD_FILES), Constants.FILE_PREFIX_REQUEST + userId.toString()).toString());
@@ -205,19 +206,22 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
     @Override
     @Transactional
-    public void save(UploadFileGeneric uploadFile, UploadFileRequest uploadRequest) {
+    public void save(UploadFileGeneric uploadFile, UploadFileRequest uploadRequest) throws ParseException {
         Integer type = uploadRequest.getType();
         if (type == null) {
             uploadFileGenericRepository.saveAndFlush(uploadFile);
             return;
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar endDate = Calendar.getInstance();
+
         switch (type) {
             case Constants.UploadFile.EXTENSION_REQUEST:
-                Request r =  requestRepository.findOne(uploadRequest.getId());
+                Request r = requestRepository.findOne(uploadRequest.getId());
                 List<Extension> lstExtensionRq = r.getLstExtension();
                 if (lstExtensionRq == null) lstExtensionRq = new ArrayList<>();
-                Extension e=new Extension();
+                Extension e = new Extension();
                 e.setCreateDate(Calendar.getInstance());
                 e.setObsolete(false);
                 e.setInitial(false);
@@ -225,24 +229,21 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 e.setUploadFileGeneric(uploadFile);
                 e.setInsAudit(sharedUserService.getLoggedUserId());
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                    Calendar endDate = Calendar.getInstance();
-                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
-                    e.setEndDate(endDate);
-                    r.setEndDate(endDate);
-                }catch (Exception ex){
-                    return;
-                }
+
+
+                endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                e.setEndDate(endDate);
+                r.setEndDate(endDate);
+
 
                 lstExtensionRq.add(e);
                 requestRepository.saveAndFlush(r);
                 break;
             case Constants.UploadFile.EXTENSION_COMMENT:
-                Comment c =  commentRepository.findOne(uploadRequest.getId());
+                Comment c = commentRepository.findOne(uploadRequest.getId());
                 List<Extension> lstExtensionCm = c.getLstExtension();
                 if (lstExtensionCm == null) lstExtensionCm = new ArrayList<>();
-                Extension eC =new Extension();
+                Extension eC = new Extension();
                 eC.setCreateDate(Calendar.getInstance());
                 eC.setObsolete(false);
                 eC.setInitial(false);
@@ -250,24 +251,19 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 eC.setUploadFileGeneric(uploadFile);
                 eC.setInsAudit(sharedUserService.getLoggedUserId());
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                    Calendar endDate = Calendar.getInstance();
-                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
-                    eC.setEndDate(endDate);
-                    c.setEndDate(endDate);
-                }catch (Exception ex){
-                    return;
-                }
+
+                endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                eC.setEndDate(endDate);
+                c.setEndDate(endDate);
 
                 lstExtensionCm.add(eC);
                 commentRepository.saveAndFlush(c);
                 break;
             case Constants.UploadFile.EXTENSION_RECOMMENDATION:
-                Recommendation rec =  recommendationRepository.findOne(uploadRequest.getId());
+                Recommendation rec = recommendationRepository.findOne(uploadRequest.getId());
                 List<Extension> lstExtensionRec = rec.getLstExtension();
                 if (lstExtensionRec == null) lstExtensionRec = new ArrayList<>();
-                Extension eRec =new Extension();
+                Extension eRec = new Extension();
                 eRec.setCreateDate(Calendar.getInstance());
                 eRec.setObsolete(false);
                 eRec.setInitial(false);
@@ -275,24 +271,20 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 eRec.setUploadFileGeneric(uploadFile);
                 eRec.setInsAudit(sharedUserService.getLoggedUserId());
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                    Calendar endDate = Calendar.getInstance();
-                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
-                    eRec.setEndDate(endDate);
-                    rec.setEndDate(endDate);
-                }catch (Exception ex){
-                    return;
-                }
+
+                endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                eRec.setEndDate(endDate);
+                rec.setEndDate(endDate);
+
 
                 lstExtensionRec.add(eRec);
                 recommendationRepository.saveAndFlush(rec);
                 break;
             case Constants.UploadFile.EXTENSION_OBSERVATION:
-                Observation obs =  observationRepository.findOne(uploadRequest.getId());
+                Observation obs = observationRepository.findOne(uploadRequest.getId());
                 List<Extension> lstExtensionObs = obs.getLstExtension();
                 if (lstExtensionObs == null) lstExtensionObs = new ArrayList<>();
-                Extension eObs =new Extension();
+                Extension eObs = new Extension();
                 eObs.setCreateDate(Calendar.getInstance());
                 eObs.setObsolete(false);
                 eObs.setInitial(false);
@@ -300,24 +292,19 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 eObs.setUploadFileGeneric(uploadFile);
                 eObs.setInsAudit(sharedUserService.getLoggedUserId());
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                    Calendar endDate = Calendar.getInstance();
-                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
-                    eObs.setEndDate(endDate);
-                    obs.setEndDate(endDate);
-                }catch (Exception ex){
-                    return;
-                }
+
+                endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                eObs.setEndDate(endDate);
+                obs.setEndDate(endDate);
 
                 lstExtensionObs.add(eObs);
                 observationRepository.saveAndFlush(obs);
                 break;
             case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
-                Responsibility resp  =  responsibilityRepository.findOne(uploadRequest.getId());
+                Responsibility resp = responsibilityRepository.findOne(uploadRequest.getId());
                 List<Extension> lstExtensionResp = resp.getLstExtension();
                 if (lstExtensionResp == null) lstExtensionResp = new ArrayList<>();
-                Extension eResp =new Extension();
+                Extension eResp = new Extension();
                 eResp.setCreateDate(Calendar.getInstance());
                 eResp.setObsolete(false);
                 eResp.setInitial(false);
@@ -325,15 +312,11 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 uploadFile.setObsolete(false);
                 eResp.setUploadFileGeneric(uploadFile);
                 eResp.setInsAudit(sharedUserService.getLoggedUserId());
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                    Calendar endDate = Calendar.getInstance();
-                    endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
-                    eResp.setEndDate(endDate);
-                    resp.setEndDate(endDate);
-                }catch (Exception ex){
-                    return;
-                }
+
+                endDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+                eResp.setEndDate(endDate);
+                resp.setEndDate(endDate);
+
 
                 lstExtensionResp.add(eResp);
                 responsibilityRepository.saveAndFlush(resp);
@@ -398,6 +381,143 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
                 break;
         }
 
+    }
+
+    //VALIDACIONES PARA
+    //  DETECTAR SI  YA EXISTE UNA PRORROGA PARA REQUERIMIENTOS, OBSERVACIONES, RECOMENDACIONES, PLIEGOS Y PROMOCIONES
+    //  VERIFICAR QUE LA FECHA SEA MAYOR A LA FECHA ACTUAL DEL ELEMENTO
+    @Override
+    public boolean validateExtensions(ResponseMessage responseMessage, UploadFileRequest uploadRequest) throws ParseException {
+        Integer type = uploadRequest.getType();
+
+        boolean result = false;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar newEndDate = Calendar.getInstance();
+
+        if (type != null) {
+
+            switch (type) {
+                case Constants.UploadFile.EXTENSION_REQUEST:
+
+                    Long lastIdReqExt = requestRepository.findLastExtensionIdByRequestId(uploadRequest.getId());
+
+                    if (lastIdReqExt != null && lastIdReqExt > 0) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("No es posible agregar una prórroga. El elemento ya cuenta con una prórroga previamente registrada.");
+                        result = true;
+                        break;
+                    }
+
+                    Request req = requestRepository.findOne(uploadRequest.getId());
+                    newEndDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+
+                    if (!newEndDate.after(req.getEndDate())) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("La nueva fecha límite debe ser mayor a la fecha límite actual del elemento.");
+                        result = true;
+                        break;
+                    }
+
+                    break;
+                case Constants.UploadFile.EXTENSION_COMMENT:
+                    Long lastIdCommExt = commentRepository.findLastExtensionIdByCommentId(uploadRequest.getId());
+
+                    if (lastIdCommExt != null && lastIdCommExt > 0) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("No es posible agregar una prórroga. El elemento ya cuenta con una prórroga previamente registrada.");
+                        result = true;
+                        break;
+                    }
+
+                    Comment com = commentRepository.findOne(uploadRequest.getId());
+                    newEndDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+
+                    if (!newEndDate.after(com.getEndDate())) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("La nueva fecha límite debe ser mayor a la fecha límite actual del elemento.");
+                        result = true;
+                        break;
+                    }
+
+                    break;
+                case Constants.UploadFile.EXTENSION_RECOMMENDATION:
+                    Long lastIdRecExt = recommendationRepository.findLastExtensionIdByRecommendationId(uploadRequest.getId());
+
+                    if (lastIdRecExt != null && lastIdRecExt > 0) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("No es posible agregar una prórroga. El elemento ya cuenta con una prórroga previamente registrada.");
+                        result = true;
+                        break;
+                    }
+
+                    Recommendation rec = recommendationRepository.findOne(uploadRequest.getId());
+                    newEndDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+
+                    if (!newEndDate.after(rec.getEndDate())) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("La nueva fecha límite debe ser mayor a la fecha límite actual del elemento.");
+                        result = true;
+                        break;
+                    }
+                    break;
+                case Constants.UploadFile.EXTENSION_OBSERVATION:
+                    Long lastIdObsExt = observationRepository.findLastExtensionIdByObservationId(uploadRequest.getId());
+
+                    if (lastIdObsExt != null && lastIdObsExt > 0) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("No es posible agregar una prórroga. El elemento ya cuenta con una prórroga previamente registrada.");
+                        result = true;
+                        break;
+                    }
+
+                    Observation obs = observationRepository.findOne(uploadRequest.getId());
+                    newEndDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+
+                    if (!newEndDate.after(obs.getEndDate())) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("La nueva fecha límite debe ser mayor a la fecha límite actual del elemento.");
+                        result = true;
+                        break;
+                    }
+
+                    break;
+                case Constants.UploadFile.EXTENSION_RESPONSIBILITY:
+                    Long lastIdResExt = responsibilityRepository.findLastExtensionIdByResponsibilityId(uploadRequest.getId());
+
+                    if (lastIdResExt != null && lastIdResExt > 0) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("No es posible agregar una prórroga. El elemento ya cuenta con una prórroga previamente registrada.");
+                        result = true;
+                        break;
+                    }
+
+                    Responsibility res = responsibilityRepository.findOne(uploadRequest.getId());
+                    newEndDate.setTime(sdf.parse(uploadRequest.getEndDate()));
+
+                    if (!newEndDate.after(res.getEndDate())) {
+                        responseMessage.setHasError(true);
+                        responseMessage.setTitle("Agregar prórroga");
+                        responseMessage.setMessage("La nueva fecha límite debe ser mayor a la fecha límite actual del elemento.");
+                        result = true;
+                        break;
+                    }
+
+                    break;
+            }
+
+        }
+
+        return result;
     }
 
     @Override

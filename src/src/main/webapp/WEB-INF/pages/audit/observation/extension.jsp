@@ -6,25 +6,11 @@
         var arr = [];
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-        if (row.attended !== true && row.id==row.lastExtensionId)
+        if (row.attended !== true )//&& row.id==row.lastExtensionId)
             arr.push('<button class="btn btn-danger dim act-ext-observation-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar pr&oacute;rroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
-
-    window.actionEventsObservationExtension = {
-        'click .act-ext-observation-delete': function (e, value, row) {
-            window.showObsoleteParam({
-                observationId: row.observationId,
-                extensionId: row.id
-            }, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/doDeleteExtension.json' />", "#tblUfExtensionObservationGrid");
-        },
-        'click .act-download': function (e, value, row) {
-            var params = [];
-            params["idParam"] = row.fileId;
-            window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
-        }
-    };
 
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionObservation");
@@ -33,6 +19,8 @@
 
         var tokenCsrf = document.getElementById("token-csrf");
         var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
+        var scope = angular.element($("#FormUpFileExtensionObservation")).scope();
+        scope.vm.tableId = tableId;
 
         $('#docfileupload').fileupload({
             url: url,
@@ -49,8 +37,7 @@
                         return;
                     }
 
-                    scope.vm.setSuccess(data.result);
-                    $(tableId).bootstrapTable('refresh', 'showLoading');
+                    scope.vm.setSuccess();
 
                 } catch (ex) {
                     scope.vm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
@@ -71,6 +58,25 @@
             }
         }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+        window.actionEventsObservationExtension = {
+            'click .act-ext-observation-delete': function (e, value, row) {
+                window.showObsoleteParam({
+                    observationId: row.observationId,
+                    extensionId: row.id
+                }, "#angJsjqGridIdObservation", "<c:url value='/audit/observation/doDeleteExtension.json' />", "#tblUfExtensionObservationGrid", undefined, undefined,scope.vm.refreshExtensionObservation);
+            },
+            'click .act-download': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.fileId;
+                window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+            }
+        };
+
+        $('#dlgUpModalId').on('hidden.bs.modal', function () {
+            scope.vm.refreshParentGrid("#tblGridObservation");
+        })
+
     })
     ;
 
@@ -79,7 +85,9 @@
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
     <div class="modal-dialog" style="width:960px" data-ng-controller="extensionObservationController as vm"
-         data-ng-init='vm.m = ${(model == null ? "{}" : model)};'>
+         data-ng-init='vm.m = ${(model == null ? "{}" : model)};
+         vm.urlRefresh="<c:url value='/audit/observation/refresh.json'/>";'>
+         '>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -99,7 +107,7 @@
             </div>
 
             <div class="modal-body">
-                <div data-ng-show="vm.m.isAttended !== true">
+                <div data-ng-show="vm.m.isAttended !== true && vm.m.hasExtension == false">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">

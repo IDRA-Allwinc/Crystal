@@ -33,6 +33,8 @@ public class RecommendationDto {
 
     private boolean isAttended;
 
+    private boolean hasExtension;
+
     public RecommendationDto() {
 
     }
@@ -119,5 +121,13 @@ public class RecommendationDto {
 
     public void setAttended(boolean attended) {
         isAttended = attended;
+    }
+
+    public boolean isHasExtension() {
+        return hasExtension;
+    }
+
+    public void setHasExtension(boolean hasExtension) {
+        this.hasExtension = hasExtension;
     }
 }

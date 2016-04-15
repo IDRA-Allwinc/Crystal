@@ -185,6 +185,12 @@ public class RecommendationController {
         }
     }
 
+    @RequestMapping(value = "/audit/recommendation/refresh", method = RequestMethod.POST)
+    public ResponseMessage refreshExtensionRecommendation(@RequestParam(required = true) Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        return recommendationService.refreshExtensionRecommendation(id, responseMessage);
+    }
+
     @RequestMapping(value = "/audit/recommendation/extension", method = RequestMethod.POST)
     public ModelAndView extension(@RequestParam(required = true) Long id) {
         ModelAndView modelAndView = new ModelAndView("/audit/recommendation/extension");

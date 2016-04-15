@@ -6,40 +6,29 @@
         var arr = [];
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-        if (row.attended !== true && row.id==row.lastExtensionId)
+        if (row.attended !== true)
             arr.push('<button class="btn btn-danger dim act-ext-recommendation-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar pr&oacute;rroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
 
-    window.actionEventsRecommendationExtension = {
-        'click .act-ext-recommendation-delete': function (e, value, row) {
-            window.showObsoleteParam({
-                recommendationId: row.recommendationId,
-                extensionId: row.id
-            }, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/doDeleteExtension.json' />", "#tblUfExtensionRecommendationGrid");
-        },
-        'click .act-download': function (e, value, row) {
-            var params = [];
-            params["idParam"] = row.fileId;
-            window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
-        }
-    };
-
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionRecommendation");
+
         var tableId = '#tblUfExtensionRecommendationGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
         var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
+        var scope = angular.element($("#FormUpFileExtensionRecommendation")).scope();
+        debugger;
+        scope.ervm.tableId=tableId;
 
         $('#docfileupload').fileupload({
             url: url,
             dataType: 'json',
             done: function (e, data) {
                 try {
-                    var scope = angular.element($("#FormUpFileExtensionRecommendation")).scope();
                     if (data.result === undefined || data.result.hasError === undefined) {
                         scope.ervm.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
                         return;
@@ -49,8 +38,7 @@
                         return;
                     }
 
-                    scope.ervm.setSuccess(data.result);
-                    $(tableId).bootstrapTable('refresh', 'showLoading');
+                    scope.ervm.setSuccess();
 
                 } catch (ex) {
                     scope.ervm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
@@ -71,15 +59,36 @@
             }
         }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+        window.actionEventsRecommendationExtension = {
+            'click .act-ext-recommendation-delete': function (e, value, row) {
+                window.showObsoleteParam({
+                    recommendationId: row.recommendationId,
+                    extensionId: row.id
+                }, "#angJsjqGridIdRecommendation", "<c:url value='/audit/recommendation/doDeleteExtension.json' />", "#tblUfExtensionRecommendationGrid",undefined, undefined,scope.ervm.refreshExtensionRecommendation);
+
+            },
+            'click .act-download': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.fileId;
+                window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+            }
+        };
+
+        $('#dlgUpModalId').on('hidden.bs.modal', function () {
+            scope.ervm.refreshParentGrid("#tblGridRecommendation");
+        })
     })
     ;
 
 </script>
 
-<div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
+<div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up"
+     role="dialog"
      aria-hidden="true" ng-cloak>
     <div class="modal-dialog" style="width:960px" data-ng-controller="extensionRecommendationController as ervm"
-         data-ng-init='ervm.m = ${(model == null ? "{}" : model)};'>
+         data-ng-init='ervm.m = ${(model == null ? "{}" : model)};
+         ervm.urlRefresh="<c:url value='/audit/recommendation/refresh.json'/>";'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -99,7 +108,7 @@
             </div>
 
             <div class="modal-body">
-                <div data-ng-show="ervm.m.isAttended !== true">
+                <div data-ng-show="ervm.m.isAttended !== true && ervm.m.hasExtension == false">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">
@@ -110,7 +119,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <form id="FormUpFileExtensionRecommendation" name="FormUpFileExtensionRecommendation" class="form-horizontal"
+                        <form id="FormUpFileExtensionRecommendation" name="FormUpFileExtensionRecommendation"
+                              class="form-horizontal"
                               role="form"
                               enctype="multipart/form-data">
                             <input type="hidden" id="id" name="id" ng-model="ervm.m.id" ng-update-hidden/>
@@ -136,7 +146,8 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="endDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="ervm.m.endDateExtRecomm"
+                                                           uib-datepicker-popup="yyyy/MM/dd"
+                                                           ng-model="ervm.m.endDateExtRecomm"
                                                            is-open="ervm.m.endDateIsOpened" ng-required="true"
                                                            placeholder="yyyy/mm/dd"
                                                            current-text="Hoy"
@@ -254,14 +265,25 @@
                                        data-id-field="id">
                                     <thead>
                                     <tr>
-                                        <th data-field="id" data-visible="false" data-card-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
-                                        <th data-field="recommendationId" data-visible="false" data-card-visible="false" data-switchable="false">ID requisito</th>
-                                        <th data-field="isAttended" data-visible="false" data-card-visible="false" data-switchable="false">Atendido</th>
-                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
-                                        <th data-field="extensionComment" data-align="center" data-sortable="true">Comentario</th>
+                                        <th data-field="id" data-visible="false" data-card-visible="false"
+                                            data-card-visible="false" data-switchable="false">Identificador
+                                        </th>
+                                        <th data-field="recommendationId" data-visible="false" data-card-visible="false"
+                                            data-switchable="false">ID requisito
+                                        </th>
+                                        <th data-field="isAttended" data-visible="false" data-card-visible="false"
+                                            data-switchable="false">Atendido
+                                        </th>
+                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento
+                                        </th>
+                                        <th data-field="extensionComment" data-align="center" data-sortable="true">
+                                            Comentario
+                                        </th>
                                         <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite</th>
-                                        <th data-field="Actions" data-formatter="actionsFormatterRecommendationExtension"
-                                            data-align="center" data-width="200px" data-events="actionEventsRecommendationExtension">Acci&oacute;n
+                                        <th data-field="Actions"
+                                            data-formatter="actionsFormatterRecommendationExtension"
+                                            data-align="center" data-width="200px"
+                                            data-events="actionEventsRecommendationExtension">Acci&oacute;n
                                         </th>
                                     </tr>
                                     </thead>
@@ -272,7 +294,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" ng-click="ervm.refreshParentGrid('#tblGridRecommendation'); up.cancel();">
+                <button class="btn btn-default"
+                        ng-click="ervm.refreshParentGrid('#tblGridRecommendation'); up.cancel();">
                     Regresar
                 </button>
             </div>

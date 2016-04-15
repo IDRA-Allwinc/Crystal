@@ -22,5 +22,5 @@ public interface LetterService {
 
     void doAttention(AttentionDto attentionDto, ResponseMessage response);
 
-    public void doDeleteUpFile(Long letterId, Long upFileId, ResponseMessage response);
+    void doDeleteUpFile(Long letterId, Long upFileId, ResponseMessage response);
 }

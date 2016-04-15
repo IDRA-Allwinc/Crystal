@@ -15,26 +15,28 @@ public interface RequestService {
 
     void doObsolete(Long id, ResponseMessage response);
 
-    public List<SelectList> findAreasByRole(SharedUserService sharedUserService, String areaStr);
+    List<SelectList> findAreasByRole(SharedUserService sharedUserService, String areaStr);
 
-    public boolean findByNumberAndLetterId(RequestDto requestDto, ResponseMessage responseMessage);
+    boolean findByNumberAndLetterId(RequestDto requestDto, ResponseMessage responseMessage);
 
     void upsertViewDocs(Long requestId, ModelAndView modelAndView);
 
-    public void attention(Long id, ModelAndView modelView);
+    void attention(Long id, ModelAndView modelView);
 
-    public void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage);
+    void doAttention(AttentionDto attentionDto, ResponseMessage responseMessage);
 
     void doDeleteUpFile(Long requestId, Long upfileId, ResponseMessage response);
 
-    public void doSave(Request request);
+    void doSave(Request request);
 
-    public void save(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage);
+    void save(RequestDto requestDto, AttentionDto attentionDto, ResponseMessage responseMessage);
 
-    public void extension(Long requestId, ModelAndView modelAndView);
+    void extension(Long requestId, ModelAndView modelAndView);
 
-    public void doDeleteExtension(Long requestId, Long extensionId, ResponseMessage response);
+    void doDeleteExtension(Long requestId, Long extensionId, ResponseMessage response);
 
 
-    public List<SelectList> findPossibleAssistants(String assistantStr);
+    List<SelectList> findPossibleAssistants(String assistantStr);
+
+    ResponseMessage refreshExtensionRequest(Long requestId, ResponseMessage responseMessage);
 }

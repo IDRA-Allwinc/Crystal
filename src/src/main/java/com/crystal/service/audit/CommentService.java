@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 
 public interface CommentService {
-    public void upsert(Long id, Long auditId, ModelAndView modelView);
+    void upsert(Long id, Long auditId, ModelAndView modelView);
 
     void save(CommentDto modelNew, ResponseMessage response) throws ParseException;
 
@@ -26,7 +26,9 @@ public interface CommentService {
 
     void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 
-    public void extension(Long commentId, ModelAndView modelAndView);
+    void extension(Long commentId, ModelAndView modelAndView);
 
-    public void doDeleteExtension(Long commentId, Long extensionId, ResponseMessage response);
+    void doDeleteExtension(Long commentId, Long extensionId, ResponseMessage response);
+
+    ResponseMessage refreshExtensionComment(Long commentId, ResponseMessage responseMessage);
 }

@@ -470,6 +470,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void extension(Long commentId, ModelAndView modelAndView) {
         CommentDto model = commentRepository.findDtoById(commentId);
+        Long lastExtensionId = commentRepository.findLastExtensionIdByCommentId(commentId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
         model.setType(Constants.UploadFile.EXTENSION_COMMENT);
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
@@ -545,6 +549,21 @@ public class CommentServiceImpl implements CommentService {
         extensionRepository.save(lastExtension);
         commentRepository.saveAndFlush(model);
         uploadFileGenericRepository.delete(lastExtensionFileId);
+    }
+    @Override
+    public ResponseMessage refreshExtensionComment(Long commentId, ResponseMessage responseMessage){
+        Gson gson = new Gson();
+        CommentDto model = commentRepository.findDtoById(commentId);
+        Long lastExtensionId = commentRepository.findLastExtensionIdByCommentId(commentId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
+        model.setType(Constants.UploadFile.EXTENSION_COMMENT);
+
+        responseMessage.setHasError(false);
+        responseMessage.setReturnData(gson.toJson(model));
+
+        return responseMessage;
     }
 
 }

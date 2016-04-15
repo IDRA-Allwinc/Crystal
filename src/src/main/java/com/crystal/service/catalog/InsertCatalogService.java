@@ -2,26 +2,26 @@ package com.crystal.service.catalog;
 
 public interface InsertCatalogService {
 
-    public void role();
+    void role();
 
-    public void user();
+    void user();
 
-    public void auditedEntity();
+    void auditedEntity();
 
-    public void auditedEntityType();
+    void auditedEntityType();
 
-    public void auditType();
+    void auditType();
 
-    public void eventType();
+    void eventType();
 
-    public void meetingType();
+    void meetingType();
 
-    public void supervisoryEntity();
+    void supervisoryEntity();
 
-    public void fileType();
+    void fileType();
 
-    public void observationType();
+    void observationType();
 
-    public void systemSettings();
+    void systemSettings();
 
 }

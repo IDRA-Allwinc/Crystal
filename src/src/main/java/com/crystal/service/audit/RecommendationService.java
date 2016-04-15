@@ -26,12 +26,14 @@ public interface RecommendationService {
 
     void doDeleteUpFile(Long recommendationId, Long upFileId, ResponseMessage response);
 
-    public void extension(Long recommendationId, ModelAndView modelAndView);
+    void extension(Long recommendationId, ModelAndView modelAndView);
 
-    public void doDeleteExtension(Long recommendationId, Long extensionId, ResponseMessage response);
+    void doDeleteExtension(Long recommendationId, Long extensionId, ResponseMessage response);
 
     void showReplication(Long recommendId, ModelAndView modelAndView);
 
     void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
+
+    ResponseMessage refreshExtensionRecommendation(Long id, ResponseMessage responseMessage);
 
 }

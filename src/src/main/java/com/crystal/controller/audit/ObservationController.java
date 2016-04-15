@@ -220,6 +220,10 @@ public class ObservationController {
         }
     }
 
-
+    @RequestMapping(value = "/audit/observation/refresh", method = RequestMethod.POST)
+    public ResponseMessage refreshExtensionRecommendation(@RequestParam(required = true) Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        return observationService.refreshExtensionObservation(id, responseMessage);
+    }
 
 }

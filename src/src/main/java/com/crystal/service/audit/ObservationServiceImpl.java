@@ -13,11 +13,7 @@ import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
-import com.crystal.repository.catalog.AuditRepository;
-import com.crystal.repository.catalog.ExtensionRepository;
-import com.crystal.repository.catalog.ObservationRepository;
-import com.crystal.repository.catalog.ObservationTypeRepository;
-import com.crystal.repository.catalog.ResponsibilityRepository;
+import com.crystal.repository.catalog.*;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
@@ -422,6 +418,10 @@ public class ObservationServiceImpl implements ObservationService {
     public void extension(Long observationId, ModelAndView modelAndView) {
         ObservationDto model = observationRepository.findDtoById(observationId);
         model.setType(Constants.UploadFile.EXTENSION_OBSERVATION);
+        Long lastExtensionId = observationRepository.findLastExtensionIdByObservationId(observationId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
         modelAndView.addObject("model", sModel);
@@ -496,5 +496,21 @@ public class ObservationServiceImpl implements ObservationService {
         extensionRepository.save(lastExtension);
         observationRepository.saveAndFlush(model);
         uploadFileGenericRepository.delete(lastExtensionFileId);
+    }
+
+    @Override
+    public ResponseMessage refreshExtensionObservation(Long observationId, ResponseMessage responseMessage){
+        Gson gson = new Gson();
+        ObservationDto model = observationRepository.findDtoById(observationId);
+        Long lastExtensionId = observationRepository.findLastExtensionIdByObservationId(observationId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
+        model.setType(Constants.UploadFile.EXTENSION_OBSERVATION);
+
+        responseMessage.setHasError(false);
+        responseMessage.setReturnData(gson.toJson(model));
+
+        return responseMessage;
     }
 }
