@@ -23,9 +23,9 @@ public interface AuditService {
 
     void doObsolete(Long id, Long userId, ResponseMessage response);
 
-    public void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) throws ParseException;
+    void save(AuditDto auditDto, ResponseMessage responseMessage, HttpServletRequest request) throws ParseException;
 
-    public void doSave(Audit audit);
+    void doSave(Audit audit);
 
-    public ModelAndView getInfoDetail(Long auditId, String type, ModelAndView model);
+    ModelAndView getInfoDetail(Long auditId, String type, ModelAndView model);
 }

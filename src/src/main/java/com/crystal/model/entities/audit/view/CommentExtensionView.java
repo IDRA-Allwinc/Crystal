@@ -7,15 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("SELECT e.id_extension, c.id_comment commentId, c.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, concat('', date(adddate(e.end_date, 0))) endDate, Addition.extensionId2 lastExtensionId " +
+@Subselect("SELECT e.id_extension, c.id_comment commentId, c.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, concat('', date(adddate(e.end_date, 0))) endDate "+//, Addition.extensionId2 lastExtensionId " +
         "        FROM Comment c  " +
         "        INNER JOIN comment_extension_rel cec  ON c.id_comment = cec.id_comment  " +
         "        INNER JOIN extension e ON cec.id_extension= e.id_extension  " +
         "        INNER JOIN upload_file_generic uf ON uf.id_upload_file_generic = e.id_upload_file_generic  " +
-        "        INNER JOIN (select e2.id_extension extensionId2, cer2.id_comment commentId2 from " +
-        "                    Extension e2 " +
-        "                    INNER JOIN comment_extension_rel cer2  ON e2.id_extension = cer2.id_extension " +
-        "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.commentId2 = c.id_comment " +
+//        "        INNER JOIN (select e2.id_extension extensionId2, cer2.id_comment commentId2 from " +
+//        "                    Extension e2 " +
+//        "                    INNER JOIN comment_extension_rel cer2  ON e2.id_extension = cer2.id_extension " +
+//        "                    where e2.is_obsolete = false order by e2.id_extension desc limit 1 ) Addition on Addition.commentId2 = c.id_comment " +
         "        where   e.is_obsolete = false and e.is_initial = false and c.is_obsolete = false order by e.id_extension asc")
 public class CommentExtensionView {
 
@@ -28,7 +28,7 @@ public class CommentExtensionView {
     private String fileName;
     private String extensionComment;
     private String endDate;
-    private String lastExtensionId;
+//    private String lastExtensionId;
 
     public Long getId() {
         return id;
@@ -70,13 +70,13 @@ public class CommentExtensionView {
         this.endDate = endDate;
     }
 
-    public String getLastExtensionId() {
-        return lastExtensionId;
-    }
-
-    public void setLastExtensionId(String lastExtensionId) {
-        this.lastExtensionId = lastExtensionId;
-    }
+//    public String getLastExtensionId() {
+//        return lastExtensionId;
+//    }
+//
+//    public void setLastExtensionId(String lastExtensionId) {
+//        this.lastExtensionId = lastExtensionId;
+//    }
 
     public boolean isAttended() {
         return isAttended;

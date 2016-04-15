@@ -24,8 +24,7 @@
                         return;
                     }
 
-                    scope.lt.setSuccess(data.result);
-                    $(tableId).bootstrapTable('refresh', 'showLoading');
+                    scope.lt.setSuccess();
 
                 } catch (ex) {
                     scope.lt.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);

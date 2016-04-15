@@ -214,4 +214,10 @@ public class CommentController {
         return gridService.toGrid(CommentExtensionView.class, "commentId", id);
     }
 
+    @RequestMapping(value = "/audit/comment/refresh", method = RequestMethod.POST)
+    public ResponseMessage refreshExtensionRecommendation(@RequestParam(required = true) Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        return commentService.refreshExtensionComment(id, responseMessage);
+    }
+
 }

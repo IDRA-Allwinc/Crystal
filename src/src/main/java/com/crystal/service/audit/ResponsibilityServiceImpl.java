@@ -5,6 +5,7 @@ import com.crystal.model.entities.audit.Audit;
 import com.crystal.model.entities.audit.Extension;
 import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
+import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.ResponsibilityDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.Constants;
@@ -320,6 +321,10 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
     @Override
     public void extension(Long responsibilityId, ModelAndView modelAndView) {
         ResponsibilityDto model = responsibilityRepository.findDtoById(responsibilityId);
+        Long lastExtensionId = responsibilityRepository.findLastExtensionIdByResponsibilityId(responsibilityId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
         model.setType(Constants.UploadFile.EXTENSION_RESPONSIBILITY);
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
@@ -395,5 +400,22 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         extensionRepository.save(lastExtension);
         responsibilityRepository.saveAndFlush(model);
         uploadFileGenericRepository.delete(lastExtensionFileId);
+    }
+
+
+    @Override
+    public ResponseMessage refreshExtensionComment(Long responsibilityId, ResponseMessage responseMessage){
+        Gson gson = new Gson();
+        ResponsibilityDto model = responsibilityRepository.findDtoById(responsibilityId);
+        Long lastExtensionId = responsibilityRepository.findLastExtensionIdByResponsibilityId(responsibilityId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
+        model.setType(Constants.UploadFile.EXTENSION_COMMENT);
+
+        responseMessage.setHasError(false);
+        responseMessage.setReturnData(gson.toJson(model));
+
+        return responseMessage;
     }
 }

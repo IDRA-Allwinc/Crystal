@@ -242,4 +242,10 @@ public class RequestController {
     public String findPossibleAssistants(@RequestParam(required = true) String assistantStr) {
         return new Gson().toJson(requestService.findPossibleAssistants(assistantStr));
     }
+
+    @RequestMapping(value = "/audit/request/refresh", method = RequestMethod.POST)
+    public ResponseMessage refreshExtensionRecommendation(@RequestParam(required = true) Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        return requestService.refreshExtensionRequest(id, responseMessage);
+    }
 }

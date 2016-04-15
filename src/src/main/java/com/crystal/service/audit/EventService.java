@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 
 public interface EventService {
-    public void upsert(Long id, Long auditId, ModelAndView modelView);
+    void upsert(Long id, Long auditId, ModelAndView modelView);
 
     void save(EventDto modelNew, ResponseMessage response) throws ParseException;
 
@@ -15,5 +15,5 @@ public interface EventService {
 
     void upsertViewDocs(Long eventId, ModelAndView modelAndView);
 
-    public void doDeleteUpFile(Long eventId, Long upFileId, ResponseMessage response);
+    void doDeleteUpFile(Long eventId, Long upFileId, ResponseMessage response);
 }

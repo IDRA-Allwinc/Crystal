@@ -188,4 +188,10 @@ public class ResponsibilityController {
         return gridService.toGrid(ResponsibilityExtensionView.class, "responsibilityId", id);
     }
 
+    @RequestMapping(value = "/audit/responsibility/refresh", method = RequestMethod.POST)
+    public ResponseMessage refreshExtensionResponsibility(@RequestParam(required = true) Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        return responsibilityService.refreshExtensionComment(id, responseMessage);
+    }
+
 }

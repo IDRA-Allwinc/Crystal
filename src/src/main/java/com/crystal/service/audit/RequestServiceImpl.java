@@ -9,8 +9,8 @@ import com.crystal.model.entities.audit.dto.RequestDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
-import com.crystal.repository.account.UserRepository;
 import com.crystal.model.shared.UploadFileGeneric;
+import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.ExtensionRepository;
 import com.crystal.repository.catalog.LetterRepository;
 import com.crystal.repository.catalog.RequestRepository;
@@ -270,6 +270,9 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public void extension(Long requestId, ModelAndView modelAndView) {
         RequestDto model = requestRepository.findDtoAttById(requestId);
+        Long lastExtensionId = requestRepository.findLastExtensionIdByRequestId(requestId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
         model.setType(Constants.UploadFile.EXTENSION_REQUEST);
         Gson gson = new Gson();
         String sModel = gson.toJson(model);
@@ -385,5 +388,22 @@ public class RequestServiceImpl implements RequestService {
         lstAssistants.addAll(supervisoryEntityService.getPossibleAssistant(assistantStr));
 
         return lstAssistants;
+    }
+
+    //SE AGREGA PARA ACTUALZIAR EL ESTADO DEL ELEMENTO Y OCULTAR LOS CAMPOS PARA AGREGAR PRORROGA
+    @Override
+    public ResponseMessage refreshExtensionRequest(Long requestId, ResponseMessage responseMessage){
+        Gson gson = new Gson();
+        RequestDto model = requestRepository.findDtoById(requestId);
+        Long lastExtensionId = requestRepository.findLastExtensionIdByRequestId(requestId);
+        if (lastExtensionId != null && lastExtensionId > 0)
+            model.setHasExtension(true);
+
+        model.setType(Constants.UploadFile.EXTENSION_REQUEST);
+
+        responseMessage.setHasError(false);
+        responseMessage.setReturnData(gson.toJson(model));
+
+        return responseMessage;
     }
 }

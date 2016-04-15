@@ -50,9 +50,9 @@ window.showObsolete = function (id, divScope, urlToGo, jqGridToUse, callback, in
         });
 };
 
-window.showObsoleteParam = function (params, divScope, urlToGo, jqGridToUse, callback, innerScp) {
+window.showObsoleteParam = function (params, divScope, urlToGo, jqGridToUse, callback, innerScp, afterResolveFunction) {
     var scope = angular.element($(divScope)).scope();
-    scope.vm.doObsolete(params, urlToGo, innerScp).
+    scope.vm.doObsolete(params, urlToGo, innerScp, afterResolveFunction).
         then(function () {
             if (jqGridToUse !== undefined)
                 $(jqGridToUse).bootstrapTable('refresh', 'showLoading');

@@ -4,9 +4,9 @@
         .module(window.constMainApp)
         .controller('modalDlgController', modalDlgController);
 
-    modalDlgController.$inject = ["$scope", "$q", "sharedSvc", "$sce"];
+    modalDlgController.$inject = ["$scope", "$q", "sharedSvc", "$sce", "$rootScope"];
 
-    function modalDlgController($scope, $q, sharedSvc, $sce) {
+    function modalDlgController($scope, $q, sharedSvc, $sce, $rootScope) {
         var vm = this;
         vm.m = [];
         vm.sharedSvc = sharedSvc;
@@ -26,8 +26,14 @@
         };
 
         function show(data, urlToGo, divToAppendId, dlgUpsertId, innerScp) {
-            data[vm.tokenCsrf.name]=vm.tokenCsrf.value;
-            if (innerScp === true) { vm.working = true; } else { $scope.$apply(function () { vm.working = true; }); }
+            data[vm.tokenCsrf.name] = vm.tokenCsrf.value;
+            if (innerScp === true) {
+                vm.working = true;
+            } else {
+                $scope.$apply(function () {
+                    vm.working = true;
+                });
+            }
             var def = $q.defer();
             divToAppendId = divToAppendId || "#dlgUpsert";
             dlgUpsertId = dlgUpsertId || "#dlgUpModalId";
@@ -44,7 +50,9 @@
                         scope.up.Model.def = def;
                         scope.$apply();
                     }
-                    $scope.$apply(function () { vm.working = false; });
+                    $scope.$apply(function () {
+                        vm.working = false;
+                    });
                 },
                 error: function () {
                     vm.sharedSvc.showMsg(
@@ -52,8 +60,12 @@
                             title: "Error de red",
                             message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
                             type: "danger"
-                        }).then(function () { def.reject({ isError: true }); });
-                    $scope.$apply(function () { vm.working = false; });
+                        }).then(function () {
+                            def.reject({isError: true});
+                        });
+                    $scope.$apply(function () {
+                        vm.working = false;
+                    });
                 }
             };
             $.ajax(settings);
@@ -62,7 +74,7 @@
 
         function doConfirm(data, urlToGo, title, msg) {
             var def = $q.defer();
-            vm.sharedSvc.showConf({ title: title, message: msg, type: "warning" }).
+            vm.sharedSvc.showConf({title: title, message: msg, type: "warning"}).
                 then(function () {
                     vm.doPost(data, urlToGo, def);
                 }, def.reject);
@@ -72,7 +84,7 @@
 
         function doConfirmFull(data, urlToGo, title, message, type, choiceA) {
             var def = $q.defer();
-            vm.sharedSvc.showConf({ title: title, message: message, type: type, choiceA: choiceA }).
+            vm.sharedSvc.showConf({title: title, message: message, type: type, choiceA: choiceA}).
                 then(function (res) {
                     var dataToSend = data;
                     if (choiceA !== undefined) {
@@ -90,25 +102,37 @@
 
         function doCancelDocument(data, urlToGo, folio) {
             var def = $q.defer();
-            vm.sharedSvc.showConf({ title: "Confirmación de cancelación de documento", message: "¿Está seguro que desea cancelar el documento con folio " + folio + "?", type: "warning" }).
+            vm.sharedSvc.showConf({
+                title: "Confirmación de cancelación de documento",
+                message: "¿Está seguro que desea cancelar el documento con folio " + folio + "?",
+                type: "warning"
+            }).
                 then(function () {
                     vm.doPost(data, urlToGo, def);
                 }, def.reject);
             return def.promise;
         };
 
-        function doObsolete(data, urlToGo) {
+        function doObsolete(data, urlToGo, innerScope, afterResolveFunction) {
             var def = $q.defer();
-            vm.sharedSvc.showConf({ title: "Eliminar registro", message: "¿Está seguro de que desea eliminar el registro?", type: "danger" }).
+            vm.sharedSvc.showConf({
+                title: "Eliminar registro",
+                message: "¿Está seguro de que desea eliminar el registro?",
+                type: "danger"
+            }).
                 then(function () {
-                    vm.doPost(data, urlToGo, def);
+                    vm.doPost(data, urlToGo, def, afterResolveFunction);
                 }, def.reject);
             return def.promise;
         };
 
         function doDrop(data, urlToGo) {
             var def = $q.defer();
-            vm.sharedSvc.showConf({ title: "Baja de resguardo", message: "¿Está seguro de que desea dar de baja resguardo?", type: "danger" }).
+            vm.sharedSvc.showConf({
+                title: "Baja de resguardo",
+                message: "¿Está seguro de que desea dar de baja resguardo?",
+                type: "danger"
+            }).
                 then(function () {
                     vm.doPost(data, urlToGo, def);
                 }, def.reject);
@@ -121,15 +145,15 @@
                 type = "danger";
 
             var def = $q.defer();
-            vm.sharedSvc.showConf({ title: title, message: message, type: type }).
+            vm.sharedSvc.showConf({title: title, message: message, type: type}).
                 then(function () {
                     vm.doPost(data, urlToGo, def);
                 }, def.reject);
             return def.promise;
         };
 
-        function doPost(data, urlToGo, def) {
-            data[vm.tokenCsrf.name]=vm.tokenCsrf.value;
+        function doPost(data, urlToGo, def, afterResolveFunction) {
+            data[vm.tokenCsrf.name] = vm.tokenCsrf.value;
             var settings = {
                 dataType: "json",
                 type: "POST",
@@ -142,17 +166,24 @@
                                 title: resp.title,
                                 message: resp.message,
                                 type: "danger"
-                            }).then(function () { def.reject({ isError: true }); });
+                            }).then(function () {
+                                def.reject({isError: true});
+                            });
                     }
-                    else if(resp.message){
+                    else if (resp.message) {
                         vm.sharedSvc.showMsg(
                             {
                                 title: resp.title,
                                 message: resp.message,
                                 type: "info"
-                            }).then(function () { def.reject({ isError: true }); });
-                    }else{
+                            }).then(function () {
+                                def.reject({isError: true});
+                            });
+                    } else {
                         def.resolve();
+                        if (afterResolveFunction !== undefined) {
+                            afterResolveFunction();
+                        }
                     }
                 },
                 error: function () {
@@ -161,7 +192,9 @@
                             title: "Error de red",
                             message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
                             type: "danger"
-                        }).then(function () { def.reject({ isError: true }); });
+                        }).then(function () {
+                            def.reject({isError: true});
+                        });
                 }
             };
 

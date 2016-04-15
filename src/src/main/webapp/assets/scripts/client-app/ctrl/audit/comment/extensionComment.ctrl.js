@@ -11,7 +11,17 @@
         vm.setOutError = setOutError;
         vm.setSuccess = setSuccess;
         vm.refreshParentGrid = refreshParentGrid;
+        vm.handleSuccessRefresh = handleSuccessRefresh;
+        vm.handleErrorRefresh = handleErrorRefresh;
+        vm.refreshExtensionComment = refreshExtensionComment;
         vm.today = new Date();
+        vm.tokenCsrf = document.getElementById("token-csrf");
+
+
+        $timeout(function () {
+            vm.urlRefresh = vm.urlRefresh + "?" + vm.tokenCsrf.name + "=" + vm.tokenCsrf.value;
+        }, 100);
+
 
         function setOutError(msg) {
             $scope.$apply(function () {
@@ -22,15 +32,38 @@
             });
         }
 
-        function setSuccess(result) {
-            $scope.$apply(function () {
-                vm.m.extensionComment = undefined;
-                vm.m.endDateExtComm = undefined;
-            });
+        function setSuccess() {
+            vm.refreshExtensionComment();
+            vm.m.extensionComment = undefined;
+            vm.m.endDateExtRecomm = undefined;
         }
 
         function refreshParentGrid(tableId) {
             $(tableId).bootstrapTable('refresh', 'showLoading');
         }
+
+        function refreshExtensionComment() {
+            var param = {"id": vm.m.id};
+            $.post(vm.urlRefresh, param)
+                .success(vm.handleSuccessRefresh)
+                .error(vm.handleErrorRefresh);
+        }
+
+        function handleSuccessRefresh(resp) {
+            if (resp.hasError === undefined) {
+                vm.setOutError("Error de red. Por favor intente más tarde.");
+            }
+
+            if (resp.hasError === false) {
+                vm.m = JSON.parse(resp.returnData);
+                vm.refreshParentGrid(vm.tableId);
+                $scope.$apply();
+            }
+        }
+
+        function handleErrorRefresh() {
+            vm.setOutError("Error de red. Por favor intente más tarde.");
+        }
+
     }
 })();

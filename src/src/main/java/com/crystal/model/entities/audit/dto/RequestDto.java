@@ -33,6 +33,8 @@ public class RequestDto {
 
     private Boolean isAttended;
 
+    private boolean hasExtension;
+
     public RequestDto() {
     }
 
@@ -122,5 +124,13 @@ public class RequestDto {
 
     public void setIsAttended(Boolean isAttended) {
         this.isAttended = isAttended;
+    }
+
+    public boolean isHasExtension() {
+        return hasExtension;
+    }
+
+    public void setHasExtension(boolean hasExtension) {
+        this.hasExtension = hasExtension;
     }
 }

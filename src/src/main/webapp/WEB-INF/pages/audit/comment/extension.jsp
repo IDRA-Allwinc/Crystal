@@ -6,33 +6,23 @@
         var arr = [];
         arr.push('<button class="btn btn-primary dim act-download btn-tiny" data-toggle="tooltip" data-placement="top" title="Descargar documento" type="button"><i class="fa fa-download"></i></button>');
 
-        if (row.attended !== true && row.id==row.lastExtensionId)
+        if (row.attended !== true)//&& row.id==row.lastExtensionId)
             arr.push('<button class="btn btn-danger dim act-ext-comment-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar pr&oacute;rroga" type="button"><i class="fa fa-times-circle"></i></button>');
 
         return arr.join('');
     }
 
-    window.actionEventsCommentExtension = {
-        'click .act-ext-comment-delete': function (e, value, row) {
-            window.showObsoleteParam({
-                commentId: row.commentId,
-                extensionId: row.id
-            }, "#angJsjqGridIdComment", "<c:url value='/audit/comment/doDeleteExtension.json' />", "#tblUfExtensionCommentGrid");
-        },
-        'click .act-download': function (e, value, row) {
-            var params = [];
-            params["idParam"] = row.fileId;
-            window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
-        }
-    };
 
     $(document).ready(function () {
+
         window.showModalFormDlg("#dlgUpModalId", "#FormUpFileExtensionComment");
         var tableId = '#tblUfExtensionCommentGrid';
         $(tableId).bootstrapTable();
 
         var tokenCsrf = document.getElementById("token-csrf");
         var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
+        var scope = angular.element($("#FormUpFileExtensionComment")).scope();
+        scope.vm.tableId = tableId;
 
         $('#docfileupload').fileupload({
             url: url,
@@ -49,8 +39,7 @@
                         return;
                     }
 
-                    scope.vm.setSuccess(data.result);
-                    $(tableId).bootstrapTable('refresh', 'showLoading');
+                    scope.vm.setSuccess();
 
                 } catch (ex) {
                     scope.vm.setOutError("Hubo un error al momento de procesar la respuesta: " + ex);
@@ -71,6 +60,25 @@
             }
         }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+        window.actionEventsCommentExtension = {
+            'click .act-ext-comment-delete': function (e, value, row) {
+                window.showObsoleteParam({
+                    commentId: row.commentId,
+                    extensionId: row.id
+                }, "#angJsjqGridIdComment", "<c:url value='/audit/comment/doDeleteExtension.json' />", "#tblUfExtensionCommentGrid", undefined, undefined,scope.vm.refreshExtensionComment);
+            },
+            'click .act-download': function (e, value, row) {
+                var params = [];
+                params["idParam"] = row.fileId;
+                window.goToNewWnd("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />", params);
+            }
+        };
+
+        $('#dlgUpModalId').on('hidden.bs.modal', function () {
+            scope.vm.refreshParentGrid("#tblGridComment");
+        })
+
     })
     ;
 
@@ -79,7 +87,8 @@
 <div class="modal inmodal" id="dlgUpModalId" tabindex="-1" ng-controller="upsertController as up" role="dialog"
      aria-hidden="true" ng-cloak>
     <div class="modal-dialog" style="width:960px" data-ng-controller="extensionCommentController as vm"
-         data-ng-init='vm.m = ${(model == null ? "{}" : model)};'>
+         data-ng-init='vm.m = ${(model == null ? "{}" : model)};
+            vm.urlRefresh="<c:url value='/audit/comment/refresh.json'/>";'>
         <div class="modal-content animated flipInY">
             <div class="modal-header">
 
@@ -99,7 +108,7 @@
             </div>
 
             <div class="modal-body">
-                <div data-ng-show="vm.m.isAttended !== true">
+                <div data-ng-show="vm.m.isAttended !== true && vm.m.hasExtension == false">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="ibox">
@@ -136,7 +145,8 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="endDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDateExtComm"
+                                                           uib-datepicker-popup="yyyy/MM/dd"
+                                                           ng-model="vm.m.endDateExtComm"
                                                            is-open="vm.m.endDateIsOpened" ng-required="true"
                                                            placeholder="yyyy/mm/dd"
                                                            current-text="Hoy"
@@ -254,14 +264,24 @@
                                        data-id-field="id">
                                     <thead>
                                     <tr>
-                                        <th data-field="id" data-visible="false" data-card-visible="false" data-switchable="false">Identificador</th>
-                                        <th data-field="commentId" data-visible="false" data-card-visible="false" data-switchable="false">ID requisito</th>
-                                        <th data-field="isAttended" data-visible="false" data-card-visible="false" data-switchable="false">Atendido</th>
-                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento</th>
-                                        <th data-field="extensionComment" data-align="center" data-sortable="true">Comentario</th>
+                                        <th data-field="id" data-visible="false" data-card-visible="false"
+                                            data-switchable="false">Identificador
+                                        </th>
+                                        <th data-field="commentId" data-visible="false" data-card-visible="false"
+                                            data-switchable="false">ID requisito
+                                        </th>
+                                        <th data-field="isAttended" data-visible="false" data-card-visible="false"
+                                            data-switchable="false">Atendido
+                                        </th>
+                                        <th data-field="fileName" data-align="center" data-sortable="true">Documento
+                                        </th>
+                                        <th data-field="extensionComment" data-align="center" data-sortable="true">
+                                            Comentario
+                                        </th>
                                         <th data-field="endDate" data-align="center" data-sortable="true">Fecha l&iacute;mite</th>
                                         <th data-field="Actions" data-formatter="actionsFormatterCommentExtension"
-                                            data-align="center" data-width="200px" data-events="actionEventsCommentExtension">Acci&oacute;n
+                                            data-align="center" data-width="200px"
+                                            data-events="actionEventsCommentExtension">Acci&oacute;n
                                         </th>
                                     </tr>
                                     </thead>
