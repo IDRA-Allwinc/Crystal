@@ -202,13 +202,13 @@ public class ObservationController {
 
 
     @RequestMapping(value = "/audit/observation/doReplication", method = RequestMethod.POST)
-    public ResponseMessage doReplication(@Valid AttentionDto attentionDto, BindingResult result) {
+    public ResponseMessage doReplication(@Valid ObservationDto observationDto, @Valid AttentionDto attentionDto, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            observationService.doReplication(attentionDto, response);
+            observationService.doReplication(observationDto, attentionDto, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();

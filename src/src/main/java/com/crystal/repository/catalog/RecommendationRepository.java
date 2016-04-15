@@ -11,17 +11,26 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RecommendationRepository extends JpaRepository<Recommendation,Long>{
+public interface RecommendationRepository extends JpaRepository<Recommendation, Long> {
 
     @Query("select new com.crystal.model.entities.audit.dto.RecommendationDto(r.id, r.number, r.description, r.initDate, r.endDate, r.isAttended, r.audit.id) from Recommendation r where r.id=:recommendationId and r.isObsolete = false")
-    RecommendationDto findDtoById(@Param("recommendationId")Long recommendationId);
+    RecommendationDto findDtoById(@Param("recommendationId") Long recommendationId);
 
 
     Recommendation findByIdAndIsObsolete(Long id, boolean bIsObsolete);
 
 
-    @Query("select r from Recommendation r where r.id <> :recommendationId and r.number=:numberStr and r.isObsolete = false")
-    Recommendation findByNumberWithId(@Param("numberStr") String numberStr, @Param("recommendationId") Long recommendationId);
+    @Query("select r from Recommendation r " +
+            "inner join r.audit a " +
+            "where r.id <> :recommendationId and r.number=:numberStr and r.isObsolete = false " +
+            "and a.id = :auditId")
+    Recommendation findByNumberWithId(@Param("numberStr") String numberStr, @Param("recommendationId") Long recommendationId, @Param("auditId") Long auditId);
+
+    @Query("select r from Recommendation r " +
+            "inner join r.audit a " +
+            "where r.number=:numberStr and r.isObsolete = false " +
+            "and a.id = :auditId")
+    Recommendation findByNumberWithoutId(@Param("numberStr") String numberStr, @Param("auditId") Long auditId);
 
 
     Recommendation findByNumberAndIsObsolete(String number, boolean b);
@@ -45,11 +54,11 @@ public interface RecommendationRepository extends JpaRepository<Recommendation,L
     @Query("select max(e.id) from Recommendation r " +
             "inner join r.lstExtension e " +
             "where r.id=:recommendationId and e.id <> :extensionId and e.isObsolete = false")
-    public Long findSecondLastExtensionIdByRecommendationId(@Param("recommendationId")Long recommendationId, @Param("extensionId")Long extensionId);
+    public Long findSecondLastExtensionIdByRecommendationId(@Param("recommendationId") Long recommendationId, @Param("extensionId") Long extensionId);
 
     @Query("select max(e.id) from Recommendation r " +
             "inner join r.lstExtension e " +
             "where r.id=:recommendationId and e.isObsolete = false and e.isInitial = false ")
-    public Long findLastExtensionIdByRecommendationId(@Param("recommendationId")Long recommendationId);
+    public Long findLastExtensionIdByRecommendationId(@Param("recommendationId") Long recommendationId);
 
 }

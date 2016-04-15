@@ -35,7 +35,7 @@ public class ObservationDto {
 
     private boolean hasExtension;
 
-    @NotNull(message = "El tipo del pliego de observaciones es un campo requerido")
+    //@NotNull(message = "El tipo del pliego de observaciones es un campo requerido")
     private Long observationTypeId;
 
     public ObservationDto() {

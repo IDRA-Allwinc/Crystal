@@ -1,6 +1,7 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Observation;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,9 +30,12 @@ public interface ObservationService {
 
     void doDeleteExtension(Long observationId, Long extensionId, ResponseMessage response);
 
-    void showReplication(Long observationId, ModelAndView modelAndView);
+    void doReplication(ObservationDto observationDto, AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 
-    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
+    void showReplication(Long id, ModelAndView modelAndView);
 
     ResponseMessage refreshExtensionObservation(Long observationId, ResponseMessage responseMessage);
+
+    Observation businessValidation(ObservationDto observationDto, AttentionDto attentionDto, ResponseMessage responseMessage);
+
 }

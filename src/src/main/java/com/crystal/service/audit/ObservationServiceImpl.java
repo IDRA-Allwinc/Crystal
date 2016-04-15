@@ -7,6 +7,7 @@ import com.crystal.model.entities.audit.Observation;
 import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ObservationDto;
+import com.crystal.model.entities.audit.dto.ResponsibilityDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.entities.catalog.ObservationType;
 import com.crystal.model.shared.Constants;
@@ -62,6 +63,9 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Autowired
     UploadFileGenericRepository uploadFileGenericRepository;
+
+    @Autowired
+    ResponsibilityService responsibilityService;
 
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
@@ -138,7 +142,8 @@ public class ObservationServiceImpl implements ObservationService {
         observationRepository.saveAndFlush(model);
     }
 
-    private Observation businessValidation(ObservationDto observationDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+    @Override
+    public Observation businessValidation(ObservationDto observationDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
         Observation observation = null;
 
         if (observationDto != null) {
@@ -287,15 +292,16 @@ public class ObservationServiceImpl implements ObservationService {
 
     @Override
     public boolean findByNumber(ObservationDto observationDto, ResponseMessage responseMessage) {
-        if (observationDto.getId() != null && observationRepository.findByNumberWithId(observationDto.getNumber(), observationDto.getId()) != null) {
-            responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe un pliego de observaciones con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
-            return true;
-        }
 
-        if (observationDto.getId() == null && observationRepository.findByNumberAndIsObsolete(observationDto.getNumber(), false) != null) {
+        if (observationDto.getId() != null) {
+            if (observationRepository.findByNumberWithId(observationDto.getNumber(), observationDto.getId(), observationDto.getAuditId()) != null) {
+                responseMessage.setHasError(true);
+                responseMessage.setMessage("Ya existe un pliego de observaciones con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
+                return true;
+            }
+        } else if (observationRepository.findByNumberWithoutId(observationDto.getNumber(), observationDto.getAuditId()) != null) {
             responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe un pliego de recomendaciones con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            responseMessage.setMessage("Ya existe un pliego de observaciones con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
             return true;
         }
 
@@ -336,13 +342,18 @@ public class ObservationServiceImpl implements ObservationService {
     @Override
     public void showReplication(Long id, ModelAndView modelAndView) {
         Gson gson = new Gson();
-        AttentionDto model = observationRepository.findAttentionInfoById(id);
-        String a = gson.toJson(model);
-        modelAndView.addObject("model", a);
+
+        AttentionDto attention = observationRepository.findAttentionInfoById(id);
+        ObservationDto model = observationRepository.findDtoById(id);
+        List<SelectList> lstSelectedAreas = areaService.getSelectedAreasByObservationId(id);
+        modelAndView.addObject("model", gson.toJson(model));
+        modelAndView.addObject("attention", gson.toJson(attention));
+        modelAndView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
+
     }
 
     @Override
-    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+    public void doReplication(ObservationDto observationDto, AttentionDto attentionDto, ResponseMessage response) throws ParseException {
         if (!attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R)) {
             response.setHasError(true);
             response.setMessage("Debe de elegir una opci&oacute;n valida para replicar.");
@@ -355,11 +366,11 @@ public class ObservationServiceImpl implements ObservationService {
         if (response.isHasError())
             return;
 
-        doSaveAndReplication(model,attentionDto);
+        doSaveAndReplication(observationDto, model, response);
     }
 
     @Transactional
-    private void doSaveAndReplication(Observation model ,AttentionDto attentionDto) throws ParseException {
+    private void doSaveAndReplication(ObservationDto observationDto, Observation model, ResponseMessage responseMessage) throws ParseException {
 
         List<Area> lstSelectedAreas = model.getLstAreas();
         List<Area> lstNewSelectedAreas = null;
@@ -373,39 +384,26 @@ public class ObservationServiceImpl implements ObservationService {
             }
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Calendar calendar = Calendar.getInstance();
-
         if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
-            Responsibility responsibility = new Responsibility();
 
-            responsibility.setNumber(model.getNumber());
-            responsibility.setDescription(model.getDescription());
-            responsibility.setCreateDate(Calendar.getInstance());
-            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
-            responsibility.setLstAreas(lstNewSelectedAreas);
-            responsibility.setAudit(model.getAudit());
+            ResponsibilityDto responsibilityDto = new ResponsibilityDto();
 
-            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
-            responsibility.setInitDate(calendar);
+            responsibilityDto.setNumber(observationDto.getNumber());
+            responsibilityDto.setDescription(observationDto.getDescription());
+            responsibilityDto.setInitDate(observationDto.getInitDate());
+            responsibilityDto.setEndDate(observationDto.getEndDate());
+            responsibilityDto.setLstSelectedAreas(observationDto.getLstSelectedAreas());
+            responsibilityDto.setAuditId(observationDto.getAuditId());
 
-            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
-            responsibility.setEndDate(model.getEndDate());
-
-            responsibility.setObsolete(false);
-            responsibility.setObservation(model);
+            Responsibility responsibility = responsibilityService.businessValidation(responsibilityDto, null, responseMessage);
 
 
-            Extension e = new Extension();
-            e.setInsAudit(sharedUserService.getLoggedUserId());
-            e.setInitial(true);
-            e.setCreateDate(Calendar.getInstance());
-            e.setComment("Fecha de fin inicial.");
-            e.setEndDate(responsibility.getEndDate());
-            List<Extension> lstExtension = new ArrayList<>();
-            lstExtension.add(e);
-            responsibility.setLstExtension(lstExtension);
-            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+            if (responseMessage.isHasError() == true)
+                return;
+
+            if (responsibilityService.findByNumber(responsibilityDto, responseMessage) == true) {
+                return;
+            }
 
             responsibilityRepository.saveAndFlush(responsibility);
 
@@ -499,7 +497,7 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
     @Override
-    public ResponseMessage refreshExtensionObservation(Long observationId, ResponseMessage responseMessage){
+    public ResponseMessage refreshExtensionObservation(Long observationId, ResponseMessage responseMessage) {
         Gson gson = new Gson();
         ObservationDto model = observationRepository.findDtoById(observationId);
         Long lastExtensionId = observationRepository.findLastExtensionIdByObservationId(observationId);

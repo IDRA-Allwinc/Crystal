@@ -20,12 +20,17 @@ public interface ObservationRepository extends JpaRepository<Observation,Long>{
     Observation findByIdAndIsObsolete(Long id, boolean bIsObsolete);
 
 
-    @Query("select o from Observation o where o.id <> :observationId and o.number=:numberStr and o.isObsolete = false")
-    Observation findByNumberWithId(@Param("numberStr") String numberStr, @Param("observationId") Long observationId);
+    @Query("select o from Observation o " +
+            "inner join o.audit a " +
+            "where o.id <> :observationId and o.number=:numberStr and o.isObsolete = false " +
+            "and a.id= :auditId")
+    Observation findByNumberWithId(@Param("numberStr") String numberStr, @Param("observationId") Long observationId, @Param("auditId") Long auditId);
 
-
-    Observation findByNumberAndIsObsolete(String number, boolean b);
-
+    @Query("select o from Observation o " +
+            "inner join o.audit a " +
+            "where o.number=:numberStr and o.isObsolete = false " +
+            "and a.id= :auditId")
+    Observation findByNumberWithoutId(@Param("numberStr") String numberStr, @Param("auditId") Long auditId);
 
     @Query("SELECT e.id FROM Observation o " +
             "inner join o.lstEvidences e WHERE o.id=:id")

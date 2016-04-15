@@ -2,10 +2,8 @@ package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.*;
-import com.crystal.model.entities.audit.dto.AttentionDto;
-import com.crystal.model.entities.audit.dto.CommentDto;
+import com.crystal.model.entities.audit.dto.*;
 import com.crystal.model.entities.catalog.Area;
-import com.crystal.model.entities.catalog.ObservationType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
@@ -65,6 +63,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     UploadFileGenericRepository uploadFileGenericRepository;
+
+    @Autowired
+    RecommendationService recommendationService;
+
+    @Autowired
+    ObservationService observationService;
+
+    @Autowired
+    ResponsibilityService responsibilityService;
 
     @Override
     public void upsert(Long id, Long auditId, ModelAndView modelView) {
@@ -141,7 +148,7 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.saveAndFlush(model);
     }
 
-    private Comment businessValidation(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
+    public Comment businessValidation(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
         Comment comment = null;
 
         if (commentDto != null) {
@@ -177,6 +184,7 @@ public class CommentServiceImpl implements CommentService {
                 e.setInsAudit(sharedUserService.getLoggedUserId());
                 e.setInitial(true);
                 e.setCreateDate(Calendar.getInstance());
+                e.setComment("Fecha de fin inicial.");
                 e.setComment("Fecha de fin inicial.");
                 e.setEndDate(comment.getEndDate());
                 List<Extension> lstExtension = new ArrayList<>();
@@ -314,14 +322,20 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void showReplication(Long id, ModelAndView modelAndView) {
         Gson gson = new Gson();
-        AttentionDto model = commentRepository.findAttentionInfoById(id);
-        String a = gson.toJson(model);
+
+        AttentionDto attention = commentRepository.findAttentionInfoById(id);
+        CommentDto model = commentRepository.findDtoById(id);
+        List<SelectList> lstSelectedAreas = areaService.getSelectedAreasByCommentId(id);
+        modelAndView.addObject("model", gson.toJson(model));
+        modelAndView.addObject("attention", gson.toJson(attention));
+        modelAndView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
         modelAndView.addObject("lstObservationType", gson.toJson(observationTypeRepository.findNoObsolete()));
-        modelAndView.addObject("model", a);
+
     }
 
     @Override
-    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+    public void doReplication(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+
         if (!(attentionDto.getReplicateAs().equals(Constants.RECOMMENDATION_R) ||
                 attentionDto.getReplicateAs().equals(Constants.OBSERVATION_R) ||
                 attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))) {
@@ -336,11 +350,11 @@ public class CommentServiceImpl implements CommentService {
         if (response.isHasError())
             return;
 
-        doSaveAndReplication(model, attentionDto);
+        doSaveAndReplication(commentDto, model, response);
     }
 
     @Transactional
-    private void doSaveAndReplication(Comment model, AttentionDto attentionDto) throws ParseException {
+    private void doSaveAndReplication(CommentDto commentDto, Comment model, ResponseMessage responseMessage) throws ParseException {
 
 
         List<Area> lstSelectedAreas = model.getLstAreas();
@@ -355,110 +369,73 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Calendar calendar = Calendar.getInstance();
-
         if (model.getReplicatedAs().equals(Constants.RECOMMENDATION_R)) {
-            Recommendation recommendation = new Recommendation();
 
-            recommendation.setNumber(model.getNumber());
-            recommendation.setDescription(model.getDescription());
-            recommendation.setCreateDate(Calendar.getInstance());
-            recommendation.setInsAudit(sharedUserService.getLoggedUserId());
-            recommendation.setLstAreas(lstNewSelectedAreas);
-            recommendation.setAudit(model.getAudit());
+            RecommendationDto recommendationDto = new RecommendationDto();
 
-            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
-            recommendation.setInitDate(calendar);
+            recommendationDto.setNumber(commentDto.getNumber());
+            recommendationDto.setDescription(commentDto.getDescription());
+            recommendationDto.setInitDate(commentDto.getInitDate());
+            recommendationDto.setEndDate(commentDto.getEndDate());
+            recommendationDto.setLstSelectedAreas(commentDto.getLstSelectedAreas());
+            recommendationDto.setAuditId(commentDto.getAuditId());
 
-            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
-            recommendation.setEndDate(model.getEndDate());
+            Recommendation recommendation = recommendationService.businessValidation(recommendationDto, null, responseMessage);
 
-            recommendation.setObsolete(false);
-            recommendation.setComment(model);
 
-            Extension e = new Extension();
-            e.setInsAudit(sharedUserService.getLoggedUserId());
-            e.setInitial(true);
-            e.setCreateDate(Calendar.getInstance());
-            e.setComment("Fecha de fin inicial.");
-            e.setEndDate(recommendation.getEndDate());
-            List<Extension> lstExtension = new ArrayList<>();
-            lstExtension.add(e);
-            recommendation.setLstExtension(lstExtension);
-            recommendation.setInsAudit(sharedUserService.getLoggedUserId());
+            if (responseMessage.isHasError() == true)
+                return;
+
+            if (recommendationService.findByNumber(recommendationDto, responseMessage) == true) {
+                return;
+            }
 
             recommendationRepository.saveAndFlush(recommendation);
+
         } else if (model.getReplicatedAs().equals(Constants.OBSERVATION_R)) {
-            Observation observation = new Observation();
 
-            observation.setNumber(model.getNumber());
-            observation.setDescription(model.getDescription());
-            observation.setCreateDate(Calendar.getInstance());
-            observation.setInsAudit(sharedUserService.getLoggedUserId());
-            observation.setLstAreas(lstNewSelectedAreas);
-            observation.setAudit(model.getAudit());
+            ObservationDto observationDto = new ObservationDto();
 
-            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
-            observation.setInitDate(calendar);
+            observationDto.setNumber(commentDto.getNumber());
+            observationDto.setDescription(commentDto.getDescription());
+            observationDto.setInitDate(commentDto.getInitDate());
+            observationDto.setEndDate(commentDto.getEndDate());
+            observationDto.setLstSelectedAreas(commentDto.getLstSelectedAreas());
+            observationDto.setAuditId(commentDto.getAuditId());
+            observationDto.setObservationTypeId(commentDto.getObservationTypeId());
 
-            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
-            observation.setEndDate(model.getEndDate());
+            Observation observation = observationService.businessValidation(observationDto, null, responseMessage);
 
-            observation.setObsolete(false);
-            observation.setComment(model);
 
-            ObservationType observationType = new ObservationType();
-            observationType.setId(attentionDto.getObservationTypeId());
-            observation.setObservationType(observationType);
-            observation.setObsolete(false);
-            observation.setComment(model);
+            if (responseMessage.isHasError() == true)
+                return;
 
-            Extension e = new Extension();
-            e.setInsAudit(sharedUserService.getLoggedUserId());
-            e.setInitial(true);
-            e.setCreateDate(Calendar.getInstance());
-            e.setComment("Fecha de fin inicial.");
-            e.setEndDate(observation.getEndDate());
-            List<Extension> lstExtension = new ArrayList<>();
-            lstExtension.add(e);
-            observation.setLstExtension(lstExtension);
-            observation.setInsAudit(sharedUserService.getLoggedUserId());
+            if (observationService.findByNumber(observationDto, responseMessage) == true) {
+                return;
+            }
 
             observationRepository.saveAndFlush(observation);
 
         } else if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
-            Responsibility responsibility = new Responsibility();
 
-            responsibility.setNumber(model.getNumber());
-            responsibility.setDescription(model.getDescription());
-            responsibility.setCreateDate(Calendar.getInstance());
-            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
-            responsibility.setLstAreas(lstNewSelectedAreas);
-            responsibility.setAudit(model.getAudit());
+            ResponsibilityDto responsibilityDto = new ResponsibilityDto();
 
-            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
-            responsibility.setInitDate(calendar);
+            responsibilityDto.setNumber(commentDto.getNumber());
+            responsibilityDto.setDescription(commentDto.getDescription());
+            responsibilityDto.setInitDate(commentDto.getInitDate());
+            responsibilityDto.setEndDate(commentDto.getEndDate());
+            responsibilityDto.setLstSelectedAreas(commentDto.getLstSelectedAreas());
+            responsibilityDto.setAuditId(commentDto.getAuditId());
 
-            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
-            responsibility.setEndDate(model.getEndDate());
+            Responsibility responsibility = responsibilityService.businessValidation(responsibilityDto, null, responseMessage);
 
-            responsibility.setObsolete(false);
-            responsibility.setComment(model);
 
-            responsibility.setObsolete(false);
-            responsibility.setComment(model);
+            if (responseMessage.isHasError() == true)
+                return;
 
-            Extension e = new Extension();
-            e.setInsAudit(sharedUserService.getLoggedUserId());
-            e.setInitial(true);
-            e.setCreateDate(Calendar.getInstance());
-            e.setComment("Fecha de fin inicial.");
-            e.setEndDate(responsibility.getEndDate());
-            List<Extension> lstExtension = new ArrayList<>();
-            lstExtension.add(e);
-            responsibility.setLstExtension(lstExtension);
-            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+            if (responsibilityService.findByNumber(responsibilityDto, responseMessage) == true) {
+                return;
+            }
 
             responsibilityRepository.saveAndFlush(responsibility);
 
@@ -550,8 +527,9 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.saveAndFlush(model);
         uploadFileGenericRepository.delete(lastExtensionFileId);
     }
+
     @Override
-    public ResponseMessage refreshExtensionComment(Long commentId, ResponseMessage responseMessage){
+    public ResponseMessage refreshExtensionComment(Long commentId, ResponseMessage responseMessage) {
         Gson gson = new Gson();
         CommentDto model = commentRepository.findDtoById(commentId);
         Long lastExtensionId = commentRepository.findLastExtensionIdByCommentId(commentId);
@@ -564,6 +542,24 @@ public class CommentServiceImpl implements CommentService {
         responseMessage.setReturnData(gson.toJson(model));
 
         return responseMessage;
+    }
+
+    @Override
+    public boolean findByNumber(CommentDto commentDtoDto, ResponseMessage responseMessage) {
+
+        if (commentDtoDto.getId() != null) {
+            if (commentRepository.findByNumberWithId(commentDtoDto.getNumber(), commentDtoDto.getId(), commentDtoDto.getAuditId()) != null) {
+                responseMessage.setHasError(true);
+                responseMessage.setMessage("Ya existe una observaci&oacute;n con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
+                return true;
+            }
+        } else if (commentDtoDto.getId() != null && commentRepository.findByNumberWithoutId(commentDtoDto.getNumber(), commentDtoDto.getAuditId()) != null) {
+            responseMessage.setHasError(true);
+            responseMessage.setMessage("Ya existe una observaci&oacute;n con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            return true;
+        }
+
+        return false;
     }
 
 }

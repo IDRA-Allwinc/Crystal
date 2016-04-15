@@ -167,17 +167,17 @@ public class RecommendationController {
 
 
     @RequestMapping(value = "/audit/recommendation/doReplication", method = RequestMethod.POST)
-    public ResponseMessage doReplication(@Valid AttentionDto attentionDto, BindingResult result) {
+    public ResponseMessage doReplication(@Valid RecommendationDto recommendationDto, @Valid AttentionDto attentionDto, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            recommendationService.doReplication(attentionDto, response);
+            recommendationService.doReplication(recommendationDto, attentionDto, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            logException.Write(ex, this.getClass(), "doAttention", sharedUserService);
+            logException.Write(ex, this.getClass(), "doReplication", sharedUserService);
             response.setHasError(true);
             response.setMessage("Se present&oacute; un error inesperado. Por favor revise la informaci&oacute;n e intente de nuevo.");
         } finally {
