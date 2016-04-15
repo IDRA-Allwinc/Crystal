@@ -126,14 +126,14 @@
                                                     </div>
                                                 </a>
                                             </td>
-                                            <td class="text-center">{{ row.auditNumber }}</td>
-                                            <td class="text-center">{{ row.emitted }}</td>
-                                            <td class="text-center">{{ row.attended }}</td>
-                                            <td class="text-center">{{ row.recommendations }}</td>
-                                            <td class="text-center">{{ row.observations }}</td>
-                                            <td class="text-center">{{ row.responsibilities }}</td>
-                                            <td class="text-center">{{ row.notAttended }}</td>
-                                            <td class="text-center">{{ row.progress }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.auditNumber }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.emitted }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.attended }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.recommendations }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.observations }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.responsibilities }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.notAttended }}</td>
+                                            <td class="text-center tableReportRowMiddle">{{ row.progress }}</td>
                                         </tr>
                                         <tr class="animate-repeat" ng-repeat-end ng-if="row.id === vmr.selectedYear">
                                             <td colspan="9" style="padding: 0px;">
@@ -156,14 +156,14 @@
                                                                 </div>
                                                             </a>
                                                         </td>
-                                                        <td class="text-center">{{ row.auditNumber }}</td>
-                                                        <td class="text-center">{{ row.emitted }}</td>
-                                                        <td class="text-center">{{ row.attended }}</td>
-                                                        <td class="text-center">{{ row.recommendations }}</td>
-                                                        <td class="text-center">{{ row.observations }}</td>
-                                                        <td class="text-center">{{ row.responsibilities }}</td>
-                                                        <td class="text-center">{{ row.notAttended }}</td>
-                                                        <td class="text-center">{{ row.progress }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.auditNumber }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.emitted }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.attended }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.recommendations }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.observations }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.responsibilities }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.notAttended }}</td>
+                                                        <td class="text-center tableReportRowMiddle">{{ row.progress }}</td>
                                                     </tr>
                                                     <tr ng-repeat-end ng-if="row.aux === vmr.selectedEntityType">
                                                         <td colspan="9" style="padding: 0px;">
@@ -187,12 +187,12 @@
                                                                             </div>
                                                                         </a>
                                                                     </td>
-                                                                    <td class="text-center">{{ row.auditNumber }}</td>
-                                                                    <td class="text-center">{{ row.emitted }}</td>
-                                                                    <td class="text-center">{{ row.attended }}</td>
-                                                                    <td class="text-center">{{ row.recommendations }}</td>
-                                                                    <td class="text-center">{{ row.observations }}</td>
-                                                                    <td class="text-center">{{ row.responsibilities }}
+                                                                    <td class="text-center tableReportRowMiddle">{{ row.auditNumber }}</td>
+                                                                    <td class="text-center tableReportRowMiddle">{{ row.emitted }}</td>
+                                                                    <td class="text-center tableReportRowMiddle">{{ row.attended }}</td>
+                                                                    <td class="text-center tableReportRowMiddle">{{ row.recommendations }}</td>
+                                                                    <td class="text-center tableReportRowMiddle">{{ row.observations }}</td>
+                                                                    <td class="text-center tableReportRowMiddle">{{ row.responsibilities }}
                                                                     </td>
                                                                     <td class="text-center">{{ row.notAttended }}</td>
                                                                     <td class="text-center">{{ row.progress }}</td>
@@ -216,26 +216,26 @@
                                                                                     <div class="tableReportFRow4">
                                                                                         {{row.id}}
                                                                                     </div></td>
-                                                                                <td class="text-center">{{row.auditNumber}}</td>
-                                                                                <td class="text-center">{{row.emitted}}</td>
-                                                                                <td class="text-center">{{row.attended}}</td>
-                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RECOMMENDATION_R%>", "<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
+                                                                                <td class="text-center tableReportRowMiddle">{{row.auditNumber}}</td>
+                                                                                <td class="text-center tableReportRowMiddle">{{row.emitted}}</td>
+                                                                                <td class="text-center tableReportRowMiddle">{{row.attended}}</td>
+                                                                                <td class="text-center tableReportRowMiddle"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RECOMMENDATION_R%>", "<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
                                                                                         {{ row.recommendations }}
                                                                                     </div>
                                                                                 </a></td>
-                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.OBSERVATION_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
+                                                                                <td class="text-center tableReportRowMiddle"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.OBSERVATION_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
                                                                                         {{ row.observations }}
                                                                                     </div>
                                                                                 </a></td>
-                                                                                <td class="text-center"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RESPONSIBILITY_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
+                                                                                <td class="text-center tableReportRowMiddle"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RESPONSIBILITY_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
                                                                                         {{ row.responsibilities }}
                                                                                     </div>
                                                                                 </a></td>
-                                                                                <td class="text-center">{{row.notAttended}}</td>
-                                                                                <td class="text-center">{{row.progress}}</td>
+                                                                                <td class="text-center tableReportRowMiddle">{{row.notAttended}}</td>
+                                                                                <td class="text-center tableReportRowMiddle">{{row.progress}}</td>
                                                                             </tr>
                                                                             </tbody>
                                                                         </table>
