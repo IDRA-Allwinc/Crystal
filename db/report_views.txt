@@ -52,7 +52,8 @@ group by aud.audited_year
 //Vista2
 CREATE VIEW `report_view_by_supervisory_year` AS (
 select 
-    aentype.id_audited_entity_type as entity_type_id,
+select
+	aentype.id_audited_entity_type as entity_type_id,
     aentype.name as entity_type,
     count(distinct aud.id_audit) as audit_number,
     ifnull(obs.total, 0) +  ifnull(rec.total, 0) +  ifnull(resp.total, 0) as emitted,
@@ -61,14 +62,14 @@ select
     ifnull(obs.not_attended, 0) as observations,
     ifnull(resp.not_attended, 0) as responsibilities,
     ifnull(rec.not_attended, 0) + ifnull(obs.not_attended, 0) + ifnull(resp.not_attended,0) as not_attended,
-    ifnull(cast((obs.attended + rec.attended + resp.attended) / (obs.total + rec.total + resp.total) * 100 as decimal(10,2)), 0.00) as progress,
+	ifnull(cast((obs.attended + rec.attended + resp.attended) / (obs.total + rec.total + resp.total) * 100 as decimal(10,2)), 0.00) as progress,
     aud.id_supervisory_entity as supervisory_entity,
     year(aud.audited_year) as year
 from audited_entity_type aentype
 inner join audited_entity aent on aent.id_audited_entity_type = aentype.id_audited_entity_type
 inner join audit aud on aud.id_audited_entity = aent.id_audited_entity
 left join (
-    select 
+    select
         a.audited_year,
         ae.id_audited_entity_type,
         count(distinct o.id_observation) as total,
@@ -77,9 +78,9 @@ left join (
     from audit a
     inner join observation o on a.id_audit = o.id_audit
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where o.is_obsolete = 0 and a.is_obsolete = 0) obs on aud.audited_year = obs.audited_year and aentype.id_audited_entity_type = obs.id_audited_entity_type
+    where o.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) obs on aud.audited_year = obs.audited_year and aentype.id_audited_entity_type = obs.id_audited_entity_type
 left join (
-    select 
+    select
         a.audited_year,
         ae.id_audited_entity_type,
         count(distinct r.id_recommendation) as total,
@@ -88,9 +89,9 @@ left join (
     from audit a
     inner join recommendation r on a.id_audit = r.id_audit
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where r.is_obsolete = 0 and a.is_obsolete = 0) rec on aud.audited_year = rec.audited_year and aentype.id_audited_entity_type = rec.id_audited_entity_type
+    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) rec on aud.audited_year = rec.audited_year and aentype.id_audited_entity_type = rec.id_audited_entity_type
 left join (
-    select 
+    select
         a.audited_year,
         ae.id_audited_entity_type,
         count(distinct r.id_responsibility) as total,
@@ -99,7 +100,7 @@ left join (
     from audit a
     inner join responsibility r on a.id_audit = r.id_audit
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where r.is_obsolete = 0 and a.is_obsolete = 0) resp on aud.audited_year = resp.audited_year and aentype.id_audited_entity_type = resp.id_audited_entity_type
+    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) resp on aud.audited_year = resp.audited_year and aentype.id_audited_entity_type = resp.id_audited_entity_type
 group by aentype.id_audited_entity_type, year
 )
 

@@ -227,13 +227,13 @@
                 tempObjectF = angular.copy(vm.entityTypeData);
                 tempObjectS = angular.copy(vm.entityData);
                 for (var j = 0; j < tempObjectF.length; j++) {
-                    tempObjectF[j].id = "     - "+tempObjectF[j].id;
+                    tempObjectF[j].id = "      "+tempObjectF[j].id;
                 }
                 for (var i = 0; i < tempObjectF.length; i++) {
                     if (tempObjectF[i].aux === vm.selectedEntity) {
                         i++;
                         for (var j = 0; j < tempObjectS.length; j++) {
-                            tempObjectS[j].id = "        > "+tempObjectS[j].id;
+                            tempObjectS[j].id = "         "+tempObjectS[j].id;
                             tempObjectF.splice(i, 0, tempObjectS[j]);
                             i++;
                         }
@@ -254,7 +254,7 @@
                 }
                 tempObjectF = angular.copy(vm.yearData);
                 for (var j = 0; j < tempObjectF.length; j++) {
-                    tempObjectF[j].id = "  + "+tempObjectF[j].id;
+                    tempObjectF[j].id = "   "+tempObjectF[j].id;
                 }
                 for (var i = 0; i < tempObjectF.length; i++) {
                     if (tempObjectF[i].aux === vm.selectedEntityType) {
@@ -273,7 +273,7 @@
                 if (tempObjectF === undefined) {
                     tempObjectF = vm.yearData.slice(0);
                     for (var j = 0; j < tempObjectF.length; j++) {
-                        tempObjectF[j].id = "  + "+tempObjectF[j].id;
+                        tempObjectF[j].id = "   "+tempObjectF[j].id;
                     }
                 }
                 for (var i = 0; i < finalObject.length; i++) {
