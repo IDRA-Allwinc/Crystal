@@ -2,21 +2,16 @@ package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.entities.audit.*;
-import com.crystal.model.entities.audit.Audit;
-import com.crystal.model.entities.audit.Extension;
-import com.crystal.model.entities.audit.Recommendation;
 import com.crystal.model.entities.audit.dto.AttentionDto;
+import com.crystal.model.entities.audit.dto.ObservationDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
+import com.crystal.model.entities.audit.dto.ResponsibilityDto;
 import com.crystal.model.entities.catalog.Area;
-import com.crystal.model.entities.catalog.ObservationType;
 import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import com.crystal.model.shared.UploadFileGeneric;
 import com.crystal.repository.account.UserRepository;
 import com.crystal.repository.catalog.*;
-import com.crystal.repository.catalog.AuditRepository;
-import com.crystal.repository.catalog.ExtensionRepository;
-import com.crystal.repository.catalog.RecommendationRepository;
 import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.catalog.AreaService;
@@ -66,6 +61,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     UploadFileGenericRepository uploadFileGenericRepository;
+
+    @Autowired
+    ObservationService observationService;
+
+    @Autowired
+    ResponsibilityService responsibilityService;
 
 
     @Override
@@ -193,22 +194,24 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public boolean findByNumber(RecommendationDto recommendationDto, ResponseMessage responseMessage) {
-        if (recommendationDto.getId() != null && recommendationRepository.findByNumberWithId(recommendationDto.getNumber(), recommendationDto.getId()) != null) {
-            responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe una recomendaci&oacute;n con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
-            return true;
-        }
 
-        if (recommendationDto.getId() == null && recommendationRepository.findByNumberAndIsObsolete(recommendationDto.getNumber(), false) != null) {
+        if (recommendationDto.getId() != null) {
+            if (recommendationRepository.findByNumberWithId(recommendationDto.getNumber(), recommendationDto.getId(), recommendationDto.getAuditId()) != null) {
+                responseMessage.setHasError(true);
+                responseMessage.setMessage("Ya existe una recomendaci&oacute;n con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
+                return true;
+            }
+        } else if (recommendationRepository.findByNumberWithoutId(recommendationDto.getNumber(), recommendationDto.getAuditId()) != null) {
             responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe una recomendaci&oacute;n con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            responseMessage.setMessage("Ya existe una recomendaci&oacute;n con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
             return true;
         }
 
         return false;
     }
 
-    private Recommendation businessValidation(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
+    @Override
+    public Recommendation businessValidation(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException {
         Recommendation recommendation = null;
 
         if (recommendationDto != null) {
@@ -328,14 +331,18 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public void showReplication(Long id, ModelAndView modelAndView) {
         Gson gson = new Gson();
-        AttentionDto model = recommendationRepository.findAttentionInfoById(id);
-        String a = gson.toJson(model);
+
+        AttentionDto attention = recommendationRepository.findAttentionInfoById(id);
+        RecommendationDto model = recommendationRepository.findDtoById(id);
+        List<SelectList> lstSelectedAreas = areaService.getSelectedAreasByRecommendationId(id);
+        modelAndView.addObject("model", gson.toJson(model));
+        modelAndView.addObject("attention", gson.toJson(attention));
+        modelAndView.addObject("lstSelectedAreas", gson.toJson(lstSelectedAreas));
         modelAndView.addObject("lstObservationType", gson.toJson(observationTypeRepository.findNoObsolete()));
-        modelAndView.addObject("model", a);
     }
 
     @Override
-    public void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException {
+    public void doReplication(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage response) throws ParseException {
         if (!(attentionDto.getReplicateAs().equals(Constants.OBSERVATION_R) ||
                 attentionDto.getReplicateAs().equals(Constants.RESPONSIBILITY_R))) {
             response.setHasError(true);
@@ -349,12 +356,11 @@ public class RecommendationServiceImpl implements RecommendationService {
         if (response.isHasError())
             return;
 
-        doSaveAndReplication(model, attentionDto);
+        doSaveAndReplication(recommendationDto, model, response);
     }
 
     @Transactional
-    private void doSaveAndReplication(Recommendation model, AttentionDto attentionDto) throws ParseException {
-
+    private void doSaveAndReplication(RecommendationDto recommendationDto, Recommendation model, ResponseMessage responseMessage) throws ParseException {
 
         List<Area> lstSelectedAreas = model.getLstAreas();
         List<Area> lstNewSelectedAreas = null;
@@ -368,73 +374,51 @@ public class RecommendationServiceImpl implements RecommendationService {
             }
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Calendar calendar = Calendar.getInstance();
 
         if (model.getReplicatedAs().equals(Constants.OBSERVATION_R)) {
-            Observation observation = new Observation();
 
-            observation.setNumber(model.getNumber());
-            observation.setDescription(model.getDescription());
-            observation.setCreateDate(Calendar.getInstance());
-            observation.setInsAudit(sharedUserService.getLoggedUserId());
-            observation.setLstAreas(lstNewSelectedAreas);
-            observation.setAudit(model.getAudit());
+            ObservationDto observationDto = new ObservationDto();
 
-            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
-            observation.setInitDate(calendar);
+            observationDto.setNumber(recommendationDto.getNumber());
+            observationDto.setDescription(recommendationDto.getDescription());
+            observationDto.setInitDate(recommendationDto.getInitDate());
+            observationDto.setEndDate(recommendationDto.getEndDate());
+            observationDto.setLstSelectedAreas(recommendationDto.getLstSelectedAreas());
+            observationDto.setAuditId(recommendationDto.getAuditId());
+            observationDto.setObservationTypeId(recommendationDto.getObservationTypeId());
 
-            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
-            observation.setEndDate(model.getEndDate());
+            Observation observation = observationService.businessValidation(observationDto, null, responseMessage);
 
-            Extension e = new Extension();
-            e.setInsAudit(sharedUserService.getLoggedUserId());
-            e.setInitial(true);
-            e.setCreateDate(Calendar.getInstance());
-            e.setComment("Fecha de fin inicial.");
-            e.setEndDate(observation.getEndDate());
-            List<Extension> lstExtension = new ArrayList<>();
-            lstExtension.add(e);
-            observation.setLstExtension(lstExtension);
-            observation.setInsAudit(sharedUserService.getLoggedUserId());
 
-            ObservationType observationType = new ObservationType();
-            observationType.setId(attentionDto.getObservationTypeId());
-            observation.setObservationType(observationType);
-            observation.setObsolete(false);
-            observation.setRecommendation(model);
+            if (responseMessage.isHasError() == true)
+                return;
+
+            if (observationService.findByNumber(observationDto, responseMessage) == true) {
+                return;
+            }
 
             observationRepository.saveAndFlush(observation);
 
         } else if (model.getReplicatedAs().equals(Constants.RESPONSIBILITY_R)) {
-            Responsibility responsibility = new Responsibility();
 
-            responsibility.setNumber(model.getNumber());
-            responsibility.setDescription(model.getDescription());
-            responsibility.setCreateDate(Calendar.getInstance());
-            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
-            responsibility.setLstAreas(lstNewSelectedAreas);
-            responsibility.setAudit(model.getAudit());
+            ResponsibilityDto responsibilityDto = new ResponsibilityDto();
 
-            calendar.setTime(sdf.parse(attentionDto.getInitDate()));
-            responsibility.setInitDate(calendar);
+            responsibilityDto.setNumber(recommendationDto.getNumber());
+            responsibilityDto.setDescription(recommendationDto.getDescription());
+            responsibilityDto.setInitDate(recommendationDto.getInitDate());
+            responsibilityDto.setEndDate(recommendationDto.getEndDate());
+            responsibilityDto.setLstSelectedAreas(recommendationDto.getLstSelectedAreas());
+            responsibilityDto.setAuditId(recommendationDto.getAuditId());
 
-            calendar.setTime(sdf.parse(attentionDto.getEndDate()));
-            responsibility.setEndDate(model.getEndDate());
+            Responsibility responsibility = responsibilityService.businessValidation(responsibilityDto, null, responseMessage);
 
-            responsibility.setObsolete(false);
-            responsibility.setRecommendation(model);
 
-            Extension e = new Extension();
-            e.setInsAudit(sharedUserService.getLoggedUserId());
-            e.setInitial(true);
-            e.setCreateDate(Calendar.getInstance());
-            e.setComment("Fecha de fin inicial.");
-            e.setEndDate(responsibility.getEndDate());
-            List<Extension> lstExtension = new ArrayList<>();
-            lstExtension.add(e);
-            responsibility.setLstExtension(lstExtension);
-            responsibility.setInsAudit(sharedUserService.getLoggedUserId());
+            if (responseMessage.isHasError() == true)
+                return;
+
+            if (responsibilityService.findByNumber(responsibilityDto, responseMessage) == true) {
+                return;
+            }
 
             responsibilityRepository.saveAndFlush(responsibility);
 
@@ -527,7 +511,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         uploadFileGenericRepository.delete(lastExtensionFileId);
     }
 
-    public ResponseMessage refreshExtensionRecommendation(Long id, ResponseMessage responseMessage){
+    public ResponseMessage refreshExtensionRecommendation(Long id, ResponseMessage responseMessage) {
         Gson gson = new Gson();
         RecommendationDto model = recommendationRepository.findDtoById(id);
         Long lastExtensionId = recommendationRepository.findLastExtensionIdByRecommendationId(id);

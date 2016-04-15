@@ -1,4 +1,4 @@
-//Vista1
+﻿-- Vista1 ANIOS POR ORGANO FISCALIZADOR
 CREATE VIEW `report_view_by_supervisory` AS (
 select 
     year(aud.audited_year) as year,
@@ -44,12 +44,10 @@ left join (
     group by a.audited_year) resp on aud.audited_year = resp.audited_year
     where aud.is_obsolete = 0
 group by aud.audited_year
-)
+);
 
 
-
-
-//Vista2
+-- Vista2 TIPOS DE ENTE FISCALIZADO POR ANIO Y ORGANO FISCALIZADOR
 CREATE VIEW `report_view_by_supervisory_year` AS (
 select
 	aentype.id_audited_entity_type as entity_type_id,
@@ -101,11 +99,10 @@ left join (
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
     where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) resp on aud.audited_year = resp.audited_year and aentype.id_audited_entity_type = resp.id_audited_entity_type
 group by aentype.id_audited_entity_type, year
-)
+);
 
 
-
-//vista3
+-- vista3 ENTES FISCALIZADOS POR ANIO, TIPO DE ENTE FISCALIZADO Y ORGANO FISCALIZADOR
 CREATE VIEW `report_view_by_supervisory_year_entitytype` AS (
 select
     aent.id_audited_entity as entity_id,
@@ -158,10 +155,10 @@ left join (
     where r.is_obsolete = 0 and a.is_obsolete = 0
     group by a.id_audited_entity, a.audited_year) resp on aud.audited_year = resp.audited_year and aud.id_audited_entity = resp.id_audited_entity
 group by aent.id_audited_entity, year
-)
+);
 
 
-//vista4
+-- vista4 AUDITORIAS POR ENTES FISCALIZADO Y POR ANIO Y ORGANO FISCALIZADOR
 CREATE VIEW `report_view_by_supervisory_year_entity` AS (
 select
 	aud.id_audit as audit_id,
@@ -206,5 +203,5 @@ left join (
     where r.is_obsolete = 0
     group by r.id_audit) resp on aud.id_audit = resp.id_audit
 where aud.is_obsolete = 0
-)
+);
 

@@ -11,21 +11,27 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ResponsibilityRepository extends JpaRepository<Responsibility,Long>{
+public interface ResponsibilityRepository extends JpaRepository<Responsibility, Long> {
 
 
     @Query("select new com.crystal.model.entities.audit.dto.ResponsibilityDto(r.id, r.number, r.description, r.initDate, r.endDate, r.isAttended, r.audit.id) from Responsibility r where r.id=:responsibilityId and r.isObsolete = false")
-    ResponsibilityDto findDtoById(@Param("responsibilityId")Long responsibilityId);
+    ResponsibilityDto findDtoById(@Param("responsibilityId") Long responsibilityId);
 
 
     Responsibility findByIdAndIsObsolete(Long id, boolean bIsObsolete);
 
 
-    @Query("select r from Responsibility r where r.id <> :responsibilityId and r.number=:numberStr and r.isObsolete = false")
-    Responsibility findByNumberWithId(@Param("numberStr") String numberStr, @Param("responsibilityId") Long responsibilityId);
+    @Query("select r from Responsibility r " +
+            "inner join r.audit a " +
+            "where r.id <> :responsibilityId and r.number=:numberStr and r.isObsolete = false " +
+            "and a.id= :auditId")
+    Responsibility findByNumberWithId(@Param("numberStr") String numberStr, @Param("responsibilityId") Long responsibilityId, @Param("auditId") Long auditId);
 
-
-    Responsibility findByNumberAndIsObsolete(String number, boolean b);
+    @Query("select r from Responsibility r " +
+            "inner join r.audit a " +
+            "where r.number=:numberStr and r.isObsolete = false " +
+            "and a.id= :auditId")
+    Responsibility findByNumberWithoutId(@Param("numberStr") String numberStr, @Param("auditId") Long auditId);
 
 
     @Query("SELECT e.id FROM Responsibility r " +
@@ -47,12 +53,12 @@ public interface ResponsibilityRepository extends JpaRepository<Responsibility,L
     @Query("select max(e.id) from Responsibility r " +
             "inner join r.lstExtension e " +
             "where r.id=:responsibilityId and e.id <> :extensionId and e.isObsolete = false")
-    public Long findSecondLastExtensionIdByResponsibilityId(@Param("responsibilityId")Long responsibilityId, @Param("extensionId")Long extensionId);
+    public Long findSecondLastExtensionIdByResponsibilityId(@Param("responsibilityId") Long responsibilityId, @Param("extensionId") Long extensionId);
 
     @Query("select max(e.id) from Responsibility r " +
             "inner join r.lstExtension e " +
             "where r.id=:responsibilityId and e.isObsolete = false and e.isInitial = false ")
-    public Long findLastExtensionIdByResponsibilityId(@Param("responsibilityId")Long responsibilityId);
+    public Long findLastExtensionIdByResponsibilityId(@Param("responsibilityId") Long responsibilityId);
 
-    
+
 }

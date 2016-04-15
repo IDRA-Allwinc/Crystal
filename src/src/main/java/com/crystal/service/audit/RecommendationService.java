@@ -2,6 +2,7 @@ package com.crystal.service.audit;
 
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Recommendation;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.RecommendationDto;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,8 +33,10 @@ public interface RecommendationService {
 
     void showReplication(Long recommendId, ModelAndView modelAndView);
 
-    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
+    void doReplication(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 
     ResponseMessage refreshExtensionRecommendation(Long id, ResponseMessage responseMessage);
+
+    Recommendation businessValidation(RecommendationDto recommendationDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException;
 
 }

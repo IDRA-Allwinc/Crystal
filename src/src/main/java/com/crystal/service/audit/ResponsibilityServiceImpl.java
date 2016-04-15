@@ -5,7 +5,6 @@ import com.crystal.model.entities.audit.Audit;
 import com.crystal.model.entities.audit.Extension;
 import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
-import com.crystal.model.entities.audit.dto.CommentDto;
 import com.crystal.model.entities.audit.dto.ResponsibilityDto;
 import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.shared.Constants;
@@ -133,7 +132,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         responsibilityRepository.saveAndFlush(model);
     }
 
-    private Responsibility businessValidation(ResponsibilityDto responsibilityDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
+    @Override
+    public Responsibility businessValidation(ResponsibilityDto responsibilityDto, AttentionDto attentionDto, ResponseMessage responseMessage) {
         Responsibility responsibility = null;
 
         if (responsibilityDto != null) {
@@ -175,7 +175,7 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
                 e.setCreateDate(Calendar.getInstance());
                 e.setComment("Fecha de fin inicial.");
                 e.setEndDate(responsibility.getEndDate());
-                List<Extension> lstExtension =  new ArrayList<>();
+                List<Extension> lstExtension = new ArrayList<>();
                 lstExtension.add(e);
                 responsibility.setLstExtension(lstExtension);
                 responsibility.setInsAudit(sharedUserService.getLoggedUserId());
@@ -303,15 +303,16 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
 
     @Override
     public boolean findByNumber(ResponsibilityDto responsibilityDto, ResponseMessage responseMessage) {
-        if (responsibilityDto.getId() != null && responsibilityRepository.findByNumberWithId(responsibilityDto.getNumber(), responsibilityDto.getId()) != null) {
-            responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe una promoci&oacute;n con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
-            return true;
-        }
 
-        if (responsibilityDto.getId() == null && responsibilityRepository.findByNumberAndIsObsolete(responsibilityDto.getNumber(), false) != null) {
+        if (responsibilityDto.getId() != null) {
+            if (responsibilityRepository.findByNumberWithId(responsibilityDto.getNumber(), responsibilityDto.getId(), responsibilityDto.getAuditId()) != null) {
+                responseMessage.setHasError(true);
+                responseMessage.setMessage("Ya existe una promoci&oacute;n con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
+                return true;
+            }
+        } else if (responsibilityRepository.findByNumberWithoutId(responsibilityDto.getNumber(), responsibilityDto.getAuditId()) != null) {
             responseMessage.setHasError(true);
-            responseMessage.setMessage("Ya existe una promoci&oacute;n con el numeral indicado. Por favor revise la informaci&oacute;n e intente de nuevo.");
+            responseMessage.setMessage("Ya existe una promoci&oacute;n con el numeral indicado para esta auditoría. Por favor revise la informaci&oacute;n e intente de nuevo.");
             return true;
         }
 
@@ -352,7 +353,7 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
 
         Extension e = extensionRepository.findByIdAndIsObsolete(extensionId, false);
 
-        if(e==null) {
+        if (e == null) {
             response.setHasError(true);
             response.setMessage("La prórroga fue ya fue eliminada o no existe en el sistema.");
             response.setTitle("Eliminar prórroga");
@@ -404,7 +405,7 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
 
 
     @Override
-    public ResponseMessage refreshExtensionComment(Long responsibilityId, ResponseMessage responseMessage){
+    public ResponseMessage refreshExtensionComment(Long responsibilityId, ResponseMessage responseMessage) {
         Gson gson = new Gson();
         ResponsibilityDto model = responsibilityRepository.findDtoById(responsibilityId);
         Long lastExtensionId = responsibilityRepository.findLastExtensionIdByResponsibilityId(responsibilityId);

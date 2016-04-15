@@ -63,8 +63,13 @@ public class CommentController {
         ResponseMessage response = new ResponseMessage();
 
         try {
+
             if (DtoValidator.isValid(result, response) == false)
                 return response;
+
+            if (commentService.findByNumber(modelNew, response) == true) {
+                return response;
+            }
             commentService.save(modelNew, response);
             return response;
         } catch (Exception ex) {
@@ -166,13 +171,13 @@ public class CommentController {
 
 
     @RequestMapping(value = "/audit/comment/doReplication", method = RequestMethod.POST)
-    public ResponseMessage doReplication(@Valid AttentionDto attentionDto, BindingResult result) {
+    public ResponseMessage doReplication(@Valid CommentDto commentDto, @Valid AttentionDto attentionDto, BindingResult result) {
         ResponseMessage response = new ResponseMessage();
         try {
             if (DtoValidator.isValid(result, response) == false)
                 return response;
 
-            commentService.doReplication(attentionDto, response);
+            commentService.doReplication(commentDto, attentionDto, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();

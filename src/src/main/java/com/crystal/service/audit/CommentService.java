@@ -1,6 +1,7 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Comment;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.CommentDto;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,11 +25,15 @@ public interface CommentService {
 
     void showReplication(Long commentId, ModelAndView modelAndView);
 
-    void doReplication(AttentionDto attentionDto, ResponseMessage response) throws ParseException;
+    void doReplication(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage response) throws ParseException;
 
     void extension(Long commentId, ModelAndView modelAndView);
 
     void doDeleteExtension(Long commentId, Long extensionId, ResponseMessage response);
 
     ResponseMessage refreshExtensionComment(Long commentId, ResponseMessage responseMessage);
+
+    boolean findByNumber(CommentDto recommendationDto, ResponseMessage responseMessage);
+
+    Comment businessValidation(CommentDto commentDto, AttentionDto attentionDto, ResponseMessage responseMessage) throws ParseException;
 }

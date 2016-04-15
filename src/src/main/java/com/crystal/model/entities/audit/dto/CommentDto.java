@@ -35,6 +35,8 @@ public class CommentDto {
 
     private boolean hasExtension;
 
+    private Long observationTypeId;
+
     public CommentDto() {
 
     }
@@ -129,5 +131,13 @@ public class CommentDto {
 
     public void setHasExtension(boolean hasExtension) {
         this.hasExtension = hasExtension;
+    }
+
+    public Long getObservationTypeId() {
+        return observationTypeId;
+    }
+
+    public void setObservationTypeId(Long observationTypeId) {
+        this.observationTypeId = observationTypeId;
     }
 }

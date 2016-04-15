@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment,Long>{
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select new com.crystal.model.entities.audit.dto.CommentDto(c.id, c.number, c.description, c.initDate,c.endDate, c.isAttended, c.audit.id) from Comment c where c.id=:commentId and c.isObsolete = false")
     public CommentDto findDtoById(@Param("commentId") Long commentId);
@@ -35,10 +35,23 @@ public interface CommentRepository extends JpaRepository<Comment,Long>{
     @Query("select max(e.id) from Comment c " +
             "inner join c.lstExtension e " +
             "where c.id=:commentId and e.id <> :extensionId and e.isObsolete = false")
-    public Long findSecondLastExtensionIdByCommentId(@Param("commentId")Long commentId, @Param("extensionId")Long extensionId);
+    public Long findSecondLastExtensionIdByCommentId(@Param("commentId") Long commentId, @Param("extensionId") Long extensionId);
 
     @Query("select max(e.id) from Comment c " +
             "inner join c.lstExtension e " +
             "where c.id=:commentId and e.isObsolete = false and e.isInitial = false ")
-    public Long findLastExtensionIdByCommentId(@Param("commentId")Long commentId);
+    public Long findLastExtensionIdByCommentId(@Param("commentId") Long commentId);
+
+    @Query("select c from Comment c " +
+            "inner join c.audit a " +
+            "where c.id <> :commentId and c.number= :numberStr and c.isObsolete = false " +
+            "and a.id = :auditId")
+    public Comment findByNumberWithId(@Param("numberStr") String numberStr, @Param("commentId") Long commentId, @Param("auditId") Long auditId);
+
+    @Query("select c from Comment c " +
+            "inner join c.audit a " +
+            "where c.number= :numberStr and c.isObsolete = false " +
+            "and a.id = :auditId")
+    public Comment findByNumberWithoutId(@Param("numberStr") String numberStr, @Param("auditId") Long auditId);
 }
+

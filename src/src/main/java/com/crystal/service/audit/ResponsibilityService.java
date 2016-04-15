@@ -1,6 +1,7 @@
 package com.crystal.service.audit;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.audit.Responsibility;
 import com.crystal.model.entities.audit.dto.AttentionDto;
 import com.crystal.model.entities.audit.dto.ResponsibilityDto;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,4 +28,6 @@ public interface ResponsibilityService {
     void doDeleteExtension(Long responsibilityId, Long extensionId, ResponseMessage response);
 
     ResponseMessage refreshExtensionComment(Long responsibilityId, ResponseMessage responseMessage);
+
+    Responsibility businessValidation(ResponsibilityDto responsibilityDto, AttentionDto attentionDto, ResponseMessage responseMessage);
 }
