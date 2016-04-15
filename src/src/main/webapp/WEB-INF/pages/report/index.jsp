@@ -79,8 +79,8 @@
                             <br/>
 
                             <div class="row" data-ng-show="vmr.selectedSupervisory !== undefined">
-                                <div class="col-xs-4 col-xs-offset-4 text-center">
-                                    <h4>Órgano fiscalizador: {{vmr.selectedSupervisory.name}}</h4>
+                                <div class="col-xs-6 col-xs-offset-3 text-center">
+                                    <h4>Situación de acciones emitidas por órgano fiscalizador: {{vmr.selectedSupervisory.name}}</h4>
                                     <button class="btn btn-info" ng-click="vmr.exportToPDF()"><i class="fa fa-file-pdf-o"></i>  Exportar a PDF</button>
                                 </div>
                             </div>
@@ -98,9 +98,9 @@
                                         <col style="width:10%">
                                         <col style="width:10%">
                                         <thead>
-                                        <%--<tr>--%>
-                                            <%--<th class="text-center" colspan="9"> Sector Economía <br/> Situación de acciones emitidas por la ASF</th>--%>
-                                        <%--</tr>--%>
+                                        <tr>
+                                            <th class="text-center" colspan="9"> Sector Economía <br/> Situación de acciones emitidas</th>
+                                        </tr>
                                         <tr class="tableReportHeader">
                                             <th class="text-center" style="vertical-align: middle;" rowspan="2">Cuenta Pública</th>
                                             <th class="text-center" style="vertical-align: middle;" rowspan="2">No.<br/>Auditorias</th>
@@ -221,17 +221,17 @@
                                                                                 <td class="text-center tableReportRowMiddle">{{row.attended}}</td>
                                                                                 <td class="text-center tableReportRowMiddle"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RECOMMENDATION_R%>", "<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
-                                                                                        {{ row.recommendations }}
+                                                                                       * {{ row.recommendations }}
                                                                                     </div>
                                                                                 </a></td>
                                                                                 <td class="text-center tableReportRowMiddle"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.OBSERVATION_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
-                                                                                        {{ row.observations }}
+                                                                                       * {{ row.observations }}
                                                                                     </div>
                                                                                 </a></td>
                                                                                 <td class="text-center tableReportRowMiddle"><a ng-click='vmr.openDetail(row.aux, "<%=Constants.RESPONSIBILITY_R%>","<c:url value='/audit/getInfoDetail.html?id=idParam&type=detailType' />");'>
                                                                                     <div style="height:100%;width:100%">
-                                                                                        {{ row.responsibilities }}
+                                                                                       * {{ row.responsibilities }}
                                                                                     </div>
                                                                                 </a></td>
                                                                                 <td class="text-center tableReportRowMiddle">{{row.notAttended}}</td>
@@ -255,7 +255,12 @@
                             </div>
                             <div class="row" data-ng-show="vmr.selectedSupervisory !== undefined">
                                 <div class="col-xs-10 col-xs-offset-1">
-                                    <p class="text-center"> R = Recomendación, PO = Pliego de observaciones, PRAS = Responsabilidad Administrativa Sancionatoria </p>
+                                    <p class="text-center"> R = Recomendación, PO = Pliego de observaciones, PRAS = Promoción de Responsabilidad Administrativa Sancionatoria </p>
+                                </div>
+                            </div>
+                            <div class="row" data-ng-show="vmr.selectedSupervisory !== undefined">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <p class="text-right"> * Haga clic para ver el detalle</p>
                                 </div>
                             </div>
 

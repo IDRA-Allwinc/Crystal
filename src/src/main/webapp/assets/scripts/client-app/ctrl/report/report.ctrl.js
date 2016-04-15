@@ -167,7 +167,7 @@
                 drawHeaderRow: function (row, data) {
                     doc.setFontSize(8);
                     doc.rect(data.settings.margin.left, data.cursor.y, data.table.width, 20, 'S');
-                    doc.autoTableText("Séctor Economía\nSituación de acciones emitidas por las ASF", data.settings.margin.left + data.table.width / 2, data.cursor.y + row.height / 3, {
+                    doc.autoTableText("Séctor Economía\nSituación de acciones emitidas", data.settings.margin.left + data.table.width / 2, data.cursor.y + row.height / 3, {
                         halign: 'center',
                         valign: 'middle'
                     });
@@ -204,11 +204,11 @@
                 },
                 beforePageContent: function (data) {
                     doc.setFontSize(12);
-                    doc.text("Observaciones por órgano fiscalizador: " + vm.selectedSupervisory.name, 40, 40);
+                    doc.text("Situación de acciones emitidas por órgano fiscalizador: " + vm.selectedSupervisory.name, 40, 40);
                 },
                 afterPageContent: function (data) {
                     doc.setFontSize(8);
-                    var text = "R = Recomendación, PO = Pliego de observaciones, PRAS = Responsabilidad Administrativa Sancionatoria",
+                    var text = "R = Recomendación, PO = Pliego de observaciones, PRAS = Promoción de Responsabilidad Administrativa Sancionatoria",
                         xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(text) * doc.internal.getFontSize() / 2);
                     doc.text(text, xOffset, data.cursor.y + 20);
                 }
