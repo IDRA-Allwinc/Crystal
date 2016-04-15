@@ -51,7 +51,6 @@ group by aud.audited_year
 
 //Vista2
 CREATE VIEW `report_view_by_supervisory_year` AS (
-select 
 select
 	aentype.id_audited_entity_type as entity_type_id,
     aentype.name as entity_type,
