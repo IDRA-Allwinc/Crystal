@@ -175,3 +175,8 @@ window.rowStyle = function(row, index) {
             classes: row.color
         };
 };
+
+//targetDateYYYYmmDD es un string en formato dd/mm/yyyy, regresa yyyy/mm/dd
+window.parseFormatDate= function(targetDateDDmmYYYY){
+return targetDateDDmmYYYY.split("/").reverse().join("/");
+};

@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit.dto;
 
+import com.crystal.model.shared.Constants;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -34,7 +35,7 @@ public class EventDto {
     }
 
     public EventDto(Long id, String description, Long auditId, Long eventTypeId, Calendar meetingDate, Long meetingTypeId) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
         SimpleDateFormat sdh = new SimpleDateFormat("HH:mm");
 
         this.id = id;

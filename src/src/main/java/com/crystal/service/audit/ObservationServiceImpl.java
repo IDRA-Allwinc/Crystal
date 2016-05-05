@@ -164,7 +164,7 @@ public class ObservationServiceImpl implements ObservationService {
                 observation.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
                 observation = new Observation();
                 observation.setCreateDate(Calendar.getInstance());
                 observation.setInsAudit(sharedUserService.getLoggedUserId());

@@ -1,6 +1,5 @@
 package com.crystal.model.entities.audit.view;
 
-import com.crystal.model.shared.Constants;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -8,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("select e.id_event, concat('', date(adddate(e.create_date, 0))) createDate, et.name event, a.id_audit auditId, 'white' as color \n" +
+@Subselect("select e.id_event, date_format(e.create_date, '%d/%m/%Y') createDate, et.name event, a.id_audit auditId, 'white' as color \n" +
         "from event e  \n" +
         "left join audit a on e.id_audit = a.id_audit \n" +
         "left join event_type et on e.id_event_type = et.id_event_type \n" +

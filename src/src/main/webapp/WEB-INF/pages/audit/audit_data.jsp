@@ -37,14 +37,14 @@
                 <div>
                     <p class="input-group">
                         <input type="text" class="form-control" name="letterDate"
-                               uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.letterDate"
+                               uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>" ng-model="vm.m.letterDate"
                                is-open="vm.m.letterDateIsOpened" ng-required="true"
                                current-text="Hoy"
                                clear-text="Limpiar"
                                close-text="Cerrar"
                                min-date="2000/01/01"
                                max-date="vm.today"
-                               alt-input-formats="yyyy/MM/dd"/>
+                               alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
                                                             ng-click="vm.m.letterDateIsOpened=true;"><i

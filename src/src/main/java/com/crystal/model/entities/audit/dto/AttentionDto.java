@@ -33,7 +33,7 @@ public class AttentionDto {
 
     private String attentionUser;
 
-    private transient SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private transient SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
 
     private boolean isReplication;
 

@@ -169,7 +169,7 @@ public class CommentServiceImpl implements CommentService {
                 comment.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
                 comment = new Comment();
                 comment.setCreateDate(Calendar.getInstance());
                 comment.setInsAudit(sharedUserService.getLoggedUserId());

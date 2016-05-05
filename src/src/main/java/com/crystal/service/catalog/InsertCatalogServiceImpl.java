@@ -18,7 +18,7 @@ import java.util.List;
 public class InsertCatalogServiceImpl implements InsertCatalogService {
 
 //    private String PATH = "C:\\Projects\\IDRASoft\\Crystal\\db\\";
-    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\";
+    private String PATH = "C:\\Users\\Developer\\Desktop\\repoCRYSTAL\\Crystal\\db\\nuevos\\";
 //    private String PATH = "C:\\Users\\Administrator\\IdeaProjects\\Crystal\\db\\";
 //    private String PATH = "/Users/ArturoDeLaRosa/Documents/Projects/Crystal/db/";
 //    private String PATH = "C:\\Projects\\Crystal\\Crystal\\db\\";
@@ -70,7 +70,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setPassword(data[2]);
             model.setEmail(data[3]);
             model.setFullName(data[4]);
-            model.setEnabled(Boolean.parseBoolean(data[5]));
+            model.setEnabled(data[5].equals("1"));
             final Role role = roleRepository.findByCode(data[6]);
             model.setRole(role);
 

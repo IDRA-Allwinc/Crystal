@@ -6,10 +6,10 @@ import com.crystal.model.entities.catalog.Area;
 import com.crystal.model.entities.catalog.AuditType;
 import com.crystal.model.entities.catalog.AuditedEntity;
 import com.crystal.model.entities.catalog.SupervisoryEntity;
+import com.crystal.model.shared.Constants;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -284,7 +284,7 @@ public class Audit extends UserAuditInfo {
     }
 
     public void merge(AuditDto auditDto) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
         SimpleDateFormat sdfM = new SimpleDateFormat("yyyy/MM");
         SimpleDateFormat sdfY = new SimpleDateFormat("yyyy");
         this.letterNumber = auditDto.getLetterNumber();

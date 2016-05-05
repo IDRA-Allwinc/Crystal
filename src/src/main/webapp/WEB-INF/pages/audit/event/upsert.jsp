@@ -1,3 +1,4 @@
+<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
@@ -96,9 +97,9 @@
                                                     <div>
                                                         <p class="input-group">
                                                             <input type="text" class="form-control" name="meetingDate"
-                                                                   uib-datepicker-popup="yyyy/MM/dd"
+                                                                   uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
                                                                    ng-disabled="vm.m.id!==undefined"
-                                                                   placeholder="yyyy/mm/dd"
+                                                                   placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                                    ng-model="vm.m.meetingDate"
                                                                    is-open="vm.m.initDateIsOpened"
                                                                    ng-required="vm.m.eventType.name === 'Reuni&oacute;n'"
@@ -108,7 +109,7 @@
                                                                    min-date="2000/01/01"
                                                                    max-date="vm.today"
                                                                    ng-change="vm.onChangeDate()"
-                                                                   alt-input-formats="yyyy/MM/dd"
+                                                                   alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"
                                                                    ng-disabled="vm.m.id!==undefined"/>
                                                             <span class="input-group-btn">
                                                                 <button type="button" class="btn btn-default"

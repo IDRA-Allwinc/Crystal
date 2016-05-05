@@ -1,3 +1,4 @@
+<%@ page import="com.crystal.model.shared.Constants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
@@ -90,8 +91,8 @@
                                                 <div>
                                                     <p class="input-group">
                                                         <input type="text" class="form-control" name="initDate"
-                                                               uib-datepicker-popup="yyyy/MM/dd"
-                                                               placeholder="yyyy/mm/dd"
+                                                               uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
+                                                               placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                                ng-model="vm.m.initDate"
                                                                is-open="vm.m.initDateIsOpened" ng-required="true"
                                                                current-text="Hoy"
@@ -100,7 +101,7 @@
                                                                min-date="2000/01/01"
                                                                max-date="vm.today"
                                                                ng-change="vm.onChangeDate()"
-                                                               alt-input-formats="yyyy/MM/dd"
+                                                               alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"
                                                                ng-disabled="vm.m.id!==undefined"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
@@ -125,16 +126,16 @@
                                                 <div>
                                                     <p class="input-group">
                                                         <input type="text" class="form-control" name="endDate"
-                                                               uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
+                                                               uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>" ng-model="vm.m.endDate"
                                                                is-open="vm.m.endDateIsOpened" ng-required="true"
-                                                               placeholder="yyyy/mm/dd"
+                                                               placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                                current-text="Hoy"
                                                                clear-text="Limpiar"
                                                                close-text="Cerrar"
                                                                min-date="2000/01/01"
                                                                max-date="vm.today"
                                                                ng-change="vm.onChangeDate()"
-                                                               alt-input-formats="yyyy/MM/dd"
+                                                               alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"
                                                                ng-disabled="vm.m.id!==undefined"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"

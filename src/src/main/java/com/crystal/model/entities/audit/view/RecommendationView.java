@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("select r.id_recommendation, r.number, concat(substring(r.description, 1,30),'...') description, concat('', date(adddate(r.init_date, 0))) initDate, concat('', date(adddate(r.end_date, 0))) endDate, r.is_attended isAttended, a.id_audit auditId,\n" +
+@Subselect("select r.id_recommendation, r.number, concat(substring(r.description, 1,30),'...') description, date_format(r.init_date, '%d/%m/%Y') initDate, date_format(r.end_date, '%d/%m/%Y') endDate, r.is_attended isAttended, a.id_audit auditId,\n" +
         "case " +
         "when is_attended = 1 and r.attention_date <  r.end_date then 'blue-tr' " +
         "when is_attended = 1 and r.attention_date > r.end_date then 'orange-tr' " +

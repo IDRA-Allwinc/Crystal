@@ -154,7 +154,7 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
                 responsibility.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
                 responsibility = new Responsibility();
                 responsibility.setCreateDate(Calendar.getInstance());
                 responsibility.setInsAudit(sharedUserService.getLoggedUserId());

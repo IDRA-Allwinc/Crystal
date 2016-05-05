@@ -133,7 +133,7 @@ public class EventServiceImpl implements EventService {
                 event.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT_STR);
                 event = new Event();
                 event.setCreateDate(Calendar.getInstance());
                 event.setInsAudit(sharedUserService.getLoggedUserId());

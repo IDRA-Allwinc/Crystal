@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit.dto;
 
+import com.crystal.model.shared.Constants;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -42,7 +43,7 @@ public class CommentDto {
     }
 
     public CommentDto(Long id, String number, String description, Calendar initDate, Calendar endDate, boolean isAttended, Long auditId) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
 
         this.id = id;
         this.number = number;

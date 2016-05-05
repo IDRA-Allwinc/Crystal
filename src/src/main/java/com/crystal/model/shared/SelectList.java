@@ -16,7 +16,7 @@ public class SelectList {
     private Boolean specification;
     private String strDate;
     private String logType;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
     private Long value;
     private String subName;
 

@@ -1,5 +1,6 @@
 package com.crystal.model.entities.audit.dto;
 
+import com.crystal.model.shared.Constants;
 import com.crystal.model.shared.SelectList;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -75,7 +76,7 @@ public class AuditDto {
                     Long idAuditedEntity, String nameAuditedEntity, String responsibleAuditedEntity,
                     Long idAuditType, String nameAuditType) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
         this.id = id;
         this.letterNumber = letterNumber;
         this.letterDate = sdf.format(letterDate.getTime());

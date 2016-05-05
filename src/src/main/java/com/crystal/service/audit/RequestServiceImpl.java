@@ -151,7 +151,7 @@ public class RequestServiceImpl implements RequestService {
                 request.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
                 request = new Request();
                 request.setCreateDate(Calendar.getInstance());
                 try {
