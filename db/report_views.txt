@@ -44,7 +44,7 @@ left join (
     where r.is_obsolete = 0 and a.is_obsolete = 0
     group by a.audited_year) resp on aud.audited_year = resp.audited_year
     where aud.is_obsolete = 0
-group by aud.audited_year, supervisory_entity;);
+group by aud.audited_year, supervisory_entity);
 
 
 -- Vista2 TIPOS DE ENTE FISCALIZADO POR ANIO Y ORGANO FISCALIZADOR
@@ -76,7 +76,7 @@ left join (
     from audit a
     inner join observation o on a.id_audit = o.id_audit
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where o.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) obs on aud.audited_year = obs.audited_year and aentype.id_audited_entity_type = obs.id_audited_entity_type
+    where o.is_obsolete = 0 and a.is_obsolete = 0 group by a.audited_year, ae.id_audited_entity_type) obs on aud.audited_year = obs.audited_year and aentype.id_audited_entity_type = obs.id_audited_entity_type
 left join (
     select
         a.audited_year,
@@ -87,7 +87,7 @@ left join (
     from audit a
     inner join recommendation r on a.id_audit = r.id_audit
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) rec on aud.audited_year = rec.audited_year and aentype.id_audited_entity_type = rec.id_audited_entity_type
+    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.audited_year, ae.id_audited_entity_type) rec on aud.audited_year = rec.audited_year and aentype.id_audited_entity_type = rec.id_audited_entity_type
 left join (
     select
         a.audited_year,
@@ -98,7 +98,7 @@ left join (
     from audit a
     inner join responsibility r on a.id_audit = r.id_audit
     inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.id_audit) resp on aud.audited_year = resp.audited_year and aentype.id_audited_entity_type = resp.id_audited_entity_type
+    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.audited_year, ae.id_audited_entity_type) resp on aud.audited_year = resp.audited_year and aentype.id_audited_entity_type = resp.id_audited_entity_type
 group by aentype.id_audited_entity_type, year, supervisory_entity
 );
 
