@@ -1,4 +1,5 @@
-﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+﻿<%@ page import="com.crystal.model.shared.Constants" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
 
@@ -21,7 +22,6 @@
         var tokenCsrf = document.getElementById("token-csrf");
         var url = "<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />" + "?" + tokenCsrf.name + "=" + tokenCsrf.value;
         var scope = angular.element($("#FormUpFileExtensionRecommendation")).scope();
-        debugger;
         scope.ervm.tableId=tableId;
 
         $('#docfileupload').fileupload({
@@ -146,15 +146,15 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="endDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd"
+                                                           uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
                                                            ng-model="ervm.m.endDateExtRecomm"
                                                            is-open="ervm.m.endDateIsOpened" ng-required="true"
-                                                           placeholder="yyyy/mm/dd"
+                                                           placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                            current-text="Hoy"
                                                            clear-text="Limpiar"
                                                            close-text="Cerrar"
                                                            min-date="ervm.today"
-                                                           alt-input-formats="yyyy/MM/dd"/>
+                                                           alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
                                                             ng-click="ervm.m.endDateIsOpened=true;"><i

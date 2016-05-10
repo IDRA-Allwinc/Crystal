@@ -76,4 +76,9 @@ public class Constants {
     public static final String RESPONSIBILITY_R = "RESPONSIBILITY";
 
     public static final String EVENT_TYPE_MEETING = "MEETING";
+
+    public static final String DATE_FORMAT_STR = "dd/MM/yyyy";
+    public static final String DATE_TIME_FORMAT_STR = "dd/MM/yyyy HH:mm";
+
+
 }

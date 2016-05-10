@@ -122,7 +122,7 @@
 
                                         <div class="col-xs-8">
                                             <textarea name="description" ng-model="vm.m.description"
-                                                      placeholder="Ingrese la descripci&oacute;n del tipo de auditor&iacute;a"
+                                                      placeholder="Ingrese la descripci&oacute;n del elemento"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
@@ -142,8 +142,8 @@
                                                 <div>
                                                     <p class="input-group">
                                                         <input type="text" class="form-control" name="initDate"
-                                                               uib-datepicker-popup="yyyy/MM/dd"
-                                                               placeholder="yyyy/mm/dd"
+                                                               uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
+                                                               placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                                ng-model="vm.m.initDate"
                                                                is-open="vm.m.initDateIsOpened" ng-required="true"
                                                                current-text="Hoy"
@@ -152,7 +152,7 @@
                                                                min-date="2000/01/01"
                                                                max-date="vm.today"
                                                                ng-change="vm.onChangeDate()"
-                                                               alt-input-formats="yyyy/MM/dd"/>
+                                                               alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
                                                             ng-click="vm.m.initDateIsOpened=true;"><i
@@ -177,16 +177,16 @@
                                                 <div>
                                                     <p class="input-group">
                                                         <input type="text" class="form-control" name="endDate"
-                                                               uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDate"
+                                                               uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>" ng-model="vm.m.endDate"
                                                                is-open="vm.m.endDateIsOpened" ng-required="true"
-                                                               placeholder="yyyy/mm/dd"
+                                                               placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                                current-text="Hoy"
                                                                clear-text="Limpiar"
                                                                close-text="Cerrar"
                                                                min-date="2000/01/01"
                                                                max-date="vm.today"
                                                                ng-change="vm.onChangeDate()"
-                                                               alt-input-formats="yyyy/MM/dd"/>
+                                                               alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
                                                             ng-click="vm.m.endDateIsOpened=true;"><i

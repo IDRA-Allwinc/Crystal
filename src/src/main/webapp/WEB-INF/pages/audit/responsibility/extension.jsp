@@ -1,4 +1,5 @@
-﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+﻿<%@ page import="com.crystal.model.shared.Constants" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script>
 
@@ -142,14 +143,14 @@
                                             <div>
                                                 <p class="input-group">
                                                     <input type="text" class="form-control" name="endDate"
-                                                           uib-datepicker-popup="yyyy/MM/dd" ng-model="vm.m.endDateExtResp"
+                                                           uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>" ng-model="vm.m.endDateExtResp"
                                                            is-open="vm.m.endDateIsOpened" ng-required="true"
-                                                           placeholder="yyyy/mm/dd"
+                                                           placeholder="<%=Constants.DATE_FORMAT_STR%>"
                                                            current-text="Hoy"
                                                            clear-text="Limpiar"
                                                            close-text="Cerrar"
                                                            min-date="vm.today"
-                                                           alt-input-formats="yyyy/MM/dd"/>
+                                                           alt-input-formats="<%=Constants.DATE_FORMAT_STR%>"/>
                                                   <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
                                                             ng-click="vm.m.endDateIsOpened=true;"><i

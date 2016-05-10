@@ -213,7 +213,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
         Calendar endDate = Calendar.getInstance();
 
         switch (type) {
@@ -392,7 +392,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
 
         boolean result = false;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
         Calendar newEndDate = Calendar.getInstance();
 
         if (type != null) {

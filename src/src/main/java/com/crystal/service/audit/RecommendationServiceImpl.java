@@ -232,7 +232,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 recommendation.setUpdAudit(sharedUserService.getLoggedUserId());
 
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
                 recommendation = new Recommendation();
                 recommendation.setCreateDate(Calendar.getInstance());
                 recommendation.setInsAudit(sharedUserService.getLoggedUserId());

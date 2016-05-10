@@ -26,10 +26,10 @@
         function init() {
 
             if (vm.m.initDate !== undefined) {
-                vm.m.initDate = new Date(vm.m.initDate);
+                vm.m.initDate = new Date(window.parseFormatDate(vm.m.initDate));
             }
             if (vm.m.endDate !== undefined) {
-                vm.m.endDate = new Date(vm.m.endDate);
+                vm.m.endDate = new Date(window.parseFormatDate(vm.m.endDate));
             }
 
             vm.onChangeDate();

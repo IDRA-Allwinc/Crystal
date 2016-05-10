@@ -56,13 +56,13 @@
             }
 
             if (vm.m.letterDate != undefined)
-                vm.m.letterDate = new Date(vm.m.letterDate);
+                vm.m.letterDate = new Date(window.parseFormatDate(vm.m.letterDate));
             if (vm.m.auditedYear != undefined)
-                vm.m.auditedYear = new Date(vm.m.auditedYear);
+                vm.m.auditedYear = new Date(window.parseFormatDate(vm.m.auditedYear));
             if (vm.m.reviewInitDate != undefined)
-                vm.m.reviewInitDate = new Date(vm.m.reviewInitDate);
+                vm.m.reviewInitDate = new Date(window.parseFormatDate(vm.m.reviewInitDate));
             if (vm.m.reviewEndDate != undefined)
-                vm.m.reviewEndDate = new Date(vm.m.reviewEndDate);
+                vm.m.reviewEndDate = new Date(window.parseFormatDate(vm.m.reviewEndDate));
         };
 
         function getAuditedEntities(str) {

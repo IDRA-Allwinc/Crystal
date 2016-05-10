@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.util.Calendar;
 
 @Entity
-@Subselect("select a.id_audit, a.audited_year, a.letter_number, a.number, a.name, at.name as auditType, ae.id_audited_entity, aet.code, a.is_obsolete, '' as auditedYearStr " +
+@Subselect("select a.id_audit, a.audited_year, a.letter_number, a.number, a.name, at.name as auditType, ae.id_audited_entity, aet.code, a.is_obsolete, date_format(audited_year, '%Y')as auditedYearStr " +
         "from audit a " +
         "inner join audit_type at on a.id_audit_type = at.id_audit_type " +
         "inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity " +
@@ -110,9 +110,6 @@ public class AuditView {
     }
 
     public String getAuditedYearStr() {
-        if (this.auditedYear != null) {
-            this.auditedYearStr = String.valueOf(auditedYear.get(Calendar.YEAR));
-        }
         return auditedYearStr;
     }
 

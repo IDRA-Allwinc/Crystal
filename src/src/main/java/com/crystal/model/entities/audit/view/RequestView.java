@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * Created by Administrator on 1/5/2016.
  */
 @Entity
-@Subselect("select r.id_request, r.number, concat(substring(r.description, 1,30),'...') description, r.id_letter idLetter, r.is_attended isAttended, concat('', date(adddate(r.init_date, 0))) initDate, concat('', date(adddate(r.end_date, 0))) endDate, \n" +
+@Subselect("select r.id_request, r.number, concat(substring(r.description, 1,30),'...') description, r.id_letter idLetter, r.is_attended isAttended, date_format(r.init_date, '%d/%m/%Y') initDate, date_format(r.end_date, '%d/%m/%Y') endDate, \n" +
         "case " +
         "when is_attended = 1 and attention_date < end_date then 'blue-tr' " +
         "when is_attended = 1 and attention_date >  end_date then 'orange-tr' " +
