@@ -31,13 +31,16 @@ public interface SupervisoryEntityRepository extends JpaRepository<SupervisoryEn
     @Query("select new com.crystal.model.shared.SelectList(se.id, se.name, se.belongsTo) from SupervisoryEntity se where se.isObsolete=false")
     public List<SelectList> findNoObsolete();
 
+    @Query("select DISTINCT(se.belongsTo) from SupervisoryEntity se where se.isObsolete=false")
+    public List<String> findNoObsoleteByBelongsTo();
+
 
 
     @Query(value = "select rv.year, rv.audit_number, rv.emitted, rv.attended, rv.recommendations, rv.observations, rv.responsibilities, rv.not_attended, rv.progress  " +
             "from report_view_by_supervisory rv " +
             "where rv.supervisory_entity = :idSupervisory " +
             "order by rv.year desc", nativeQuery = true)
-    public List<Object> findDataReportBySupervisory(@Param("idSupervisory") Long idSupervisory);
+    public List<Object> findDataReportBySupervisory(@Param("idSupervisory") String idSupervisory);
 
 
     @Query(value = "select rv.entity_type, rv.audit_number, rv.emitted, rv.attended, rv.recommendations, rv.observations, rv.responsibilities, rv.not_attended, rv.progress, rv.entity_type_id  " +
@@ -45,7 +48,7 @@ public interface SupervisoryEntityRepository extends JpaRepository<SupervisoryEn
             "where rv.supervisory_entity = :idSupervisory " +
             "and rv.year = :year " +
             "order by rv.entity_type_id asc", nativeQuery = true)
-    public List<Object> findDataReportBySupervisoryYear(@Param("idSupervisory") Long idSupervisory, @Param("year") int year);
+    public List<Object> findDataReportBySupervisoryYear(@Param("idSupervisory") String idSupervisory, @Param("year") int year);
 
 
     @Query(value = "select rv.entity_name, rv.audit_number, rv.emitted, rv.attended, rv.recommendations, rv.observations, rv.responsibilities, rv.not_attended, rv.progress, rv.entity_id  " +
@@ -54,7 +57,7 @@ public interface SupervisoryEntityRepository extends JpaRepository<SupervisoryEn
             "and rv.year = :year " +
             "and rv.entity_type = :idEntityType " +
             "order by rv.entity_name asc", nativeQuery = true)
-    public List<Object> findDataReportBySupervisoryYearEntityType(@Param("idSupervisory") Long idSupervisory, @Param("year") int year, @Param("idEntityType") Long idEntityType);
+    public List<Object> findDataReportBySupervisoryYearEntityType(@Param("idSupervisory") String idSupervisory, @Param("year") int year, @Param("idEntityType") Long idEntityType);
 
 
     @Query(value = "select rv.audit_name, rv.audit_number, rv.emitted, rv.attended, rv.recommendations, rv.observations, rv.responsibilities, rv.not_attended, rv.progress, rv.audit_id  " +
@@ -63,7 +66,7 @@ public interface SupervisoryEntityRepository extends JpaRepository<SupervisoryEn
             "and rv.year = :year " +
             "and rv.entity = :idEntity " +
             "order by rv.audit_name asc", nativeQuery = true)
-    public List<Object> findDataReportBySupervisoryYearEntity(@Param("idSupervisory") Long idSupervisory, @Param("year") int year, @Param("idEntity") Long idEntity);
+    public List<Object> findDataReportBySupervisoryYearEntity(@Param("idSupervisory") String idSupervisory, @Param("year") int year, @Param("idEntity") Long idEntity);
 
 
 

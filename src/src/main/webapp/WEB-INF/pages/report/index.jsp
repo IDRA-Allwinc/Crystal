@@ -68,7 +68,7 @@
                                     <h4>Elije un órgano fiscalizador</h4>
                                     <input type="text"
                                            ng-model="vmr.entity"
-                                           uib-typeahead="entity as entity.name for entity in vmr.lstSupervisorEntities | filter:$viewValue | limitTo:8"
+                                           uib-typeahead="entity as entity for entity in vmr.lstSupervisorEntities | filter:$viewValue | limitTo:8"
                                            class="form-control text-center"
                                            typeahead-min-length="0"
                                            typeahead-on-select='vmr.selectSupervisory($item, "<c:url value='/report/getReportDataBySupervisor.json' />");'>
@@ -80,7 +80,7 @@
 
                             <div class="row" data-ng-show="vmr.selectedSupervisory !== undefined">
                                 <div class="col-xs-6 col-xs-offset-3 text-center">
-                                    <h4>Situación de acciones emitidas por órgano fiscalizador: {{vmr.selectedSupervisory.name}}</h4>
+                                    <h4>Situación de acciones emitidas por órgano fiscalizador: {{vmr.selectedSupervisory}}</h4>
                                     <button class="btn btn-info" ng-click="vmr.exportToPDF()"><i class="fa fa-file-pdf-o"></i>  Exportar a PDF</button>
                                 </div>
                             </div>

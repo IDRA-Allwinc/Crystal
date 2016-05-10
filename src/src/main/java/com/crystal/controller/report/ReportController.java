@@ -37,16 +37,17 @@ public class ReportController {
     @RequestMapping(value = "/report/index", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("/report/index");
-        List<SelectList> lstSupervisorEntities = supervisoryEntityRepository.findNoObsolete();
+        List<String> lstSupervisorEntities = supervisoryEntityRepository.findNoObsoleteByBelongsTo();
         modelAndView.addObject("lstSupervisorEntities", new Gson().toJson(lstSupervisorEntities));
         return modelAndView;
     }
 
     @RequestMapping(value = "/report/getReportDataBySupervisor", method = RequestMethod.GET)
-    public ResponseMessage getReportDataBySupervisor(@RequestParam(required = true) Long id) {
+    public ResponseMessage getReportDataBySupervisor(@RequestParam(required = true) String id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisory(id);
+            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisory(belongsTo);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
@@ -60,10 +61,11 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/report/getReportDataBySupervisorYear", method = RequestMethod.GET)
-    public ResponseMessage getReportDataBySupervisorYear(@RequestParam(required = true) Long id, int year) {
+    public ResponseMessage getReportDataBySupervisorYear(@RequestParam(required = true) String id, int year) {
         ResponseMessage response = new ResponseMessage();
         try {
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYear(id, year);
+            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYear(belongsTo, year);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
@@ -77,10 +79,11 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/report/getReportDataBySupervisorYearEntityType", method = RequestMethod.GET)
-    public ResponseMessage getReportDataBySupervisorYearEntityType(@RequestParam(required = true) Long id, int year, Long entityType) {
+    public ResponseMessage getReportDataBySupervisorYearEntityType(@RequestParam(required = true) String id, int year, Long entityType) {
         ResponseMessage response = new ResponseMessage();
         try {
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntityType(id, year, entityType);
+            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntityType(belongsTo, year, entityType);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
@@ -94,10 +97,11 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/report/getReportDataBySupervisorYearEntity", method = RequestMethod.GET)
-    public ResponseMessage getReportDataBySupervisorYearEntity(@RequestParam(required = true) Long id, int year, Long entity) {
+    public ResponseMessage getReportDataBySupervisorYearEntity(@RequestParam(required = true) String id, int year, Long entity) {
         ResponseMessage response = new ResponseMessage();
         try {
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntity(id, year, entity);
+            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntity(belongsTo, year, entity);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 

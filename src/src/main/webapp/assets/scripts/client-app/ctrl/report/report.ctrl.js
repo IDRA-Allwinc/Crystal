@@ -20,9 +20,9 @@
         vm.openDetail = openDetail;
 
         function init() {
-            vm.m.auditedEntity = window.initCatalog(vm.lstAuditedEntity, vm.m.auditedEntityId);
-            if (vm.m.auditedEntity != undefined)
-                vm.m.auditedEntityId = vm.m.auditedEntity.id;
+            //vm.m.auditedEntity = window.initCatalog(vm.lstAuditedEntity, vm.m.auditedEntityId);
+            //if (vm.m.auditedEntity != undefined)
+                //vm.m.auditedEntityId = vm.m.auditedEntity.id;
         }
 
         function selectSupervisory(item, urlToPost) {
@@ -30,7 +30,7 @@
             vm.selectedYear = undefined;
             vm.selectedEntityType = undefined;
             vm.selectedEntity = undefined;
-            $http.get(urlToPost, {params: {id: vm.selectedSupervisory.id}})
+            $http.get(urlToPost, {params: {id: vm.selectedSupervisory}})
                 .then(function (response) {
                     try {
                         response = response.data;
@@ -52,7 +52,7 @@
             vm.selectedYear = item;
             vm.selectedEntityType = undefined;
             vm.selectedEntity = undefined;
-            $http.get(urlToPost, {params: {id: vm.selectedSupervisory.id, year: vm.selectedYear}})
+            $http.get(urlToPost, {params: {id: vm.selectedSupervisory, year: vm.selectedYear}})
                 .then(function (response) {
                     try {
                         response = response.data;
@@ -74,7 +74,7 @@
             vm.selectedEntity = undefined;
             $http.get(urlToPost, {
                 params: {
-                    id: vm.selectedSupervisory.id,
+                    id: vm.selectedSupervisory,
                     year: vm.selectedYear,
                     entityType: vm.selectedEntityType
                 }
@@ -95,7 +95,7 @@
             vm.selectedEntity = item;
             $http.get(urlToPost, {
                 params: {
-                    id: vm.selectedSupervisory.id,
+                    id: vm.selectedSupervisory,
                     year: vm.selectedYear,
                     entity: vm.selectedEntity
                 }
@@ -204,7 +204,7 @@
                 },
                 beforePageContent: function (data) {
                     doc.setFontSize(12);
-                    doc.text("Situación de acciones emitidas por órgano fiscalizador: " + vm.selectedSupervisory.name, 40, 40);
+                    doc.text("Situación de acciones emitidas por órgano fiscalizador: " + vm.selectedSupervisory, 40, 40);
                 },
                 afterPageContent: function (data) {
                     doc.setFontSize(8);
