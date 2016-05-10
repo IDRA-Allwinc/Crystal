@@ -2,7 +2,6 @@ package com.crystal.controller.report;
 
 import com.crystal.infrastructure.model.ResponseMessage;
 import com.crystal.model.shared.ReportViewDto;
-import com.crystal.model.shared.SelectList;
 import com.crystal.repository.catalog.SupervisoryEntityRepository;
 import com.crystal.service.account.SharedUserService;
 import com.crystal.service.shared.GridService;
@@ -46,8 +45,9 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisor(@RequestParam(required = true) String id) {
         ResponseMessage response = new ResponseMessage();
         try {
-            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisory(belongsTo);
+            //Corrige problema de codificación con los acentos
+            //String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisory(id);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
@@ -64,8 +64,8 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisorYear(@RequestParam(required = true) String id, int year) {
         ResponseMessage response = new ResponseMessage();
         try {
-            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYear(belongsTo, year);
+            //String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYear(id, year);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
@@ -82,8 +82,8 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisorYearEntityType(@RequestParam(required = true) String id, int year, Long entityType) {
         ResponseMessage response = new ResponseMessage();
         try {
-            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntityType(belongsTo, year, entityType);
+            //String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntityType(id, year, entityType);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
@@ -100,8 +100,8 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisorYearEntity(@RequestParam(required = true) String id, int year, Long entity) {
         ResponseMessage response = new ResponseMessage();
         try {
-            String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
-            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntity(belongsTo, year, entity);
+            //String belongsTo = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntity(id, year, entity);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
 
