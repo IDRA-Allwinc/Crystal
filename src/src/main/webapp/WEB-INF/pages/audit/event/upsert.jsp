@@ -99,7 +99,7 @@
                                                             <input type="text" class="form-control" name="meetingDate"
                                                                    uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
                                                                    ng-disabled="vm.m.id!==undefined"
-                                                                   placeholder="<%=Constants.DATE_FORMAT_STR%>"
+                                                                   placeholder="<%=Constants.DATE_FORMAT_STR_PLACE_HOLDER%>"
                                                                    ng-model="vm.m.meetingDate"
                                                                    is-open="vm.m.initDateIsOpened"
                                                                    ng-required="vm.m.eventType.name === 'Reuni&oacute;n'"
@@ -121,7 +121,7 @@
                                                     <span class="error"
                                                           ng-show="FormUpEventId.meetingDate.$error.required">*Campo requerido</span>
                                                     <span class="error"
-                                                          ng-show="FormUpEventId.meetingDate.$invalid && !FormUpEventId.meetingDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                          ng-show="FormUpEventId.meetingDate.$invalid && !FormUpEventId.meetingDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
                                                     <input type="hidden" name="meetingDate" ng-model="vm.m.meetingDate"
                                                            ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                                 </div>
@@ -172,7 +172,7 @@
                                                 <%--</div>--%>
                                                 <%--</div>--%>
                                                 <%--<span class="error"--%>
-                                                <%--ng-show="FormUpEventId.endDate.$invalid && !FormUpEventId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>--%>
+                                                <%--ng-show="FormUpEventId.endDate.$invalid && !FormUpEventId.endDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>--%>
                                                 <%--<input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>--%>
                                             </div>
 

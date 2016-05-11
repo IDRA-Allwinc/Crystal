@@ -92,7 +92,7 @@
                                                     <p class="input-group">
                                                         <input type="text" class="form-control" name="initDate"
                                                                uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
-                                                               placeholder="<%=Constants.DATE_FORMAT_STR%>"
+                                                               placeholder="<%=Constants.DATE_FORMAT_STR_PLACE_HOLDER%>"
                                                                ng-model="vm.m.initDate"
                                                                is-open="vm.m.initDateIsOpened" ng-required="true"
                                                                current-text="Hoy"
@@ -113,7 +113,7 @@
                                                           ng-show="FormUpRecommendationId.initDate.$error.required">*Campo requerido</span>
                                                 </div>
                                         <span class="error"
-                                              ng-show="FormUpRecommendationId.initDate.$invalid && !FormUpRecommendationId.initDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                              ng-show="FormUpRecommendationId.initDate.$invalid && !FormUpRecommendationId.initDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
 
                                                 <input type="hidden" name="initDate" ng-model="vm.m.initDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                             </div>
@@ -128,7 +128,7 @@
                                                         <input type="text" class="form-control" name="endDate"
                                                                uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>" ng-model="vm.m.endDate"
                                                                is-open="vm.m.endDateIsOpened" ng-required="true"
-                                                               placeholder="<%=Constants.DATE_FORMAT_STR%>"
+                                                               placeholder="<%=Constants.DATE_FORMAT_STR_PLACE_HOLDER%>"
                                                                current-text="Hoy"
                                                                clear-text="Limpiar"
                                                                close-text="Cerrar"
@@ -148,7 +148,7 @@
                                                 </div>
                                             </div>
                                         <span class="error"
-                                              ng-show="FormUpRecommendationId.endDate.$invalid && !FormUpRecommendationId.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                              ng-show="FormUpRecommendationId.endDate.$invalid && !FormUpRecommendationId.endDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
                                             <input type="hidden" name="endDate" ng-model="vm.m.endDate" ng-update-hidden ng-if="vm.m.id!==undefined"/>
                                         </div>
 

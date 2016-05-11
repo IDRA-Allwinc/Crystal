@@ -77,6 +77,7 @@ public class Constants {
 
     public static final String EVENT_TYPE_MEETING = "MEETING";
 
+    public static final String DATE_FORMAT_STR_PLACE_HOLDER = "dd/mm/aaaa";
     public static final String DATE_FORMAT_STR = "dd/MM/yyyy";
     public static final String DATE_TIME_FORMAT_STR = "dd/MM/yyyy HH:mm";
 

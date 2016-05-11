@@ -54,7 +54,7 @@
                     <span class="error" ng-show="FormUpId.letterDate.$error.required">*Campo requerido</span>
                 </div>
                                         <span class="error"
-                                              ng-show="FormUpId.letterDate.$invalid && !FormUpId.letterDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                              ng-show="FormUpId.letterDate.$invalid && !FormUpId.letterDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
             </div>
 
             <div class="col-xs-6">
@@ -177,7 +177,7 @@
                                                     <span class="error"
                                                           ng-show="FormUpId.auditedYear.$error.required">*Campo requerido</span>
                                             <span class="error"
-                                                  ng-show="FormUpId.auditedYear.$invalid && !FormUpId.auditedYear.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                  ng-show="FormUpId.auditedYear.$invalid && !FormUpId.auditedYear.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
 
                         </div>
                     </div>
@@ -218,7 +218,7 @@
                                                     <span class="error"
                                                           ng-show="FormUpId.reviewInitDate.$error.required">*Campo requerido</span>
                                             <span class="error"
-                                                  ng-show="FormUpId.reviewInitDate.$invalid && !FormUpId.reviewInitDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                  ng-show="FormUpId.reviewInitDate.$invalid && !FormUpId.reviewInitDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
 
                     </div>
                 </div>
@@ -248,7 +248,7 @@
                                                     <span class="error"
                                                           ng-show="FormUpId.reviewEndDate.$error.required">*Campo requerido</span>
                                             <span class="error"
-                                                  ng-show="FormUpId.reviewEndDate.$invalid && !FormUpId.reviewEndDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                  ng-show="FormUpId.reviewEndDate.$invalid && !FormUpId.reviewEndDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
 
                     </div>
                 </div>

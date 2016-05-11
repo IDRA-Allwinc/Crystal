@@ -149,7 +149,7 @@
                                                            uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>"
                                                            ng-model="ervm.m.endDateExtRecomm"
                                                            is-open="ervm.m.endDateIsOpened" ng-required="true"
-                                                           placeholder="<%=Constants.DATE_FORMAT_STR%>"
+                                                           placeholder="<%=Constants.DATE_FORMAT_STR_PLACE_HOLDER%>"
                                                            current-text="Hoy"
                                                            clear-text="Limpiar"
                                                            close-text="Cerrar"
@@ -164,7 +164,7 @@
                                                     <span class="error"
                                                           ng-show="FormUpFileExtensionRecommendation.endDate.$error.required">*Campo requerido</span>
                                                 <span class="error"
-                                                      ng-show="FormUpFileExtensionRecommendation.endDate.$invalid && !FormUpFileExtensionRecommendation.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                      ng-show="FormUpFileExtensionRecommendation.endDate.$invalid && !FormUpFileExtensionRecommendation.endDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
                                             </div>
                                         </div>
 

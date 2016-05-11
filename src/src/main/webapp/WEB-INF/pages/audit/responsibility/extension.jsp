@@ -145,7 +145,7 @@
                                                     <input type="text" class="form-control" name="endDate"
                                                            uib-datepicker-popup="<%=Constants.DATE_FORMAT_STR%>" ng-model="vm.m.endDateExtResp"
                                                            is-open="vm.m.endDateIsOpened" ng-required="true"
-                                                           placeholder="<%=Constants.DATE_FORMAT_STR%>"
+                                                           placeholder="<%=Constants.DATE_FORMAT_STR_PLACE_HOLDER%>"
                                                            current-text="Hoy"
                                                            clear-text="Limpiar"
                                                            close-text="Cerrar"
@@ -160,7 +160,7 @@
                                                     <span class="error"
                                                           ng-show="FormUpFileExtensionResponsibility.endDate.$error.required">*Campo requerido</span>
                                                 <span class="error"
-                                                      ng-show="FormUpFileExtensionResponsibility.endDate.$invalid && !FormUpFileExtensionResponsibility.endDate.$pristine">*La fecha debe tener el formato aaaa/mm/dd</span>
+                                                      ng-show="FormUpFileExtensionResponsibility.endDate.$invalid && !FormUpFileExtensionResponsibility.endDate.$pristine">*La fecha debe tener el formato dd/mm/aaaa</span>
                                             </div>
                                         </div>
 

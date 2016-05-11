@@ -122,7 +122,7 @@
                                             <td>
                                                 <a ng-click='vmr.selectYear(row.id, "<c:url value='/report/getReportDataBySupervisorYear.json' />");'>
                                                     <div class="tableReportFRow1">
-                                                        {{ row.id }}
+                                                        * {{ row.id }}
                                                     </div>
                                                 </a>
                                             </td>
@@ -152,7 +152,7 @@
                                                         <td>
                                                             <a ng-click='vmr.selectEntityType(row.aux, "<c:url value='/report/getReportDataBySupervisorYearEntityType.json' />");'>
                                                                 <div class="tableReportFRow2">
-                                                                    {{row.id}}
+                                                                   * {{row.id}}
                                                                 </div>
                                                             </a>
                                                         </td>
@@ -183,7 +183,7 @@
                                                                     <td>
                                                                         <a ng-click='vmr.selectEntity(row.aux, "<c:url value='/report/getReportDataBySupervisorYearEntity.json' />");'>
                                                                             <div class="tableReportFRow3">
-                                                                                {{ row.id }}
+                                                                              * {{ row.id }}
                                                                             </div>
                                                                         </a>
                                                                     </td>
