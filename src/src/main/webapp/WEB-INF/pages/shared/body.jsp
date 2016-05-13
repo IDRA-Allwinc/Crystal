@@ -79,14 +79,14 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION)">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">Reportes<span
-                                    class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" target="IContent"><i class="fa fa-shield"></i>Auditor&iacute;as</a></li>
-                            </ul>
-                        </li>
+                        <%--<li class="dropdown">--%>
+                            <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"--%>
+                               <%--aria-expanded="false">Reportes<span--%>
+                                    <%--class="caret"></span></a>--%>
+                            <%--<ul class="dropdown-menu" role="menu">--%>
+                                <%--<li><a href="#" target="IContent"><i class="fa fa-shield"></i>Auditor&iacute;as</a></li>--%>
+                            <%--</ul>--%>
+                        <%--</li>--%>
                         <li>
                             <a href="<c:url value='/report/index.html'/>" target="IContent"><span
                                     class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;Reportes</a>
