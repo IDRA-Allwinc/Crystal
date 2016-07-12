@@ -1,5 +1,6 @@
 package com.crystal.model.shared;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class Constants {
@@ -81,5 +82,6 @@ public class Constants {
     public static final String DATE_FORMAT_STR = "dd/MM/yyyy";
     public static final String DATE_TIME_FORMAT_STR = "dd/MM/yyyy HH:mm";
 
+    public static final String TEMPORAL_PATH_FILES= File.separator + "temporalDownloadedFiles" + File.separator;
 
 }

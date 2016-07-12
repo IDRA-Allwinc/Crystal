@@ -21,7 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 @RestController
@@ -177,10 +180,26 @@ public class LetterController {
     @RequestMapping(value = {"/previousRequest/letter/downloadFile", "/audit/letter/downloadFile"}, method = RequestMethod.GET)
     @ResponseBody
     public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
-        Long fileId = serviceLetter.findFileIdByLetterId(id);
-        File finalFile = upDwFileGenericService.getFileToDownload(fileId, request, response);
-        finalFile.deleteOnExit();
-        return new FileSystemResource(finalFile);
+        try {
+            Long fileId = serviceLetter.findFileIdByLetterId(id);
+            File finalFile = upDwFileGenericService.getFileToDownload(fileId, request, response);
+            finalFile.deleteOnExit();
+            return new FileSystemResource(finalFile);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "downloadFileByCase", sharedUserService);
+            try {
+                File file = upDwFileGenericService.createDownloadableFile("errorDescarga", ".doc", request);
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>Ocurrió un error al momento de descargar el documento. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
+                writer.flush();
+                writer.close();
+                file.deleteOnExit();
+                return new FileSystemResource(file);
+            } catch (IOException ex) {
+                logException.Write(ex, this.getClass(), "getFile", sharedUserService);
+                return null;
+            }
+        }
     }
 
 

@@ -14,6 +14,7 @@ import com.crystal.repository.shared.UploadFileGenericRepository;
 import com.crystal.service.account.SharedUserService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -21,8 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -527,18 +527,95 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     }
 
     @Override
-    public File getFileToDownload(Long fileId, HttpServletRequest request, HttpServletResponse response) {
-        UploadFileGeneric file = getPathAndFilename(fileId);
-        String path = new File(file.getPath(), file.getRealFileName()).toString();
-        File finalFile = new File(request.getSession().getServletContext().getRealPath(""), path);
+    public File createDownloadableFile(String fileName, String extension, HttpServletRequest request) {
 
-        response.setContentType("application/force-download");
-        response.setContentLength((int) finalFile.length());
-        response.setHeader("Content-Transfer-Encoding", "binary");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");
+        String temporalPath = request.getSession().getServletContext().getRealPath("") + Constants.TEMPORAL_PATH_FILES;
 
-        return finalFile;
+        File tempPath = new File(temporalPath);
+
+        //crea la carpeta donde se almacenara la imagen si no existe
+        if (!tempPath.exists()) {
+            if (tempPath.mkdirs() == false) {
+                return null;
+            }
+        }
+
+        String guidId = UUID.randomUUID().toString();
+
+        File file = new File(temporalPath + fileName + "_" + guidId + extension);
+        return file;
     }
+
+    @Override
+    public File getFileToDownload(Long fileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+            UploadFileGeneric realFile = uploadFileGenericRepository.getPathAndFilename(fileId);
+            File finalFile = createDownloadableFileFromUploadedFile(realFile.getFileName(), request);
+            FileOutputStream fos = new FileOutputStream(finalFile);
+
+            byte[] buffer = new byte[1024];
+
+            String path = request.getSession().getServletContext().getRealPath("");
+            File fileIn = new File(path, realFile.getPath());
+            FileInputStream in = new FileInputStream(new File(fileIn, realFile.getRealFileName()));
+
+            int len;
+            while ((len = in.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+            in.close();
+            fos.close();
+
+            response.setContentType("application/force-download");
+            response.setContentLength((int) finalFile.length());
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + realFile.getFileName() + "\"");//fileName);
+
+            finalFile.deleteOnExit();
+            return finalFile;
+//    }
+//
+//        response.setContentType("application/force-download");
+//        response.setContentLength((int) finalFile.length());
+//        response.setHeader("Content-Transfer-Encoding", "binary");
+//        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");
+
+//        return finalFile;
+    }
+
+    @Override
+    public File createDownloadableFileFromUploadedFile(String completeFileName, HttpServletRequest request) {
+
+        String extension = "", fileName = "";
+        String[] completeFileNameArr = null;
+
+        completeFileNameArr = completeFileName.split("\\.");
+        extension = completeFileNameArr[completeFileNameArr.length - 1];
+
+        for (int i = 0; i < completeFileNameArr.length - 1; i++) {
+            if (!fileName.equals(""))
+                fileName += ".";
+            fileName += completeFileNameArr[i];
+        }
+
+        String temporalPath = request.getSession().getServletContext().getRealPath("") + Constants.TEMPORAL_PATH_FILES;
+
+        File tempPath = new File(temporalPath);
+
+        //crea la carpeta donde se almacenara la imagen si no existe
+        if (!tempPath.exists()) {
+            if (tempPath.mkdirs() == false) {
+                return null;
+            }
+        }
+
+        String guidId = UUID.randomUUID().toString();
+
+        File file = new File(temporalPath + fileName + "_" + guidId + "."+ extension);
+        return file;
+    }
+
+
 
     @Override
     public boolean validTypeAndFields(UploadFileRequest uploadRequest, ResponseMessage resMsg) {
