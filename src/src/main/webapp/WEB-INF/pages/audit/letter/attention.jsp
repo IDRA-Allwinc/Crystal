@@ -32,7 +32,6 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Indicar atenci&oacute;n</h5>
                                 <h5 ng-if="vm.m.isAttended==false">Indicar atenci&oacute;n del oficio n&uacute;mero <b>{{vm.m.letterNumber}}</b></h5>
                                 <h5 ng-if="vm.m.isAttended==true">Informaci&oacute;n de atenci&oacute;n del oficio n&uacute;mero <b>{{vm.m.letterNumber}}</b></h5>
                             </div>

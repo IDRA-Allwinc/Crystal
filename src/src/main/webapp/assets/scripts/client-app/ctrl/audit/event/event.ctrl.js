@@ -90,10 +90,12 @@
         }
 
         function popAssistant(elementId) {
-            for (var i = 0; i < vm.lstSelectedAssistants.length; i++) {
-                if (vm.lstSelectedAssistants[i].id === elementId) {
-                    vm.lstSelectedAssistants.splice(i, 1);
-                    break;
+            if(vm.m.id==undefined) {
+                for (var i = 0; i < vm.lstSelectedAssistants.length; i++) {
+                    if (vm.lstSelectedAssistants[i].id === elementId) {
+                        vm.lstSelectedAssistants.splice(i, 1);
+                        break;
+                    }
                 }
             }
         }

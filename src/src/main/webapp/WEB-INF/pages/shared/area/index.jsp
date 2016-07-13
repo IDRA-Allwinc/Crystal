@@ -22,8 +22,8 @@
 
         function actionsFormatter(value, row, index) {
             return [
-                '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar informaci&oacute;n del ente fiscalizado" type="button"><i class="fa fa-edit"></i></button>',
-                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar ente fiscalizado" type="button"><i class="fa fa-times-circle"></i></button>'
+                '<button class="btn btn-success dim act-edit btn-tiny" data-toggle="tooltip" data-placement="top" title="Editar informaci&oacute;n del &aacute;rea" type="button"><i class="fa fa-edit"></i></button>',
+                '<button class="btn btn-danger dim act-delete btn-tiny" data-toggle="tooltip" data-placement="top" title="Eliminar el &aacute;rea" type="button"><i class="fa fa-times-circle"></i></button>'
             ].join('');
         }
 
@@ -71,15 +71,16 @@
                 <div class="col-xs-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-success pull-right">Entes fiscalizados</span>
+                            <span class="label label-success pull-right">&Aacute;reas</span>
                             <h2 class="text-navy">
                                 <i class="fa fa-th"></i> &nbsp; Administraci&oacute;n de &aacute;reas
                             </h2>
                         </div>
                         <div class="ibox-content">
                             <div id="toolbar">
-                                <button class="btn btn-success" onclick=" window.upsert() ">
-                                    <i class="fa fa-plus"></i> Agregar
+                                <button class="btn btn-success" onclick=" window.upsert()" data-toggle="tooltip"
+                                        data-placement="top" title="Agregar nueva &aacute;rea">
+                                    <i class="fa fa-plus"></i> Agregar &aacute;rea
                                 </button>
                             </div>
                             <table id="tblGrid"

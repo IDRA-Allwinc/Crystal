@@ -79,7 +79,7 @@
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Subir documentos a la observaci&oacute;n <b>{{ct.m.number}}</b></h5>
+                                    <h5>Subir documentos al evento </h5>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Documentos adicionales de la observaci&oacute;n <b>{{ct.m.number}}</b></h5>
+                                <h5>Documentos adicionales del evento</h5>
                             </div>
                         </div>
                     </div>

@@ -100,7 +100,8 @@
                     <div class="col-xs-12">
                         <div class="space-5"></div>
                         <div id="toolbarComment">
-                            <button class="btn btn-success" onclick=" window.upsertComment() ">
+                            <button class="btn btn-success" onclick=" window.upsertComment()" data-toggle="tooltip"
+                                    data-placement="top" title="Agregar nueva observaci&oacute;n">
                                 <i class="fa fa-plus"></i> Agregar observaci&oacute;n
                             </button>
                         </div>

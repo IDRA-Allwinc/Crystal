@@ -66,7 +66,7 @@
                         <h4 class="modal-title">Oficio de auditor&iacute;a</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-list modal-icon"></i>
+                        <i class="fa fa-files-o modal-icon"></i>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 package com.crystal.repository.catalog;
 
+import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.catalog.AuditedEntity;
 import com.crystal.model.entities.catalog.dto.AuditedEntityDto;
 import com.crystal.model.shared.SelectList;
@@ -18,7 +19,7 @@ public interface AuditedEntityRepository extends JpaRepository<AuditedEntity, Lo
     @Query("SELECT new com.crystal.model.shared.SelectList(r.id, r.name) FROM AuditedEntity r")
     public List<SelectList> findSelectList();
 
-    @Query("SELECT new com.crystal.model.shared.SelectList(r.id, r.name) FROM AuditedEntity r WHERE r.auditedEntityType.code = :code")
+    @Query("SELECT new com.crystal.model.shared.SelectList(r.id, r.name) FROM AuditedEntity r WHERE r.auditedEntityType.code = :code and r.isObsolete = false")
     public List<SelectList> findSelectList(@Param("code") String code);
 
     @Query("select new com.crystal.model.entities.catalog.dto.AuditedEntityDto(ae.id, ae.name, ae.responsible, ae. phone, ae.email, ae.auditedEntityType.id) from AuditedEntity ae where ae.id=:auditedEntityId")
@@ -39,4 +40,11 @@ public interface AuditedEntityRepository extends JpaRepository<AuditedEntity, Lo
             "(ae.name like :assistantStr or  ae.responsible like :assistantStr)" +
             "and ae.isObsolete = false")
     public List<SelectList> findAssistantsByStr(@Param("assistantStr") String assistantStr, Pageable pageable);
+
+    @Query("select u " +
+            "from User u " +
+            "inner join u.auditedEntity ae " +
+            "where u.enabled = true "+
+            "and ae.id=:auditedEntityId")
+    public List<User> findUsersByAuditedEntityId(@Param("auditedEntityId") Long auditedEntityId, Pageable pageable);
 }

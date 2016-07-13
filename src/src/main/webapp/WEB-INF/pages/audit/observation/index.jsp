@@ -98,7 +98,8 @@
                     <div class="col-xs-12">
                         <div class="space-5"></div>
                         <div id="toolbarObservation">
-                            <button class="btn btn-success" onclick=" window.upsertObservation() ">
+                            <button class="btn btn-success" onclick=" window.upsertObservation()" data-toggle="tooltip"
+                                    data-placement="top" title="Agregar nuevo pliego">
                                 <i class="fa fa-plus"></i> Agregar pliego de observaciones
                             </button>
                         </div>

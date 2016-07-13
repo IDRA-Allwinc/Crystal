@@ -145,7 +145,7 @@
 
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-xs-12">
-                <h2>Auditor&iacute;a</h2>
+                <h2>Requerimientos Previos</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="">Requerimientos Previos</a>
@@ -175,7 +175,7 @@
                         <div class="ibox-content">
                             <div id="toolbar">
                                 <button class="btn btn-success" onclick=" window.upsertLetter() " data-toggle="tooltip"
-                                        data-placement="top" title="Agregar oficio nuevo">
+                                        data-placement="top" title="Agregar nuevo oficio">
                                     <i class="fa fa-plus"></i> Agregar oficio
                                 </button>
                             </div>

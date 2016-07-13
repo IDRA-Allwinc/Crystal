@@ -74,7 +74,8 @@
                     <div class="col-xs-12">
                         <div class="space-5"></div>
                         <div id="toolbarEvent">
-                            <button class="btn btn-success" onclick=" window.upsertEvent() ">
+                            <button class="btn btn-success" onclick=" window.upsertEvent()" data-toggle="tooltip"
+                                    data-placement="top" title="Agregar nuevo evento">
                                 <i class="fa fa-plus"></i> Agregar evento
                             </button>
                         </div>

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Subselect("SELECT e.id_extension, r.id_request requestId, r.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, date_format(e.end_date, 0) endDate "+ //Addition.extensionId2 lastExtensionId " +
+@Subselect("SELECT e.id_extension, r.id_request requestId, r.is_attended isAttended, uf.id_upload_file_generic fileId, uf.file_name fileName, concat(substring(e.comment, 1,30),'...') extensionComment, date_format(e.end_date, '%d/%m/%Y') endDate "+ //Addition.extensionId2 lastExtensionId " +
         "        FROM Request r  " +
         "        INNER JOIN request_extension_rel rer  ON r.id_request = rer.id_request  " +
         "        INNER JOIN extension e ON rer.id_extension= e.id_extension  " +

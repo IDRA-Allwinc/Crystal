@@ -95,7 +95,8 @@
                     <div class="col-xs-12">
                         <div class="space-5"></div>
                         <div id="toolbarResponsibility">
-                            <button class="btn btn-success" onclick=" window.upsertResponsibility() ">
+                            <button class="btn btn-success" onclick=" window.upsertResponsibility()" data-toggle="tooltip"
+                                    data-placement="top" title="Agregar nueva promoci&oacute;n">
                                 <i class="fa fa-plus"></i> Agregar promoci&oacute;n
                             </button>
                         </div>

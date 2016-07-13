@@ -23,7 +23,7 @@
                         <h4 class="modal-title">Recomendaciones de auditor&iacute;a</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-bars modal-icon"></i>
+                        <i class="fa fa-hand-o-right modal-icon"></i>
                     </div>
                 </div>
             </div>

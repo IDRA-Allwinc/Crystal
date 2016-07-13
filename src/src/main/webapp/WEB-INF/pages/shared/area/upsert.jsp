@@ -87,7 +87,7 @@
                                             <input type="text" name="phone" ng-model="vm.m.phone"
                                                    minlength="8"
                                                    maxlength="200"
-                                                   placeholder="Ingrese el tel&oacute;fono "
+                                                   placeholder="Ingrese el tel&eacute;fono "
                                                    ng-required="true" class="form-control">
                                             <span class="error" ng-show="FormUpId.phone.$error.required">*Campo requerido</span>
                                             <span class="error" ng-show="FormUpId.phone.$error.minlength">*El campo debe tener  entre 8 y de 200 caracteres</span>
@@ -100,7 +100,7 @@
 
                                         <div class="col-xs-9">
                                             <input type="email" name="email" ng-model="vm.m.email"
-                                                   placeholder="Ingrese el email del reponsable"
+                                                   placeholder="Ingrese el email del responsable"
                                                    ng-required="true" class="form-control">
                                         <span class="error"
                                               ng-show="FormUpId.email.$error.required">*Campo requerido</span>
@@ -114,7 +114,7 @@
                                             <input type="hidden" ng-update-hidden ng-model="vm.m.auditedEntityId"
                                                    name="auditedEntityId" id="auditedEntityId">
 
-                                            <label class="col-xs-3 control-label font-noraml">Entidad fiscalizada a la
+                                            <label class="col-xs-3 control-label font-noraml">Ente fiscalizado al
                                                 que pertenece:</label>
 
                                             <div class="col-xs-9">

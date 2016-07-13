@@ -52,7 +52,8 @@
                     <div class="col-xs-12">
                         <div class="space-5"></div>
                         <div id="toolbarNotification">
-                            <button class="btn btn-success" onclick="window.upsertNotification()">
+                            <button class="btn btn-success" onclick="window.upsertNotification()" data-toggle="tooltip"
+                                    data-placement="top" title="Agregar nueva notificaci&oacute;n">
                                 <i class="fa fa-plus"></i> Agregar notificaci&oacute;n
                             </button>
                         </div>

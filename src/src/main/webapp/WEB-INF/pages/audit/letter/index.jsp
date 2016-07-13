@@ -187,7 +187,7 @@
                         <div class="space-5"></div>
                         <div id="toolbarLetter">
                             <button class="btn btn-success" onclick=" window.upsertLetter() " data-toggle="tooltip"
-                                    data-placement="top" title="Agregar oficio nuevoooo">
+                                    data-placement="top" title="Agregar nuevo oficio">
                                 <i class="fa fa-plus"></i> Agregar oficio
                             </button>
                         </div>

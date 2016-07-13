@@ -31,6 +31,8 @@ public class AttentionDto {
 
     private String observationNumber;
 
+    private String responsibilityNumber;
+
     private String attentionUser;
 
     private transient SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_STR);
@@ -105,6 +107,10 @@ public class AttentionDto {
             }
             case Constants.UploadFile.OBSERVATION: {
                 this.observationNumber = entityNumber;
+                break;
+            }
+            case Constants.UploadFile.RESPONSIBILITY: {
+                this.responsibilityNumber = entityNumber;
                 break;
             }
         }
@@ -258,5 +264,13 @@ public class AttentionDto {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getResponsibilityNumber() {
+        return responsibilityNumber;
+    }
+
+    public void setResponsibilityNumber(String responsibilityNumber) {
+        this.responsibilityNumber = responsibilityNumber;
     }
 }

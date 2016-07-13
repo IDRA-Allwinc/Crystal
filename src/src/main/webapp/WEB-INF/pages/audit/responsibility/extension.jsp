@@ -100,7 +100,7 @@
                         <h4 class="modal-title">Pr&oacute;rrogas</h4>
                     </div>
                     <div class="col-xs-3" align="right">
-                        <i class="fa fa-copy modal-icon"></i>
+                        <i class="fa fa-clock-o modal-icon"></i>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                         <div class="col-xs-12">
                             <div class="ibox">
                                 <div class="ibox-title navy-bg">
-                                    <h5>Agregar pr&oacute;rroga a la recomendaci&oacute;n <b>{{vm.m.number}}</b></h5>
+                                    <h5>Agregar pr&oacute;rroga a la promoci&oacute;n <b>{{vm.m.number}}</b></h5>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +232,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Pr&oacute;rrogas para la recomendaci&oacute;n <b>{{vm.m.number}}</b></h5>
+                                <h5>Pr&oacute;rrogas para la promoci&oacute;n <b>{{vm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>

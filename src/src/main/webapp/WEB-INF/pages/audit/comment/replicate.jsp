@@ -33,7 +33,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Replicar la observaci&oacute;n n&uacute;mero <b>{{vm.m.commentNumber}}</b></h5>
+                                <h5>Replicar la observaci&oacute;n n&uacute;mero <b>{{vm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>

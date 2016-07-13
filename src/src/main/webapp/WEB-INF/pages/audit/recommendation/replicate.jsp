@@ -33,7 +33,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Replicar la recomendaci&oacute;n n&uacute;mero <b>{{vm.m.recommendationNumber}}</b></h5>
+                                <h5>Replicar la recomendaci&oacute;n n&uacute;mero <b>{{vm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
 
                                     <div class="col-xs-8">
                                             <textarea name="attentionComment" ng-model="vm.m.attentionComment"
-                                                      placeholder="Ingrese el comentario para la replicaci&oacute;n de la observaci&oacute;n"
+                                                      placeholder="Ingrese el comentario para la replicaci&oacute;n de la recomendaci&oacute;n"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>
@@ -106,7 +106,7 @@
 
                                         <div class="col-xs-8">
                                             <input type="text" name="number" ng-model="vm.m.number"
-                                                   placeholder="Ingrese el numeral de la observaci&oacute;n"
+                                                   placeholder="Ingrese el numeral de la recomendaci&oacute;n"
                                                    minlength="8"
                                                    maxlength="50"
                                                    ng-required="true" class="form-control">

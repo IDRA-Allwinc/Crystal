@@ -33,7 +33,7 @@
                     <div class="col-xs-12">
                         <div class="ibox">
                             <div class="ibox-title navy-bg">
-                                <h5>Replicar el pliego n&uacute;mero <b>{{vm.m.observationNumber}}</b></h5>
+                                <h5>Replicar el pliego n&uacute;mero <b>{{vm.m.number}}</b></h5>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
 
                                     <div class="col-xs-8">
                                             <textarea name="attentionComment" ng-model="vm.m.attentionComment"
-                                                      placeholder="Ingrese el comentario para la replicaci&oacute;n de la observaci&oacute;n"
+                                                      placeholder="Ingrese el comentario para la replicaci&oacute;n del pliego"
                                                       minlength="8"
                                                       maxlength="2000"
                                                       ng-required="true" class="form-control"></textarea>

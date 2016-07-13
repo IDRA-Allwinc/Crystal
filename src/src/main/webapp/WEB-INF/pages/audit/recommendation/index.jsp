@@ -101,7 +101,8 @@
                     <div class="col-xs-12">
                         <div class="space-5"></div>
                         <div id="toolbarRecommendation">
-                            <button class="btn btn-success" onclick=" window.upsertRecommendation() ">
+                            <button class="btn btn-success" onclick=" window.upsertRecommendation()"data-toggle="tooltip"
+                                    data-placement="top" title="Agregar nueva recomendaci&oacute;n">
                                 <i class="fa fa-plus"></i> Agregar recomendaci&oacute;n
                             </button>
                         </div>

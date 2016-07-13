@@ -1,6 +1,7 @@
 package com.crystal.service.catalog;
 
 import com.crystal.infrastructure.model.ResponseMessage;
+import com.crystal.model.entities.account.User;
 import com.crystal.model.entities.catalog.AuditedEntity;
 import com.crystal.model.entities.catalog.dto.AuditedEntityDto;
 import com.crystal.model.shared.SelectList;
@@ -38,6 +39,15 @@ public class AuditedEntityServiceImpl implements AuditedEntityService {
 
     @Transactional
     public ResponseMessage doObsolete(Long id, ResponseMessage responseMessage) {
+
+        List<User> lstLinkedUsers = auditedEntityRepository.findUsersByAuditedEntityId(id, new PageRequest(0,1));
+
+        if(lstLinkedUsers!=null &&lstLinkedUsers.size()>0){
+            responseMessage.setHasError(true);
+            responseMessage.setMessage("El ente fiscalizado tiene usuarios asociados, no es posible eliminarlo.");
+            return responseMessage;
+        }
+
         responseMessage.setHasError(false);
         responseMessage.setMessage("Se ha eliminado la información correctamente.");
         AuditedEntity ae  = auditedEntityRepository.findOne(id);
