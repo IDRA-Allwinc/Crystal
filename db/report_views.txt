@@ -1,210 +1,255 @@
-﻿-- Vista1 ANIOS POR ORGANO FISCALIZADOR
+﻿-- vista 1
 CREATE VIEW `report_view_by_supervisory` AS (
-select
-	year(aud.audited_year) as year,
-    count(distinct aud.id_audit) as audit_number,
-    ifnull(obs.total, 0) +  ifnull(rec.total, 0) +  ifnull(resp.total, 0) as emitted,
-    ifnull(obs.attended, 0) + ifnull(rec.attended, 0) + ifnull(resp.attended, 0) as attended,
-    ifnull(rec.not_attended, 0) as recommendations,
-    ifnull(obs.not_attended, 0) as observations,
-    ifnull(resp.not_attended, 0) as responsibilities,
-    ifnull(rec.not_attended, 0) + ifnull(obs.not_attended, 0) + ifnull(resp.not_attended,0) as not_attended,
-	ifnull(cast((obs.attended + rec.attended + resp.attended) / (obs.total + rec.total + resp.total) * 100 as decimal(10,2)), 0.00) as progress,
-    sup.belongs_to as supervisory_entity
-from audit aud
-inner join supervisory_entity sup on sup.id_supervisory_entity = aud.id_supervisory_entity
-left join (
-	select
-		a.audited_year,
-		count(distinct o.id_observation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-	from audit a
-    inner join observation o on a.id_audit = o.id_audit
-    where o.is_obsolete = 0 and a.is_obsolete = 0
-    group by a.audited_year) obs on aud.audited_year = obs.audited_year
-left join (
-	select
-		a.audited_year,
-		count(distinct r.id_recommendation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-	from audit a
-    inner join recommendation r on a.id_audit = r.id_audit
-    where r.is_obsolete = 0 and a.is_obsolete = 0
-    group by a.audited_year) rec on aud.audited_year = rec.audited_year
-left join (
-	select
-		a.audited_year,
-		count(distinct r.id_responsibility) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-	from audit a
-    inner join responsibility r on a.id_audit = r.id_audit
-    where r.is_obsolete = 0 and a.is_obsolete = 0
-    group by a.audited_year) resp on aud.audited_year = resp.audited_year
-    where aud.is_obsolete = 0
-group by aud.audited_year, supervisory_entity);
+select  
+audit_year.audited_year as year, 
+audit_year.audit_total as audit_number, 
+ifnull(rec_year.recommendation_number, 0) +  ifnull(obs_year.observations_number, 0) +  ifnull(resp_year.resp_number, 0) as emitted, 
+ifnull(rec_year.recommendation_attended, 0) +  ifnull(obs_year.obs_attended, 0) +  ifnull(resp_year.resp_attended, 0) as attended, 
+ifnull(rec_year.recommendation_not_attended, 0) +  ifnull(obs_year.obs_not_attended, 0) +  ifnull(resp_year.resp_not_attended, 0) as not_attended, 
+ifnull(rec_year.recommendation_not_attended, 0) recommendations, 
+ifnull(obs_year.obs_not_attended, 0) observations, 
+ifnull(resp_year.resp_not_attended, 0) as responsibilities, 
+ifnull(cast((ifnull(obs_year.obs_attended,0) + ifnull(rec_year.recommendation_attended,0) + ifnull(resp_year.resp_attended,0)) / (ifnull(obs_year.observations_number,0) + ifnull(rec_year.recommendation_number,0) + ifnull(resp_year.resp_number,0)) * 100 as decimal(10,2)), 0.00) as progress, 
+audit_year.supervisory_entity
+from  
+(select 
+year(a.audited_year) audited_year,       
+count(a.id_audit) audit_total,            
+sup.belongs_to as supervisory_entity
+from audit a     
+inner join supervisory_entity sup on sup.id_supervisory_entity = a.id_supervisory_entity  
+where a.is_obsolete=0 
+group by a.audited_year) audit_year 
+	left join   
+(select year(a.audited_year) audited_year_rec,   
+count(r.id_recommendation) recommendation_number,   
+sum(case when is_attended = false then 1 else 0 end) as recommendation_not_attended,  
+sum(case when is_attended = true then 1 else 0 end) as recommendation_attended  
+from recommendation r  
+inner join audit a on r.id_audit = a.id_audit  
+where a.is_obsolete=false and r.is_obsolete=false
+group by audited_year  ) rec_year on rec_year.audited_year_rec = audit_year.audited_year 
+	left join  
+(select year(a.audited_year) audited_year_obs,  
+count(o.id_observation) observations_number,  
+sum(case when o.is_attended = false then 1 else 0 end) 
+as obs_not_attended, sum(case when o.is_attended = true then 1 else 0 end) 
+as obs_attended 
+from observation o 
+inner join audit a on o.id_audit = a.id_audit 
+where a.is_obsolete=false and o.is_obsolete=false
+group by audited_year ) obs_year on obs_year.audited_year_obs = audit_year.audited_year 
+left join 
+(select year(a.audited_year) audited_year_resp,  
+count(r.id_responsibility) resp_number,  
+sum(case when is_attended is false then 1 else 0 end) as resp_not_attended, 
+sum(case when is_attended is true then 1 else 0 end) as resp_attended 
+from responsibility r 
+inner join audit a on r.id_audit = a.id_audit 
+where a.is_obsolete=false and r.is_obsolete=false
+group by audited_year) resp_year on resp_year.audited_year_resp = audit_year.audited_year);
 
-
--- Vista2 TIPOS DE ENTE FISCALIZADO POR ANIO Y ORGANO FISCALIZADOR
+-- vista 2
 CREATE VIEW `report_view_by_supervisory_year` AS (
-select
-	aentype.id_audited_entity_type as entity_type_id,
-    aentype.name as entity_type,
-    count(distinct aud.id_audit) as audit_number,
-    ifnull(obs.total, 0) +  ifnull(rec.total, 0) +  ifnull(resp.total, 0) as emitted,
-    ifnull(obs.attended, 0) + ifnull(rec.attended, 0) + ifnull(resp.attended, 0) as attended,
-    ifnull(rec.not_attended, 0) as recommendations,
-    ifnull(obs.not_attended, 0) as observations,
-    ifnull(resp.not_attended, 0) as responsibilities,
-    ifnull(rec.not_attended, 0) + ifnull(obs.not_attended, 0) + ifnull(resp.not_attended,0) as not_attended,
-	ifnull(cast((obs.attended + rec.attended + resp.attended) / (obs.total + rec.total + resp.total) * 100 as decimal(10,2)), 0.00) as progress,
-    sup.belongs_to as supervisory_entity,
-    year(aud.audited_year) as year
-from audited_entity_type aentype
-inner join audited_entity aent on aent.id_audited_entity_type = aentype.id_audited_entity_type
-inner join audit aud on aud.id_audited_entity = aent.id_audited_entity
-inner join supervisory_entity sup on sup.id_supervisory_entity = aud.id_supervisory_entity
-left join (
-    select
-        a.audited_year,
-        ae.id_audited_entity_type,
-        count(distinct o.id_observation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from audit a
-    inner join observation o on a.id_audit = o.id_audit
-    inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where o.is_obsolete = 0 and a.is_obsolete = 0 group by a.audited_year, ae.id_audited_entity_type) obs on aud.audited_year = obs.audited_year and aentype.id_audited_entity_type = obs.id_audited_entity_type
-left join (
-    select
-        a.audited_year,
-        ae.id_audited_entity_type,
-        count(distinct r.id_recommendation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from audit a
-    inner join recommendation r on a.id_audit = r.id_audit
-    inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.audited_year, ae.id_audited_entity_type) rec on aud.audited_year = rec.audited_year and aentype.id_audited_entity_type = rec.id_audited_entity_type
-left join (
-    select
-        a.audited_year,
-        ae.id_audited_entity_type,
-        count(distinct r.id_responsibility) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from audit a
-    inner join responsibility r on a.id_audit = r.id_audit
-    inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity
-    where r.is_obsolete = 0 and a.is_obsolete = 0 group by a.audited_year, ae.id_audited_entity_type) resp on aud.audited_year = resp.audited_year and aentype.id_audited_entity_type = resp.id_audited_entity_type
-group by aentype.id_audited_entity_type, year, supervisory_entity
-);
+select audit_year.audited_year as year,  
+audit_year.audit_total as audit_number,  
+ifnull(rec_year.recommendation_number, 0) +  ifnull(obs_year.observations_number, 0) +  ifnull(resp_year.resp_number, 0) as emitted,  
+ifnull(rec_year.recommendation_attended, 0) +  ifnull(obs_year.obs_attended, 0) +  ifnull(resp_year.resp_attended, 0) as attended,  
+ifnull(rec_year.recommendation_not_attended, 0) +  ifnull(obs_year.obs_not_attended, 0) +  ifnull(resp_year.resp_not_attended, 0) as not_attended,  
+ifnull(rec_year.recommendation_attended, 0) recommendations,  
+ifnull(obs_year.obs_attended, 0) observations,  
+ifnull(resp_year.resp_attended, 0) as responsibilities,  
+ifnull(cast((ifnull(obs_year.obs_attended,0) + ifnull(rec_year.recommendation_attended,0) + ifnull(resp_year.resp_attended,0)) / (ifnull(obs_year.observations_number,0) + ifnull(rec_year.recommendation_number,0) + ifnull(resp_year.resp_number,0)) * 100 as decimal(10,2)), 0.00) as progress,  
+audit_year.supervisory_entity,
+audit_year.id_audited_entity_type entity_type_id,
+audit_year.entity_type_name as entity_type
+from   
+(select  year(a.audited_year) audited_year,        
+count(a.id_audit) audit_total,             
+sup.belongs_to as supervisory_entity, 
+aet.id_audited_entity_type,
+aet.name as entity_type_name
+from audited_entity_type aet 
+inner join audited_entity ae on ae.id_audited_entity_type = aet.id_audited_entity_type 
+inner join audit a on a.id_audited_entity = ae.id_audited_entity 
+inner join supervisory_entity sup on sup.id_supervisory_entity = a.id_supervisory_entity  
+where a.is_obsolete=0  
+group by a.audited_year, aet.id_audited_entity_type) audit_year   
+left join    
+(select year(a.audited_year) audited_year_rec,    
+count(r.id_recommendation) recommendation_number,    
+sum(case when is_attended = false then 1 else 0 end) as recommendation_not_attended,   
+sum(case when is_attended = true then 1 else 0 end) as recommendation_attended, 
+aet.id_audited_entity_type   
+from recommendation r   
+inner join audit a on r.id_audit = a.id_audit   
+inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity 
+inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type 
+where a.is_obsolete=false and r.is_obsolete=false 
+group by aet.id_audited_entity_type, a.audited_year) rec_year on rec_year.audited_year_rec = audit_year.audited_year                   
+																and rec_year.id_audited_entity_type = audit_year.id_audited_entity_type  
+left join   
+(select year(a.audited_year) audited_year_obs,   
+count(o.id_observation) observations_number,   
+sum(case when o.is_attended = false then 1 else 0 end) as obs_not_attended,  
+sum(case when o.is_attended = true then 1 else 0 end) as obs_attended, 
+aet.id_audited_entity_type   
+from observation o  
+inner join audit a on o.id_audit = a.id_audit  
+inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity 
+inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type 
+where a.is_obsolete=false and o.is_obsolete=false 
+group by aet.id_audited_entity_type, a.audited_year) obs_year on obs_year.audited_year_obs = audit_year.audited_year                  
+																and obs_year.id_audited_entity_type = audit_year.id_audited_entity_type 
+left join  
+(select year(a.audited_year) audited_year_resp,   
+count(r.id_responsibility) resp_number,   
+sum(case when is_attended is false then 1 else 0 end) as resp_not_attended,  
+sum(case when is_attended is true then 1 else 0 end) as resp_attended, 
+aet.id_audited_entity_type   
+from responsibility r  
+inner join audit a on r.id_audit = a.id_audit  
+inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity 
+inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type 
+where a.is_obsolete=false and r.is_obsolete=false 
+group by aet.id_audited_entity_type, a.audited_year) resp_year on resp_year.audited_year_resp = audit_year.audited_year                 
+																and resp_year.id_audited_entity_type = audit_year.id_audited_entity_type
+                                                                group by audit_year.id_audited_entity_type,audit_year.audited_year);
+                                                                
 
 
--- vista3 ENTES FISCALIZADOS POR ANIO, TIPO DE ENTE FISCALIZADO Y ORGANO FISCALIZADOR
+-- vista 3
 CREATE VIEW `report_view_by_supervisory_year_entitytype` AS (
-select
-	aent.id_audited_entity as entity_id,
-    aent.name as entity_name,
-    count(distinct aud.id_audit) as audit_number,
-    ifnull(obs.total, 0) +  ifnull(rec.total, 0) +  ifnull(resp.total, 0) as emitted,
-    ifnull(obs.attended, 0) + ifnull(rec.attended, 0) + ifnull(resp.attended, 0) as attended,
-    ifnull(rec.not_attended, 0) as recommendations,
-    ifnull(obs.not_attended, 0) as observations,
-    ifnull(resp.not_attended, 0) as responsibilities,
-    ifnull(rec.not_attended, 0) + ifnull(obs.not_attended, 0) + ifnull(resp.not_attended,0) as not_attended,
-	ifnull(cast((obs.attended + rec.attended + resp.attended) / (obs.total + rec.total + resp.total) * 100 as decimal(10,2)), 0.00) as progress,
-    sup.belongs_to as supervisory_entity,
-    year(aud.audited_year) as year,
-    aentype.id_audited_entity_type as entity_type
-from audited_entity_type aentype
-inner join audited_entity aent on aent.id_audited_entity_type = aentype.id_audited_entity_type
-inner join audit aud on aud.id_audited_entity = aent.id_audited_entity
-inner join supervisory_entity sup on sup.id_supervisory_entity = aud.id_supervisory_entity
-left join (
-    select
-        a.audited_year,
-        a.id_audited_entity,
-        count(distinct o.id_observation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from audit a
-    inner join observation o on a.id_audit = o.id_audit
-    where o.is_obsolete = 0 and a.is_obsolete = 0
-    group by a.id_audited_entity, a.audited_year) obs on aud.audited_year = obs.audited_year and aud.id_audited_entity = obs.id_audited_entity
-left join (
-    select
-        a.audited_year,
-        a.id_audited_entity,
-        count(distinct r.id_recommendation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from audit a
-    inner join recommendation r on a.id_audit = r.id_audit
-    where r.is_obsolete = 0 and a.is_obsolete = 0
-    group by a.id_audited_entity, a.audited_year) rec on aud.audited_year = rec.audited_year and aud.id_audited_entity = rec.id_audited_entity
-left join (
-    select
-        a.audited_year,
-        a.id_audited_entity,
-        count(distinct r.id_responsibility) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from audit a
-    inner join responsibility r on a.id_audit = r.id_audit
-    where r.is_obsolete = 0 and a.is_obsolete = 0
-    group by a.id_audited_entity, a.audited_year) resp on aud.audited_year = resp.audited_year and aud.id_audited_entity = resp.id_audited_entity
-group by aent.id_audited_entity, year, supervisory_entity
-);
+select audit_year.audited_year as year,  
+audit_year.audit_total as audit_number,  
+ifnull(rec_year.recommendation_number, 0) +  ifnull(obs_year.observations_number, 0) +  ifnull(resp_year.resp_number, 0) as emitted,  
+ifnull(rec_year.recommendation_attended, 0) +  ifnull(obs_year.obs_attended, 0) +  ifnull(resp_year.resp_attended, 0) as attended,  
+ifnull(rec_year.recommendation_not_attended, 0) +  ifnull(obs_year.obs_not_attended, 0) +  ifnull(resp_year.resp_not_attended, 0) as not_attended,  
+ifnull(rec_year.recommendation_not_attended, 0) recommendations,  
+ifnull(obs_year.obs_not_attended, 0) observations,  
+ifnull(resp_year.resp_not_attended, 0) as responsibilities,  
+ifnull(cast((ifnull(obs_year.obs_attended,0) + ifnull(rec_year.recommendation_attended,0) + ifnull(resp_year.resp_attended,0)) / (ifnull(obs_year.observations_number,0) + ifnull(rec_year.recommendation_number,0) + ifnull(resp_year.resp_number,0)) * 100 as decimal(10,2)), 0.00) as progress,  
+audit_year.supervisory_entity,
+audit_year.id_audited_entity_type entity_type,
+audit_year.entity_name,
+audit_year.entity_id
+from   
+(select  year(a.audited_year) audited_year,        
+count(a.id_audit) audit_total,             
+sup.belongs_to as supervisory_entity, 
+aet.id_audited_entity_type,
+aet.name as entity_type_name,
+ae.name as entity_name,
+ae.id_audited_entity as entity_id
+from audited_entity_type aet 
+inner join audited_entity ae on ae.id_audited_entity_type = aet.id_audited_entity_type 
+inner join audit a on a.id_audited_entity = ae.id_audited_entity 
+inner join supervisory_entity sup on sup.id_supervisory_entity = a.id_supervisory_entity  
+where a.is_obsolete=0  
+group by a.audited_year, ae.id_audited_entity) audit_year   
+left join    
+(select year(a.audited_year) audited_year_rec,    
+count(r.id_recommendation) recommendation_number,    
+sum(case when is_attended = false then 1 else 0 end) as recommendation_not_attended,   
+sum(case when is_attended = true then 1 else 0 end) as recommendation_attended, 
+aet.id_audited_entity_type,
+ae.id_audited_entity as entity_id   
+from recommendation r   
+inner join audit a on r.id_audit = a.id_audit   
+inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity 
+inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type 
+where a.is_obsolete=false and r.is_obsolete=false 
+group by ae.id_audited_entity, a.audited_year) rec_year on rec_year.audited_year_rec = audit_year.audited_year                   
+																and rec_year.entity_id = audit_year.entity_id  
+left join   
+(select year(a.audited_year) audited_year_obs,   
+count(o.id_observation) observations_number,   
+sum(case when o.is_attended = false then 1 else 0 end) as obs_not_attended,  
+sum(case when o.is_attended = true then 1 else 0 end) as obs_attended, 
+aet.id_audited_entity_type,   
+ae.id_audited_entity as entity_id   
+from observation o  
+inner join audit a on o.id_audit = a.id_audit  
+inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity 
+inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type 
+where a.is_obsolete=false and o.is_obsolete=false 
+group by ae.id_audited_entity, a.audited_year) obs_year on obs_year.audited_year_obs = audit_year.audited_year                  
+																and obs_year.entity_id = audit_year.entity_id 
+left join  
+(select year(a.audited_year) audited_year_resp,   
+count(r.id_responsibility) resp_number,   
+sum(case when is_attended is false then 1 else 0 end) as resp_not_attended,  
+sum(case when is_attended is true then 1 else 0 end) as resp_attended, 
+aet.id_audited_entity_type,
+ae.id_audited_entity as entity_id   
+from responsibility r  
+inner join audit a on r.id_audit = a.id_audit  
+inner join audited_entity ae on a.id_audited_entity = ae.id_audited_entity 
+inner join audited_entity_type aet on ae.id_audited_entity_type = aet.id_audited_entity_type 
+where a.is_obsolete=false and r.is_obsolete=false 
+group by ae.id_audited_entity, a.audited_year) resp_year on resp_year.audited_year_resp = audit_year.audited_year                 
+																and resp_year.entity_id = audit_year.entity_id
+                                                                group by audit_year.entity_id,audit_year.audited_year);
 
 
--- vista4 AUDITORIAS POR ENTES FISCALIZADO Y POR ANIO Y ORGANO FISCALIZADOR
+-- vista 4
 CREATE VIEW `report_view_by_supervisory_year_entity` AS (
-select
-	aud.id_audit as audit_id,
-    aud.name as audit_name,
-    1 as audit_number,
-    ifnull(obs.total, 0) +  ifnull(rec.total, 0) +  ifnull(resp.total, 0) as emitted,
-    ifnull(obs.attended, 0) + ifnull(rec.attended, 0) + ifnull(resp.attended, 0) as attended,
-    ifnull(rec.not_attended, 0) as recommendations,
-    ifnull(obs.not_attended, 0) as observations,
-    ifnull(resp.not_attended, 0) as responsibilities,
-    ifnull(rec.not_attended, 0) + ifnull(obs.not_attended, 0) + ifnull(resp.not_attended,0) as not_attended,
-	ifnull(cast((obs.attended + rec.attended + resp.attended) / (obs.total + rec.total + resp.total) * 100 as decimal(10,2)), 0.00) as progress,
-    sup.belongs_to as supervisory_entity,
-    year(aud.audited_year) as year,
-    aud.id_audited_entity as entity
-from audit aud
-inner join supervisory_entity sup on sup.id_supervisory_entity = aud.id_supervisory_entity
-left join (
-    select
-        o.id_audit,
-        count(distinct o.id_observation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from observation o
-    where o.is_obsolete = 0
-    group by o.id_audit) obs on aud.id_audit = obs.id_audit
-left join (
-    select
-        r.id_audit,
-        count(distinct r.id_recommendation) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from recommendation r
-    where r.is_obsolete = 0
-    group by r.id_audit) rec on aud.id_audit = rec.id_audit
-left join (
-    select
-        r.id_audit,
-        count(distinct r.id_responsibility) as total,
-        sum(case when is_attended is false then 1 else 0 end) as not_attended,
-        sum(case when is_attended is true then 1 else 0 end) as attended
-    from responsibility r
-    where r.is_obsolete = 0
-    group by r.id_audit) resp on aud.id_audit = resp.id_audit
-where aud.is_obsolete = 0
-);
-
+select audit_year.audited_year as year,  
+audit_year.audit_total as audit_number,  
+ifnull(rec_year.recommendation_number, 0) +  ifnull(obs_year.observations_number, 0) +  ifnull(resp_year.resp_number, 0) as emitted,  
+ifnull(rec_year.recommendation_attended, 0) +  ifnull(obs_year.obs_attended, 0) +  ifnull(resp_year.resp_attended, 0) as attended,  
+ifnull(rec_year.recommendation_not_attended, 0) +  ifnull(obs_year.obs_not_attended, 0) +  ifnull(resp_year.resp_not_attended, 0) as not_attended,  
+ifnull(rec_year.recommendation_not_attended, 0) recommendations,  
+ifnull(obs_year.obs_not_attended, 0) observations,  
+ifnull(resp_year.resp_not_attended, 0) as responsibilities,  
+ifnull(cast((ifnull(obs_year.obs_attended,0) + ifnull(rec_year.recommendation_attended,0) + ifnull(resp_year.resp_attended,0)) / (ifnull(obs_year.observations_number,0) + ifnull(rec_year.recommendation_number,0) + ifnull(resp_year.resp_number,0)) * 100 as decimal(10,2)), 0.00) as progress,  
+audit_year.supervisory_entity,
+audit_year.id_audit as audit_id,
+audit_year.id_audited_entity as entity,
+audit_year.name as audit_name
+from   
+(select  year(a.audited_year) audited_year,        
+count(a.id_audit) audit_total,             
+sup.belongs_to as supervisory_entity, 
+a.id_audited_entity,
+a.id_audit,
+a.name
+from audit a  
+inner join supervisory_entity sup on sup.id_supervisory_entity = a.id_supervisory_entity  
+where a.is_obsolete is false  
+group by a.audited_year, a.id_audit) audit_year   
+left join    
+(select year(a.audited_year) audited_year_rec,    
+count(r.id_recommendation) recommendation_number,    
+sum(case when is_attended is false then 1 else 0 end) as recommendation_not_attended,   
+sum(case when is_attended is true then 1 else 0 end) as recommendation_attended, 
+a.id_audit
+from recommendation r   
+inner join audit a on r.id_audit = a.id_audit   
+where a.is_obsolete is false and r.is_obsolete is false 
+group by a.id_audit, a.audited_year) rec_year on rec_year.audited_year_rec = audit_year.audited_year                   
+																and rec_year.id_audit = audit_year.id_audit
+left join   
+(select year(a.audited_year) audited_year_obs,   
+count(o.id_observation) observations_number,   
+sum(case when o.is_attended is false then 1 else 0 end) as obs_not_attended,  
+sum(case when o.is_attended is true then 1 else 0 end) as obs_attended, 
+a.id_audit
+from observation o  
+inner join audit a on o.id_audit = a.id_audit  
+where a.is_obsolete is false and o.is_obsolete is false 
+group by a.id_audit, a.audited_year) obs_year on obs_year.audited_year_obs = audit_year.audited_year                  
+																and obs_year.id_audit = audit_year.id_audit 
+left join  
+(select year(a.audited_year) audited_year_resp,   
+count(r.id_responsibility) resp_number,   
+sum(case when is_attended is false then 1 else 0 end) as resp_not_attended,  
+sum(case when is_attended is true then 1 else 0 end) as resp_attended, 
+a.id_audit
+from responsibility r  
+inner join audit a on r.id_audit = a.id_audit  
+where a.is_obsolete is false and r.is_obsolete is false 
+group by a.id_audit, a.audited_year) resp_year on resp_year.audited_year_resp = audit_year.audited_year                 
+																and resp_year.id_audit = audit_year.id_audit
+                                                                group by audit_year.id_audit, audit_year.audited_year);
+                                                                
