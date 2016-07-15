@@ -20,9 +20,9 @@
         <intercept-url pattern="/management/**" access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_MANAGER)"/>
         <intercept-url pattern="/previousRequest/**" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
         <intercept-url pattern="/shared/area/**" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
-        <intercept-url pattern="/audit/getInfoDetail.html" access="hasAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION)"/>
         <intercept-url pattern="/audit/**" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_LINK, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
         <intercept-url pattern="/report/**" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
+        <intercept-url pattern="/audit/getInfoDetail.html" access="hasAnyAuthority(T(com.crystal.model.shared.Constants).AUTHORITY_DIRECTION, T(com.crystal.model.shared.Constants).AUTHORITY_DGPOP)"/>
 
         <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
         <form-login login-page="/index.html"
