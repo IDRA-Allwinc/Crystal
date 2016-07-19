@@ -23,13 +23,13 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="showSql" value="true"/>
+                <property name="showSql" value="false"/>
             </bean>
         </property>
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-                <entry key="hibernate.hbm2ddl.auto" value="update"/>
+                <entry key="hibernate.hbm2ddl.auto" value="none"/>
                 <entry key="hibernate.format_sql" value="true"/>
             </map>
         </property>
@@ -42,9 +42,9 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/carlos?autoReconnect=true"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/crystal?autoReconnect=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="d3v3l0p3r"/>
+        <property name="password" value="1Dr4_s0ft.."/>
     </bean>
 
 </beans>

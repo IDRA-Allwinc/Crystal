@@ -46,7 +46,7 @@ public class ReportController {
         ResponseMessage response = new ResponseMessage();
         try {
             //Corrige problema de codificación con los acentos
-            //id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
             List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisory(id);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
@@ -64,7 +64,7 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisorYear(@RequestParam(required = true) String id, int year) {
         ResponseMessage response = new ResponseMessage();
         try {
-            //id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
             List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYear(id, year);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
@@ -82,7 +82,7 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisorYearEntityType(@RequestParam(required = true) String id, int year, Long entityType) {
         ResponseMessage response = new ResponseMessage();
         try {
-           // id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
             List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntityType(id, year, entityType);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
@@ -100,7 +100,7 @@ public class ReportController {
     public ResponseMessage getReportDataBySupervisorYearEntity(@RequestParam(required = true) String id, int year, Long entity) {
         ResponseMessage response = new ResponseMessage();
         try {
-          //  id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
+            id = new String (id.getBytes ("iso-8859-1"), "UTF-8");
             List<Object> listDataView = supervisoryEntityRepository.findDataReportBySupervisoryYearEntity(id, year, entity);
             List<ReportViewDto> reportViewData = getReportData(listDataView);
             response.setReturnData(reportViewData);
